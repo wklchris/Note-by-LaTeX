@@ -1,0 +1,10 @@
+# LaTeX:
+*.toc
+*.log
+*.aux
+*.out
+*.gz
+*.toc
+*.ind
+*.idx
+*.ilg

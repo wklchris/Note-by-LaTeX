@@ -1,0 +1,267 @@
+\documentclass[a4paper,12pt]{report}
+% Created by XeLaTeX. TeXLive 2016.
+% 宏包
+\usepackage[slantfont,boldfont]{xeCJK}
+    \setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\usepackage{ulem}
+\usepackage[inline]{enumitem}
+   \setlist[enumerate]{label=\arabic* - ,font=\bfseries,itemsep=0pt}
+   \setlist[itemize]{label=$\bullet$,font=\bfseries,leftmargin=\parindent}
+   \setlist[description]{font=\bfseries\uline}
+
+\usepackage{xcolor}
+    \definecolor{commentcolor}{RGB}{85,139,78}
+    \definecolor{numbercolor}{RGB}{166,206,168}
+    \definecolor{stringcolor}{RGB}{206,145,108}
+    \definecolor{keywordcolor}{RGB}{86,156,214}
+    \definecolor{backcolor}{RGB}{220,220,220}
+
+\usepackage{listings}
+% Avoid copy line numbers of the listing code
+\usepackage{accsupp}
+\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
+
+% Style Definition
+\lstset{% Basic Style
+	language=HTML,basicstyle=\small\ttfamily,
+	keywordstyle=\color{keywordcolor},
+	commentstyle=\color{commentcolor},
+	stringstyle=\color{stringcolor},
+	showstringspaces=false}
+
+\lstnewenvironment{myht}
+{\lstset{
+		% Line Number Style
+		numbers=left,
+		numberstyle=\tiny\emptyaccsupp,
+		stepnumber=1,
+		% Frame and Background Color
+		frame=single,
+		framerule=0pt,
+		backgroundcolor=\color{backcolor},
+		% Spaces
+		belowskip=0pt,
+		emptylines=1,
+		% Escape
+		escapeinside=``}}{}
+\newcommand{\pyline}[1]{{\lstinline[language=HTML, basicstyle=\ttfamily]{#1}}}
+% Title Style & hyper-ref package
+\usepackage{titlesec}
+\titleformat{\subsubsection}[hang]{\bfseries\large}{$\blacktriangleright$}{0.5em}{}
+
+% Others
+\renewcommand{\contentsname}{目\hspace{1em}录}
+% 奇怪的小定义
+\newcommand{\httag}[1]{\texttt{<#1>\index{<#1>}}}
+\newcommand{\dpar}{\\ \mbox{}}	% 空两行
+\newcommand{\qd}[1]{\textbf{#1}}	% 强调
+\newcommand{\co}[1]{{\bfseries{#1}}}   % Style of concept
+\newcommand{\red}[1]{{\color{red}{\uline{#1}}}}
+\newcommand{\charef}[1]{第\ref{#1}章}
+\newcommand{\secref}[1]{第\ref{#1}节}
+\newcommand{\pref}[1]{第\pageref{#1}页}
+\newcommand{\fref}[1]{图\ref{#1}}
+\newcommand{\tref}[1]{表\ref{#1}}
+
+% 三个自定义列表
+\newenvironment{fead}
+    {\begin{description}[font=\bfseries\uline]}
+    {\end{description}}
+\newenvironment{feae}
+    {\begin{enumerate}[font=\bfseries,labelindent=0pt]}
+    {\end{enumerate}}
+\newenvironment{feai}
+    {\begin{itemize}[font=\bfseries]}
+    {\end{itemize}}
+\newenvironment{inlinee}	% Package optioin: inline
+{\begin{enumerate*}[label=(\arabic*), font=\rmfamily, before=\unskip{: },itemjoin={{; }},itemjoin*={{, and: }}]}
+	{\end{enumerate*}.}
+
+% Manual Space Control
+\usepackage{indentfirst}
+    \setlength\parskip{10pt}
+
+% Index
+\usepackage{imakeidx}
+    \makeindex[title={HTML标签索引}]
+    \indexsetup{level=\chapter*,
+        othercode=\renewcommand{\indexspace}{\smallskip}}
+\usepackage[rule=0.4pt,initsep=10pt plus 5pt minus 3pt,%
+    columns=3]{idxlayout}
+    \renewcommand{\indexfont}{\small}
+
+% The Cover of this manual
+\title{简单粗暴HTML}
+\author{Kanglong Wu\\ $<$\href{mailto:wklchris@hotmail.com}{wklchris@hotmail.com}$>$}
+%\date{July 22, 2016}
+
+\usepackage[colorlinks,bookmarksopen=true,bookmarksnumbered=true]{hyperref}
+
+% ====================
+% ======= Main =======
+% ====================
+
+
+
+\begin{document}
+
+\maketitle
+
+\addcontentsline{toc}{chapter}{目录}
+\tableofcontents
+
+\chapter{简介}
+\red{本手册中的HTML如无说明，均指HTML4. HTML5和XHTML等不在此讨论。}
+
+HTML即\co{超文本标记语言(Hyper Text Markup Language)}，广泛用于网页。它不同于编程语言，主要的语法形式是\co{标签(tag)}，并且往往是成对的标签。格式如：
+\begin{myht}
+<html>
+  <body>
+...
+  </body>
+</html>
+\end{myht}
+
+位于一对标签内部（即两个尖括号之间）的内容称为\co{元素}。以上的\httag{html}标签定义了整个HTML文档的范围，而\httag{body}标签定义了HTML文档的主体。
+
+HTML对大小写不敏感，但是在后续的版本中可能会使用强制小写。
+
+\section{标题和段落}
+标题通过\httag{h1>--<h6}标签进行创建，而段落使用\httag{p}。比如：
+\begin{myht}
+<h1>Heading 1</h1>
+<p>Paragraph 1</p>
+\end{myht}
+
+\section{链接和图像}
+链接使用\httag{a}标签进行创建，同时需要指定链接地址，以\texttt{href}属性的方式给出。
+
+图像的标签为\httag{img}，属性为\texttt{src}. 注意，这里并没有给出类似\texttt{/img}这样的结束标签，而是在起始标签中加上了空格和斜杠。
+\begin{myht}
+<a href="http://www.example.com/">Link</a>
+<img src="example.jpg" width="100" height="100" />
+\end{myht}
+
+更多的内容请分别参考：\hyperref[sec:a]{链接}、\hyperref[sec:img]{图像}。
+
+\section{换行}
+换行使用\httag{br /}标签。这是一种特殊的标签，它的元素为空，也并不是成对的。像\httag{img}标签一样，它需要在末尾的\texttt{'>'}前加上空格和斜杠。
+\begin{myht}
+Line<br />A new line
+\end{myht}
+
+\section{水平线}
+水平线使用\httag{hr /}标签。
+\begin{myht}
+<p>Para 1</p>
+<hr />
+<p>Para 2<p/>
+\end{myht}
+
+\section{注释}
+注释只要在\texttt{'<'}后面紧跟一个叹号就可以。
+\begin{myht}
+<!我是一个注释啊哈哈哈>
+\end{myht}
+
+\section{文本格式}
+文本格式有以下标签定义：
+
+\begin{center}
+\begin{tabular}{ll}
+\httag{b} &	定义粗体文本。\\
+\httag{big} & 定义大号字。\\
+\httag{em} & 定义着重文字。\\
+\httag{i} &	定义斜体字。 \\
+\httag{small} & 定义小号字。 \\
+\httag{strong} & 定义加重语气。 \\
+\httag{sub} & 定义下标字。 \\
+\httag{sup} & 定义上标字。 \\
+\httag{ins} & 定义插入字。 \\
+\httag{del} & 定义删除字。
+\end{tabular}
+\end{center}
+
+预格式文本\httag{pre}会保留空格，因此用于显示代码很不错：
+\begin{myht}
+<pre>
+for num in lst:
+    datalst.append(num)
+</pre>
+\end{myht}
+
+对于计算机输出的，还有以下几种标签：
+\begin{center}
+\begin{tabular}{ll}
+\httag{code} & 定义计算机代码。\\
+\httag{kbd} & 定义键盘输入码。\\
+\httag{samp} & 定义代码样本。\\
+\httag{tt} & 定义打字机字体代码。 \\
+\httag{var} & 定义变量。
+\end{tabular}
+\end{center}
+
+\section{缩写}
+缩写使用\httag{abbr}或者\httag{acronym}，并配合\texttt{title}属性。
+\begin{myht}
+<abbr title="Alphabet">AB</abbr>
+<acronym title="ID EST">i.e.</acronym>
+\end{myht}
+
+\chapter{进阶}
+\section{样式}
+通过\httag{head}标签的定义来引用一个外部的css文件：
+\begin{myht}
+<head>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+\end{myht}
+
+内部的样式也可以直接定义，通过\httag{style}的方式：
+\begin{myht}
+<head>
+<style type="text/css">
+body {background-color:red}
+p {margin-left:20pt}
+</style>
+</head>
+\end{myht}
+
+更加临时的一种样式方案是通过属性来更改：
+\begin{myht}
+<p style="color: red; margin-left: 20px">
+This is a paragraph
+</p>
+\end{myht}
+
+\section{链接}
+\label{sec:a}
+前面已经介绍过链接，标签是\httag{a}，\texttt{href}属性就能够应对大多数情况了。其中，元素的部分可以是文本，也可以是别的东西（比如一个图片）。注意：\red{url应以“/”结尾，否则可能会发送两次同一请求}。
+\begin{myht}
+<a href="url">Link text</a>
+\end{myht}
+
+你可以用\texttt{name}定义一个锚，然后用\texttt{href}加上\#号指向它，甚至在另一份HTML文档指向它：
+\begin{myht}
+<a href="#Me">Visit Here</a>
+<h1><a name="ME">This is ME</a></h1>
+另一份文档：
+<a href="URL#ME">Go to ME</a>
+\end{myht}
+
+你还可以用\texttt{target}指定链接被打开的方式。\_{}blank表示新窗口（或选项卡），\_{}self表示同框架（缺省），\_{}parent表示父框架，\_{}top表示整个窗口。
+\begin{myht}
+<a href="url" target="_blank">Here</a>
+\end{myht}
+
+\section{图像}
+\label{sec:img}
+
+% 
+% ===== Index =====
+%
+
+\printindex
+
+\end{document}
