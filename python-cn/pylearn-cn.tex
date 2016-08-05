@@ -1,11 +1,11 @@
 \documentclass[a4paper,12pt]{report}
-% The PDF of this tex file is created by XeLaTeX. TeXLive 2016.
+% By XeLaTeX. TeXLive 2016.
 % 宏包
 \usepackage[slantfont,boldfont]{xeCJK}
 	\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
-	\newfontinstance{\lucida}{Lucida Calligraphy}
-    %\usepackage{fontspec}
-    %    \newfontfamily{\lucida}{Lucida Calligraphy}
+%	\newfontinstance{\lucida}{Lucida Calligraphy}
+\usepackage{fontspec}
+    \newfontfamily{\lucida}{Lucida Calligraphy}
 \usepackage{ulem}
 \usepackage[inline]{enumitem}
     \setlist[enumerate]{label=\arabic* - ,font=\bfseries,itemsep=0pt}
@@ -547,7 +547,6 @@ else:
     a = 3
 \end{py}
 
-\subsection{三元操作}
 形如\pyline{a = X if flag else Y}的操作叫做三元操作：当flag为真，把X赋给a；否则把Y赋给a. 例如：
 \begin{py}
 >>> a = 'this' if 2 < 1 else 'that'
@@ -1274,7 +1273,7 @@ utf8_f = byte_f.decode('utf-8', 'ignore')
 以上例子是从我在个人Github上写的一个小脚本里面摘取的，它总共才100行：\url{https://github.com/wklchris/pyCatchPic}，可以参考一下。
 
 \section{第三方库及其他}
-网上的第三方库怎么安装呢？下载以后，找到里面的setup.py，然后用cmd中的cd命令切换到该路径，再输入：python setup.py install 即可。
+网上的第三方库怎么安装呢？下载以后，找到里面的setup.py，然后cmd切换到该路径，再输入：python setup.py install 即可。或者你可以到UC Irvine的\href{http://www.lfd.uci.edu/~gohlke/pythonlibs}{这个站点}下载非官方的whl文件，并用pip安装：pip install name.whl\footnote{如果你的pip版本较低，可以尝试先运行：\texttt{python -m pip install --upgrade pip}}
 
 其他还有一些实用或者有趣的标准模块，可以自行尝试一下：
 \begin{fead}
