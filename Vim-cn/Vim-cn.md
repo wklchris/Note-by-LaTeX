@@ -2,7 +2,7 @@
 
 [Viemu上的Vim使用入门教程](http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html)是很值得一看的，虽然并不是中文的。为了给自己一个深刻的印象，先把Cheatsheet中文版放上来：
 
-![](https://github.com/wklchris/Note-by-LaTeX/tree/master/Vim-cn/img/vi-Vim-cheatsheet.gif)
+![](https://github.com/wklchris/Note-by-LaTeX/blob/master/Vim-cn/img/vi-Vim-cheatsheet.gif)
 
 然后慢慢来吧。
 
@@ -18,7 +18,7 @@ Vim有三种工作模式，可以参考上面的图。**绿色的键表示移动
 
 ## 基础移动
 
-![](https://github.com/wklchris/Note-by-LaTeX/tree/master/Vim-cn/img/vi-vim-tutorial-1.gif)
+![](https://github.com/wklchris/Note-by-LaTeX/blob/master/Vim-cn/img/vi-vim-tutorial-1.gif)
 
 移动模式中的按键：
 
