@@ -1,0 +1,193 @@
+\documentclass[a4paper,12pt]{report}
+% 中文支持
+\usepackage[slantfont,boldfont]{xeCJK}
+	\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\usepackage{indentfirst}
+% 下划线宏包
+\usepackage{ulem}
+% LaTeX符号宏包
+\usepackage{hologo}
+	\newcommand{\xelatex}{\Hologo{XeLaTeX}}
+% 带箱小页
+\usepackage{boxedminipage}
+% 绘图
+\usepackage{tikz}
+	\usetikzlibrary{calc}
+	\newcommand{\tikzline}[1]{{#1\tikz{\draw[#1,line width=9](0,0)--(0.5,0);}}, }
+
+% 奇怪的小定义
+\newcommand{\dpar}{\\ \mbox{}}	% 空两行
+\newcommand{\qd}[1]{{\bfseries{#1}}}	% 强调
+\newcommand{\co}[1]{{\bfseries{#1}}}   % Style of concept
+\newcommand{\RED}[1]{{\color{red}{#1}}}
+\newcommand{\cmmd}[1]{\fbox{\ttfamily{\char92{}#1}}}
+\newcommand{\charef}[1]{第\ref{#1}章}
+\newcommand{\secref}[1]{第\ref{#1}节}
+\newcommand{\pref}[1]{第\pageref{#1}页}
+\newcommand{\fref}[1]{图\ref{#1}}
+\newcommand{\tref}[1]{表\ref{#1}}
+\newenvironment{fcmmd}
+	{\vspace{0.5em}\noindent\begin{boxedminipage}{\textwidth}}
+	{\end{boxedminipage}\vspace{0.5em}}
+
+% 编号列表宏包，并自定义了三个列表
+\usepackage[inline]{enumitem}
+	\setlist[enumerate]{label=\arabic* - ,font=\bfseries,itemsep=0pt}
+	\setlist[itemize]{label=$\bullet$,font=\bfseries,leftmargin=\parindent}
+	\setlist[description]{font=\bfseries\uline}
+
+\usepackage{enumitem}
+\newenvironment{fead}{\setlength{\parskip}{0pt}
+	\begin{description}[font=\bfseries\uline,labelindent=\parindent]
+		\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}}
+	{\end{description}}
+\newenvironment{feae}{\setlength{\parskip}{0pt}
+	\begin{enumerate}[font=\bfseries,labelindent=0pt]}
+	{\end{enumerate}}
+\newenvironment{feai}{\setlength{\parskip}{0pt}
+	\begin{itemize}[font=\bfseries]
+		\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}}
+	{\end{itemize}}
+\newenvironment{inlinee}
+{\begin{enumerate*}[label=(\arabic*), font=\rmfamily, before=\unskip{：},itemjoin={{；}},itemjoin*={{，以及：}}]}
+	{\end{enumerate*}。}
+
+% 目录和章节样式
+\usepackage{titlesec}
+\usepackage{titletoc}   % 用于目录
+
+\titlecontents{chapter}[1.5em]{}{\contentslabel{1.5em}}{\hspace*{-2em}}{\hfill\contentspage}
+\titlecontents{section}[3.3em]{}{\contentslabel{1.8em}}
+	{\hspace*{-2.3em}}{\titlerule*[8pt]{$\cdot$}\contentspage}
+\titlecontents*{subsection}[2.5em]{\small}{\thecontentslabel{} }{}{, \thecontentspage}[;\qquad][.]
+% 章节样式
+\newcommand{\chaformat}[1]{%
+	\parbox[b]{.5\textwidth}{\hfill\bfseries #1}%
+	\quad\rule[-12pt]{2pt}{70pt}\quad
+	{\fontsize{60}{60}\selectfont\thechapter}}
+\titleformat{\chapter}[block]{\hfill\LARGE\sffamily}{}{0pt}{\chaformat}[\vspace{2.5pc}\large
+	\startcontents\printcontents{}{1}{\setcounter{tocdepth}{2}}]
+%\titleclass{\section}{top}
+\titleformat{\section}{\Large\bfseries}{\thesection}{0.5em}{}
+\titleformat{\subsubsection}[hang]{\bfseries\large}{$\blacktriangleright$}{0.5em}{}
+% 扩展章节
+\newcommand{\starsec}{\noindent\fbox{\S\textit{注意：本章节是一个扩展阅读章节。}}
+	\\ \mbox{}}
+
+\renewcommand{\contentsname}{目录}
+	\renewcommand{\tablename}{表}
+	\renewcommand\arraystretch{1.2}	% 表格行距
+	\renewcommand{\figurename}{图}
+% 设置不需要浮动体的表格和图像标题
+\setlength{\abovecaptionskip}{5pt}
+\setlength{\belowcaptionskip}{3pt}
+\makeatletter
+\newcommand\figcaption{\def\@captype{figure}\caption}
+\newcommand\tabcaption{\def\@captype{table}\caption}
+\makeatother
+% 图表
+\usepackage{array}
+% 页面修正宏包
+\usepackage[top=1in]{geometry}
+
+% 代码环境
+\usepackage{listings}
+% Avoid copy line numbers of the listing code (Invalid for SumatraPDF Reader)
+\usepackage{accsupp}
+	\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
+% Color
+\usepackage{xcolor}
+	\definecolor{commentcolor}{RGB}{85,139,78}
+	\definecolor{numbercolor}{RGB}{166,206,168}
+	\definecolor{stringcolor}{RGB}{206,145,108}
+	\definecolor{keywordcolor}{RGB}{34,34,250}
+	\definecolor{backcolor}{RGB}{220,220,220}
+	\definecolor{packagecolor}{RGB}{0,128,0}
+	\definecolor{envicolor}{RGB}{185,70,15}
+% LaTeX Code Style
+\lstset{language=[LaTeX]TeX,
+		basicstyle=\small\ttfamily,
+		commentstyle=\color{commentcolor},
+		keywordstyle=\color{keywordcolor},
+		stringstyle=\color{stringcolor},
+		showstringspaces=false,
+		% Package/Tikz-Lib Using
+		classoffset=0,
+		morekeywords={begin,end,usetikzlibrary},
+		keywordstyle=\color{keywordcolor},
+		classoffset=1,
+		morekeywords={article,report,book,
+			xeCJK,tikz,
+			calc},
+		keywordstyle=\color{packagecolor},
+		classoffset=2,
+		morekeywords={document,tikzpicture},
+		keywordstyle=\color{envicolor},
+		% Line Number Style
+		numbers=left,
+		numberstyle=\tiny\emptyaccsupp,
+		stepnumber=1,
+		% Frame and Background Color
+		frame=single,
+		framerule=0pt,
+		backgroundcolor=\color{backcolor},
+		% Spaces
+		belowskip=0pt,
+		emptylines=1,
+		escapeinside=``}
+\lstnewenvironment{latex}[1]{\lstset{#1}}{}
+\newcommand{\latexline}[1]{{\lstinline[basicstyle=\small\ttfamily]{#1}}}
+
+% Tikz Code
+\lstdefinelanguage{tikzlang}{
+	classoffset=0, % 蓝色的keyword
+	morekeywords={begin,end,newcommand,
+		draw,node,coordinate,tikzstyle,foreach},
+	keywordstyle=\color{keywordcolor},
+	classoffset=1, % 棕色的其他关键字
+	morekeywords={tikzpicture,grid,at,
+		thick,thin,very,ultra,
+		red,green,yellow,blue,cyan,magenta,black,gray,darkgray,lightgray,brown,
+			lime,olive,orange,pink,purple,teal,violet,white},
+	keywordstyle=\color{envicolor},
+	morecomment=[l]{\%},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]',
+	% Escape
+	escapeinside=``
+}
+\lstnewenvironment{tikzcode}[1]{\lstset{language=tikzlang,basicstyle=\small\ttfamily,
+		breaklines=true,%backgroundcolor=\color{white},
+		linewidth=0.7\linewidth,#1}}{}
+
+% 附录
+\usepackage{appendix}
+
+% 代码输入环境
+\usepackage{verbatim}
+\newbox\savedlines
+\newtoks\savedtokens
+\makeatletter
+\def\codeshow{%
+\global\savedtokens={}%
+\def\verbatim@processline{%
+{\setbox0=\hbox{\the\verbatim@line}%
+\hsize=\wd0
+\the\verbatim@line\par}%
+\global\savedtokens=\expandafter{\the\expandafter\savedtokens\the\verbatim@line^^J}}%
+\@tempswatrue
+\setbox0=\vbox\bgroup\parskip=0pt\topsep=0pt\partopsep=0pt
+\verbatim}
+\def\endcodeshow{\endverbatim%
+\unskip\setbox0=\lastbox\egroup
+\global\setbox\savedlines=\box0
+\addvspace{1em}\par\noindent%
+\colorbox{lightgray}{%
+\begin{minipage}{.55\textwidth}{\usebox\savedlines}\end{minipage}}%
+\hfill\fbox{\parbox{.40\textwidth}%
+{\scantokens\expandafter{\the\savedtokens\unskip\endinput}}}%
+\par\addvspace{1em}}
+\makeatother
+
+% 引用
+\usepackage[colorlinks,bookmarksopen=true,bookmarksnumbered=true]{hyperref}

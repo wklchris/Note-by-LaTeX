@@ -2,13 +2,21 @@
 
 本仓库用于存放我的个人学习笔记，全部使用 LaTeX 或者 Markdown 进行撰写。具体包括：*This repository is for the use of storing my learning notes (by LaTeX or Markdown), including:*
 
-所有运行环境均为Windows系统. *All running environments are **Windows** system.*
+所有运行环境均为Windows系统. *All running environments are __Windows__ system.*
 
-**所有内容请勿用于商业用途。DO NOT use those docs for commercial purpose.**
+**== 所有内容请勿用于商业用途。DO NOT use those docs for commercial purpose. ==**
+
+## githubPush-cn (Markdown)
+
+怎样使用Git Bash管理本地Git以及推送到Github. *How to use Git Bash to manage local git repositories, and how to push files to Github.* 
 
 ## html-cn (LaTeX)：
 
 一份HTML 4的基础中文笔记。HTML是一种很有意思的标记语言，学习它对爬虫、使用Markdown都有帮助。 *A HTML basic note in Chinese. HTML is an interesting markup language. Learning it will help you on webcrawl and Markdown use.*
+
+## LaTeX-cn (LaTeX):
+
+LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在排版方面更有优势。本笔记记录如何使用LaTeX进行排版处理。*LaTeX is one kind of typesetting system, which outperforms Microsoft Word on typesetting. This note records how to use LaTeX.*
 
 ## python-cn (LaTeX)：
 
@@ -20,6 +28,8 @@
 
 
 # 中文更新日志（Update Log in Chinese）
+
+2016-08-25 Add **LaTeX-cn, githubPush-cn**
 
 2016-08-05 Add **Vim-cn**
 
