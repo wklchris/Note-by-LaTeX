@@ -1,7 +1,9 @@
 \input{Head}
 
-\title{Learn \LaTeX{} by Examples}
-\author{Kanglong Wu}
+\title{简单粗暴\LaTeX }
+\author{Kanglong Wu\\
+  {\CJKfontspec{KaiTi} 本手册是\href{https://github.com/wklchris/Note-by-LaTeX}{wklchris-GitHub}的\LaTeX{}-cn项目}
+}
 
 \begin{document}
 	
@@ -131,7 +133,7 @@ $\backslash$
 		\hline
 		\multicolumn{2}{l}{\bfseries\itshape options} \\
 		\hline
-		字体     & 默认10pt\\
+		字体     & 默认10pt，可选11pt和12pt.\\
 		页面方向 & 默认竖向portrait，可选横向landscape。\\
 		纸张尺寸 & 默认letterpaper，可选用a4paper, b5paper等。\\
 		分栏     & 默认onecolumn，还有twocolumn。\\
@@ -146,9 +148,9 @@ $\backslash$
 
 在导言区最常见的是\co{宏包}的加载工作，命令形如：\latexline{\\usepackage{package}}。通俗地讲，宏包是指一系列已经制作好的功能``模块''，在你需要使用一些原生\LaTeX 不带有的功能时，只需要调用这些宏包就可以了。比如本文的代码就是利用{\texttt{listings}}宏包实现的。
 
-宏包的具体使用将参在各部分内容说明中进行讲解。
+宏包的具体使用将参在各部分内容说明中进行讲解。如果你想学习一个宏包的使用，按Win+R组合键呼出运行对话框，输入texdoc加上宏包名称即可打开宏包帮助pdf文档。例如：\verb|texdoc xeCJK|
 
-\subsection{错误的查找}
+\subsection{错误的排查}
 \label{subsec:debug}
 在编辑器界面上，下方的日志是显示编译过程的地方。在你编译通过后，会出现这样的字样：
 \begin{feai}
@@ -204,12 +206,12 @@ $\backslash$
 至于减号，也许你应该借助于数学环境来输入：\verb|$-$|. 
 
 \subsection{强调：粗与斜}
-\LaTeX 中专门有个叫做\latexline{\em{text}}的命令，可以强调文本。对于通常的西文文本，上述命令的作用就是斜体。如果你对一段已经这样转换为斜体的文本再使用这个命令，它就会取消斜体，而成为正体。
+\LaTeX 中专门有个叫做\latexline{\\emph{text}}的命令，可以强调文本。对于通常的西文文本，上述命令的作用就是斜体。如果你对一段已经这样转换为斜体的文本再使用这个命令，它就会取消斜体，而成为正体。
 
 西文中一般采用上述的斜体强调方式而不是粗体，例如在说明书名的时候就会使用以上命令。关于字体的更多内容参考\hyperref[sec:font]{字体}这一节。
 
 \subsection{下划线与删除线}
-\LaTeX 原生提供了\latexline{\underline}命令简直烂的可以，建议你使用ulem宏包下的\texttt{uline}命令代替。ulem宏包还提供了一系列有用的命令：
+\LaTeX 原生提供了\latexline{\\underline}命令简直烂的可以，建议你使用ulem宏包下的\texttt{uline}命令代替。ulem宏包还提供了一系列有用的命令：
 
 \begin{codeshow}
 \uline{下划线} \\
@@ -231,7 +233,7 @@ $30\,^{\circ}$三角形 \\
 $37\,^{\circ}\mathrm{C}$
 \end{codeshow}
 
-西文中还有一种注音符号，比如\^o，也常用于拼音声调，参考\hyperref[label]{注音符号}部分的附录内容。
+西文中还有一种注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号}部分的附录内容。
 
 \section{格式控制}
 首先了解一下\hologo{LaTeX}的长度单位：
@@ -242,14 +244,15 @@ $37\,^{\circ}\mathrm{C}$
   \item[bp] bigpoint，大点。1bp=$\frac{1}{72}$in
   \item[cm] centimeter，厘米。1cm=$\frac{1}{2.54}$in
   \item[mm] millimeter，毫米。1mm=$\frac{1}{10}$cm
-  \item[sp] scaled point。\hologo{TeX} 的基本长度单位，1sp=$\frac{1}{65536}$pt
+  \item[sp] scaled point。\Hologo{TeX} 的基本长度单位，1sp=$\frac{1}{65536}$pt
   \item[em] 当前字号下，大写字母M的宽度。
   \item[ex] 当前字号下，小写字母x的高度。
 \end{fead}
 
-然后是几个常用的长度宏，更多的长度宏使用会在表格、分栏等章节提到。\\
+然后是几个常用的长度宏，更多的长度宏使用会在表格、分栏等章节提到。
+
 \begin{center}
-\begin{tabular}{ll}
+\begin{tabular}{|ll|}
 \hline
 \textbackslash{}textwidth & 页面上文字的总宽度，即页宽减去两侧边距。\\
 \textbackslash{}linewidth & 当前行允许的行宽。\\
@@ -257,7 +260,7 @@ $37\,^{\circ}\mathrm{C}$
 \end{tabular}
 \end{center}
 
-我们通常使用\latexline{\hspace{len}}和\latexline{\vspace{len}}这两个命令控制特殊的空格，具体的使用方法参考\hyperref[sec:hvspace]{水平和竖直距离}这一节。
+我们通常使用\latexline{\\hspace{len}}和\latexline{\\vspace{len}}这两个命令控制特殊的空格，具体的使用方法参考\hyperref[sec:hvspace]{水平和竖直距离}这一节。
 
 \subsection{换行与分段}
 通常的换行方法非常简单：\hologo{LaTeX}会自动转行，然后在每一段的末尾，只需要输入两个回车即可完成分段。
@@ -265,23 +268,89 @@ $37\,^{\circ}\mathrm{C}$
 在下划线一节的例子中已经给出了强制换行的方式，即两个反斜：\verb|\\|. 不过这样做的缺点在于下一行段首缩进会消失。你可以用\verb|\par|来解决这个问题。
 
 \subsection{分页}
-用\latexline{\newpage}命令开始新的一页。
+用\latexline{\\newpage}命令开始新的一页。
 
-用\latexline{\clearpage}命令清空浮动体队列\footnote{参见\hyperref[sec:float]{浮动体}这一节的内容。}，并开始新的一页。
+用\latexline{\\clearpage}命令清空浮动体队列\footnote{参见\hyperref[sec:float]{浮动体}这一节的内容。}，并开始新的一页。
 
-用\latexline{\cleardoublepage}命令清空浮动体队列，并在偶数页上开始新的一页。
+用\latexline{\\cleardoublepage}命令清空浮动体队列，并在偶数页上开始新的一页。
 
-注意：以上命令都是基于\verb|\vfill|的，如果要连续新开两页，请在中间加上一个空的箱子（\latexline{\mbox{}}），如\latexline{\newpage\mbox{}\newpage}。
+注意：以上命令都是基于\verb|\vfill|的，如果要连续新开两页，请在中间加上一个空的箱子（\latexline{\\mbox{}}），如\latexline{\\newpage\\mbox{}\\newpage}。
 
-\subsection{缩进}
-英文的段首不需要缩进。但是对中文而言，需要借助indentfirst宏包来完成。你可能还需要使用\latexline{\setlength{\indent}{2em}}这样的命令来完成缩进距离的设置。
+\subsection{缩进和对齐}
+英文的段首不需要缩进。但是对中文而言，需要借助indentfirst宏包来完成。你可能还需要使用\latexline{\\setlength{\indent}{2em}}这样的命令来完成缩进距离的设置。
+
+\LaTeX 默认使用两端对齐的排版方式。你也可以使用flushleft, flushright, center这三种环境来构造居左、居中、居右三种效果。特殊的\latexline{\\centering}命令常常用在环境内部（或者一对花括号内部），以实现居中的效果。但请尽量用center环境代替这个老旧的命令。更多的空格控制请参考\hyperref[sec:hvspace]{这一节}。
 
 \section{字体}
 \label{sec:font}
+这一节只讨论行文中字体使用。数学环境内字体使用请参考\hyperref[sec:mathfont]{这一节}的内容。
+
 \subsection{字族、字系与字形}
+字体(typeface)的概念非常令人恼火，在电子化时代，基本上也都以字体(font)作为替代的称呼。宋体、黑体、楷体，这属于\co{字族}；对应到西文就是罗马体、等宽体等。加粗、加斜属于\co{字系和字形}。五号、小四属于\co{字号}。这三者大概可以并称\co{字体}\footnote{本文中的字族、字系等称呼难以找到统一标准，可能并不是准确的名称。}。
 
+\subsection{中西文“斜体”}
+首先需要明确一点：\RED{汉字没有加斜体}。平常我们看到的加斜汉字，通常是几何变换得到的结果，非常的粗糙，并不严格满足排版要求；而真正的字形是需要精细的设计的。同时，汉字字体里面也很少有加粗体的设计。
 
-\subsection{关于中文“斜体”}
+西文一般设有加斜，但是这与“斜体”并不是同一回事。加斜是指某种字族的Italy字系；而斜体，是指Slant字族。在行文中表强调时使用的是前者；在Microsoft Word等软件中看到的倾斜的字母\textit{I}，也代表前者。
+
+\subsection{原生字体命令}
+\LaTeX 提供了基本的字体命令，包括：
+\begin{center}
+\begin{tabular}{p{3em}<{\centering} @{\ -\quad} >{\texttt}l @{\quad-\quad} p{18em}}
+\hline
+字族 & \char92{}rmfamily & 把字体置为{\rmfamily Roman}罗马字族。\\
+     & \char92{}sffamily & 把字体置为{\sffamily Sans Serif}无衬线字族。\\
+     & \char92{}ttfamily & 把字体置为{\ttfamily Typewriter}等宽字族。\\
+\hline
+字系 & \char92{}bfseries & 粗体{\bfseries BoldSeries}字系属性。\\
+     & \char92{}mdseries & 中粗体{\mdseries MiddleSeries}字系属性。\\
+\hline
+字形 & \char92{}upshape  & 竖直{\upshape Upright}字形。 \\
+     & \char92{}slshape  & 斜体{\slshape Slant}字形。 \\
+     & \char92{}itshape  & 强调体{\itshape Italic}字形。 \\
+     & \char92{}scshape  & 小号大写体{\scshape Scap}字形。 \\
+\hline
+\multicolumn{3}{l}{\ttfamily 如果临时改变字体，使用\char92{}textrm,\char92{}textbf这类命令。}\\
+\hline
+\end{tabular}
+\end{center}
+
+字族、字系、字形三种命令是互相独立的，可以任意组合使用。但这种复合字体的效果有时候无法达到（因为没有对应的设计），比如scshape字形和bfseries字系。\LaTeX 会针对这种情况给出警告，但仍可以编译，只是效果会不同于预期。
+
+如果在文中多次使用某种字体变换，可以将其自定义成一个命令。这时请使用text系列的命令而不要使用family, series或shape系列的命令。否则需要多加一组花括号防止“泄露”。以下二者等价：
+\begin{latex}{}
+\newcommand{\concept}[1]{\textbf{#1}}
+\newcommand{\concept}[1]{{\bfseries #1}}
+\end{latex}
+
+更多自定义命令的语法请参考\hyperref[sec:newcommand]{这一节}。
+
+然后就是字号的命令。行文会有一个默认的“标准”字号，比如你在documentclass的选项中设置的12pt（如果你设置了的话）。\LaTeX 给出了一系列“相对字号命令”，列出如下表。在平常使用中，小四为12pt，五号为10.5pt。
+\begin{center}
+\begin{tabular}{|>{\ttfamily\char92}l|*{3}{l|}}
+\hline
+命令         & 10pt & 11pt & 12pt \\
+\hline
+tiny         & 5pt  & 6py  & 6pt  \\
+scriptsize   & 7pt  & 8pt  & 8pt  \\
+footnotesize & 8pt  & 9pt  & 10pt \\
+small        & 9pt  & 10pt & 11pt \\
+normalsize   & 10pt & 11pt & 12pt \\
+large        & 12pt & 12pt & 14pt \\
+Large        & 14pt & 14pt & 17pt \\
+LARGE        & 17pt & 17pt & 20pt \\
+huge         & 20pt & 20pt & 25pt \\
+Huge         & 25pt & 25pt & 25pt \\
+\hline
+\end{tabular}
+\end{center}
+
+如果你想设置特殊的字号，使用：
+\begin{latex}{}
+\fontsize{font-size}{line-height}{\selectfont <text>}
+\end{latex}
+
+其中font-size填数字，以pt为单位；一般而言，line-height填\latexline{\\baselineskip}这个长度宏。
 
 \subsection{英文字体}
 在\xelatex 编译下，一般使用fontspec宏包来选择英文字体。注意：fontspec宏包可能会明显增加编译所需的时间。
@@ -328,12 +397,70 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 
 然后到\verb|C:\list.txt|中进行查看。
 
+\section{引用与注释}
+电子文档的最大优越在于能够使用超链接，跳转标签、目录，甚至访问外部网站。这些功能实现都需要“引用”。
+\subsection{标签和引用}
+使用\latexline{\\label}命令插入标签（在MS Word中称为“题注”），然后在其他地方用\latexline{\\ref}或者\latexline{\\pageref}命令进行引用，分别引用标签的序号、标签所在页的页码。
+\begin{latex}{}
+\label{section:this}
+\ref{section:this}
+\pageref{section:this}
+\end{latex}
+
+但是更常用的是hyperref宏包。由于它经常与其他宏包冲突，一般把它放在导言区的最后。比如本手册：
+\begin{latex}{}
+\usepackage[colorlinks,bookmarksopen=true,
+bookmarksnumbered=true]{hyperref}
+\end{latex}
+
+其中bookmarksopen表示打开pdf时展开书签栏，bookmarknumbered表示多级书签显示章节序号。colorlinks表示超链接以彩色显示，默认为：linkcolor=red，anchorcolor=black，citecolor=green，urlcolor=magenta. 更多的内容请参考hyperref宏包帮助文档。
+
+在加载了hyperref宏包后，可以使用的命令有：
+\begin{latex}{}
+% 文档内跳转
+\hyperref[label-name]{print-text}
+% 链接网站
+\href{URL}{print-text}
+\url{URL}
+\end{latex}
+
+\subsection{脚注}
+脚注是一种简单标注，使用方法是：
+\begin{latex}{}
+\footnote{This is a footnote.}
+\end{latex}
+
+行文中切忌过多地使用脚注，它会分散读者的注意力。默认情况下脚注按章编号。
+
+\subsection{参考文献}
+参考文献主要使用的命令是\latexline{\\cite}，与\latexline{\\label}相似。通过natbib宏包的使用可以定制参考文献标号在文中的显示方式等格式，下面natbib宏包的选项含义为：数字编号、排序且压缩、上标、外侧方括号，总体像这样：\textsuperscript{\ttfamily [1,3-5]}。\footnote{这里的LaTeX代码实际为：\latexline{\\textsuperscript{\\ttfamily [1,3-5]}}}
+\begin{latex}{}
+\documentclass{ctexart}
+% 如果是book类文档，把\refname改成\bibname
+\renewcommand{\refname}{参考文献}
+\usepackage[numbers,sort&compress,super,square]{natbib}
+\begin{document}
+This is a sample text.\cite{author1.year1,author2.year2}
+This is the text following the reference.
+% “99”表示以最多两位数来编号参考文献，用于对齐
+\begin{thebibliography}{99}
+  \addtolength{\itemsep}{-2ex} % 用于更改行距
+  \bibitem{author1.year1}Au1. ArtName1[J]. JN1. Y1:1--2
+  \bibitem{author2.year2}Au2. ArtName2[J]. JN2. Y2:1--2
+\end{thebibliography}
+\end{document}
+\end{latex}
+
+当然以上只是权宜之计的书写方法。更详尽的参考文献使用在\hyperref[sec:bibtex]{\bibtex{}这一节}进行介绍。
+
 \section{目录与大纲}
-\LaTeX 中，将文档分为
+\subsection{目录}
+
+\subsection{大纲}
+\LaTeX 中，将文档分为若干大纲级别。
 
 \section{编号列表}
 
-\section{注释与引用}
 
 \section{浮动体}
 \label{sec:float}
@@ -359,6 +486,7 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 \section{行间与行内公式}
 
 \section{数学字体、字号与空格}
+\label{sec:mathfont}
 
 \section{基础}
 \subsection{上下标与堆叠}
@@ -390,7 +518,8 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 
 
 \chapter{\LaTeX{}进阶}
-\section{如何使用自定义命令}
+\section{自定义命令与环境}
+\label{sec:newcommand}
 \section{箱子：排版的基础}
 \label{sec:box}
 \section{水平距离与垂直距离}
@@ -402,6 +531,7 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 \section{自定义编号列表}
 \section{自定义公式编号}
 \section{创建参考文献}
+\label{sec:bibtex}
 \section{附录、图表目录}
 \section{编程代码输出环境}
 
@@ -782,12 +912,13 @@ PGFPlots/Tikz是两个\LaTeX{}的绘图宏包，功能极其强大。其基本�
 
 \clearpage
 \begin{appendices}
-\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand{\thechapter}{\Alph{chapter}}
 \titleformat{\chapter}[display]{\Huge\bfseries}{附录\Alph{chapter}}{1em}{}
 \renewcommand{\thesection}{\thechapter-\arabic{section}}
 \titleformat{\section}[hang]{\bfseries\Large}{\S\ \thesection}{1em}{}{}
 
 \chapter{注音符号}
+\label{app:phonetic}
 \begin{center}
 \tabcaption{注音符号与特殊符号}
 \begin{tabular}{|p{4em}<{\centering} @{-\hspace{1em}} p{3em}|p{4em}<{\centering} @{-\hspace{1em}} p{3em}|p{4em}<{\centering} @{-\hspace{1em}} p{3em}|p{4em}<{\centering} @{-\hspace{1em}} p{3em}|}

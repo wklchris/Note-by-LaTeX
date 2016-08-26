@@ -8,6 +8,7 @@
 % LaTeX符号宏包
 \usepackage{hologo}
 	\newcommand{\xelatex}{\Hologo{XeLaTeX}}
+	\newcommand{\bibtex}{\Hologo{BibTeX}}
 % 带箱小页
 \usepackage{boxedminipage}
 % 绘图
@@ -68,7 +69,8 @@
 \titleformat{\chapter}[block]{\hfill\LARGE\sffamily}{}{0pt}{\chaformat}[\vspace{2.5pc}\large
 	\startcontents\printcontents{}{1}{\setcounter{tocdepth}{2}}]
 %\titleclass{\section}{top}
-\titleformat{\section}{\Large\bfseries}{\thesection}{0.5em}{}
+%\titleformat{\section}{\Large\bfseries}{\thesection}{0.5em}{}
+\titleformat*{\section}{\centering\Large\bfseries}
 \titleformat{\subsubsection}[hang]{\bfseries\large}{$\blacktriangleright$}{0.5em}{}
 % 扩展章节
 \newcommand{\starsec}{\noindent\fbox{\S\textit{注意：本章节是一个扩展阅读章节。}}
@@ -136,7 +138,7 @@
 		emptylines=1,
 		escapeinside=``}
 \lstnewenvironment{latex}[1]{\lstset{#1}}{}
-\newcommand{\latexline}[1]{{\lstinline[basicstyle=\small\ttfamily]{#1}}}
+\newcommand{\latexline}[1]{{\lstinline[language=TeX,basicstyle=\small\ttfamily]{#1}}}
 
 % Tikz Code
 \lstdefinelanguage{tikzlang}{

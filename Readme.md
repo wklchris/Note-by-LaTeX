@@ -6,7 +6,7 @@
 
 **== 所有内容请勿用于商业用途。DO NOT use those docs for commercial purpose. ==**
 
-## githubPush-cn (Markdown)
+## githubPush-cn (Markdown):
 
 怎样使用Git Bash管理本地Git以及推送到Github. *How to use Git Bash to manage local git repositories, and how to push files to Github.* 
 
@@ -17,6 +17,10 @@
 ## LaTeX-cn (LaTeX):
 
 LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在排版方面更有优势。本笔记记录如何使用LaTeX进行排版处理。*LaTeX is one kind of typesetting system, which outperforms Microsoft Word on typesetting. This note records how to use LaTeX.*
+
+## markdown-en (Markdown):
+
+Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__易写__之间的平衡。*Markdown is a markup language (like HTML), but it emphysizes the balance between **easy-reading** and __easy-writing__.*
 
 ## python-cn (LaTeX)：
 
@@ -29,7 +33,7 @@ LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在�
 
 # 中文更新日志（Update Log in Chinese）
 
-2016-08-25 Add **LaTeX-cn, githubPush-cn**
+2016-08-25 Add **LaTeX-cn, githubPush-cn**, **markdown-en**
 
 2016-08-05 Add **Vim-cn**
 
