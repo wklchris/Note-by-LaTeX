@@ -28,7 +28,7 @@
 \newcommand{\fref}[1]{图\ref{#1}}
 \newcommand{\tref}[1]{表\ref{#1}}
 \newenvironment{fcmmd}
-	{\vspace{0.5em}\noindent\begin{boxedminipage}{\textwidth}}
+	{\\ \vspace{0.5em}\noindent\begin{boxedminipage}{\textwidth}}
 	{\end{boxedminipage}\vspace{0.5em}}
 
 % 编号列表宏包，并自定义了三个列表
@@ -88,7 +88,8 @@
 \newcommand\tabcaption{\def\@captype{table}\caption}
 \makeatother
 % 图表
-\usepackage{array}
+\usepackage{array,multirow}
+  \setlength\extrarowheight{2pt} % 行高增加
 % 页面修正宏包
 \usepackage[top=1in]{geometry}
 
