@@ -20,7 +20,7 @@ LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在�
 
 ## markdown-en (Markdown):
 
-Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__易写__之间的平衡。*Markdown is a markup language (like HTML), but it emphysizes the balance between **easy-reading** and __easy-writing__.*
+Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__易写__之间的平衡。*Markdown is a markup language (like HTML), but it emphysizes the balance between __easy-reading__ and __easy-writing__.*
 
 ## python-cn (LaTeX)：
 

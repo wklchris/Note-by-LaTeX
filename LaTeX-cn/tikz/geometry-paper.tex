@@ -1,0 +1,63 @@
+\begin{tikzpicture}{scale=0.9}
+% outer-width & outer-height
+\newcommand{\owd}{5};
+\newcommand{\oht}{8};
+% inner-width & inner-height
+\newcommand{\iwd}{3};
+\newcommand{\iht}{6};
+% line length
+\newcommand{\len}{5}
+
+% Total Layout
+\draw (0,0)--(\owd,0)--(\owd,\oht)--(0,\oht)--(0,0);
+\draw[line width=0.06cm] (1,1)--(1+\iwd,1)--(1+\iwd,1+\iht)--(1,1+\iht)--(1,1);
+\draw[ultra thick,dotted] (1+\iwd,1+\iht)--(\iwd+\len,1+\iht);
+\draw[ultra thick,dotted] (1+\iwd,1)--(\iwd+\len,1);
+% Arrow
+\draw[<->,line width=0.05cm] (0,1/3*\oht)--(1,1/3*\oht);
+\node[label=180:\texttt{left}] at (0,1/3*\oht){};
+\node[label=225:\texttt{(inner)}] at (0,1/3*\oht){};
+\draw[<->,line width=0.05cm] (1+\iwd,1/3*\oht)--(2+\iwd,1/3*\oht);
+\node[label=0:\texttt{right}] at (2+\iwd,1/3*\oht){};
+\node[label=315:\texttt{(outer)}] at (2+\iwd,1/3*\oht){};
+\draw[<->,line width=0.05cm] (1+\iwd/2,1)--(1+\iwd/2,0);
+\node[label=0:\texttt{bottom}] at (1+\iwd/2,0.5){};
+\draw[<->,line width=0.05cm] (1+\iwd/3,1+\iht)--(1+\iwd/3,\oht);
+\node[label=180:\texttt{top}] at (1+\iwd/3,1/2+\iht/2+\oht/2){};
+% Outer Page Label
+\node[label=135:\color{blue}{\ttfamily\slshape{paper}}] at (\owd,\oht){};
+\node[label=225:\color{blue}{\ttfamily\slshape{body}}] at (1+\iwd,1+\iht){};
+
+% Inner Page
+\newcommand{\inn}{\iwd+\len};
+\draw[line width=0.06cm] (\inn,1)--(\inn+\iwd,1)--(\inn+\iwd,1+\iht)--(\inn,1+\iht)--(\inn,1);
+\node[label=180:\color{red}{\ttfamily{textheight}}] at (\inn,1+\iht/2){};
+\node[label=90:\color{red}{\ttfamily{textwidth}}] at (\inn+\iwd/2,1){};
+% Margin
+\newcommand{\marsep}{0.2}
+\newcommand{\marwd}{1}
+\newcommand{\mar}{\inn+\iwd+\marsep}
+\draw[thick,dashed] (\mar,1)--(\mar+\marwd,1)--(\mar+\marwd,1+\iht)--(\mar,1+\iht)--(\mar,1);
+\draw (\mar-\marsep/2,1.5)--(\inn+3/4*\iwd,2);
+\node[label=180:\texttt{marginparsep}] at (\inn+3/4*\iwd,2){};
+\draw (\mar+\marwd/2,1)--(\inn+\iwd,-0.3);
+\node[label=180:\texttt{marginparwidth}] at (\mar+\marsep/2,-0.5){};
+% Foot
+\draw[dashed] (\inn,0.2)--(\inn+\iwd,0.2);
+\node[label=90:\color{blue}{\ttfamily\slshape{foot}}] at (\inn+\iwd/2,0){};
+% Head
+\draw[dashed] (\inn,1+\iht+0.8)--(\inn+\iwd,1+\iht+0.8);
+\draw[dashed] (\inn,1+\iht+0.2)--(\inn+\iwd,1+\iht+0.2);
+\node[label=90:\color{blue}{\ttfamily\slshape{head}}] at (\inn+\iwd/2,1+\iht){};
+\draw (\inn,1+\iht+0.1)--(\inn-\len/8,1+\iht+0.5);
+\node[label=180:\texttt{headsep}] at (\inn-\len/8,1+\iht+0.5){};
+\draw (\inn+\iwd/4,1+\iht+0.5)--(\inn+\iwd/2,1+\iht+1.2);
+\node[label=0:\texttt{headheight}] at (\inn+\iwd/2,1+\iht+1.2){};
+
+% Total
+\node[label=180:\color{red}{\ttfamily{paperheight}}] at (0,2/3*\oht){};
+\node[label=270:\color{red}{\ttfamily{paperwidth}}] at (\owd/2,0){};
+\node[label=\color{blue}{\ttfamily\slshape{body}}] at (\inn+\iwd/2,1+\iht/2){};
+\node[label=180:\color{blue}{\ttfamily\slshape{marginal}}] at (\mar+\marwd,1+\iht/2){};
+\node[label=225:\color{blue}{\ttfamily\slshape{note}}] at (\mar+\marwd,1+\iht/2){};
+\end{tikzpicture}

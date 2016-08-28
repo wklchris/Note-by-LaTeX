@@ -61,19 +61,16 @@ Chris Wu
 \section{认识\LaTeX}
 \subsection{命令与环境}
 \LaTeX 中的\co{命令}通常是由一个反斜杠加上命令名称，再加上花括号内的参数构成的。比如：
-
 \begin{latex}{}
 \documentclass{article}
 \end{latex}
 
 如果有一些选项是备选的，那么通常会在花括号前用方括号标出。比如：
-
 \begin{latex}{}
 \documentclass[a4paper]{article}
 \end{latex}
 
 在\LaTeX 中，还有一种重要的指令叫做\co{环境}。它定义了一整个区段的内容都受到环境（即其本身）的控制。这个区段是从\cmmd{begin\{{\itshape environment}\}}开始，到\cmmd{end\{{\itshape environment\}}}结束的。。比如：
-
 \begin{latex}{}
 \begin{document}
 	...内容...
@@ -107,7 +104,6 @@ $\backslash$
 
 \subsection{导言区}
 任何一份\LaTeX{}文档都应当包含以下结构：
-
 \begin{latex}{}
 \documentclass[`\itshape options`]{doc-class}
 \begin{document}
@@ -195,7 +191,7 @@ $\backslash$
 
 中文下的单引号和双引号你可以用中文输入法直接输入。
 
-\subsection{破折与短横}
+\subsection{破折、省略号与短横}
 英文的短横分为三种：
 \begin{feai}
 \item 连字符：输入一个短横：\verb|-|，效果如daughter-in-law
@@ -203,7 +199,7 @@ $\backslash$
 \item 破折号：输入三个短横：\verb|---|，效果如：Listen---I'm serious.
 \end{feai}
 
-中文的破折号你也许可以直接使用日常的输入方式。
+中文的破折号你也许可以直接使用日常的输入方式。中文的省略号同样。但是注意，\RED{英文的省略号使用\latexline{\\ldots}这个命令而不是三个句点}。
 
 至于减号，也许你应该借助于数学环境来输入：\verb|$-$|. 
 
@@ -235,7 +231,16 @@ $30\,^{\circ}$三角形 \\
 $37\,^{\circ}\mathrm{C}$
 \end{codeshow}
 
-西文中还有一种注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号}部分的附录内容。
+然后是欧元符号，可能需要用到textcomp宏包，然后调用\latexline{\\texteuro}命令就可以了。
+
+其次是注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号表}部分的附录内容。如果你想输入音标，请使用tipa宏包，同样参考附录A。
+
+最后，介绍hologo宏包，它可以输出许多\TeX 家族标志。其实\LaTeX 原生自带了\latexline{\\LaTeX \TeX}等命令。而hologo宏包支持的命令是：
+
+\begin{codeshow}
+% 大写H表示符号的首字母也大写
+\hologo{XeLaTeX} \Hologo{BibTeX}
+\end{codeshow}
 
 \section{格式控制}
 首先了解一下\hologo{LaTeX}的长度单位：
@@ -279,11 +284,11 @@ $37\,^{\circ}\mathrm{C}$
 注意：以上命令都是基于\verb|\vfill|的，如果要连续新开两页，请在中间加上一个空的箱子（\latexline{\\mbox{}}），如\latexline{\\newpage\\mbox{}\\newpage}。
 
 \subsection{缩进和对齐}
-英文的段首不需要缩进。但是对中文而言，需要借助indentfirst宏包来完成。你可能还需要使用\latexline{\\setlength{\indent}{2em}}这样的命令来完成缩进距离的设置。
+英文的段首不需要缩进。但是对中文而言，需要借助indentfirst宏包来完成。你可能还需要使用\latexline{\\setlength{\\indent}{2em}}这样的命令来完成缩进距离的设置。
 
 \LaTeX 默认使用两端对齐的排版方式。你也可以使用flushleft, flushright, center这三种环境来构造居左、居中、居右三种效果。特殊的\latexline{\\centering}命令常常用在环境内部（或者一对花括号内部），以实现居中的效果。但请尽量用center环境代替这个老旧的命令。类似的命令还有\latexline{\\raggedleft}来实现居右，\latexline{\\raggedright}来实现居左。更多的空格控制请参考\hyperref[sec:hvspace]{这一节}。
 
-\section{字体}
+\section{字体和颜色}
 \label{sec:font}
 这一节只讨论行文中字体使用。数学环境内字体使用请参考\hyperref[sec:mathfont]{这一节}的内容。
 
@@ -301,7 +306,7 @@ $37\,^{\circ}\mathrm{C}$
 \centering
 \label{tab:fontcommand}
 \caption{\LaTeX 字体命令表}
-\begin{tabular}{p{3em}<{\centering} @{\ -\quad} >{\texttt}l @{\quad-\quad} p{18em}}
+\begin{tabular}{p{3em}<{\centering} @{\ -\quad} >{\ttfamily}l @{\quad-\quad} p{18em}}
 \hline
 字族 & \char92{}rmfamily & 把字体置为{\rmfamily Roman}罗马字族。\\
      & \char92{}sffamily & 把字体置为{\sffamily Sans Serif}无衬线字族。\\
@@ -315,7 +320,7 @@ $37\,^{\circ}\mathrm{C}$
      & \char92{}itshape  & 强调体{\itshape Italic}字形。 \\
      & \char92{}scshape  & 小号大写体{\scshape Scap}字形。 \\
 \hline
-\multicolumn{3}{l}{\ttfamily 如果临时改变字体，使用\char92{}textrm,\char92{}textbf这类命令。}\\
+\multicolumn{3}{l}{\ttfamily 如果临时改变字体，使用\char92{}textrm, \char92{}textbf这类命令。}\\
 \hline
 \end{tabular}
 \end{table}
@@ -360,12 +365,12 @@ Huge         & 25pt & 25pt & 25pt \\
 
 其中font-size填数字，以pt为单位；一般而言，line-height填\latexline{\\baselineskip}这个长度宏。
 
-\subsection{英文字体}
-在\xelatex 编译下，一般使用fontspec宏包来选择英文字体。注意：fontspec宏包可能会明显增加编译所需的时间。
+\subsection{西文字体}
+在\xelatex 编译下，一般使用fontspec宏包来选择西文字体。注意：fontspec宏包可能会明显增加编译所需的时间。
 \begin{latex}{}
 \usepackage{fontspec}
-\newfontfamily{\lucida}{Lucida Calligraphy}
-\lucida{This is Lucida Calligraphy}
+  \newfontfamily{\lucida}{Lucida Calligraphy}
+  \lucida{This is Lucida Calligraphy}
 \end{latex}
 
 \subsection{中文字体}
@@ -374,8 +379,8 @@ Huge         & 25pt & 25pt & 25pt \\
 比如在导言区：
 \begin{latex}{}
 \usepackage[slantfont,boldfont]{xeCJK}
-\xeCJKsetup{CJKMath=true}
-\setCJKmainfont[BoldFont=SimHei]{SimSun}
+  \xeCJKsetup{CJKMath=true}
+  \setCJKmainfont[BoldFont=SimHei]{SimSun}
 % 这里把SimHei直接写成中文“黑体”似乎也可以
 \end{latex}
 
@@ -405,7 +410,7 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 
 然后到\verb|C:\list.txt|中进行查看。
 
-\section{颜色}
+\subsection{颜色}
 使用xcolor宏包来方便地调用颜色。比如本文中代码的蓝色：
 \begin{latex}{}
 \usepackage{xcolor}
@@ -447,7 +452,7 @@ bookmarksnumbered=true]{hyperref}
 \footnote{This is a footnote.}
 \end{latex}
 
-行文中切忌过多地使用脚注，它会分散读者的注意力。默认情况下脚注按章编号。
+行文中切忌过多地使用脚注，它会分散读者的注意力。默认情况下脚注按章编号。脚注与正文的间距使用类似\latexline{\\setlength{\\skip\\footins}{0.5cm}}的命令调节。
 
 \subsection{参考文献}
 参考文献主要使用的命令是\latexline{\\cite}，与\latexline{\\label}相似。通过natbib宏包的使用可以定制参考文献标号在文中的显示方式等格式，下面natbib宏包的选项含义为：数字编号、排序且压缩、上标、外侧方括号，总体像这样：\textsuperscript{\ttfamily [1,3-5]}。\footnote{这里的LaTeX代码实际为：\latexline{\\textsuperscript{\\ttfamily [1,3-5]}}}
@@ -497,7 +502,7 @@ This is the text following the reference.
 
 对应的命令例如：\latexline{\\section{第一节}}
 
-以上各级别在\LaTeX 内部以“深度”参数作为标识。第一级别part的深度是$-1$，以下级别深度分别是$0,1,\ldots$，类推。注意到由于article文档类缺少chapter大纲，因此chapter以下的深度与book或report文档类会有不同。\dpar
+以上各级别在\LaTeX 内部以“深度”参数作为标识。第一级别part的深度是$-1$，以下级别深度分别是$0,1,\ldots$，类推。注意到由于article文档类缺少chapter大纲，因此chapter以下的深度在book和report文档类中会有所不同。\dpar
 
 另外的一些使用技巧：
 \begin{latex}{}
@@ -638,10 +643,10 @@ This is the text following the reference.
 
 各参数的含义是：
 \begin{inlinee}
-\item \textit{linenum:} （可选）图片所占行数，一般不指定。
-\item \textit{place:} 图片在文字段中的位置——R, L, I, O分别代表右侧、左侧、近书脊、远书脊。
-\item \textit{overhang:} （可选）允许图片超出页面文本区的宽度，默认是0pt。在该项可以使用\latexline{\\width}代替图片的宽度，填入\latexline{\\width}将允许把图片全部放入页面区域。
-\item \textit{picwidth:} 指定图片的宽度，默认情形下图片的宽度会自动调整。
+\item {\bfseries\itshape linenum:} （可选）图片所占行数，一般不指定
+\item {\bfseries\itshape place:} 图片在文字段中的位置——R, L, I, O分别代表右侧、左侧、近书脊、远书脊
+\item {\bfseries\itshape overhang:} （可选）允许图片超出页面文本区的宽度，默认是0pt。在该项可以使用\latexline{\\width}代替图片的宽度，填入\latexline{\\width}将允许把图片全部放入页边区域
+\item {\bfseries\itshape picwidth:} 指定图片的宽度，默认情形下图片的宽度会自动调整
 \end{inlinee}
 
 \subsection{表格}
@@ -664,8 +669,8 @@ This is the text following the reference.
 \item 可选参数\textbf{对齐方式}：[t] 表示表格上端与所在行的网格线对齐。如果与它同一行的有文字的话，文字是与表格上端同高的。如果使用参数 [b]，就是下端同高。[c] 是中央同高。t=top, b=buttom, c=center. 
 \item 必选参数\textbf{列格式}：用竖线符号“|”来表示竖直表线，连续两个“|”表示双竖直表线。最右边留空了，表示没有竖直表线。或者你可以使用“@\{\}”表示没有竖直表线。你也可以用“@\{-\}”这样的形式把竖直表线替换成“-”，具体效果不再展示。而此处的l、c、r分别表示从左往右一共三列，分别\textbf{左对齐、居中对齐、右对齐}文字。在使用l、c、r时，表格宽度会自动调整。你可以用"p{2em}"这样的命\textbf{指定某一列的宽度}，这时文字自动左对齐。注意：单元格中的文字默认向上水平表线对齐，即竖直居上。
 \item 在tabular环境内部，命令\latexline{\\hline}来绘制水平表线。命令\latexline{\\cline{i-j}}用于绘制横跨从i到j行的水平表线。两个连续的\latexline{\\hline}命令可以画双线，但是双线之间相交时可能存在问题。
-\item 在tabular环境内部，命令"\&"用于把光标跳入该行下一列的单元格。每行的最后请使用两个反斜杠命令跳入下一行。命令\latexline{\\hline}或\latexline{\\cline}不能算作一行，因此它们后面没有附加换行命令。
-\item 在tabular环境内部，跨列命令\latexline{\\multicolumn{number}{format}{text}}用于以format格式合并该行的number个单元格，并在合并后的单元格中写入文本text。如果一行有了跨列命令，请注意相应地减少"\&"的数量。
+\item 在tabular环境内部，命令"\texttt{\&}"用于把光标跳入该行下一列的单元格。每行的最后请使用两个反斜杠命令跳入下一行。命令\latexline{\\hline}或\latexline{\\cline}不能算作一行，因此它们后面没有附加换行命令。
+\item 在tabular环境内部，跨列命令\latexline{\\multicolumn{number}{format}{text}}用于以format格式合并该行的number个单元格，并在合并后的单元格中写入文本text。如果一行有了跨列命令，请注意相应地减少"\texttt{\&}"的数量。
 \end{feai}
 
 文章中出现了表格，几乎就一定会加载array宏包。在array宏包支持下，cols参数除了l, c, r, p\{\}, @\{\}以外，还可以使用：
@@ -673,10 +678,10 @@ This is the text following the reference.
 \item \texttt{m\{\}, b\{\}}: 指定宽度的竖直居中，居下的列。
 \item \verb|>{decl}, <{decl}|: 前者用在lcrpmb参数之前，表示该列的每个单元格都以此decl命令开头；后者用于结尾。比如：
 \begin{latex}{}
-  \begin{tabular}{|>{\centering\ttfamily}p{5em}
-      |>{$}c<{$}|}
-  ...
-  \end{tabular}
+\begin{tabular}{|>{\centering\ttfamily}p{5em}
+    |>{$}c<{$}|}
+...
+\end{tabular}
 \end{latex}
 \item \verb|!{symbol}|使用新的竖直表线，类似于原生命令\texttt{@\{\}}，不同在于\verb|!{}|命令可以在列间保持合理的空距，而\verb|@{}|会使两列紧贴。
 \end{feai}
@@ -690,9 +695,9 @@ This is the text following the reference.
 \begin{latex}{}
 % 记得\usepackage{array}
 \begin{tabular}{|>{\setlength\parindent{5mm}}
-m{1cm}|>{\large\bfseries}m{1cm}|>{$}c<{$}|}
-\hline A & 2 2 2 2 2 2 & C\\ 
-\hline 1 1 1 1 1 1  & 10 & \sin x \\ \hline
+  m{1cm}|>{\large\bfseries}m{1cm}|>{$}c<{$}|}
+  \hline A & 2 2 2 2 2 2 & C\\ 
+  \hline 1 1 1 1 1 1  & 10 & \sin x \\ \hline
 \end{tabular}
 \end{latex}
 
@@ -750,27 +755,150 @@ m{1cm}|>{\large\bfseries}m{1cm}|>{$}c<{$}|}
 \section{页面设置}
 
 \subsection{纸张、方向和边距}
-主要借助geometry宏包。
+主要借助geometry宏包。先看一张页面构成，如\fref{fig:geo-paper}：
+\begin{figure}
+\centering
+\label{fig:geo-paper}
+\input{./tikz/geometry-paper.tex}
+\figcaption{页面构成示意图}
+\end{figure}
 
+geometry宏包的具体的选项参数有：
+\begin{feai}
+\item \texttt{paper=<papername>:} 其中纸张尺寸有[a0--a6, b0--b6, c0--c6]paper, ansi[a--e]paper, letterpaper, executivepaper, legalpaper. 
+\item \texttt{papersize=\{<width>,<height>\}}: 自定义尺寸。也可以单独对paperwidth或者paperheigth赋值。
+\item \texttt{landscape}: 切换到横向纸张。默认的是portrait. 
+\end{feai}
+
+body部分分为两个概念：一个是总文本区(total body)，另一个是主文本区(body). 总文本区可以由主文本区加上页眉(head)、页脚(foot)、侧页边(marginalpar)组成。默认的选项为includehead，表示总文本区包含页眉。要包括其他内容，可使用：\texttt{includefoot, includeheadfoot, includemp, includeall}，以及以上各个参数将include改为ignore后的参数。
+
+总文本区在默认状态下占纸张总尺寸的0.7，由scale=0.7控制，你也可以分别用\texttt{hscale}和\texttt{vscale}指定宽和高的占比。用具体的长度定义也是可以的，使用\texttt{(total)width}和\texttt{(total)height}定义总文本区尺寸，或者用\texttt{textwidth}和\texttt{textheight}定义主文本区的尺寸\footnote{当totalwidth和textwidth都定义时，优先采用后者的值。}。或者直接用\texttt{total=\{width,height\}, body=\{width,height\}}定义。甚至你可以用\texttt{lines=<num>}行数指定textheight。
+
+页边的控制最为常用，分别用\texttt{left/inner, right/outer, top, bottom}来定义四向的页边。其中\texttt{inner, outer}参数只在文档的twoside参数启用时才有意义。你可以用\texttt{hmarginratio}来给定left(inner)与right(outer)页边宽的比例，默认是单页1:1、双页2:3。top和bottom之间的比由\texttt{vmarginratio}给定。你也可以用\texttt{vcentering, hcentering, centering}来指定页边比例为1:1. 在文档的左侧（内侧），可以指定装订线宽度\texttt{bindingoffset}，使页边不会侵入。
+
+页眉和页脚是位于top和bottom页边之内的文档元素。对于页眉和页脚的高度，分别使用\texttt{headheight/head, footskip/foot}参数指定。\texttt{marginpar}用来指定侧页边的宽度。它们到主文本区的参数分别是\texttt{headsep, footnotesep, marginparsep}. 你可以用\texttt{nohead, nofoot, nomarginpar}参数来清楚总文本区中的页眉，页脚和侧页边。
+
+对于在文档类documentclass命令中能使用的参数，geometry有不少也能做。比如\texttt{twoside, onecolumn, twocolumn}。甚至还能用文档类中不能用的\texttt{columnsep}（启用多栏分隔线）。
+
+最后一个小例子：
+\begin{latex}{}
+\usepackage[marginpar=3cm, includemp]{package}
+\end{latex}
 
 \subsection{页眉和页脚}
-主要借助fancyhdr宏包。
+主要借助fancyhdr宏包。\LaTeX 中的页眉页脚定义主要借助了两个命令，一个是\latexline{\\pagestyle}，参数有：
+\begin{feai}
+\item[\texttt{empty}] 无页眉页脚。
+\item[\texttt{plain}] 无页眉，页脚只包含一个居中的页码。
+\item[\texttt{headings}] 无页眉，页脚包含章/节名称与页码。
+\item[\texttt{myheadings}] 无页眉，页脚包含页码和用户定义的信息。
+\end{feai}
+
+另一个命令是\latexline{\\pagenumbering}，与计数器一样，拥有\texttt{arabic, [Rr]oman, [Aa]lph}五种页码形式。
+
+fancyhdr宏包给出了一个叫fancy的pagestyle，将页眉和页脚分别分为左中右三个部分，分别叫lhead, chead, rhead, 以及类似的[lcr]foot. 页眉页脚处的横线粗细也可以定义，默认页眉为0.4pt、页脚为0pt. 下面是一个例子：
+\begin{latex}{}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+  \lhead{}
+  \chead{}
+  \rhead{\bfseries wklchris}
+  \lfoot{Leftfoot}
+  \cfoot{\thepage}
+  \rfoot{Rightfoot}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\end{latex}
+
+加载这个宏包更多地是为了解决双页文档的排版问题。对于双页文档，fancyhdr宏包给出了一套新的指令：用E, O表示单数页和双数页，L, C, R表示左中右，H, F表示页眉和页脚。其中H, F需要配合\latexline{\\fancyhf}命令使用，比如\latexline{\\fancyhf[HC,FC]{This}}。如果不使用H, F参数，可以使用fancyhead, fancyfoot两个命令代替。一个新的例子：
+\begin{latex}{}
+\fancyhead{} % 清空页眉
+  \fancyhead[RO,LE]{\bfseries wklchris}
+\fancyfoot{} % 清空页脚
+  \fancyfoot[LE,RO]{Leftfoot}
+  \fancyfoot[C]{\thepage}
+  \fancyfoot[RE,LO]{Rightfoot}
+\end{latex}
+
+fancyhdr在定义双页文档时，采用了如下的默认设置：
+\begin{latex}{}
+\fancyhead[LE,RO]{\slshape \rightmark}
+\fancyhead[LO,RE]{\slshape \leftmark}
+\fancyfoot[C]{\thepage}
+\end{latex}
+
+上例中的\latexline{\\rightmark}表示较低级别的信息，即当前页所在的section，形式如“1.2 sectionname ”，对于article则是subsection；而\latexline{\\leftmark}表示较高级别的信息，即对应的chapter，对于article则是section. 命令\latexline{\\leftmark}包含了页面上\latexline{\\markboth}\footnote{\latexline{\\markboth}是一个会被\latexline{\\chapter}等命令调用的命令，默认右参数是空。注意，带星号的大纲不调用这一命令，你需要这样书写：\latexline{\\chapter*{This\\markboth{This}{}}}。}下的最后一条命令的左参数，比如该页上出现了section 1--2，那么leftmark就是“Section 2”；命令\latexline{\\rightmark}则包含了页面上的第一个\latexline{\\markboth}命令的右参数或者第一个\latexline{\\markright}命令的唯一参数，比如可能是“Subsection 1.2”。
+
+这听起来可能难以理解，但是markboth命令有两个参数，故有左右之分；而markright命令只有一个参数。你可以试着再去理解一下双页文档下的fancyhdr的默认设置。利用这一点来重定义chaptermark, sectionmark, subsectionmark（仅其中两项）命令，举个例子:
+\begin{latex}{}
+% 这里的参数#1是指输入的section/chapter的标题
+% 效果：“1.2. The section”
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+% 效果：“CHAPTER 2. The chapter” 
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{%
+  \chaptername}\ \thechapter.\ #1}{}}
+\end{latex}
+
+如果你对于默认的pagestyle不满意，可以用\latexline{\\fancypagestyle}命令进行更改。例如更改plain页面类型：
+\begin{latex}{}
+\fancypagestyle{plain}{
+  \fancyhf{} % 清空页眉页脚
+  \fancyhead[c]{\thesection}
+  \fancyfoot{\thepage}}
+\end{latex}
 
 \section{抄录与代码环境}
-抄录使用\verb|\verb|命令或者verbatim(*)环境。
+抄录是指将键盘输入的字符（包括保留字符和空格）不经过\TeX 解释，直接输出到文档。默认的字体参数是等宽字族（ttfamily）。使用方法是\verb|\verb|命令或者verbatim(*)环境，区别在于带星号的环境会将空格以字符的形式指明出来。注意，\verb|\verb|命令是一个特殊的命令，可以用一组花括号括住抄录内容，也可以任意两个同样的符号。比如：
+\begin{latex}{}
+\verb|fooo{}bar|
+\verb+fooo{}bar+
+\end{latex}
 
 代码环境的输出，比如本文中带行号的代码块，参见\hyperref[sec:coding]{这一节}。
 
 \section{分栏}
+这部分内容使用\latexline{\\documentclass[twocolumn]{...}}这个可选参数就可以实现。如果在同一页内需要分栏与单栏并存（比如摘要跨栏，正文分栏），或者想要分三栏，请参考multicol宏包。
 
 \section{文档拆分}
 \label{sec:include}
+文档拆分很简单，只需要把多个tex文件放在一起，然后再主文件中使用\latexline{\\input{filename}}或者\latexline{\\include{filename}}命令就可以了，带不带扩展名均可。两个命令区别在于\latexline{\\include}命令将会很好地支持大纲编号。
 
-\section{西文排版}
+拆分的优势在于可以根据chapter（或其他）分为多个文件，省去了长文档浏览时的一些不便。你也可以把整个导言区做成一个文件，然后在不同的\LaTeX 文档中反复使用，即充当模板的功能。你还可以把较长的tikz绘图代码写到一个tex中，在需要时\latexline{\\input}即可。
 
-\section{特殊符号}
-这里介绍hologo宏包，可以输出许多有用的\TeX 家族标志。
+\section{西文排版及其他}
+\subsection{连写}
+\LaTeX 排版以及正规排版中，如果你输入ff, fl, fi, ffi等内容，它们默认会连写。在字母中间插入空白的箱子以强制不连写：\latexline{f\\mbox{}l}。
 
+\subsection{断词}
+行末的英文单词太长，\LaTeX 就会以其音节断词。如果你想指定某些单词的断词位置，使用如下命令断词。例子：
+\begin{latex}{}
+hyphenation{Hy-phen-a-tion FORTRAN}
+\end{latex}
+
+这个例子允许Hyphenation, hyphenation在短横处断词，同时\textbf{禁止}FORTRAN, Fortran, fortran断词。如果你在行文中加入\verb|\-|命令，则可以实现允许在对应位置断词的效果。比如：
+
+\begin{codeshow}
+I will show you this example:
+su\-per\-cal\-i\-frag\-i\-lis\-%
+tic\-ex\-pi\-al\-i\-do\-cious
+\end{codeshow}
+
+如果你不想断词，比如电话号码，巧妙利用\latexline{\\mbox}命令吧：
+\begin{latex}{}
+My telephone number is: \mbox{012 3456 7890}
+\end{latex}
+
+\subsection{特殊符号}
+符号的总表可以参照symbols-a4文档，运行texdoc symbols-a4即可调出。包括希腊字母在内的一些数学符号将会在下一章介绍。这里给出基于wasysym宏包的一些常用符号：
+\begin{center}
+  \centering
+  \tabcaption{wasysym宏包符号}
+  \begin{tabular}{*{3}{c >{\ttfamily\char92}p{5em}}}
+     \permil     & permil   & \male     & male  & \female       & female \\
+     \checked    & checked  & \XBox     & XBox  & \CheckedBox   & CheckedBox \\
+     \hexstar    & hexstar  & \phone    & phone & \twonotes     & twonotes
+  \end{tabular}
+\end{center}
 
 \chapter{数学排版}
 \section{行间与行内公式}
@@ -1215,22 +1343,44 @@ PGFPlots/Tikz是两个\LaTeX{}的绘图宏包，功能极其强大。其基本�
 \label{app:phonetic}
 \begin{center}
 \tabcaption{注音符号与特殊符号}
-\begin{tabular}{|p{4em}<{\centering} @{-\hspace{1em}} p{3em}|p{4em}<{\centering} @{-\hspace{1em}} p{3em}|p{4em}<{\centering} @{-\hspace{1em}} p{3em}|p{4em}<{\centering} @{-\hspace{1em}} p{3em}|}
+\begin{tabular}{|*{4}{>{\centering}p{4em} @{-\hspace{1em}} >{\ttfamily}p{3em}|}}
 \hline
-\textbf{样式} & \textbf{命令} & \textbf{样式} & \textbf{命令} & \textbf{样式} & \textbf{命令} & \textbf{样式} & \textbf{命令}\\
+\texttt{样式} & 命令 & \texttt{样式} & 命令 & \texttt{样式} & 命令 & \texttt{样式} & 命令 \\
 \hline
-\=o  & \verb|\=o|  & \'o  & \verb|\'o|  & \v o & \verb|\v o|  & \`o   & \verb|\`o|  \\
-\^o  & \verb|\^o|  & \"o  & \verb|\"o|  & \.o  & \verb|\.o|   & \H o  & \verb|\H o| \\
-\d o & \verb|\d o| & \u o & \verb|\u o| & \b o & \verb|\b o|  & \t oo & \verb|\t oo|\\
-\multicolumn{2}{|c@{\bf --}}{$\tilde{o}$} & \multicolumn{2}{@{\bf --}c|}{\tt{\$$\backslash$tilde\{o\}\$}} &%
-\multicolumn{2}{c@{\bf --}}{$\hat{o}$}    & \multicolumn{2}{@{\bf --}c|}{\tt{\$$\backslash$hat\{o\}\$}}\\
-\o  & \verb|\o|  & \O  & \verb|\O|  & \i  & \verb|\i|  & \j  & \verb|\j| \\
+\=o  & \char92=o  & \'o  & \char92'o  & \v o & \char92v o  & \`o   & \char92`o  \\
+\^o  & \char92 \^o  & \"o  & \char92 "o  & \.o  & \char92 .o   & \H o  & \char92 H o \\
+\d o & \char92d o & \u o & \char92u o & \b o & \char92b o  & \t oo & \char92t oo\\
+\multicolumn{2}{|c@{\bfseries --}}{$\tilde{o}$} & \multicolumn{2}{@{\bfseries --}c|}{\texttt{\$$\backslash$tilde\{o\}\$}} &%
+\multicolumn{2}{c@{\bfseries --}}{$\hat{o}$}    & \multicolumn{2}{@{\bfseries --}c|}{\texttt{\$$\backslash$hat\{o\}\$}}\\
+\o  & \char92o  & \O  & \char92O  & \i  & \char92i  & \j  & \char92j \\
 \multicolumn{8}{|c|}{}\\
-\aa & \verb|\aa| & \AA & \verb|\AA| & \ae & \verb|\ae| & \AE & \verb|\AE|\\
-\oe & \verb|\oe| & \OE & \verb|\OE| & !`  & \verb|!`|  & ?`  & \verb|?`| \\
+\aa & \char92aa| & \AA & \char92AA| & \ae & \char92ae| & \AE & \char92AE|\\
+\oe & \char92oe| & \OE & \char92OE| & !`  & !\mbox{}`  & ?`  & ?\mbox{}` \\
 \hline
 \end{tabular}
 \end{center}
+
+\mbox{}
+
+\begin{center}
+\tabcaption{国际音标输入表（部分）}
+\begin{tabular}{|*{3}{>{\rmfamily}p{3em} @{-\hspace{0.5em}} >{\ttfamily}p{7.5em}|}}
+\hline
+\texttt{样式} & 命令 & \texttt{样式} & 命令 & \texttt{样式} & 命令 \\
+\hline
+\textdzlig & \char92textdzlig & \textesh & \char92textesh & \textteshlig & \char92textteshlig \\
+\textdyoghlig & \char92textdyoghlig & \textturnv & \char92textturnv & \textschwa & \char92textschwa \\
+\textscriptg & \char92textscriptg & \texttheta & \char92texttheta & \textupsilon & \char92textupsilon \\
+\textscripta & \char92textscripta & \dh & \char92dh & \textepsilon & \char92textepsilon \\
+\textopeno & \char92textopeno & \textyogh & \char92textyogh & \ng & \char92ng \\
+\hline
+\multicolumn{2}{|c|}{重音} & \multicolumn{2}{c|}{次重音} & \multicolumn{2}{c|}{长音节} \\
+\textprimstress & \char92{}textprimstress & \textsecstress & \char92textsecstress & \textlengthmark & \char92textlengthmark \\
+\hline
+\end{tabular}
+\end{center}
+
+\textit{注：\texttt{\char92dh}命令在非CJK文档中有时编译会出现问题}。
 
 \end{appendices}
 
