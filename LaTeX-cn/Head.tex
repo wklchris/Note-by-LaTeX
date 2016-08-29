@@ -3,13 +3,30 @@
 \usepackage[slantfont,boldfont]{xeCJK}
 	\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
 \usepackage{indentfirst}
+
+% 数学环境
+\usepackage{amsmath}
+  \newcommand{\ue}{\mathrm{e}}
+  \newcommand{\ud}{\mathop{}\!\mathrm{d}}
+\usepackage{amssymb}
+\usepackage{mathrsfs} % 线性代数字体
+    % overline的替代命令
+\newcommand{\closure}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
+\usepackage{yhmath} % 左下-右上省略号
+\usepackage{mathtools} % dcases环境
+\usepackage{amsthm} % 定理环境
+  \theoremstyle{definition}\newtheorem{laws}{Law}[section]
+  \theoremstyle{plain}\newtheorem{ju}[laws]{Jury}
+  \theoremstyle{remark}\newtheorem*{marg}{Margaret}
+\usepackage{esint} % 多重积分，需放在amsmath后
+
 % 下划线宏包
 \usepackage{ulem}
 % LaTeX符号宏包
 \usepackage{hologo}
 	\newcommand{\xelatex}{\Hologo{XeLaTeX}}
 	\newcommand{\bibtex}{\Hologo{BibTeX}}
-% 音标符号【注释了sty文件中的sups定义】
+% 音标符号tipa【注释了sty文件中的sups定义】
 \usepackage{tipa}
 \usepackage{wasysym}
 % 带箱小页
@@ -24,15 +41,12 @@
 \newcommand{\qd}[1]{{\bfseries{#1}}}	% 强调
 \newcommand{\co}[1]{{\bfseries{#1}}}   % Style of concept
 \newcommand{\RED}[1]{{\color{red}{#1}}}
-\newcommand{\cmmd}[1]{\fbox{\ttfamily{\char92{}#1}}}
+\newcommand{\cmmd}[1]{\fbox{\texttt{\char92{}#1}}}
 \newcommand{\charef}[1]{第\ref{#1}章}
 \newcommand{\secref}[1]{第\ref{#1}节}
 \newcommand{\pref}[1]{第\pageref{#1}页}
 \newcommand{\fref}[1]{图\ref{#1}}
 \newcommand{\tref}[1]{表\ref{#1}}
-\newenvironment{fcmmd}
-	{\\ \vspace{0.5em}\noindent\begin{boxedminipage}{\textwidth}}
-	{\end{boxedminipage}\vspace{0.5em}}
 
 % 编号列表宏包，并自定义了三个列表
 \usepackage[inline]{enumitem}
@@ -141,6 +155,7 @@
 		belowskip=0pt,
 		emptylines=1,
 		escapeinside=``}
+
 \lstnewenvironment{latex}[1]{\lstset{#1}}{}
 \newcommand{\latexline}[1]{{\lstinline[language=TeX,basicstyle=\small\ttfamily]{#1}}}
 
@@ -153,8 +168,9 @@
 	classoffset=1, % 棕色的其他关键字
 	morekeywords={tikzpicture,grid,at,
 		thick,thin,very,ultra,
-		red,green,yellow,blue,cyan,magenta,black,gray,darkgray,lightgray,brown,
-			lime,olive,orange,pink,purple,teal,violet,white},
+		red,green,yellow,blue,cyan,magenta,black,
+		    gray,darkgray,lightgray,brown,lime,
+		    olive,orange,pink,purple,teal,violet,white},
 	keywordstyle=\color{envicolor},
 	morecomment=[l]{\%},
 	morecomment=[s]{/*}{*/},
