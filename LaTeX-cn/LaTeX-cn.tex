@@ -89,30 +89,30 @@ Chris Wu
 \end{center}
 
 它们的作用分别是：
-\begin{feai}
+\begin{para}
 \item[\#{}:] 自定义命令时，用于标明参数序号。
 \item[\${}:] 数学环境命令符。
 \item[\%{}:] 注释符。在其后的该行命令都会视为注释。如果在回车前输入这个命令，可以防止行末\LaTeX 插入一些奇怪的空白符。
 \item[\^{}:] 数学环境中的上标命令符。
-\item[\&{}:]  表格环境中的跳列符。
+\item[\&{}:] 表格环境中的跳列符。
 \item[\_{}:] 数学环境中的下标命令符。
-\item[\{和\}:] 花括号用于标记命令的必选参数，或者标记某一部分命令成为一个整体。
-\item[\texttt{\char92}] 反斜杠用于开始各种\LaTeX 命令。
-\end{feai}
+\item[\{and\}:] 花括号用于标记命令的必选参数，或者标记某一部分命令成为一个整体。
+\item[\char92{}:] aer反斜杠用于开始各种\LaTeX 命令。
+\end{para}
 
 以上除了反斜杠外，均能用前加反斜杠的行驶输出。即你只需要键入：
 \begin{center}
-\texttt{\char92{}\# \char92{}\$ \char92{}\% \char92{}\^{} \char92{}\& \char92{}\_
-	\char92{}\{ \char92{}\} }
+\verb|\# \$ \% \^ \& \_ \{ \}|
 \end{center}
 
 唯独反斜杠的输出比较头痛，你可以尝试：
 \begin{verbatim}
 $\backslash$
+\textbackslash
 \texttt{\char92}
 \end{verbatim}
 
-另外需要说明的是，在中文格式下，波浪线{\texttt{\~}}用来输出一个小空格，不能够直接输出。你可以通过命令\verb+$\sim$+来产生一个。
+另外需要说明的是，在中文格式下，波浪线{\texttt{\~}}用来输出一个小空格，不能够直接输出。你可以通过命令\verb+$\sim$+，或者仿上换成char126来产生一个。
 
 \subsection{导言区}
 任何一份\LaTeX{}文档都应当包含以下结构：
@@ -166,7 +166,7 @@ $\backslash$
 \begin{feai}
 	\item {\qd{Errors错误}}：严重的错误。一般地，编译若通过了，该项是零。
 	\item {\qd{Warnings警告}}：一些不影响生成文档的瑕疵。
-	\item {\qd{Bad Boxes坏箱}\footnote{Box是\LaTeX{}中的一个特殊概念，具体将在\protect\secref{sec:box}部分进行讲解。}}：指排版中出现的长度问题，比如长度超出（Overfull）等。后面的Badness表示错误的严重程度，程度越高数值越大。这类问题需要检查，排除Badness高的选项。
+	\item {\qd{Bad Boxes坏箱}\footnote{Box是\LaTeX{}中的一个特殊概念，具体将在\hyperref[sec:box]{这里}进行讲解。}}：指排版中出现的长度问题，比如长度超出（Overfull）等。后面的Badness表示错误的严重程度，程度越高数值越大。这类问题需要检查，排除Badness高的选项。
 \end{feai}
 
 你可以向上翻阅控制台记录，来找到Warning开头的记录，或者Overfull/ Underfull开头的记录。这些记录会指出你的问题出在哪一行(比如line 1-2) 或者在输出pdf的哪一页（比如active [12]。注意，这个12表示页面显示页码或者计数器计数页码，而不是文件打印出来的真实页码）。此外你可以还需要了解：
@@ -247,7 +247,7 @@ $37\,^{\circ}\mathrm{C}$
 
 其次是千位分隔符，比如\verb|1\,000\,000|。如果你不想它在中间断行就在外侧再加上一个\latexline{\\mbox}命令。
 
-再次是注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号表}部分的附录内容。如果你想输入音标，请使用tipa宏包，同样参考附录A。
+再次是注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号表}部分的附录内容。如果你想输入音标，请使用tipa宏包\footnote{tipa需要在amsmath宏包之前加载，否则\texttt{\char92{}!}相关的命令可能报错}，同样参考附录A。
 
 最后，介绍hologo宏包，它可以输出许多\TeX 家族标志。其实\LaTeX 原生自带了\latexline{\\LaTeX \TeX}等命令。而hologo宏包支持的命令是：
 
@@ -259,7 +259,7 @@ $37\,^{\circ}\mathrm{C}$
 \section{格式控制}
 首先了解一下\hologo{LaTeX}的长度单位：
 \begin{fead}
-  \item[pt] point，磅。
+  \item[pt] point，磅。\label{sec:length}
   \item[pc] pica。1pc=12pt，四号字大小
   \item[in] inch，英寸。1in=72.27pt
   \item[bp] bigpoint，大点。1bp=$\frac{1}{72}$in
@@ -295,14 +295,16 @@ $37\,^{\circ}\mathrm{C}$
 
 用\latexline{\\cleardoublepage}命令清空浮动体队列，并在偶数页上开始新的一页。
 
-注意：以上命令都是基于\verb|\vfill|的，如果要连续新开两页，请在中间加上一个空的箱子（\latexline{\\mbox{}}），如\latexline{\\newpage\\mbox{}\\newpage}。
+注意：以上命令都是基于\verb|\vfill|的。如果要连续新开两页，请在中间加上一个空的箱子（\latexline{\\mbox{}}），如\latexline{\\newpage\\mbox{}\\newpage}。
 
-\subsection{缩进和对齐}
-英文的段首不需要缩进。但是对中文而言，需要借助indentfirst宏包来完成。你可能还需要使用\latexline{\\setlength{\\indent}{2em}}这样的命令来完成缩进距离的设置。
+\subsection{缩进、对齐与行距}
+英文的段首不需要缩进。但是对中文而言，段首缩进需要借助indentfirst宏包来完成。你可能还需要使用\latexline{\\setlength{\\indent}{2em}}这样的命令来完成缩进距离的设置。如果在句首强制取消缩进，你可以使用\latexline{\\noindent}命令。
 
 \LaTeX 默认使用两端对齐的排版方式。你也可以使用flushleft, flushright, center这三种环境来构造居左、居中、居右三种效果。特殊的\latexline{\\centering}命令常常用在环境内部（或者一对花括号内部），以实现居中的效果。但请尽量用center环境代替这个老旧的命令。类似的命令还有\latexline{\\raggedleft}来实现居右，\latexline{\\raggedright}来实现居左。更多的空格控制请参考\hyperref[sec:hvspace]{这一节}。
 
-\section{字体和颜色}
+插入制表位、悬挂缩进、行距等复杂的调整参考\hyperref[sec:hvspace]{这部分}的内容。
+
+\section{字体与颜色}
 \label{sec:font}
 这一节只讨论行文中字体使用。数学环境内字体使用请参考\hyperref[sec:mathfont]{这一节}的内容。
 
@@ -318,6 +320,7 @@ $37\,^{\circ}\mathrm{C}$
 \LaTeX 提供了基本的字体命令，包括\tref{tab:fontcommand}中显示的内容。
 \begin{table}[!ht]
 \centering
+\caption{\LaTeX 字体命令表}
 \label{tab:fontcommand}
 \caption{\LaTeX 字体命令表}
 \begin{tabular}{p{3em}<{\centering} @{\ -\quad} >{\ttfamily}l @{\quad-\quad} p{18em}}
@@ -352,6 +355,7 @@ $37\,^{\circ}\mathrm{C}$
 然后就是字号的命令。行文会有一个默认的“标准”字号，比如你在documentclass的选项中设置的12pt（如果你设置了的话）。\LaTeX 给出了一系列“相对字号命令”，列出如\tref{tab:fontsize}。在平常使用中，小四为12pt，五号为10.5pt。
 \begin{table}[!ht]
 \centering
+\caption{相对字号命令表}
 \label{tab:fontsize}
 \caption{相对字号命令表}
 \begin{tabular}{|>{\ttfamily\char92}l|*{3}{l|}}
@@ -503,16 +507,15 @@ This is the text following the reference.
 
 \subsection{大纲与章节}
 \LaTeX 中，将文档分为若干大纲级别。分别是：
-\noindent\begin{description}[font=\bfseries\ttfamily\char92]
-\setlength{\parskip}{0pt}\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}
-\item[part:] 部分。这个大纲不会打断chapter的编号。
-\item[chapter:] 章。基于article的文档类不含该大纲级别。
-\item[section:] 节。
-\item[subsection:] 次节。默认report/book文档类本级别及以下的大纲不进行编号，也不纳入目录。
-\item[subsubsection:] 小节。默认article文档类本级别及以下的大纲不进行编号，也不纳入目录。
-\item[paragraph:] 段。极少使用。
-\item[subparagraph:] 次段。极少使用。
-\end{description}
+\begin{para}
+\item[\char92{}part:] 部分。这个大纲不会打断chapter的编号。
+\item[\char92{}chapter:] 章。基于article的文档类不含该大纲级别。
+\item[\char92{}section:] 节。
+\item[\char92{}subsection:] 次节。默认report/book文档类本级别及以下的大纲不进行编号，也不纳入目录。
+\item[\char92{}subsubsection:] 小节。默认article文档类本级别及以下的大纲不进行编号，也不纳入目录。
+\item[\char92{}paragraph:] 段。极少使用。
+\item[\char92{}subparagraph:] 次段。极少使用。
+\end{para}
 
 对应的命令例如：\latexline{\\section{第一节}}
 
@@ -625,7 +628,14 @@ This is the text following the reference.
 
 \latexline{\\caption}命令给表格一个标题，写在了表格内容（即tabular环境）之前，表示标题会位于表格上方。对于图片，一般将把此命令写在图片插入命令的下方。注意：\RED{label命令请放在caption下方，否则可能出现问题}。\dpar
 
-浮动体的自调整属性可能导致它“一直找不到合适的插入位置”，然后多个浮动体形成排队（因为靠前的浮动体插入后，靠后的才能插入）。如果在生成的文档中发现浮动体丢失的情况，请尝试更改浮动参数、去掉部分浮动体，或者使用\latexline{\\clearpage}命令来清空浮动队列，以正常开始随后的内容。
+浮动体的自调整属性可能导致它“一直找不到合适的插入位置”，然后多个浮动体形成排队（因为靠前的浮动体插入后，靠后的才能插入）。如果在生成的文档中发现浮动体丢失的情况，请尝试更改浮动参数、去掉部分浮动体，或者使用\latexline{\\clearpage}\index{/clearpage}\index{/cleardoublepage}命令来清空浮动队列，以正常开始随后的内容。
+
+如果希望浮动体不要跨过section，使用：
+\begin{latex}{}
+\usepackage[section]{placeins}
+\end{latex}
+
+其实质是重定义了section命令，在之前加上了\latexline{\\FloatBarrier}。你也可以自行在每个想要阻止浮动体跨过的位置添加。
 
 \subsection{图片}
 图片的插入使用graphicx宏包和\latexline{\\includegraphics}命令，例子：
@@ -772,9 +782,9 @@ This is the text following the reference.
 主要借助geometry宏包。先看一张页面构成，如\fref{fig:geo-paper}：
 \begin{figure}
 \centering
-\label{fig:geo-paper}
 \input{./tikz/geometry-paper.tex}
 \figcaption{页面构成示意图}
+\label{fig:geo-paper}
 \end{figure}
 
 geometry宏包的具体的选项参数有：
@@ -794,19 +804,19 @@ body部分分为两个概念：一个是总文本区(total body)，另一个是�
 
 对于在文档类documentclass命令中能使用的参数，geometry有不少也能做。比如\texttt{twoside, onecolumn, twocolumn}。甚至还能用文档类中不能用的\texttt{columnsep}（启用多栏分隔线）。
 
-最后一个小例子：
+最后，这是一个小例子：
 \begin{latex}{}
 \usepackage[marginpar=3cm, includemp]{package}
 \end{latex}
 
 \subsection{页眉和页脚}
 主要借助fancyhdr宏包。\LaTeX 中的页眉页脚定义主要借助了两个命令，一个是\latexline{\\pagestyle}，参数有：
-\begin{feai}
-\item[\texttt{empty}] 无页眉页脚。
-\item[\texttt{plain}] 无页眉，页脚只包含一个居中的页码。
-\item[\texttt{headings}] 无页眉，页脚包含章/节名称与页码。
-\item[\texttt{myheadings}] 无页眉，页脚包含页码和用户定义的信息。
-\end{feai}
+\begin{para}
+\item[empty] 无页眉页脚。
+\item[plain] 无页眉，页脚只包含一个居中的页码。
+\item[headings] 无页眉，页脚包含章/节名称与页码。
+\item[myheadings] 无页眉，页脚包含页码和用户定义的信息。
+\end{para}
 
 另一个命令是\latexline{\\pagenumbering}，与计数器一样，拥有\texttt{arabic, [Rr]oman, [Aa]lph}五种页码形式。
 
@@ -862,7 +872,9 @@ fancyhdr在定义双页文档时，采用了如下的默认设置：
 \end{latex}
 
 \section{抄录与代码环境}
-抄录是指将键盘输入的字符（包括保留字符和空格）不经过\TeX 解释，直接输出到文档。默认的字体参数是等宽字族（ttfamily）。使用方法是\verb|\verb|命令或者verbatim(*)环境，区别在于带星号的环境会将空格以字符的形式指明出来。注意，\verb|\verb|命令是一个特殊的命令，可以用一组花括号括住抄录内容，也可以任意两个同样的符号。比如：
+抄录是指将键盘输入的字符（包括保留字符和空格）不经过\TeX 解释，直接输出到文档。默认的字体参数是等宽字族（ttfamily）。使用方法是\verb|\verb|命令或者verbatim(*)环境，区别在于带星号的环境会将空格以“\textvisiblespace”（\latexline{\\textvisiblespace}）形式标记出来。
+
+注意，\verb|\verb|命令是一个特殊的命令，可以用一组花括号括住抄录内容，也可以任意两个同样的符号。比如：
 \begin{latex}{}
 \verb|fooo{}bar|
 \verb+fooo{}bar+
@@ -886,7 +898,7 @@ fancyhdr在定义双页文档时，采用了如下的默认设置：
 \subsection{断词}
 行末的英文单词太长，\LaTeX 就会以其音节断词。如果你想指定某些单词的断词位置，使用如下命令断词。例子：
 \begin{latex}{}
-hyphenation{Hy-phen-a-tion FORTRAN}
+\hyphenation{Hy-phen-a-tion FORTRAN}
 \end{latex}
 
 这个例子允许Hyphenation, hyphenation在短横处断词，同时\textbf{禁止}FORTRAN, Fortran, fortran断词。如果你在行文中加入\verb|\-|命令，则可以实现允许在对应位置断词的效果。比如：
@@ -929,6 +941,7 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 另外一种公式排版方式是\co{行间公式}，也称行外公式，使用：
 \begin{latex}{}
 \[...\] 或者 \begin{displaymath}...\end{displaymath}
+或者 amsmath 提供的\begin{equation*}...\end{equation*}
 \end{latex}
 
 一般也推荐第一种命令\footnote{还有一种\texttt{\$\$...\$\$}的写法，问题很多，绝不建议使用。}，例如：\verb|\[\sum_{i=1}^n{a_i}\]|，得到：
@@ -960,13 +973,14 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 
 事实上，以上命令也可以在数学模式外使用，其中使用最广泛的是\verb|\,|，比如上文提到过的千位分隔符。在数学环境中它也应用广泛：
 
-%\begin{codeshow}
-%\[\int_0^1 x\ud x=\frac{1}{2}\]
-%\end{codeshow}
+\begin{codeshow}
+\[ \int_0^1 x \ud{}x
+= \frac{1}{2} \]
+\end{codeshow}
 
 其中\verb|\ud|命令是自定义的，这也是微分算子的正常定义\label{cmd:ud}：
 \begin{latex}{}
-\newcommand{\ud}{\mathop{}\!\mathrm{d}}
+\newcommand{\ud}{\mathop{}\!{}\mathrm{d}}
 \end{latex}
 
 \subsection{数学字体}
@@ -1154,7 +1168,7 @@ $\mathring{U}$
 \end{codeshow}
 
 \subsection{矩阵与省略号}
-矩阵的排版需要array环境和自适应定界符：
+矩阵的排版可以通过array环境和自适应定界符完成：
 
 \begin{codeshow}
 \[\mathbf{A}=
@@ -1165,9 +1179,9 @@ x_{21} & x_{22} & \ldots \\
 \end{array}\right)\]
 \end{codeshow}
 
-yhmath宏包还提供了一种省略号\verb|\adots|：$\adots$，或许用得上呢？
+还有就是\verb|\cdots|命令。hmath宏包还提供了一种省略号\verb|\adots|：$\adots$，或许用得上呢？
 
-当然，也有自动添加定界符的形式，不过要放在数学环境内：
+\LaTeX 原生支持自动添加定界符的形式，不过要放在数学环境内：
 
 \begin{codeshow}
 \centering $\begin{matrix}
@@ -1433,7 +1447,7 @@ $\mathbb\{ABCDabcde 1234\}$ & \\
 \varepsilon & varepsilon & \mu & mu & \sigma & sigma & \omega & omega \\
 \zeta & zeta & \nu & nu & \varsigma & varsigma & \eta & eta \\
 \xi & xi & \tau & tau & \multicolumn{4}{c}{} \\
-A & \multicolumn{1}{p{6em}}{A} & B & \multicolumn{1}{p{6em}}{o} & \Gamma & Gamma & \varGamma & varGamma \\
+A & \multicolumn{1}{p{6em}}{A} & B & \multicolumn{1}{p{6em}}{B} & \Gamma & Gamma & \varGamma & varGamma \\
 \Delta & Delta & \varDelta & varDelta & E & \multicolumn{1}{p{6em}}{E} & Z & \multicolumn{1}{p{6em}}{Z} \\
 H & \multicolumn{1}{p{6em}}{H} & \Theta & Theta & \varTheta & varTheta & I & \multicolumn{1}{p{6em}}{I} \\
 \Lambda & Lambda & \varLambda & varLambda & M & \multicolumn{1}{p{6em}}{M} & N & \multicolumn{1}{p{6em}}{N} \\
@@ -1487,13 +1501,14 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \label{tab:amsrelation-operator}
 \begin{tabular}{@{}*{4}{>{$}p{2em}<{$} @{} >{\ttfamily\char92}p{6em} @{}}}
 \leqslant & leqslant & \geqslant & geqslant & \because & because & \therefore & therefore \\
+\nless & nless & \ngtr & ngtr & \lessdot & lessdot & \gtrdot & gtrdot \\
 \lessgtr & lessgtr & \gtrless & gtrless & \lesseqqgtr & lesseqqgtr & \gtreqqless & gtreqqless \\
 \subseteqq & subseteqq & \supseteqq & supseteqq & \subsetneqq & subsetneqq & \supsetneqq & supsetneqq
 \end{tabular}
 \end{table}
 
 \subsection{箭头}
-在\tref{tab:delimiter}中给出了几个箭头符号，但是不够全，这里给出总表如\tref{tab:arrow}：
+在\tref{tab:delimiter}中给出了几个箭头符号，但是不够全，这里给出总表如\tref{tab:arrow}。
 \begin{table}[!htb]
 \centering
 \caption{箭头}
@@ -1514,7 +1529,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \end{tabular}
 \end{table}
 
-依旧给出一个基于amssymb宏包的附\tref{amsarrow}：
+依旧给出一个基于amssymb宏包的附\tref{amsarrow}。
 \begin{table}[!htb]
 \centering
 \caption{amssymb箭头}
@@ -1571,21 +1586,239 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 
 \clearpage
 \chapter{\LaTeX{}进阶}
+本章的内容多数与宏包的使用相关。记得使用texdoc命令查看宏包的使用手册，这是学习宏包最好的手段，没有之一。
+
 \section{自定义命令与环境}
 \label{sec:newcommand}
+自定义命令是\LaTeX 相比于字处理软件MS Word之流最强大的功能之一。它可以大幅度优化你的文档体积，用法是：
+\begin{latex}{}
+\newcommand{cmd}[args][default]{def}
+\end{latex}
+
+现在来解释一下各个参数：
+\begin{para}
+\item[cmd:] 新定义的命令，不能与现有命令重名。
+\item[args:] 参数个数。
+\item[default:] 首个参数，即\texttt{\#{}1}的默认值。
+\item[def:] 具体的定义内容。参数1以\texttt{\#{}1}代替，参数2以\texttt{\#{}2}代替，以此类推。
+\end{para}
+
+如果重定义一个现有命令，使用\latexline{\\renewcommand}命令，用法与\latexline{\\newcommand}一致。简单的例子：
+\begin{latex}{}
+% 加粗：\concept{text}
+\newcommand{\concept}[1]{\textbf{#1}}
+% 加粗#2并把#1#2加入索引，默认#1为空。
+% 比如\cop{Sys}或者\cop[Sec.]{Sys}
+\newcommand{\cop}[2][]{\textbf{#2}}\index{#1 #2}}
+\end{latex}
+
 \section{箱子：排版的基础}
 \label{sec:box}
-\section{水平距离与垂直距离}
+\LaTeX 排版的基础单位就是“箱子(box)”，例如整个页面是一个矩形的箱子，侧边栏、主正文区、页眉页脚也都是箱子。在正常排版中，文字应当位于箱子内部；如果单行文字过长、没能正确断行，造成文字超出箱子，这便是Overfull的坏箱(bad box)；如果内容太少，导致文字不能美观地填满箱子，便是Underfull的坏箱。
+
+在\LaTeX 编译中，坏箱将记录在日志文件里。即使编译过程中产生了坏箱，编译也仍然会进行，并将坏箱强行输出到最终的文档。这就可能产生很多奇怪的情况，比如文字写到了页面之外。如果你是完美主义者，请你逐个排查坏箱；即使你不是，也请排查看起来非常不美观的那些坏箱。
+
+\subsection{无框箱子}
+命令\latexline{\\mbox}产生一个无框的箱子，宽度自适应。有时用它来强制“结合”一系列命令，使之不在中间断行。比如\TeX 这个命令的定义（其中\latexline{\\raisebox}命令在后面介绍。）：
+\begin{latex}{}
+\mbox{T\hspace{-0.1667em}\raisebox{-0.5ex}{E}\hspace{-0.125em}X}
+\end{latex}
+
+或者也可以使用命令\latexline{\\makebox[width][pos]{text}}，宽度由width参数指定。pos参数的取值可以是l, s, r即居左、两端对齐、居右，还有竖直方向的t, b两个参数。
+
+无框小页的使用方法是\texttt{minipage}环境，参数类似\latexline{\\parbox}：
+\begin{latex}{}
+\begin{minipage}[pos]{width}
+\end{latex}
+
+\subsection{加框箱子}
+命令\latexline{\\fbox}产生加框的箱子，宽度自动调整，但不能跨行。另外的命令\latexline{\\framebox}类似上面介绍的\latexline{\\makebox}。如果是想在数学环境下完成加框，使用\latexline{\\boxed}命令。
+
+\begin{codeshow}
+\fbox{This is a frame box} \\
+\begin{equation}\boxed{x^2=4}
+\end{equation}
+\end{codeshow}
+
+加宽盒子的宽度、以及内容到盒子的距离可以自行定义。默认定义是：
+\begin{latex}{}
+\setlength{\fboxrule}{0.4pt} \setlength{\fboxsep}{3pt}
+\end{latex}
+
+加框小页使用\texttt{boxedminipage}环境，类似\texttt{minipage}环境。
+
+\subsection{竖直升降的箱子}
+命令\latexline{\\raisebox}可以把文字提升或降低，它有两个参数：
+\begin{latex}{}
+A\raisebox{-0.5ex}{n} example.
+\end{latex}
+
+\subsection{段落箱子}
+段落箱子的强大之处在于它提供自动换行的功能，当然你需要指定宽度给它。
+\begin{latex}{}
+\parbox[pos]{width}{text}
+\end{latex}
+
+以及例子：
+
+\begin{codeshow}
+This is \parbox[t]{3.5em}{an long
+example to show} how \parbox[b]
+{4em}{`parbox' works perfectly}.
+\end{codeshow}
+
+\subsection{缩放箱子}
+graphicx宏包提供了一种可以缩放的箱子\latexline{\scalebox{h-sc}[v-sc]{pbj}}，注意其中水平缩放因子是必要参数。缩放内容可以是文字也可以是图片，例子：
+
+\begin{codeshow}
+\LaTeX---\scalebox{-1}[1]{\LaTeX}\\
+\LaTeX---\scalebox{1}[-1]{\LaTeX}\\
+\LaTeX---\scalebox{-1}{\LaTeX}\\
+\LaTeX---\scalebox{2}[1]{\LaTeX}
+\end{codeshow}
+
+\subsection{标尺箱子}
+命令\latexline{\\rule[lift]{width}{height}}能够画出一个黑色的矩形。你可以在单元格中使用width, height其一为0的该命令，作一个隐形的“支撑”来限定单元格的宽或高。例如：
+
+\begin{codeshow}
+\begin{tabular}{|c|}
+  \hline
+  \rule[-1em]{1em}{1ex}text
+  \rule{0pt}{38pt} \\
+  \hline
+  2nd text \\
+  \hline
+\end{tabular}
+\end{codeshow}
+
+\section{复杂距离}
 \label{sec:hvspace}
-\section{字体调用}
+\subsection{水平和竖直距离}
+长度单位参考\hyperref[sec:length]{这里}介绍过的内容。水平距离命令有两种，一种禁止在此处断行，包括\tref{tab:nobreak-hspace}：
+\begin{table}[!htb]
+\centering
+\caption{禁止换行的水平距离}
+\label{tab:nobreak-hspace}
+\begin{tabular}{>{\ttfamily\char92}p{12em}p{8em}p{6em}}
+  thinspace或\char92{},      & 0.1667em      & \rule{8pt}{2pt}\thinspace\rule[4pt]{8pt}{2pt} \\
+  negthinspace  & -0.1667em     & \rule{8pt}{2pt}\negthinspace\rule[4pt]{8pt}{2pt} \\
+  enspace                    & 0.5em         & \rule{8pt}{2pt}\enspace\rule[4pt]{8pt}{2pt} \\
+  nobreakspace或\char126{}   & 空格          & \rule{8pt}{2pt}\nobreakspace\rule[4pt]{8pt}{2pt}
+\end{tabular}
+\end{table}
+
+另一种允许换行，如\tref{tab:break-hspace}：
+\begin{table}[!htb]
+\centering
+\caption{允许换行的水平距离}
+\label{tab:break-hspace}
+\begin{tabular}{>{\tt\char92}p{12em}p{8em}p{6em}}
+  quad          & 1em           & \rule{8pt}{2pt}\quad\rule[4pt]{8pt}{2pt} \\
+  qquad         & 2em           & \rule{8pt}{2pt}\qquad\rule[4pt]{8pt}{2pt} \\
+  enskip        & 0.5em         & \rule{8pt}{2pt}\enskip\rule[4pt]{8pt}{2pt} \\
+  \enspace(此处是一个空格) & 空格 & \rule{8pt}{2pt}\ \rule[4pt]{8pt}{2pt}
+\end{tabular}
+\end{table}
+
+使用\latexline{\\hspace{length}}命令自定义空格的长度，其中\textit{length}的取值例如：\texttt{-1em, 2ex, 5pt, 0.5\char92{}linewidth}等。如果想要这个命令在断行处也正常输出空格，使用带星命令\latexline{\\hspace*}。
+
+类似地使用\latexline{\\vspace}和\latexline{\\vspace*}命令，作为竖直距离的输出。
+
+\subsection{填充距离与弹性距离}
+命令\latexline{\\fill}用于填充距离，需要作为\latexline{\\hspace}或\latexline{\\vspace}的参数使用。另外还有单独使用的命令\latexline{\\hfill}与\latexline{\\vfill}，作用相同。
+
+弹性距离指以一定比例计算得到的多个空白，命令是\latexline{\\stretch}。例子：
+
+\noindent\begin{boxedminipage}{0.8\linewidth}
+\verb|Left\hspace{\fill}Right|
+Left\hspace{\fill}Right
+\verb|Left\hspace{\stretch{1}}Center\hspace{\stretch{2}}Right|
+Left\hspace{\stretch{1}}Center\hspace{\stretch{2}}Right
+\end{boxedminipage}
+
+\subsection{制表位与行距*}
+制表位使用tabbing环境，需要指出，这是一个极其容易造成坏箱的环境。一个丑陋的例子：
+\begin{latex}{}
+\begin{tabbing}
+\hspace{4em}\=\hspace{8em}\=\kill
+制表位 \> 就是这样 \> 使用的 \\
+随时 \> 可以添加 \> 新的： \= 就这样 \\
+也可以 \= 随时重设 \= 制表位 \\
+这是 \> 新的 \> 一行
+\end{tabbing}
+\end{latex}
+
+效果：
+\begin{tabbing}
+\hspace{4em}\=\hspace{8em}\=\kill
+制表位 \> 就是这样 \> 使用的 \\
+随时 \> 可以添加 \> 新的： \= 就这样 \\
+也可以 \= 随时重设 \= 制表位 \\
+这是 \> 新的 \> 一行
+\end{tabbing}
+
+几个要点：
+\begin{para}
+\item[\char92{}=] 在此处插入制表位。
+\item[\char92{}>] 跳入下一个制表位。
+\item[\char92{}\char92{}] 制表环境内必须手动换行和缩进。
+\item[\char92{}kill] 若行末用\verb|\kill|代替\verb|\\|，那么该行并不会被实际输出到文档中。
+\end{para}
+
+\subsection{悬挂缩进*}
+这种缩进在实际排版中并不常用，经常是列表需要的场合才使用，但那可以借助列表宏包enumitem进行定义。这里介绍的是正文中的悬挂缩进使用。
+
+如果需要对单独一段进行悬挂缩进，例如使用：
+\begin{latex}{}
+\hangafter 2
+\hangindent 6em
+\end{latex}
+
+\hangafter 2
+\hangindent 6em
+这两行放在某一段的上方，作用是控制紧随其后的段落从第2行开始悬挂缩进，并且设置悬挂缩进的长度是\texttt{6em}。
+
+如果需要对连续的多段进行悬挂缩进，可以改造编号列表环境或者verse环境\footnote{事实上这是一个排版诗歌的环境。}来实现。或者尝试：
+
+\begin{codeshow}
+正文...
+
+{\leftskip=3em\parindent=-1em
+\indent 这是第一段。注意整体需要放在
+一组花括号内，且花括号前应当有空白行
+。第一段前需要加indent命令，最后一段
+的末尾需额外空一行，否则可能出现异常。
+
+这是第二段。
+
+\ldots
+
+这是最后一段。别忘了空行。
+
+}
+\end{codeshow}
+
+\subsection{整段缩进*}
+changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧到文本区（而不是页边）两侧的距离。
+\begin{latex}{}
+\begin{adjustwidth}{1cm}{3cm}
+本段首行缩进需要额外手工输入。本环境距文本区左侧1cm，右侧3cm。
+\end{adjustwidth}
+\end{latex}
+
+对于奇偶页处理，可以尝试赋值\latexline{\\leftskip}等命令。
+
 \section{自定义章节样式}
 \label{sec:titlesec}
+
+
 \section{自定义目录样式}
 \label{sec:titletoc}
 \section{自定义图表}
+\label{sec:figtab}
 \section{自定义编号列表}
 \label{sec:list}
-\section{创建参考文献}
+\section{\bibtex 参考文献}
 \label{sec:bibtex}
 \section{附录、图表目录}
 \label{sec:appendix}
@@ -1971,8 +2204,8 @@ PGFPlots/Tikz是两个\LaTeX{}的绘图宏包，功能极其强大。其基本�
 \begin{appendices}
 \renewcommand{\thechapter}{\Alph{chapter}}
 \titleformat{\chapter}[display]{\Huge\bfseries}{附录\Alph{chapter}}{1em}{}
-\renewcommand{\thesection}{\thechapter-\arabic{section}}
-\titleformat{\section}[hang]{\bfseries\Large}{\S\ \thesection}{1em}{}{}
+%\renewcommand{\thesection}{\thechapter-\arabic{section}}
+%\titleformat{\section}[hang]{\bfseries\Large}{\S\ \thesection}{1em}{}{}
 
 \chapter{注音符号}
 \label{app:phonetic}
@@ -2000,7 +2233,7 @@ PGFPlots/Tikz是两个\LaTeX{}的绘图宏包，功能极其强大。其基本�
 
 \begin{center}
 \tabcaption{国际音标输入表（部分）}
-\begin{tabular}{|*{3}{>{\rmfamily}p{3em} @{-\hspace{0.5em}} >{\ttfamily}p{7.5em}|}}
+\begin{tabular}{|*{3}{>{\centering\rmfamily}p{3em} @{-\hspace{0.5em}} >{\ttfamily}p{7.5em}|}}
 \hline
 \texttt{样式} & 命令 & \texttt{样式} & 命令 & \texttt{样式} & 命令 \\
 \hline

@@ -2,12 +2,16 @@
 % 中文支持
 \usepackage[slantfont,boldfont]{xeCJK}
 	\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+	\setCJKmathfont{STXinwei}
 \usepackage{indentfirst}
 
+% 音标宏包，请放在amsmath前。
+% 其\sups命令在sty文件中改为了renewcommand
+\usepackage{tipa}
 % 数学环境
 \usepackage{amsmath}
   \newcommand{\ue}{\mathrm{e}}
-  \newcommand{\ud}{\mathop{}\!\mathrm{d}}
+  \newcommand{\ud}{\mathop{}\!{}\mathrm{d}}
 \usepackage{amssymb}
 \usepackage{mathrsfs} % 线性代数字体
     % overline的替代命令
@@ -26,8 +30,7 @@
 \usepackage{hologo}
 	\newcommand{\xelatex}{\Hologo{XeLaTeX}}
 	\newcommand{\bibtex}{\Hologo{BibTeX}}
-% 音标符号tipa【注释了sty文件中的sups定义】
-\usepackage{tipa}
+% 其他符号
 \usepackage{wasysym}
 % 带箱小页
 \usepackage{boxedminipage}
@@ -57,6 +60,11 @@
 \usepackage{enumitem}
 \newenvironment{fead}{\setlength{\parskip}{0pt}
 	\begin{description}[font=\bfseries\uline,labelindent=\parindent]
+		\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}}
+	{\end{description}}
+% 带宽度的
+\newenvironment{para}{\setlength{\parskip}{0pt}
+	\begin{description}[font=\bfseries\ttfamily]
 		\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}}
 	{\end{description}}
 \newenvironment{feae}{\setlength{\parskip}{0pt}
@@ -186,7 +194,7 @@
 \usepackage{appendix}
 
 % 代码输入环境
-\usepackage{verbatim}
+\usepackage{verbatim,xcolor}
 \newbox\savedlines
 \newtoks\savedtokens
 \makeatletter
