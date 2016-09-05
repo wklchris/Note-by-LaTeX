@@ -1,7 +1,7 @@
 \input{Head}
 
 \title{简单粗暴\LaTeX }
-\author{Kanglong Wu\\
+\author{K.L Wu\\
   {\CJKfontspec{KaiTi} 本手册是\href{https://github.com/wklchris/Note-by-LaTeX}{wklchris-GitHub}的\LaTeX{}-cn项目}
 }
 
@@ -23,6 +23,8 @@
 \end{feae}
 
 由于工作全部由我一人完成，限于视野，难免存在错漏之处。恳请读者指正。有任何使用中遇到的手册中无法解决的问题，欢迎向我提出。
+
+最后，感谢在\LaTeX 学习中为我解答过疑惑的同学，特别是来自\LaTeX 度吧的吧友；本手册中许多的解决方案都是由他们提供的。我谨在此记录这些
 
 \vfill
 
@@ -51,8 +53,8 @@ Chris Wu
 \usepackage[slantfont,boldfont]{xeCJK}
 \setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
 \begin{document}
-	Hello, world!
-	你好，世界！
+  Hello, world!
+  你好，世界！
 \end{document}
 \end{latex}
 
@@ -97,10 +99,10 @@ Chris Wu
 \item[\&{}:] 表格环境中的跳列符。
 \item[\_{}:] 数学环境中的下标命令符。
 \item[\{and\}:] 花括号用于标记命令的必选参数，或者标记某一部分命令成为一个整体。
-\item[\char92{}:] aer反斜杠用于开始各种\LaTeX 命令。
+\item[\char92{}:] 反斜杠用于开始各种\LaTeX 命令。
 \end{para}
 
-以上除了反斜杠外，均能用前加反斜杠的行驶输出。即你只需要键入：
+以上除了反斜杠外，均能用前加反斜杠的形式输出。即你只需要键入：
 \begin{center}
 \verb|\# \$ \% \^ \& \_ \{ \}|
 \end{center}
@@ -112,14 +114,14 @@ $\backslash$
 \texttt{\char92}
 \end{verbatim}
 
-另外需要说明的是，在中文格式下，波浪线{\texttt{\~}}用来输出一个小空格，不能够直接输出。你可以通过命令\verb+$\sim$+，或者仿上换成char126来产生一个。
+另外需要说明的是，在中文格式下，波浪线{\texttt{\~}}用来输出一个小空格，不能够直接输出。你可以通过命令\verb+$\sim$+，\verb|\~|或者仿上换成char126来产生一个。
 
 \subsection{导言区}
 任何一份\LaTeX{}文档都应当包含以下结构：
 \begin{latex}{}
 \documentclass[`\itshape options`]{doc-class}
 \begin{document}
-	...
+    ...
 \end{document}
 \end{latex}
 
@@ -247,7 +249,7 @@ $37\,^{\circ}\mathrm{C}$
 
 其次是千位分隔符，比如\verb|1\,000\,000|。如果你不想它在中间断行就在外侧再加上一个\latexline{\\mbox}命令。
 
-再次是注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号表}部分的附录内容。如果你想输入音标，请使用tipa宏包\footnote{tipa需要在amsmath宏包之前加载，否则\texttt{\char92{}!}相关的命令可能报错}，同样参考附录A。
+再次是注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号表}部分的附录内容。如果你想输入音标，请使用tipa宏包\footnote{tipa会重定义\texttt{\char92{}!}命令，因此请使用\texttt{\negthinspace}代替，或在加载时使用safe选项。}，同样参考附录A。
 
 最后，介绍hologo宏包，它可以输出许多\TeX 家族标志。其实\LaTeX 原生自带了\latexline{\\LaTeX \TeX}等命令。而hologo宏包支持的命令是：
 
@@ -322,7 +324,6 @@ $37\,^{\circ}\mathrm{C}$
 \centering
 \caption{\LaTeX 字体命令表}
 \label{tab:fontcommand}
-\caption{\LaTeX 字体命令表}
 \begin{tabular}{p{3em}<{\centering} @{\ -\quad} >{\ttfamily}l @{\quad-\quad} p{18em}}
 \hline
 字族 & \char92{}rmfamily & 把字体置为{\rmfamily Roman}罗马字族。\\
@@ -357,7 +358,6 @@ $37\,^{\circ}\mathrm{C}$
 \centering
 \caption{相对字号命令表}
 \label{tab:fontsize}
-\caption{相对字号命令表}
 \begin{tabular}{|>{\ttfamily\char92}l|*{3}{l|}}
 \hline
 命令         & 10pt & 11pt & 12pt \\
@@ -665,7 +665,7 @@ This is the text following the reference.
 \end{wrapfigure}
 \end{latex}
 
-各参数的含义是：
+各参数的含义是
 \begin{inlinee}
 \item {\bfseries\itshape linenum:} （可选）图片所占行数，一般不指定
 \item {\bfseries\itshape place:} 图片在文字段中的位置——R, L, I, O分别代表右侧、左侧、近书脊、远书脊
@@ -872,7 +872,7 @@ fancyhdr在定义双页文档时，采用了如下的默认设置：
 \end{latex}
 
 \section{抄录与代码环境}
-抄录是指将键盘输入的字符（包括保留字符和空格）不经过\TeX 解释，直接输出到文档。默认的字体参数是等宽字族（ttfamily）。使用方法是\verb|\verb|命令或者verbatim(*)环境，区别在于带星号的环境会将空格以“\textvisiblespace”（\latexline{\\textvisiblespace}）形式标记出来。
+抄录是指将键盘输入的字符（包括保留字符和空格）不经过\TeX 解释，直接输出到文档。默认的字体参数是等宽字族（ttfamily）。使用方法是\verb|\verb|命令或者verbatim(*)环境，区别在于带星号的环境会将空格以“\textvisiblespace”（\latexline{\\textvisiblespace}）的形式标记出来。
 
 注意，\verb|\verb|命令是一个特殊的命令，可以用一组花括号括住抄录内容，也可以任意两个同样的符号。比如：
 \begin{latex}{}
@@ -980,7 +980,7 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 
 其中\verb|\ud|命令是自定义的，这也是微分算子的正常定义\label{cmd:ud}：
 \begin{latex}{}
-\newcommand{\ud}{\mathop{}\!{}\mathrm{d}}
+\newcommand{\ud}{\mathop{}\negthinspace\mathrm{d}}
 \end{latex}
 
 \subsection{数学字体}
@@ -1810,7 +1810,83 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 
 \section{自定义章节样式}
 \label{sec:titlesec}
+这一节主要涉及titlesec宏包的使用。简单的章节样式调整使用\latexline{\\titlelabel}，\latexline{\\titleformat*}命令。前者需要配合计数器使用，后者简单地设置章节标题的字体样式。例如：
+\begin{latex}{}
+\titlelabel{\thetitle.\quad}
+\titleformat*{\section}{\itshape}
+\end{latex}
 
+章节样式由标签和标题文字两部分构成。标签一般表明了大纲级别以及编号，比如“第一章”、“Section 3.1”等。标题文字比如“自定义章节样式”这几个字。还记得吗？在report与book类的subsection及以下，article类的paragraph及以下是默认没有编号的。因此对应的级别也没有标签，除非人工进行设置。
+
+对于需要详细处理标签、标题文字两部分的情况，titlesec宏包还提供了一个\latexline{\\titleformat}命令。调用方式：
+\begin{latex}{}
+\titleformat{`\itshape command`}[`\itshape shape`]{`\itshape format`}{`\itshape label`}{`\itshape sep`}
+  {`\itshape before-code`}{`\itshape after-code`}
+\end{latex}
+
+它们对应的含义如下：
+\begin{para}
+\item[command:] 大纲级别命令，如\latexline{\\chapter}等。
+\item[shape:] 章节的预定义样式，分为9种：
+  \begin{para}
+  \item[hang] 缺省值。标题在右侧，紧跟在标签后。
+  \item[block] 标题和标签封装排版，不允许额外的格式控制。
+  \item[display] 标题另起一段，位于标签的下方。
+  \item[runin] 标题与标签同行，且正文从标题右侧开始。
+  \item[leftmargin] 标题和标签分段，且位于左页边。
+  \item[rightmargin] 仿上。右页边。
+  \item[drop] 文本包围标题。
+  \item[wrap] 类似drop，文本会自动调整以适应最长的一行。
+  \item[frame] 类似display，但有框线。
+  \end{para}
+\item[format:] 用于设置标签和标题文字的字体样式。这里可以包含竖直空距，即标题文字到正文的距离。
+\item[label:] 用于设置标签的样式，比如“第\latexline{\\chinese\\thechapter}章”大概是ctexbook类的默认样式设置。
+\item[sep:] 标签和标题文字的水平间距，必须是\LaTeX 的长度表达。当shape取display时，表示竖直空距；取frame时表示标题到文本框的距离。
+\item[before:] 标题前的内容。
+\item[after:] 标题后的内容。对于hang, block, display，此内容取竖向；对于runin, leftmargin, 此内容取横向；否则此内容被忽略。
+\end{para}
+
+宏包还给出了\latexline{\\titlespacing}与\latexline{\titlespacing*}两个命令。使用方式是：
+\begin{latex}{}
+\titlespacing*{`\itshape command`}{`\itshape left`}{`\itshape before-sep`}{`\itshape after-sep`}[`\itshape right-sep`]
+\titlespacing{`\itshape command`}{`\itshape left`}{`\itshape *m`}{`\itshape *n`}[`\itshape right-sep`]
+\end{latex}
+
+各参数的含义：
+\begin{para}
+\item[command:] 大纲级别命令，如\latexline{\\chapter}
+\item[label:] 缩进值。在left/right margin下表示标题宽；在wrap中表示最大宽；在runin中表示标题前缩进的空距。
+\item[before-sep:] 标题前的垂直空距。
+\item[after-sep:] 标题与正文之间的空距。hang, block, display中是垂直空距；runin, wrap, drop, left/right margin中是水平空距。
+\item[right-sep:] 可选。仅对hang, block, display适用。
+\item[*m/*n:] 在\latexline{\\titlespacing}命令中的\textit{m, n}分别表示before与after sep的变动范围倍数，基数是默认值。
+\end{para}
+
+最后，宏包还给出了\latexline{\\titleline}命令，用来绘制填充整行、同时又嵌有其他对象的线。对象可以嵌入到左中右lcr三个位置。如果你只是想填充一行而不嵌入对象，使用\latexline{\\titlerule}及其带星号的命令形式。
+\begin{latex}{}
+% 嵌入对象的线
+\titleline[c]{CHAPTER 1}
+% 单纯填充一行
+\titlerule[`\itshape height`]
+\titlerule*[`\itshape width`]{`\itshape text`}
+\end{latex}
+
+最后，给出本手册中的样式定义，作为例子。这个例子稍微有些复杂，只使用到了titleformat相关的命令。
+\begin{latex}{}
+\newcommand{\chaformat}[1]{%
+	\parbox[b]{.5\textwidth}{\hfill\bfseries #1}%
+	\quad\rule[-12pt]{2pt}{70pt}\quad
+	{\fontsize{60}{60}\selectfont\thechapter}}
+\titleformat{\chapter}[block]{\hfill\LARGE\sffamily}
+    {}{0pt}{\chaformat}[\vspace{2.5pc}\large
+	\startcontents\printcontents{}{1}
+	{\setcounter{tocdepth}{2}}]
+\titleformat*{\section}{\centering\Large\bfseries}
+\titleformat{\subsubsection}[hang]
+    {\bfseries\large}{$\blacktriangleright$}{0.5em}{}
+\end{latex}
+
+本例没有定义subsection样式。如果你想给subsection级别标号（即赋予它标签），使用：\latexline{\\setcounter{secnumdepth}{3}}\footnote{这个是针对report/book类而言的，如果是article类则没有chapter大纲。}
 
 \section{自定义目录样式}
 \label{sec:titletoc}

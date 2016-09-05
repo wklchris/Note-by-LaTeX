@@ -1,17 +1,18 @@
 \documentclass[a4paper,12pt]{report}
+% safe参数解决与\!在内的多个冲突
+% \sups命令可能被重定义,xeCJK放在tipa后
+\usepackage[safe]{tipa}
+
 % 中文支持
 \usepackage[slantfont,boldfont]{xeCJK}
 	\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
 	\setCJKmathfont{STXinwei}
 \usepackage{indentfirst}
 
-% 音标宏包，请放在amsmath前。
-% 其\sups命令在sty文件中改为了renewcommand
-\usepackage{tipa}
 % 数学环境
 \usepackage{amsmath}
   \newcommand{\ue}{\mathrm{e}}
-  \newcommand{\ud}{\mathop{}\!{}\mathrm{d}}
+  \newcommand{\ud}{\mathop{}\negthinspace\mathrm{d}}
 \usepackage{amssymb}
 \usepackage{mathrsfs} % 线性代数字体
     % overline的替代命令
