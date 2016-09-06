@@ -762,7 +762,7 @@ This is the text following the reference.
 \begin{feae}
 \item 快速输入多个格式相同的列：参数\verb+|*{7}{c|}r|+，相当于7个居中列和1个居右列。
 \item 表格重音：原本的重音命令\verb|\`|, \verb|\'|与\verb|\=|，改为\verb|\a`|, \verb|\a'|与\verb|\a=|。
-\item 控制整个表格宽度：使用\latexline{\\begin{tabular*}{width}[pos]{cols}}，比如你可以把width取值为\latexline{0.8\\linewidth}之类。
+\item 控制整表宽度：tabularx宏包提供\latexline{\\begin{tabular*}{width}[pos]{cols}}，比如你可以把width取值为\latexline{0.8\\linewidth}之类。
 \end{feae}
 
 \subsection{浮动体外的图表标题}
@@ -1729,12 +1729,14 @@ graphicx宏包提供了一种可以缩放的箱子\latexline{\scalebox{h-sc}[v-s
 
 弹性距离指以一定比例计算得到的多个空白，命令是\latexline{\\stretch}。例子：
 
-\noindent\begin{boxedminipage}{0.8\linewidth}
+\begin{center}
+\begin{boxedminipage}{0.9\linewidth}
 \verb|Left\hspace{\fill}Right|
 Left\hspace{\fill}Right
 \verb|Left\hspace{\stretch{1}}Center\hspace{\stretch{2}}Right|
 Left\hspace{\stretch{1}}Center\hspace{\stretch{2}}Right
 \end{boxedminipage}
+\end{center}
 
 \subsection{制表位与行距*}
 制表位使用tabbing环境，需要指出，这是一个极其容易造成坏箱的环境。一个丑陋的例子：
@@ -1862,7 +1864,7 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 \item[*m/*n:] 在\latexline{\\titlespacing}命令中的\textit{m, n}分别表示before与after sep的变动范围倍数，基数是默认值。
 \end{para}
 
-最后，宏包还给出了\latexline{\\titleline}命令，用来绘制填充整行、同时又嵌有其他对象的线。对象可以嵌入到左中右lcr三个位置。如果你只是想填充一行而不嵌入对象，使用\latexline{\\titlerule}及其带星号的命令形式。
+最后，宏包还给出了\latexline{\\titleline}命令，用来绘制填充整行、同时又嵌有其他对象的行。对象可以嵌入到左中右lcr三个位置。如果你只是想填充一行而不嵌入对象，使用\latexline{\\titlerule}及其带星号的命令形式。
 \begin{latex}{}
 % 嵌入对象的线
 \titleline[c]{CHAPTER 1}
@@ -1877,21 +1879,63 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 	\parbox[b]{.5\textwidth}{\hfill\bfseries #1}%
 	\quad\rule[-12pt]{2pt}{70pt}\quad
 	{\fontsize{60}{60}\selectfont\thechapter}}
+% chapter样式定义中的\chaformat以章名作为隐式参数
 \titleformat{\chapter}[block]{\hfill\LARGE\sffamily}
     {}{0pt}{\chaformat}[\vspace{2.5pc}\large
 	\startcontents\printcontents{}{1}
 	{\setcounter{tocdepth}{2}}]
 \titleformat*{\section}{\centering\Large\bfseries}
 \titleformat{\subsubsection}[hang]
-    {\bfseries\large}{$\blacktriangleright$}{0.5em}{}
+    {\bfseries\large}{\rule{1.5ex}{1.5ex}{0.5em}{}
 \end{latex}
 
 本例没有定义subsection样式。如果你想给subsection级别标号（即赋予它标签），使用：\latexline{\\setcounter{secnumdepth}{3}}\footnote{这个是针对report/book类而言的，如果是article类则没有chapter大纲。}
 
 \section{自定义目录样式}
 \label{sec:titletoc}
+这一节主要设计titletoc宏包，它与titlesec宏包的文档写在同一个pdf中。上一节的例子（即本手册Chapter）涉及\latexline{\\startcontents}与\latexline{\\printcontents}命令，旨在每一章的开始插入本章的一个目录。
+
+首先是命令\latexline{\\dottecontents}与命令\latexline{\\titlecontents}：
+\begin{latex}{}
+\dottecontents{`\itshape section`}[`\itshape left`]{`\itshape above-code`}
+  {`\itshape label-width`}{`\itshape leader-width`}
+\titlecontents{`\itshape section`}[`\itshape left`]{`\itshape above-code`}{`\itshape numbered-entry-format`}
+  {`\itshape numberless-entry-format`}{`\itshape filler-page-format`}[`\itshape below-code`]
+\end{latex}
+
+各参数的含义：
+\begin{para}
+\item[section:] 目录对象。可以是chapter, section, 或者figure, table. 
+\item[left:] 目录对象左侧到左页边区的距离。请作必选使用。
+\item[above-code:] 格式调整命令。可以包含垂直对象，也可以使用\latexline{\\contentslabel}，将在下面介绍。
+\item[label-width:] 标签宽。
+\item[leader-width:] 填充符号宽。默认的填充符号是圆点。
+\item[numered-entry-format:] 如果有标签，则在目录文本前输入的格式。
+\item[numberless-entry-format:] 如果没有标签输入的格式。
+\item[filler-page-format:] 填充格式。一般借助titlesec中的\latexline{\\titlerule*}命令。
+\item[below-code:] 在entry之后输入的格式，比如垂直空距。
+\end{para}
+
+本手册目录样式定义，其中section使用了填充符：
+\begin{latex}{}
+\titlecontents{chapter}[1.5em]{}{\contentslabel{1.5em}}
+    {\hspace*{-2em}}{\hfill\contentspage}
+\titlecontents{section}[3.3em]{}
+    {\contentslabel{1.8em}}{\hspace*{-2.3em}}
+    {\titlerule*[8pt]{$\cdot$}\contentspage}
+\titlecontents*{subsection}[2.5em]{\small}
+    {\thecontentslabel{}}{}
+    {, \thecontentspage}[;\qquad][.]
+\end{latex}
+
 \section{自定义图表}
 \label{sec:figtab}
+主要是涉及长表格的使用，包括supertabular, longtable, tabu在内的多个宏包都能完成长表格的排版，大致的功能会包括：
+\begin{para}
+\item[表头控制：] 首页的表头样式，以及转页后表头的样式。
+\item[转页样式：] 在表格跨页时，页面最下方插入的特殊行，比如to be continued. 
+\end{para}
+
 \section{自定义编号列表}
 \label{sec:list}
 \section{\bibtex 参考文献}

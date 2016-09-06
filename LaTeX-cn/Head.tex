@@ -88,6 +88,7 @@
 	{\hspace*{-2.3em}}{\titlerule*[8pt]{$\cdot$}\contentspage}
 \titlecontents*{subsection}[2.5em]{\small}{\thecontentslabel{} }{}{, \thecontentspage}[;\qquad][.]
 % 章节样式
+\setcounter{secnumdepth}{3} % 一直到subsubsection
 \newcommand{\chaformat}[1]{%
 	\parbox[b]{.5\textwidth}{\hfill\bfseries #1}%
 	\quad\rule[-12pt]{2pt}{70pt}\quad
@@ -97,7 +98,7 @@
 %\titleclass{\section}{top}
 %\titleformat{\section}{\Large\bfseries}{\thesection}{0.5em}{}
 \titleformat*{\section}{\centering\Large\bfseries}
-\titleformat{\subsubsection}[hang]{\bfseries\large}{$\blacktriangleright$}{0.5em}{}
+\titleformat{\subsubsection}[hang]{\bfseries\large}{\rule{1.5ex}{1.5ex}}{0.5em}{}
 % 扩展章节
 \newcommand{\starsec}{\noindent\fbox{\S\textit{注意：本章节是一个扩展阅读章节。}}
 	\\ \mbox{}}
