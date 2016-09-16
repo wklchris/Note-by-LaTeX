@@ -651,10 +651,10 @@ This is the text following the reference.
 
 如果你不想把图片放在\LaTeX 文档主文件夹下，可以使用下面的命令加入新的图片搜索文件夹：
 \begin{latex}{}
-\graphicspath{c:/pics/}{./pic/}
+\graphicspath{{c:/pics/}{./pic/}}
 \end{latex}
 
-用正斜杠代替Windows正常路径中的反斜杠。你可以加入多组路径，每组用花括号括起，并确保路径以正斜杠结束。用\verb|./|可以指代主文件夹路径。\dpar
+用正斜杠代替Windows正常路径中的反斜杠。你可以加入多组路径，每组用花括号括起，并确保路径以正斜杠结束。用\verb|./|指代主文件夹路径，也可省略。\dpar
 
 如果你希望行内图文混排，可参考wrapfig宏包：
 \begin{latex}{}
@@ -670,7 +670,7 @@ This is the text following the reference.
 \item {\bfseries\itshape linenum:} （可选）图片所占行数，一般不指定
 \item {\bfseries\itshape place:} 图片在文字段中的位置——R, L, I, O分别代表右侧、左侧、近书脊、远书脊
 \item {\bfseries\itshape overhang:} （可选）允许图片超出页面文本区的宽度，默认是0pt。在该项可以使用\latexline{\\width}代替图片的宽度，填入\latexline{\\width}将允许把图片全部放入页边区域
-\item {\bfseries\itshape picwidth:} 指定图片的宽度，默认情形下图片的宽度会自动调整
+\item {\bfseries\itshape picwidth:} 指定图片的宽度，默认情形下图片的高度会自动调整。
 \end{inlinee}
 
 \subsection{表格}
@@ -760,7 +760,7 @@ This is the text following the reference.
 
 一些其他的使用技巧：
 \begin{feae}
-\item 快速输入多个格式相同的列：参数\verb+|*{7}{c|}r|+，相当于7个居中列和1个居右列。
+\item 输入同格式的列：参数\verb+|*{7}{c|}r|+，相当于7个居中和1个居右。
 \item 表格重音：原本的重音命令\verb|\`|, \verb|\'|与\verb|\=|，改为\verb|\a`|, \verb|\a'|与\verb|\a=|。
 \item 控制整表宽度：tabularx宏包提供\latexline{\\begin{tabular*}{width}[pos]{cols}}，比如你可以把width取值为\latexline{0.8\\linewidth}之类。
 \end{feae}
@@ -1645,13 +1645,14 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \setlength{\fboxrule}{0.4pt} \setlength{\fboxsep}{3pt}
 \end{latex}
 
-加框小页使用\texttt{boxedminipage}环境，类似\texttt{minipage}环境。
+加框小页使用\texttt{boxedminipage}环境(需要宏包)，类似\texttt{minipage}环境。
 
 \subsection{竖直升降的箱子}
 命令\latexline{\\raisebox}可以把文字提升或降低，它有两个参数：
-\begin{latex}{}
+
+\begin{codeshow}
 A\raisebox{-0.5ex}{n} example.
-\end{latex}
+\end{codeshow}
 
 \subsection{段落箱子}
 段落箱子的强大之处在于它提供自动换行的功能，当然你需要指定宽度给它。
@@ -1729,14 +1730,11 @@ graphicx宏包提供了一种可以缩放的箱子\latexline{\scalebox{h-sc}[v-s
 
 弹性距离指以一定比例计算得到的多个空白，命令是\latexline{\\stretch}。例子：
 
-\begin{center}
-\begin{boxedminipage}{0.9\linewidth}
-\verb|Left\hspace{\fill}Right|
-Left\hspace{\fill}Right
-\verb|Left\hspace{\stretch{1}}Center\hspace{\stretch{2}}Right|
-Left\hspace{\stretch{1}}Center\hspace{\stretch{2}}Right
-\end{boxedminipage}
-\end{center}
+\begin{codeshow}
+Left\hspace{\fill}Right\\
+Left\hspace{\stretch{1}}Center
+\hspace{\stretch{2}}Right
+\end{codeshow}
 
 \subsection{制表位与行距*}
 制表位使用tabbing环境，需要指出，这是一个极其容易造成坏箱的环境。一个丑陋的例子：
@@ -1935,6 +1933,122 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 \item[表头控制：] 首页的表头样式，以及转页后表头的样式。
 \item[转页样式：] 在表格跨页时，页面最下方插入的特殊行，比如to be continued. 
 \end{para}
+
+这里主要介绍longtable宏包。主要命令：
+\begin{para}
+\item[\char92endhead] 定义每页顶端的表头。在表头行用该命令代替\latexline{\\\\}命令来换行即可。
+\item[\char92endfirsthead] 如果首页的表头与其他页不同，使用该命令。
+\item[\char92endfoot] 定义每页底端的表尾。
+\item[\char92endlastfoot] 另外定义末页底端的表尾。
+\item[\char92caption] 与原生tabular的该命令一致。如果你不想显示表格编号，使用带星的该命令；如果你不想让其加入表格目录，请在可选参数中留空\latexline{\\caption[]{...}}。
+\item[\char92label] 注意\verb|\label|命令不能被用在多页对象中，请在表体中或者firsthead/lastfoot中使用。
+\item[\char92LTleft] 表格左侧到主文本区边缘的距离，默认是\latexline{\\fill}。你可以用：
+
+\latexline{\\setlength\\LTleft{0pt}}来取消这个距离，进行居左。
+\item[\char92LTright] 类似。
+\item[\char92LTpre] 表格上部到文本的距离，默认是\latexline{\\bigskipamount}\footnote{这个命令通常是一行左右的竖直距离，12pt$\pm$4pt左右。}。
+\item[\char92LTpost] 类似。
+\item[\char92\char92\char93\ldots\char91] 在换行后插入竖直空距。
+\item[\char92\char92{*}] 禁止在该行后立刻进行分页。
+\item[\char92kill] 该行不显示，但用于计算宽度。
+\item[\char92footnote(mark/text)] \latexline{\\footnote}命令不能用于表头或表尾；\latexline{\\footnotemark}则可以。另外，\latexline{\\footnotetext}可以用于表中，对应上文的\latexline{\\footnotemark}命令。
+\end{para}
+
+longtable宏包支持的表格可选参数是clr，而不能使用tabular中的t或b. 此外，\RED{longtable中的跨列可能需要编译多次（有时多达4次）才能正常显示。}最后给出一个例子：
+\begin{longtable}{@{*}r||p{3cm}@{*}}
+KILLED & LINE! \kill
+
+\caption[\texttt{longtable} Example]{This is an example}\\
+\hline
+\multicolumn{2}{@{}c@{}}{This is the headfirst\footnotemark}\\
+First Col & Second Col \\
+\hline\hline
+\endfirsthead
+
+\caption*{--Continued Longtable--}\\
+\hline\hline
+\multicolumn{2}{@{}c@{}}{This is the head of other page}\\
+First Here & Second Here \\
+\hline
+\endhead
+
+\hline\hline
+This is the & bottom. \\
+\hline
+\endfoot
+
+\hline
+\textbf{That's all} & \textbf{and thanks}. \\
+\hline
+\endlastfoot
+
+\footnotetext{Footnotemark: first footnote in table head.}
+This is an example & and you can \\
+see how longtable will & work. \\
+Space after line are & allowed. \\[20ex]
+You can adjust LTright and & LTleft \\
+if you want to. I'd like & to set \\
+LTleft as ``0pt'', but it all & depends on\\
+you. And maybe you can try & footnote \\
+like this\footnote{Footnote example.} and also
+& footnotetext\footnotemark\footnotetext{Footnotetext example.}. \\
+As for footnotemark, you've seen it & in the firsthead.\\[15ex]
+And I think maybe it's long & enough to make \\
+a table across pages, so go to the & next page and \\
+check whether the head at next page is & different from \\
+that on this page. Also you can have a look & at lastfoot. \\[10ex]
+Maybe you'll love it. So enjoy & \texttt{longtable} package! 
+\end{longtable}
+
+它的代码如下：
+\begin{latex}{}
+\begin{longtable}{@{*}r||p{3cm}@{*}}
+KILLED & LINE! \kill
+
+\caption[\texttt{longtable} Example]{This is an example}\\
+\hline
+\multicolumn{2}{@{}c@{}}{This is the headfirst\footnotemark}\\
+First Col & Second Col \\
+\hline\hline
+\endfirsthead
+
+\caption*{--Continued Longtable--}\\
+\hline\hline
+\multicolumn{2}{@{}c@{}}{This is the head of other page}\\
+First Here & Second Here \\
+\hline
+\endhead
+
+\hline\hline
+This is the & bottom. \\
+\hline
+\endfoot
+
+\hline
+\textbf{That's all} & \textbf{and thanks}. \\
+\hline
+\endlastfoot
+
+\footnotetext{Footnotemark: first footnote in table head.}
+This is an example & and you can \\
+see how longtable will & work. \\
+Space after line are & allowed. \\[20ex]
+You can adjust LTright and & LTleft \\
+if you want to. I'd like & to set \\
+LTleft as ``0pt'', but it all & depends on\\
+you. And maybe you can try & footnote \\
+like this\footnote{Footnote example.} and also
+& footnotetext\footnotemark
+\footnotetext{Footnotetext example.}. \\
+As for footnotemark, you've seen it & in the firsthead.\\[15ex]
+And I think maybe it's long & enough to make \\
+a table across pages, so go to the & next page and \\
+check whether the head at next page is & different from \\
+that on this page. Also you can have a look & at lastfoot.
+\\[10ex]
+Maybe you'll love it. So enjoy & \texttt{longtable} package! 
+\end{longtable}
+\end{latex}
 
 \section{自定义编号列表}
 \label{sec:list}
