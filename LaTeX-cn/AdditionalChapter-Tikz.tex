@@ -1,0 +1,374 @@
+\chapter{Tikz绘图*}
+其实\LaTeX 本身是有绘图功能的，可以绘制线段、斜率为整数的直线等基础功能。显然这是不能满足绘图需求的。因此在本手册中，对于\LaTeX{}原生的绘图功能不再多做介绍，有兴趣的可以自行了解。本手册主要针对Tikz绘图。\footnote{在\LaTeX 中其实还可以使用PSTricks宏包，是非常强力。XYpic宏包则有时用来画小图。}
+
+PGFPlots/Tikz是两个\LaTeX{}的绘图宏包，功能极其强大。其基本的结构为：
+\begin{latex}{}
+\documentclass{doc-class}
+\usepackage{tikz}
+\usetikzlibrary{...}
+\begin{document}
+  \begin{tikzpicture}
+    ...
+  \end{tikzpicture}
+\end{document}
+\end{latex}
+
+废话不多说，进入正题。
+\section{简单的实例}
+\subsection{直线、网格与点}
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \draw (0,0) -- (1,2);
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \draw (0,0) -- (1,2);
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+注意到help lines这个参数使网格绘制更有辅助线的效果，颜色更淡：\vspace{0.5em}
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \draw (0,0) grid (2,1);
+  \draw [help lines](0,1) grid (2,3);
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \draw (0,0) grid (2,1);
+  \draw [help lines](0,1) grid (2,3);
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+点命令也非常好理解。其中\verb+\coordinate+是真正将点的名字和坐标联系起来的命令（相当于``赋值''），而\verb+\node+命令仅是一个标注文本的作用。
+
+注意到第二行\verb+\node+命令，它使得字母B标注在pB点315度的位置。这样的效果往往优于其上一行的\verb+\node+命令的效果。注意：\RED{不要忘记{\texttt{\char92{}node}}命令后面的花括号（即使它是空的）}！
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \node at (pC) {$C$};
+  \node[label=315:$B$] at (pB){};
+  \draw (pA) -- (pB) -- (pC) -- (pA);
+  \draw [help lines](0,0) grid (2,3);
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \node at (pC) {$C$};
+  \node[label=315:$B$] at (pB){}; 
+  \draw (pA) -- (pB) -- (pC) -- (pA);
+  \draw [help lines](0,0) grid (2,3);
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+\subsection{拉伸}
+拉伸只需要在tikzpicture后添加xscale/yscale/scale的可选参数赋值即可。例如：
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east),yscale=0.5]
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \draw (pA) -- (pB) -- (pC) -- (pA);
+  \draw [help lines](0,0) grid (2,3);
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}[yscale=0.5]
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \draw (pA) -- (pB) -- (pC) -- (pA);
+  \draw [help lines](0,0) grid (2,3);
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+\subsection{线宽}
+线宽可以在tikzpicture后使用``[line width=5pt]''之类的参数进行\RED{全局调整}，也可以在每个draw指令下分别地进行调整：
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \node[label=270:$A$] at (pA){};
+  \node[label=0:$B$] at (pB){};
+  \node[label=180:$C$] at (pC){};
+  \draw[ultra thick] (pA) -- (pB);
+  \draw[thick] (pB)-- (pC);
+  \draw[thin] (pC)-- (pA);
+  \draw[ultra thin] (pB) -- (0,0);
+  \draw[line width=0.3cm] (pC) -- (2,1);
+  \draw [help lines](0,0) grid (2,3);
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \node[label=270:$A$] at (pA){};
+  \node[label=0:$B$] at (pB){};
+  \node[label=180:$C$] at (pC){};
+  \draw[ultra thick] (pA) -- (pB);
+  \draw[thick] (pB)-- (pC);
+  \draw[thin] (pC)-- (pA);
+  \draw[ultra thin] (pB) -- (0,0);
+  \draw[line width=0.3cm] (pC) -- (2,1);
+  \draw [help lines](0,0) grid (2,3);
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+\subsection{填色}
+填色的逻辑非常简单，是指向绘制的\qd{闭合}图形内部填色。本例中，draw命令首尾相接地连接三个点，构成一个闭合图形——三角形，因此可以填色：
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
+  \draw[help lines](0,0) grid (2,3);
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
+  \draw[help lines] (0,0) grid (2,3);
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+\subsection{点样式}
+填色之后图形好看了许多，但是还不够。点标在图中似乎也不看清位置，不过这是有方法解决的：
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \node[label=270:$A$,circle,draw,fill,inner sep=3pt] at (pA){};
+  \node[label=0:$B$,circle,draw,fill,inner sep=3pt] at (pB){};
+  \node[label=180:$C$,circle,draw,fill,inner sep=3pt] at (pC){};
+  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
+  \draw[help lines] (0,0) grid (2,3);
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \node[label=270:$A$,circle,draw,fill,inner sep=3pt] at (pA){};
+  \node[label=0:$B$,circle,draw,fill,inner sep=3pt] at (pB){};
+  \node[label=180:$C$,circle,draw,fill,inner sep=3pt] at (pC){};
+  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
+  \draw[help lines] (0,0) grid (2,3);
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+但是这一长串简直是太复杂了。大概能看懂circle是将点画成圆形，fill表示填充，inner sep表示点的大小。而Tikz给出的\verb+\tikzstyle+能够简化步骤。
+
+还有一点就是，绿色的填充似乎位于点的上方？还是乖乖地调整语句顺序吧。
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \draw[help lines] (0,0) grid (2,3);
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
+  \tikzstyle{every node} = [circle,draw,fill=blue,inner sep=2pt];
+  \node[label=270:$A$] at (pA){};
+  \node[label=0:$B$] at (pB){};
+  \node[label=180:$C$] at (pC){};   
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \draw[help lines] (0,0) grid (2,3);
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
+  \tikzstyle{every node} = [circle,draw,fill=blue,inner sep=2pt];
+  \node[label=270:$A$] at (pA){};
+  \node[label=0:$B$] at (pB){};
+  \node[label=180:$C$] at (pC){}; 
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+注意：\verb+\tikzstyle{every node}+控制的是其下方代码的所有node的点样式，不影响其上方代码中的点。
+
+\subsection{线型和颜色}
+除了点的定义，线当然也可以定义。线型有dashed/dotted两种，颜色除了默认的也可以通过叹号的形式控制。
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \draw[help lines] (0,0) grid (2,3);
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \draw[dashed, ultra thick] (pA) -- (pB);
+  \draw[dotted, red, thick] (pB) -- (pC);
+  \draw[blue!30!yellow, ultra thick] (pC) -- (pA);
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \draw[help lines] (0,0) grid (2,3);
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \draw[dashed, ultra thick] (pA) -- (pB);
+  \draw[dotted, red, thick] (pB) -- (pC);
+  \draw[blue!30!yellow, ultra thick] (pC) -- (pA);
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+主要的颜色包括\footnote{以下色块用\texttt{\char92{}tikz\{\char92{}draw[{\it color},line width=9] (0,0) -- (0.5,0);\}绘制得到。}}：
+\tikzline{red}\tikzline{green}\tikzline{yellow}\tikzline{blue}\tikzline{cyan}
+\tikzline{magenta}\tikzline{black}\tikzline{gray}\tikzline{darkgray}\tikzline{lightgray}
+\tikzline{brown}\tikzline{lime}\tikzline{olive}\tikzline{orange}\tikzline{pink}\tikzline{purple}
+\tikzline{teal}\tikzline{violet}
+还有white\tikz{\draw[white,line width=9](0,0)--(0.5,0);}.
+
+\subsection{箭头}
+箭头也是需要经常绘制的内容。主要也是根据\verb+\draw+命令的参数控制：
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \draw[->] (0.5,2.5) -- (2,3);
+  \draw[<-] (0.5,1.5) -- (2,2);
+  \draw[|->] (0.5,0.5)-- (2,1); 
+  \draw[<->] (0,3) -- (0,0) -- (2,0);
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \draw[->] (0.5,2.5) -- (2,3);
+  \draw[<-] (0.5,1.5) -- (2,2);
+  \draw[|->] (0.5,0.5)-- (2,1); 
+  \draw[<->] (0,3) -- (0,0) -- (2,0);
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+\section{高效书写}
+\subsection{变量}
+变量申请使用与\LaTeX 相同的语句：\verb+\newcommand+. 注意：变量需要以反斜杠开头，并与现有命令不重复。
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \draw [help lines](0,0) grid (2,3);
+  \newcommand{\aaa}{1};
+  \newcommand{\bbb}{3};
+  \newcommand{\ccc}{2};
+  \coordinate (pA) at (\aaa,0);
+  \coordinate (pB) at (\ccc,\bbb);
+  \coordinate (pC) at (0,\ccc);
+  \draw[fill=red] (pA) -- (pB) -- (pC) -- (pA); 
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \draw [help lines](0,0) grid (2,3);
+  \newcommand{\aaa}{1};
+  \newcommand{\bbb}{3};
+  \newcommand{\ccc}{2};
+  \coordinate (pA) at (\aaa,0);
+  \coordinate (pB) at (\ccc,\bbb);
+  \coordinate (pC) at (0,\ccc);
+  \draw[fill=red] (pA) -- (pB) -- (pC) -- (pA); 
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+\subsection{循环}
+但是同样的语句书写很多遍是很复杂的，好在Tikz提供了循环的实现方法：
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \newcommand{\la}{1};
+  \newcommand{\lb}{3};
+  \newcommand{\lc}{2};
+  \draw [help lines](0,0) grid (\lc,\lb);
+  \coordinate (pA) at (\la,0);
+  \coordinate (pB) at (\lc,\lb);
+  \coordinate (pC) at (0,\lc);
+  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
+  \foreach \x/\y in {A/270,B/0,C/180}{
+    \node[label=\y:$\x$] at (p\x){};
+  }
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \newcommand{\la}{1};
+  \newcommand{\lb}{3};
+  \newcommand{\lc}{2};
+  \draw [help lines](0,0) grid (\lc,\lb);
+  \coordinate (pA) at (\la,0);
+  \coordinate (pB) at (\lc,\lb);
+  \coordinate (pC) at (0,\lc);
+  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
+  \foreach \x/\y in {A/270,B/0,C/180}{
+    \node[label=\y:$\x$] at (p\x){};
+  }
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}
+
+注意到：甚至点的名称pA, pB, pC中的A, B, C也是可以通过foreach来指定的！
+
+\subsection{运算}
+\fbox{{\itshape{注意：需要在导言区添加}}\latexline{\\usetikzlibrary{calc}}。文中不再写出。}
+
+如果一个绘图工具仅仅能够绘图而不能做运算……它有什么用呢？如果作为科学排版系统下的绘图工具而不支持运算的话，Tikz岂不是太弱了？
+
+\noindent\begin{tabular}{p{0.25\linewidth}l}
+\begin{tikzpicture}[baseline=(current bounding box.east)]
+  \draw [help lines](0,0) grid (2,3);
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \coordinate (pD) at ($(pB)+(0,-1)$);
+  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
+  \foreach \x/\y in {A/270,B/0,C/45,D/315}{
+    \node[label=\y:$\x$] at (p\x){};
+  }
+\end{tikzpicture}
+&
+\begin{tikzcode}{}
+\begin{tikzpicture}
+  \draw [help lines](0,0) grid (2,3);
+  \coordinate (pA) at (1,0);
+  \coordinate (pB) at (2,3);
+  \coordinate (pC) at (0,2);
+  \coordinate (pD) at ($(pB)+(0,-1)$);
+  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
+  \foreach \x/\y in {A/270,B/0,C/45,D/315}{
+    \node[label=\y:$\x$] at (p\x){};
+  }
+\end{tikzpicture}
+\end{tikzcode}
+\end{tabular}

@@ -17,14 +17,23 @@
 
 其实在之前我是有一稿手册的，开始撰写的日期大概在2015年4月。但是自己觉得写得太烂，因此索性推倒重写了这一版。这一版的主要特征是：
 \begin{feae}
-	\item 我希望能够吸引初学者快速上手，解决手头的问题。因此去掉了枯燥的讲解和无穷无尽的宏包用法介绍，直接使用实例；
-	\item 力求突出实用性。当然，也会提点一些可以深入学习的内容，读者可以自行查阅，或者阅读本手册中的扩展阅读章节（即带星号*的章节）。
-	\item 本手册使用的编辑器为\TeX Studio，而非之前的商业软件WinEdt. 这使得学习\LaTeX 的门槛更低。当然了，你有权使用任何编辑器，我并不是说\TeX Studio就是最好的。事实上在你熟练以后，使用记事本+命令行的方式生成文档都是没有问题的。
+  \item 我希望能够吸引初学者快速上手，解决手头的问题。因此去掉了枯燥的讲解和无穷无尽的宏包用法介绍，直接使用实例；
+  \item 力求突出实用性。当然，也会提点一些可以深入学习的内容，读者可以自行查阅，或者阅读本手册中的扩展阅读章节（即带星号*的章节）。
+  \item 本手册使用的编辑器为\TeX Studio，而非之前的商业软件WinEdt. 这使得学习\LaTeX 的门槛更低。当然了，你有权使用任何编辑器，我并不是说\TeX Studio就是最好的。
 \end{feae}
+
+手册一共分为五大部分：
+\begin{fead}
+\item[基础] 包括标点、缩进、距离、章节、字体、颜色、注释、引用、封面、目录、列表、图表、页面等详细内容。
+\item[数学排版] 包括数学符号、公式、编号等内容。
+\item[进阶] 主要是自定义命令，帮助你更高效、更简洁地书写你的文档。
+\item[Tikz绘图*] 附加章节，需要读者取消注释后重编译。
+\item[附录] 帮助你快速查找一些你想要的东西。 
+\end{fead}
 
 由于工作全部由我一人完成，限于视野，难免存在错漏之处。恳请读者指正。有任何使用中遇到的手册中无法解决的问题，欢迎向我提出。
 
-最后，感谢在\LaTeX 学习中为我解答过疑惑的同学，特别是来自\LaTeX 度吧的吧友；本手册中许多的解决方案都是由他们提供的。我谨在此记录这些
+最后，还要感谢在\LaTeX 学习中为我解答疑惑的同学，特别是来自\LaTeX 度吧的吧友；本手册中许多的解决方案都是由他们提供的。我谨在此记录。
 
 \vfill
 
@@ -33,7 +42,7 @@ Mail: wklchris@hotmail.com\dpar
 
 Chris Wu
 
-\today 于湖北
+\today 于Davis, CA
 \end{flushright}
 
 
@@ -887,7 +896,7 @@ fancyhdr在定义双页文档时，采用了如下的默认设置：
 
 \section{文档拆分}
 \label{sec:include}
-文档拆分很简单，只需要把多个tex文件放在一起，然后再主文件中使用\latexline{\\input{filename}}或者\latexline{\\include{filename}}命令就可以了，带不带扩展名均可。两个命令区别在于\latexline{\\include}命令将会很好地支持大纲编号。
+文档拆分很简单，只需要把多个tex文件放在一起，然后再主文件中使用\latexline{\\input{filename.tex}}或者\latexline{\\include{filename}}命令就可以了，注意include不带扩展名。两个命令区别在于\latexline{\\include}命令将会很好地支持大纲编号。
 
 拆分的优势在于可以根据chapter（或其他）分为多个文件，省去了长文档浏览时的一些不便。你也可以把整个导言区做成一个文件，然后在不同的\LaTeX 文档中反复使用，即充当模板的功能。你还可以把较长的tikz绘图代码写到一个tex中，在需要时\latexline{\\input}即可。
 
@@ -2052,6 +2061,156 @@ Maybe you'll love it. So enjoy & \texttt{longtable} package!
 
 \section{自定义编号列表}
 \label{sec:list}
+编号列表的自定义主要使用enumitem宏包。主要的计数器有：
+\begin{feai}
+\item enumerate: 
+  \begin{feai}
+    \item \textbf{Counter:} enumi, enumii, enumiii, enumiv
+    \item \textbf{Label:} labelenumi, labelenumii, \ldots
+  \end{feai}
+\item itemize: 只有Label没有Counter, 默认是\latexline{\\textbullet}
+\item description: 只有\latexline{\\descriptionlabel}定义，默认：
+\begin{latex}{}
+\newcomand*\descriptionlabel[1]
+  {\hspace\labelsep\normalfont\bfseries #1}
+\end{latex}
+\end{feai}
+
+在\LaTeX 默认的编号列表中，编号样式按照：1.$\rightarrow$(a)$\rightarrow$i.$\rightarrow$A的顺序嵌套。你可以通过计数器命令来指定编号样式，不过要额外加上一个星号，比如\latexline{\arabic*}表示阿拉伯数字。你也可以在ctex宏包被调用（包括ctex文档类被使用）时，在导言区加入：
+\begin{latex}{}
+\AddEnumerateCounter{\chinese}{\chinese}{}
+\end{latex}
+
+这样就可以将汉字指定为编号样式了。
+
+enumitem宏包支持众多参数：
+\begin{para}
+\item[label] 定义enumerate环境的编号样式，或者itemize环境的符号样式。
+\item[ref] 设置嵌套序号格式，比如\latexline{[ref=\\emph{\\alph*}]}表示引用的上层序号是强调后的小写字母。你也可以写：\latexline{[label=\alph{enumi}. \roman*]}这样的形式。
+\item[label*] 加在enumerate上层序号上。比如上层是2，那么就是2.1, 2.1.1……
+\item[font/format] 设置label的字体。如果环境是description, 那么就会设置\latexline{\\item}命令后方括号内的文本字体。
+\item[align] 对齐方式默认right, 也可以选择left/parleft. 
+\item[start] 初始序号。start=2表示初始序号是2, b, B, ii或II.
+\item[resume] 不需赋值的布尔参数。表示接着上一个enumerate环境的结尾进行编号。
+\item[resume*] 不需赋值的布尔参数。表示完全继承上一个enumerate环境的参数。如果你常常使用这个命令，也许你可以新定义一个列表环境。
+\item[series] 给当前列表起名（比如mylist），可以在后文中用\latexline{resume=mylist}进行继续编号。
+\item[style] 定义description列表的样式。
+\begin{para}
+\item[standard:] label放在盒子中。
+\item[unboxed:] label不放在盒子中，避免异常长度或空格。
+\item[nextline:] 如果label过长，text会另起一行。
+\item[sameline:] 无论label多长，text从label同一行开始。
+\item[multiline:] label会被放在一个宽为leftmargin的parbox中。
+\end{para}
+\end{para}
+
+在列表定义中可能碰到的参数如\fref{fig:enumitemsep}。其中加粗加斜的\LaTeX 原生支持的。
+\begin{figure}[!hbt]
+\includegraphics[width=0.9\linewidth]{enumitemsep.pdf}
+\caption{列表长度参数总图}
+\label{fig:enumitemsep}
+\end{figure}
+
+命令\latexline{\\setlist}，用于定义列表环境的样式。比如可以更改原有的列表：
+\begin{latex}{}
+\setlist[enumerate]{label=\arabic* -,
+  font=\bfseries, itemsep=0pt}
+\setlist[itemize]{label=$\bullet$,
+  font=\bfseries,leftmargin=\parindent}
+\setlist[description]{font=\bfseries\uline}
+\end{latex}
+
+最后，说一下行内列表。在加载enumitem宏包时使用inline选项即可启用，环境名是enumerate*. 参数有：
+\begin{para}
+\item[before] 在行内列表插入前的文本，一般是冒号。
+\item[itemjoin] 各item之间的文本，一般是逗号或者分号。
+\item[itemjoin*] 倒数第二个与最后一个item间的文本，一般是``, and''或者“，还有”之类。
+\end{para}
+
+几个小例子。description环境：
+
+\begin{codeshow}
+\begin{description}[font=\bfseries\uline]
+  \item[This]is BFSERIES.
+  \item[And]this also.
+\end{description}
+\end{codeshow}
+
+编号数字左端与左页边平齐：
+\begin{latex}{}
+\begin{enumerate}[leftmargin=*]
+\end{latex}
+
+\noindent\begin{boxedminipage}{\linewidth}
+\setlength{\parindent}{2em}
+Here we go. This is a very long sentence and you will find that it goes to the second line in order to show how long its parindent is.
+\begin{enumerate}[leftmargin=*]
+\item The left sides
+\item of the label number
+\item have equal indent with
+\item the text parindent.
+\end{enumerate}
+\end{boxedminipage}
+
+编号数字左端与段首缩进位置平齐：
+\begin{latex}{}
+\begin{enumerate}[labelindent=\parindent,leftmargin=*]
+\end{latex}
+
+\noindent\begin{boxedminipage}{\textwidth}
+\setlength{\parindent}{2em}
+Here we go. This is a very long sentence and you will find that it goes to the second line in order to show how long its parindent is.
+\begin{enumerate}[labelindent=\parindent,leftmargin=*]
+\item The left sides
+\item of the label number
+\item have equal indent with
+\item the text parindent.
+\end{enumerate}
+\end{boxedminipage}
+
+编号项目正文与段首缩进位置平齐：
+\begin{latex}{}
+\begin{enumerate}[leftmargin=\parindent,start=3]
+\end{latex}
+
+\noindent\begin{boxedminipage}{\textwidth}
+\setlength{\parindent}{2em}
+Here we go. This is a very long sentence and you will find that it goes to the second line in order to show how long its parindent is.
+\begin{enumerate}[leftmargin=\parindent,start=3,]
+\item An item can be extremely long. You cannot know how its parindent works if it is too short to reach the second line.
+\item This is short.
+\end{enumerate}
+\end{boxedminipage}
+
+标签加框：
+\begin{latex}{}
+\begin{enumerate}[label=\fbox{\Roman*},labelindent=\parindent]
+\end{latex}
+
+\noindent\begin{boxedminipage}{\textwidth}
+\setlength{\parindent}{2em}
+Here we go. This is a very long sentence and you will find that it goes to the second line in order to show how long its parindent is.
+\begin{enumerate}[label=\fbox{\Roman*},labelindent=\parindent]
+\item An item can be extremely long. You cannot know how its parindent works if it is too short to reach the second line.
+\item This is short.
+\end{enumerate}
+\end{boxedminipage}
+\dpar
+
+最后，本手册使用了如下5种：
+\begin{latex}{}
+\begin{description}[font=\bfseries\uline,
+  labelindent=\parindent]
+\begin{description}[font=\bfseries\ttfamily]
+\begin{enumerate}[font=\bfseries,labelindent=0pt]
+\begin{itemize}[font=\bfseries]
+% 行内列表定义
+\newenvironment{inlinee}
+  {\begin{enumerate*}[label=(\arabic*), font=\rmfamily,
+  before=\unskip{：}, itemjoin={{；}}, itemjoin*={{，以及：}}]}
+  {\end{enumerate*}。}
+\end{latex}
+
 \section{\bibtex 参考文献}
 \label{sec:bibtex}
 \section{附录、图表目录}
@@ -2059,387 +2218,13 @@ Maybe you'll love it. So enjoy & \texttt{longtable} package!
 \section{编程代码输出环境}
 \label{sec:coding}
 
-\chapter{Tikz绘图*}
-其实\LaTeX 本身是有绘图功能的，可以绘制线段、斜率为整数的直线等基础功能。显然这是不能满足绘图需求的。因此在本手册中，对于\LaTeX{}原生的绘图功能不再多做介绍，有兴趣的可以自行了解。本手册主要针对Tikz绘图。\footnote{在\LaTeX 中其实还可以使用PSTricks宏包，是非常强力。XYpic宏包则有时用来画小图。}
-
-PGFPlots/Tikz是两个\LaTeX{}的绘图宏包，功能极其强大。其基本的结构为：
-\begin{latex}{}
-\documentclass{doc-class}
-\usepackage{tikz}
-\usetikzlibrary{...}
-\begin{document}
-  \begin{tikzpicture}
-    ...
-  \end{tikzpicture}
-\end{document}
-\end{latex}
-
-废话不多说，进入正题。
-\section{简单的实例}
-\subsection{直线、网格与点}
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw (0,0) -- (1,2);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw (0,0) -- (1,2);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-注意到help lines这个参数使网格绘制更有辅助线的效果，颜色更淡：\vspace{0.5em}
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw (0,0) grid (2,1);
-  \draw [help lines](0,1) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw (0,0) grid (2,1);
-  \draw [help lines](0,1) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-点命令也非常好理解。其中\verb+\coordinate+是真正将点的名字和坐标联系起来的命令（相当于``赋值''），而\verb+\node+命令仅是一个标注文本的作用。
-
-注意到第二行\verb+\node+命令，它使得字母B标注在pB点315度的位置。这样的效果往往优于其上一行的\verb+\node+命令的效果。注意：\RED{不要忘记{\texttt{\char92{}node}}命令后面的花括号（即使它是空的）}！
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node at (pC) {$C$};
-  \node[label=315:$B$] at (pB){};
-  \draw (pA) -- (pB) -- (pC) -- (pA);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node at (pC) {$C$};
-  \node[label=315:$B$] at (pB){}; 
-  \draw (pA) -- (pB) -- (pC) -- (pA);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\subsection{拉伸}
-拉伸只需要在tikzpicture后添加xscale/yscale/scale的可选参数赋值即可。例如：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east),yscale=0.5]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw (pA) -- (pB) -- (pC) -- (pA);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}[yscale=0.5]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw (pA) -- (pB) -- (pC) -- (pA);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\subsection{线宽}
-线宽可以在tikzpicture后使用``[line width=5pt]''之类的参数进行\RED{全局调整}，也可以在每个draw指令下分别地进行调整：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node[label=270:$A$] at (pA){};
-  \node[label=0:$B$] at (pB){};
-  \node[label=180:$C$] at (pC){};
-  \draw[ultra thick] (pA) -- (pB);
-  \draw[thick] (pB)-- (pC);
-  \draw[thin] (pC)-- (pA);
-  \draw[ultra thin] (pB) -- (0,0);
-  \draw[line width=0.3cm] (pC) -- (2,1);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node[label=270:$A$] at (pA){};
-  \node[label=0:$B$] at (pB){};
-  \node[label=180:$C$] at (pC){};
-  \draw[ultra thick] (pA) -- (pB);
-  \draw[thick] (pB)-- (pC);
-  \draw[thin] (pC)-- (pA);
-  \draw[ultra thin] (pB) -- (0,0);
-  \draw[line width=0.3cm] (pC) -- (2,1);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\subsection{填色}
-填色的逻辑非常简单，是指向绘制的\qd{闭合}图形内部填色。本例中，draw命令首尾相接地连接三个点，构成一个闭合图形——三角形，因此可以填色：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \draw[help lines](0,0) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \draw[help lines] (0,0) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\subsection{点样式}
-填色之后图形好看了许多，但是还不够。点标在图中似乎也不看清位置，不过这是有方法解决的：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node[label=270:$A$,circle,draw,fill,inner sep=3pt] at (pA){};
-  \node[label=0:$B$,circle,draw,fill,inner sep=3pt] at (pB){};
-  \node[label=180:$C$,circle,draw,fill,inner sep=3pt] at (pC){};
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \draw[help lines] (0,0) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node[label=270:$A$,circle,draw,fill,inner sep=3pt] at (pA){};
-  \node[label=0:$B$,circle,draw,fill,inner sep=3pt] at (pB){};
-  \node[label=180:$C$,circle,draw,fill,inner sep=3pt] at (pC){};
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \draw[help lines] (0,0) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-但是这一长串简直是太复杂了。大概能看懂circle是将点画成圆形，fill表示填充，inner sep表示点的大小。而Tikz给出的\verb+\tikzstyle+能够简化步骤。
-
-还有一点就是，绿色的填充似乎位于点的上方？还是乖乖地调整语句顺序吧。
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw[help lines] (0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \tikzstyle{every node} = [circle,draw,fill=blue,inner sep=2pt];
-  \node[label=270:$A$] at (pA){};
-  \node[label=0:$B$] at (pB){};
-  \node[label=180:$C$] at (pC){};   
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw[help lines] (0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \tikzstyle{every node} = [circle,draw,fill=blue,inner sep=2pt];
-  \node[label=270:$A$] at (pA){};
-  \node[label=0:$B$] at (pB){};
-  \node[label=180:$C$] at (pC){}; 
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-注意：\verb+\tikzstyle{every node}+控制的是其下方代码的所有node的点样式，不影响其上方代码中的点。
-
-\subsection{线型和颜色}
-除了点的定义，线当然也可以定义。线型有dashed/dotted两种，颜色除了默认的也可以通过叹号的形式控制。
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw[help lines] (0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[dashed, ultra thick] (pA) -- (pB);
-  \draw[dotted, red, thick] (pB) -- (pC);
-  \draw[blue!30!yellow, ultra thick] (pC) -- (pA);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw[help lines] (0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[dashed, ultra thick] (pA) -- (pB);
-  \draw[dotted, red, thick] (pB) -- (pC);
-  \draw[blue!30!yellow, ultra thick] (pC) -- (pA);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-主要的颜色包括\footnote{以下色块用\texttt{\char92{}tikz\{\char92{}draw[{\it color},line width=9] (0,0) -- (0.5,0);\}绘制得到。}}：
-\tikzline{red}\tikzline{green}\tikzline{yellow}\tikzline{blue}\tikzline{cyan}
-\tikzline{magenta}\tikzline{black}\tikzline{gray}\tikzline{darkgray}\tikzline{lightgray}
-\tikzline{brown}\tikzline{lime}\tikzline{olive}\tikzline{orange}\tikzline{pink}\tikzline{purple}
-\tikzline{teal}\tikzline{violet}
-还有white\tikz{\draw[white,line width=9](0,0)--(0.5,0);}.
-
-\subsection{箭头}
-箭头也是需要经常绘制的内容。主要也是根据\verb+\draw+命令的参数控制：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw[->] (0.5,2.5) -- (2,3);
-  \draw[<-] (0.5,1.5) -- (2,2);
-  \draw[|->] (0.5,0.5)-- (2,1); 
-  \draw[<->] (0,3) -- (0,0) -- (2,0);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw[->] (0.5,2.5) -- (2,3);
-  \draw[<-] (0.5,1.5) -- (2,2);
-  \draw[|->] (0.5,0.5)-- (2,1); 
-  \draw[<->] (0,3) -- (0,0) -- (2,0);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\section{高效书写}
-\subsection{变量}
-变量申请使用与\LaTeX 相同的语句：\verb+\newcommand+. 注意：变量需要以反斜杠开头，并与现有命令不重复。
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw [help lines](0,0) grid (2,3);
-  \newcommand{\aaa}{1};
-  \newcommand{\bbb}{3};
-  \newcommand{\ccc}{2};
-  \coordinate (pA) at (\aaa,0);
-  \coordinate (pB) at (\ccc,\bbb);
-  \coordinate (pC) at (0,\ccc);
-  \draw[fill=red] (pA) -- (pB) -- (pC) -- (pA); 
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw [help lines](0,0) grid (2,3);
-  \newcommand{\aaa}{1};
-  \newcommand{\bbb}{3};
-  \newcommand{\ccc}{2};
-  \coordinate (pA) at (\aaa,0);
-  \coordinate (pB) at (\ccc,\bbb);
-  \coordinate (pC) at (0,\ccc);
-  \draw[fill=red] (pA) -- (pB) -- (pC) -- (pA); 
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\subsection{循环}
-但是同样的语句书写很多遍是很复杂的，好在Tikz提供了循环的实现方法：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \newcommand{\la}{1};
-  \newcommand{\lb}{3};
-  \newcommand{\lc}{2};
-  \draw [help lines](0,0) grid (\lc,\lb);
-  \coordinate (pA) at (\la,0);
-  \coordinate (pB) at (\lc,\lb);
-  \coordinate (pC) at (0,\lc);
-  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
-  \foreach \x/\y in {A/270,B/0,C/180}{
-    \node[label=\y:$\x$] at (p\x){};
-  }
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \newcommand{\la}{1};
-  \newcommand{\lb}{3};
-  \newcommand{\lc}{2};
-  \draw [help lines](0,0) grid (\lc,\lb);
-  \coordinate (pA) at (\la,0);
-  \coordinate (pB) at (\lc,\lb);
-  \coordinate (pC) at (0,\lc);
-  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
-  \foreach \x/\y in {A/270,B/0,C/180}{
-    \node[label=\y:$\x$] at (p\x){};
-  }
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-注意到：甚至点的名称pA, pB, pC中的A, B, C也是可以通过foreach来指定的！
-
-\subsection{运算}
-\fbox{{\itshape{注意：需要在导言区添加}}\latexline{\\usetikzlibrary{calc}}。文中不再写出。}
-
-如果一个绘图工具仅仅能够绘图而不能做运算……它有什么用呢？如果作为科学排版系统下的绘图工具而不支持运算的话，Tikz岂不是太弱了？
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw [help lines](0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \coordinate (pD) at ($(pB)+(0,-1)$);
-  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
-  \foreach \x/\y in {A/270,B/0,C/45,D/315}{
-    \node[label=\y:$\x$] at (p\x){};
-  }
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw [help lines](0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \coordinate (pD) at ($(pB)+(0,-1)$);
-  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
-  \foreach \x/\y in {A/270,B/0,C/45,D/315}{
-    \node[label=\y:$\x$] at (p\x){};
-  }
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
+% 如果你想查看Tikz绘图的内容，请取消这行注释
+%\include{AdditionalChapter-Tikz}
 
 \clearpage
 \begin{appendices}
 \renewcommand{\thechapter}{\Alph{chapter}}
 \titleformat{\chapter}[display]{\Huge\bfseries}{附录\Alph{chapter}}{1em}{}
-%\renewcommand{\thesection}{\thechapter-\arabic{section}}
-%\titleformat{\section}[hang]{\bfseries\Large}{\S\ \thesection}{1em}{}{}
 
 \chapter{注音符号}
 \label{app:phonetic}
@@ -2455,7 +2240,7 @@ PGFPlots/Tikz是两个\LaTeX{}的绘图宏包，功能极其强大。其基本�
 \d o & \verb|\d o| & \u o & \verb|\u o| & \b o & \verb|\b o|  & \t oo & \verb|\t oo|\\
 \multicolumn{2}{|c@{\bf --}}{$\tilde{o}$} & \multicolumn{2}{@{\bf --}c|}{\tt{\$$\backslash$tilde\{o\}\$}} &%
 \multicolumn{2}{c@{\bf --}}{$\hat{o}$}    & \multicolumn{2}{@{\bf --}c|}{\tt{\$$\backslash$hat\{o\}\$}}\\
-& & & & & & & \\
+\multicolumn{8}{|c|}{} \\
 \o  & \verb|\o|  & \O  & \verb|\O|  & \i  & \verb|\i|  & \j  & \verb|\j| \\
 \aa & \verb|\aa| & \AA & \verb|\AA| & \ae & \verb|\ae| & \AE & \verb|\AE|\\
 \oe & \verb|\oe| & \OE & \verb|\OE| & !`  & \verb|!`|  & ?`  & \verb|?`| \\

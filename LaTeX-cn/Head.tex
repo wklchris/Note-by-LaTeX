@@ -58,7 +58,6 @@
 	\setlist[itemize]{label=$\bullet$,font=\bfseries,leftmargin=\parindent}
 	\setlist[description]{font=\bfseries\uline}
 
-\usepackage{enumitem}
 \newenvironment{fead}{\setlength{\parskip}{0pt}
 	\begin{description}[font=\bfseries\uline,labelindent=\parindent]
 		\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}}
@@ -118,6 +117,8 @@
 \usepackage{array,multirow}
   \setlength\extrarowheight{2pt} % 行高增加
 \usepackage{longtable}
+\usepackage{graphicx}
+  \graphicspath{{./tikz/}}
 % 页面修正宏包
 \usepackage[top=1in]{geometry}
 
