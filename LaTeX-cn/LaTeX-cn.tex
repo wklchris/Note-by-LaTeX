@@ -4,6 +4,8 @@
 \author{K.L Wu\\
   {\CJKfontspec{KaiTi} 本手册是\href{https://github.com/wklchris/Note-by-LaTeX}{wklchris-GitHub}的\LaTeX{}-cn项目}
 }
+\date{第一版已定稿。\\
+  最后更新于：\today}
 
 \begin{document}
 	
@@ -19,7 +21,7 @@
 \begin{feae}
   \item 我希望能够吸引初学者快速上手，解决手头的问题。因此去掉了枯燥的讲解和无穷无尽的宏包用法介绍，直接使用实例；
   \item 力求突出实用性。当然，也会提点一些可以深入学习的内容，读者可以自行查阅，或者阅读本手册中的扩展阅读章节（即带星号*的章节）。
-  \item 本手册使用的编辑器为\TeX Studio，而非之前的商业软件WinEdt. 这使得学习\LaTeX 的门槛更低。当然了，你有权使用任何编辑器，我并不是说\TeX Studio就是最好的。
+  \item 本手册使用的编辑器为\TeX Studio，而非之前的商业软件WinEdt. 这使得学习\LaTeX 的门槛更低。当然了，你有权使用任何编辑器。
 \end{feae}
 
 手册一共分为五大部分：
@@ -31,7 +33,7 @@
 \item[附录] 帮助你快速查找一些你想要的东西。 
 \end{fead}
 
-由于工作全部由我一人完成，限于视野，难免存在错漏之处。恳请读者指正。有任何使用中遇到的手册中无法解决的问题，欢迎向我提出。
+由于工作全部由我一人完成，限于视野，难免存在错漏之处。恳请读者指正。有任何使用中遇到的手册中无法解决的问题，欢迎向我提出。另外，我推荐\textit{The \LaTeX{} Companion}, 一个优秀的知识补漏手册。
 
 最后，还要感谢在\LaTeX 学习中为我解答疑惑的同学，特别是来自\LaTeX 度吧的吧友；本手册中许多的解决方案都是由他们提供的。我谨在此记录。
 
@@ -42,7 +44,7 @@ Mail: wklchris@hotmail.com\dpar
 
 Chris Wu
 
-\today 于Davis, CA
+September 17, 2016 于Davis, CA
 \end{flushright}
 
 
@@ -81,7 +83,7 @@ Chris Wu
 \documentclass[a4paper]{article}
 \end{latex}
 
-在\LaTeX 中，还有一种重要的指令叫做\co{环境}。它定义了一整个区段的内容都受到环境（即其本身）的控制。这个区段是从\cmmd{begin\{{\itshape environment}\}}开始，到\cmmd{end\{{\itshape environment\}}}结束的。。比如：
+在\LaTeX 中，还有一种重要的指令叫做\co{环境}。它定义了一整个区段的内容都受到环境（即其本身）的控制。这个区段是从\latexline{\\begin{environment}}开始，到\latexline{\\end{environment}}结束的。。比如：
 \begin{latex}{}
 \begin{document}
 	...内容...
@@ -443,7 +445,7 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 \usepackage{xcolor}
   \definecolor{keywordcolor}{RGB}{34,34,250}
 % 指定颜色的text
-{\color{color-name}{text}}
+{\color{`\textit{color-name}`}{text}}
 \end{latex}
 
 \section{引用与注释}
@@ -482,6 +484,7 @@ bookmarksnumbered=true]{hyperref}
 行文中切忌过多地使用脚注，它会分散读者的注意力。默认情况下脚注按章编号。脚注与正文的间距使用类似\latexline{\\setlength{\\skip\\footins}{0.5cm}}的命令调节。
 
 \subsection{参考文献}
+\label{subsec:cite}
 参考文献主要使用的命令是\latexline{\\cite}，与\latexline{\\label}相似。通过natbib宏包的使用可以定制参考文献标号在文中的显示方式等格式，下面natbib宏包的选项含义为：数字编号、排序且压缩、上标、外侧方括号，总体像这样：\textsuperscript{\ttfamily [1,3-5]}。\footnote{这里的LaTeX代码实际为：\latexline{\\textsuperscript{\\ttfamily [1,3-5]}}}
 \begin{latex}{}
 \documentclass{ctexart}
@@ -547,7 +550,9 @@ This is the text following the reference.
 \subsection{目录}
 目录在大纲的基础上生成，使用命令\latexline{\\tableofcontents}即可插入目录。目录在加载了hyperref宏包后，可以实现点击跳转的功能。你可以通过renewcommand命令更改contentsname，即“目录”的标题名。
 
-目录的自定义需要借助titletoc宏包，参考\hyperref[sec:titletoc]{这一节}。
+你也可以插入图表目录，分别是\latexline{\\listoffigures}, \latexline{\\listoftables}. 通过重定义listfigurename和listtablename可以更改图表目录的标题。
+
+目录的深度自定义需要借助titletoc宏包，参考\hyperref[sec:titletoc]{这一节}。
 
 \section{计数器与列表}
 
@@ -654,7 +659,7 @@ This is the text following the reference.
 \end{center}
 \end{latex}
 
-其中可选参数指定了图片宽度为0.8倍该行文字宽。类似地可以指定height(图片高)，scale(图片缩放倍数)，angle(图片逆时针旋转角度)这样的命令。除angle外的命令不建议同时使用。
+可选参数指定了图片宽度为0.8倍该行文字宽。类似地可以指定height(图片高)，scale(图片缩放倍数)，angle(图片逆时针旋转角度)这样的命令。除angle外的命令不建议同时使用。
 
 对于\texttt{Thispic}这个参数的写法，\xelatex 支持pdf, eps, png, jpg图片扩展名。你可以书写带扩展名的图片名称ThisPic.png，也可以不带扩展名。如果不给出扩展名，将按上述四个扩展名的顺序依次搜索文件。\dpar
 
@@ -928,7 +933,7 @@ My telephone number is: \mbox{012 3456 7890}
 \begin{center}
   \centering
   \tabcaption{wasysym宏包符号}
-  \begin{tabular}{*{3}{c >{\ttfamily\char92}p{5em}}}
+  \begin{tabular}{*{3}{c >{\ttfamily\char92}p{5.5em}}}
      \permil     & permil   & \male     & male  & \female       & female \\
      \checked    & checked  & \XBox     & XBox  & \CheckedBox   & CheckedBox \\
      \hexstar    & hexstar  & \phone    & phone & \twonotes     & twonotes
@@ -993,7 +998,7 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 \end{latex}
 
 \subsection{数学字体}
-将字体转为正体使用\latexline{\\mathrm}命令。如果需要保留行文中的空格，使用\latexline{\\textrm}命令——这个与正文一致。但是，textrm命令内的字号可能不会自适应，mathrm则稳定得多。
+将字体转为正体使用\latexline{\\mathrm}命令。如需保留文中空格，使用\latexline{\\textrm}命令——这个与正文一致。但是，textrm命令内的字号可能不会自适应，mathrm则稳定得多。
 
 例如自然对数的底数$\ue$，在本文中就是这样定义的：
 \begin{latex}{}
@@ -1012,7 +1017,7 @@ $\boldsymbol{\mu},
 \end{codeshow}
 
 \subsubsection{空心粗体}
-空心粗体使用amsfonts或者amssymb宏包的\latexline{\\mathbb}命令。这里使用\latexline{\\textrm}而不是\latexline{\\mathrm}，是为了保留空格。
+空心粗体使用amsfonts或amssymb宏包的\latexline{\\mathbb}命令。这里用\latexline{\\textrm}而不是\latexline{\\mathrm}，是为了保留空格。
 
 \begin{codeshow}
 $x^2 \geq 0 \qquad
@@ -1109,7 +1114,8 @@ $\closure{AB}$
 
 其中closure是在导言区定义的
 \begin{latex}{}
-\newcommand{\closure}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
+\newcommand{\closure}[2][3]{{}\mkern#1mu
+  \overline{\mkern-#1mu#2}}
 \end{latex}
 
 向量符号：
@@ -1263,6 +1269,7 @@ x\in\mathbb{R}\]
 \end{codeshow}
 
 \subsection{多行公式及其编号}
+\label{subsec:multieqnum}
 多行公式可以使用amsmath下的align环境——因为原生的eqnarray环境真的很差！而且align环境不需要像array环境那样给出列的数目和参数，能够根据
 \texttt{\&}符号的数量来自调整。\qd{这个环境会自动对齐等号或者不等号，所以必要时请用\&指定对齐位置}。下面是一个例子：
 
@@ -1474,7 +1481,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \centering
 \caption{二元运算符}
 \label{tab:operator}
-\begin{tabular}{@{}*{4}{>{$}p{2em}<{$} @{} >{\ttfamily\char92}p{6em} @{}}}
+\begin{tabular}{@{}*{2}{>{$}p{2em}<{$} @{} >{\ttfamily\char92}p{5em} @{}}*{2}{>{$}p{2em}<{$} @{} >{\ttfamily\char92}p{6em} @{}}}
 + & \multicolumn{1}{p{6em}}{+} & - & \multicolumn{1}{p{6em}}{-} & \times & times & \div & div \\
 \pm & pm & \mp & mp & \circ & circ & \triangleright & triangleright \\
 \cdot & cdot & \star & star & \ast & ast & \triangleleft & triangleleft \\
@@ -1559,7 +1566,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \centering
 \caption{其他符号}
 \label{tab:othersym}
-\begin{tabular}{@{}*{4}{>{$}p{2em}<{$} @{} >{\ttfamily\char92}p{5.5em} @{}}}
+\begin{tabular}{@{}*{4}{>{$}p{1em}<{$} @{} >{\ttfamily\char92}p{5.5em} @{}}}
 \dots & dots & \cdots &cdots &
 \vdots & vdots & \ddots & ddots \\
 \forall & forall & \exists & exists &
@@ -1585,7 +1592,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \centering
 \caption{amssymb其他符号}
 \label{tab:amsothersym}
-\begin{tabular}{@{} >{$}p{2em}<{$} @{} >{\ttfamily\char92}p{6em} @{}*{2}{>{$}p{2em}<{$} @{} >{\ttfamily\char92}p{9em} @{}}}
+\begin{tabular}{@{} >{$}p{2em}<{$} @{} >{\ttfamily\char92}p{6em} @{}*{2}{>{$}p{2em}<{$} @{} >{\ttfamily\char92}p{8em} @{}}}
 \square & square & \blacksquare & blacksquare & \hslash & hslash \\
 \bigstar & bigstar & \blacktriangle & blacktriangle & \blacktriangledown & blacktriangledown \\
 \lozenge & lozenge & \blacklozenge & blacklozenge & \measuredangle & measuredangle \\
@@ -1630,7 +1637,8 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \subsection{无框箱子}
 命令\latexline{\\mbox}产生一个无框的箱子，宽度自适应。有时用它来强制“结合”一系列命令，使之不在中间断行。比如\TeX 这个命令的定义（其中\latexline{\\raisebox}命令在后面介绍。）：
 \begin{latex}{}
-\mbox{T\hspace{-0.1667em}\raisebox{-0.5ex}{E}\hspace{-0.125em}X}
+\mbox{T\hspace{-0.1667em}\raisebox{-0.5ex}{E}
+  \hspace{-0.125em}X}
 \end{latex}
 
 或者也可以使用命令\latexline{\\makebox[width][pos]{text}}，宽度由width参数指定。pos参数的取值可以是l, s, r即居左、两端对齐、居右，还有竖直方向的t, b两个参数。
@@ -1641,7 +1649,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \end{latex}
 
 \subsection{加框箱子}
-命令\latexline{\\fbox}产生加框的箱子，宽度自动调整，但不能跨行。另外的命令\latexline{\\framebox}类似上面介绍的\latexline{\\makebox}。如果是想在数学环境下完成加框，使用\latexline{\\boxed}命令。
+命令\latexline{\\fbox}产生加框的箱子，宽度自动调整，但不能跨行。命令\latexline{\\framebox}类似上面介绍的\latexline{\\makebox}。如果是想在数学环境下完成加框，使用\latexline{\\boxed}命令。
 
 \begin{codeshow}
 \fbox{This is a frame box} \\
@@ -1949,7 +1957,7 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 \item[\char92endfirsthead] 如果首页的表头与其他页不同，使用该命令。
 \item[\char92endfoot] 定义每页底端的表尾。
 \item[\char92endlastfoot] 另外定义末页底端的表尾。
-\item[\char92caption] 与原生tabular的该命令一致。如果你不想显示表格编号，使用带星的该命令；如果你不想让其加入表格目录，请在可选参数中留空\latexline{\\caption[]{...}}。
+\item[\char92caption] 与原生tabular的该命令一致。如果你不想显示表格编号，使用带星的该命令；如果不想让其加入表格目录，在可选参数中留空\latexline{\\caption[]{...}}。
 \item[\char92label] 注意\verb|\label|命令不能被用在多页对象中，请在表体中或者firsthead/lastfoot中使用。
 \item[\char92LTleft] 表格左侧到主文本区边缘的距离，默认是\latexline{\\fill}。你可以用：
 
@@ -1963,7 +1971,8 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 \item[\char92footnote(mark/text)] \latexline{\\footnote}命令不能用于表头或表尾；\latexline{\\footnotemark}则可以。另外，\latexline{\\footnotetext}可以用于表中，对应上文的\latexline{\\footnotemark}命令。
 \end{para}
 
-longtable宏包支持的表格可选参数是clr，而不能使用tabular中的t或b. 此外，\RED{longtable中的跨列可能需要编译多次（有时多达4次）才能正常显示。}最后给出一个例子：
+longtable宏包支持的表格可选参数是clr，不能使用t或b. 此外，\RED{longtable中的跨列可能需要编译多次才能正常显示。}最后给出一个例子：
+
 \begin{longtable}{@{*}r||p{3cm}@{*}}
 KILLED & LINE! \kill
 
@@ -2006,7 +2015,8 @@ And I think maybe it's long & enough to make \\
 a table across pages, so go to the & next page and \\
 check whether the head at next page is & different from \\
 that on this page. Also you can have a look & at lastfoot. \\[10ex]
-Maybe you'll love it. So enjoy & \texttt{longtable} package! 
+So do you get how to use this & package? \\
+Maybe you'll love it. So enjoy & \texttt{longtable}! 
 \end{longtable}
 
 它的代码如下：
@@ -2055,7 +2065,8 @@ a table across pages, so go to the & next page and \\
 check whether the head at next page is & different from \\
 that on this page. Also you can have a look & at lastfoot.
 \\[10ex]
-Maybe you'll love it. So enjoy & \texttt{longtable} package! 
+So do you get how to use this & package? \\
+Maybe you'll love it. So enjoy & \texttt{longtable}! 
 \end{longtable}
 \end{latex}
 
@@ -2130,8 +2141,8 @@ enumitem宏包支持众多参数：
 几个小例子。description环境：
 
 \begin{codeshow}
-\begin{description}[font=\bfseries\uline]
-  \item[This]is BFSERIES.
+\begin{description}[font=\bfseries
+\uline]\item[This]is BFSERIES.
   \item[And]this also.
 \end{description}
 \end{codeshow}
@@ -2151,6 +2162,7 @@ Here we go. This is a very long sentence and you will find that it goes to the s
 \item the text parindent.
 \end{enumerate}
 \end{boxedminipage}
+\dpar
 
 编号数字左端与段首缩进位置平齐：
 \begin{latex}{}
@@ -2167,6 +2179,7 @@ Here we go. This is a very long sentence and you will find that it goes to the s
 \item the text parindent.
 \end{enumerate}
 \end{boxedminipage}
+\dpar
 
 编号项目正文与段首缩进位置平齐：
 \begin{latex}{}
@@ -2181,6 +2194,7 @@ Here we go. This is a very long sentence and you will find that it goes to the s
 \item This is short.
 \end{enumerate}
 \end{boxedminipage}
+\dpar
 
 标签加框：
 \begin{latex}{}
@@ -2213,10 +2227,479 @@ Here we go. This is a very long sentence and you will find that it goes to the s
 
 \section{\bibtex 参考文献}
 \label{sec:bibtex}
-\section{附录、图表目录}
+
+首先说一下基础的使用。通过重定义\latexline{\\refname}或\latexline{\\bibname}，前者是article类，后者是book类。这点在\secref{subsec:cite}这一节已经介绍过。
+\begin{latex}{}
+\renewcommand{\bibname}{参考文献}
+\end{latex}
+
+在文献目录之前、文献标题之下插入一段文字：
+\begin{latex}{}
+\renewcommand{\bibpreamble}{以下是参考文献：}
+\end{latex}
+
+更改参考文献的字体：
+\begin{latex}{}
+\renewcommand{\bibfont}{\small}
+\end{latex}
+
+定义在正文中引用时，文献编号的字体：
+\begin{latex}{}
+\renewcommand{\citenumfont}{\itshape}
+\end{latex}
+
+定义文献目录中编号的形式，默认是[1], [2], \ldots 形式。比如改成加点形式：
+\begin{latex}{}
+\renewcommand{\bibnumfmt}[1]{\textbf{#1.}}
+\end{latex}
+
+文献项之间的间距调整\latexline{\\bibsep}即可：
+\begin{latex}{}
+\setlength{\bibsep}{1ex}
+\end{latex}
+
+\subsection{\texttt{natbib}宏包}
+个人认为文献宏包首推natbib，不再推荐cite. natbib宏包的加载选项：
+\begin{para}
+\item[round] (默认)圆括号。
+\item[square/curly/angle] 方括号/花括号/尖括号。
+\item[semicolon/comma] 分号/逗号作为文献序号分隔符。
+\item[authoryear] “作者+年代(AuY)”模式显示参考文献。
+\item[numbers] “数字编号(num)”模式显示参考文献。
+\item[super] 参考文献显示在上标。
+\item[sort(\&compress)] 排序文献序号（并压缩\footnote{压缩是指：连续三个或以上的序号会显示为如2--4的形式。}）。
+\item[compress] 压缩但不排序。
+\item[longnamefirst] 长名称在前，缩写名称在后。
+\item[nonamebreak] 防止作者名称中间出现断行。可能造成Overfull坏箱，但能解决某些hyperref异常。
+\item[merge] 允许*形式的引用。
+\item[elide] 在merge选项引用中，省略相同的作者或年份。
+\end{para}
+
+你也可以通过宏包提供的\latexline{\\setcitestyle}命令：
+\begin{feae}
+\item 引用模式：authoryear, number与super三种，含义同上。
+\item 引用分隔符：semicolon, comma, 或者用citesep=\{\textit{sep}\}来指定。
+\item 作者与年代间的符号：aysep=\{\textit{sep}\}
+\item 同作者下多个年代间的符号：yysep=\{\textit{sep}\}
+\item 说明文字后的符号：notesep=\{\textit{sep}\}
+\end{feae}
+
+默认的参数是：
+\begin{latex}{}
+\setcitestyle{authoryear,round,comma,aysep={;},
+  yysep={,},notesep={, }}
+\end{latex}
+
+除了\LaTeX 原生支持的\latexline{\\cite}命令，\texttt{natbib}宏包还提供了其他几种引用命令，具体的使用见\tref{tab:natbib}。
+
+\begin{table}[!htb]
+\centering
+\caption{\texttt{natbib}宏包命令表}
+\label{tab:natbib}
+\small
+\begin{tabular}{l|>{\ttfamily}l!{$\Rightarrow$}l}
+\hline
+\multicolumn{3}{c}{使用\texttt{\char92Citet, \char92Citep, \char92Citealt, \char92Citealp}确保姓名首字母大写} \\
+\hline
+\multicolumn{3}{l}{\texttt{\char92{}citet \& \char92{}citet*}} \\
+\hline
+\multirow{4}*{AuY}
+& citet\{jon90\} & Jones et al. (1990) \\
+& citet[chap.2]\{jon90\} & Jones et al. (1990, chap.2) \\
+& citet\{jon90, jam91\} & Jones et al. (1990); James et al. (1991) \\
+& citet*\{jon90\} & Jones, Baker, and Williams (1990) \\
+\cline{2-3}
+\multirow{2}*{num}
+& citet\{jon90\} & Jones et al. [21] \\
+& citet[chap.2]\{jon90\} & Jones et al. [21, chap.2] \\
+\hline
+
+\multicolumn{3}{l}{\texttt{\char92{}citep \& \char92{}citep*}} \\
+\hline
+\multirow{6}*{AuY}
+& citep\{jon90\} & (Jones et al., 1990) \\
+& citep[chap.2]\{jon90\} & (Jones et al., 1990, chap.2) \\
+& citep[see][]\{jon90\} & (see Jones et al., 1990)\\
+& citep[see][chap.2]\{jon90\} & (see Jones et al., 1990, chap.2)\\
+& citep\{jon90, jon91\} & (Jones et al., 1990, 1991) \\
+& citep*\{jon90\} & (Jones, Baker, and Williams, 1990) \\
+\cline{2-3}
+\multirow{5}*{num}
+& citep\{jon90\} & [21] \\
+& citep[chap.2]\{jon90\} & [21, chap.2] \\
+& citep[see][]\{jon90\} & [see 21] \\
+& citep[see][chap.2]\{jon90\} & [see 21, chap.2]\\
+& citep{jon90a,jon90b} & [21, 32] \\
+\hline
+
+\multicolumn{3}{l}{\texttt{\char92{}cite}} \\
+\hline
+AuY & \multicolumn{2}{c}{此模式下与\texttt{\char92citet}相同} \\
+\cline{2-3}
+num & \multicolumn{2}{c}{此模式下与\texttt{\char92citep}相同} \\
+\hline\hline
+
+\multicolumn{3}{l}{\texttt{\char92{}citealt}: 与\texttt{\char92citet}相似，但没有括号。} \\
+\hline
+\multicolumn{3}{l}{\texttt{\char92{}citealp}: 与\texttt{\char92citep}相似，但没有括号。} \\
+\hline
+\multicolumn{3}{l}{\texttt{\char92{}citenum}: 引用文献编号。} \\
+\hline
+\multicolumn{3}{l}{\texttt{\char92{}citetext}: 打印一段文本。} \\
+\hline
+\multicolumn{3}{l}{\texttt{\char92{}citeauthor \& \char92citeauthor*}: 引用文献的作者。带星表示显示该文献的全部作者。} \\
+\hline
+\multicolumn{3}{l}{\texttt{\char92{}citeyear \& \char92citeyearpar}: 引用文献的年份。par表示在文献外加括号。} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{\bibtex 使用}
+\bibtex 通过单独的.bib扩展名文件管理文献，使多文档方便地共用一份文献列表（可以指引用其中的部分文献）成为可能。使用时请确保：
+\begin{feae}
+\item 确保你的文档定义了\latexline{\\bibliographystyle}类型。\LaTeX 预定义的类型分为：
+  \begin{para}
+    \item[plain] 按照第一作者字母顺序排序。“\textit{作者. 文献名. 出版商或刊物, 出版地, 出版时间.} ”
+    \item[unsrt] 按引用顺序排序。
+    \item[alpha] 按作者名称和出版年份排序。
+    \item[abbrv] 缩写形式。
+  \end{para}
+\item 在文档中插入了\latexline{\\cite}等命令。
+\item 在参考文献列表位置插入了\latexline{\\bibliography}命令。
+\end{feae}
+
+一个简单的例子：
+\begin{latex}{}
+\bibliographystyle{plain}
+\begin{document}
+  ...
+  ... and published here\cite{Smith93TRB}. 
+  ...
+  \bibliography{myBib}
+\end{document}
+\end{latex}
+
+然后在你的myBib.bib文件中，你需要有类似这样的条目。等号后使用花括号或引号均可。
+\begin{latex}{}
+% 如果引用期刊
+@article{Smith1993TRB,
+author = {作者, 多个作者用and 连接},
+title = {标题},
+journal = {期刊名},
+volume = {卷20},
+number = {页码},
+year = {年份},
+abstract = {摘要, 引用的时候自己参考, 非必须}}
+% 如果引用书籍
+@book{Smith1993TRB,
+author ="作者",
+year="年份2008",
+title="书名",
+publisher ="出版社名称"}
+\end{latex}
+
+这里只介绍了article和book两种类型。更多的文献类型以及它们的使用条目选项，参考\tref{tab:bibtype}。
+
+\begin{table}[!htb]
+\centering
+\caption{\bibtex 文献类型总表}
+\label{tab:bibtype}
+\begin{tabular}{>{\ttfamily}ll}
+\hline
+article & 期刊文献 \\
+& 必要：author, title, journal, year \\
+& 选填：volume, number, pages, month, note \\
+\hline
+book & 公开出版图书 \\
+& 必要：author/editor, title, publisher, year \\
+& 选填：volume/number, series, address, edition, month, note \\
+\hline
+booklet & 无出版商或作者的图书。必要：title\\
+& 选填：author, howpublished, address, month, year, note \\
+\hline
+conference/ & 无出版商或作者的图书。必要：title \\
+inproceedings & 选填：author, howpublished, address, month, year, note \\
+\hline
+inbook & 书籍章节 \\
+& 必要：author/editor, title, chapter and/or pages, publisher, year\\
+& 选填：volume/number, series, type, address, edition, month, note\\
+\hline
+incollection & 书籍含独立标题的章节 \\
+& 必要：author, title, booktitle, publisher, year \\
+& 选填：editor, volume/number, series, type, chapter, pages, \\
+& address, edition, month, note \\
+\hline
+manual & 技术手册。必要：title \\
+& 选填：author, organization, address, edition, month, year, note \\
+\hline
+mastersthesis & 硕士论文\\
+& 必要：author, title, school, year \\
+& 选填：type, address, month, note\\
+\hline
+misc & 其他 \\
+& 选填：author, title, howpublished, month, year, note \\
+\hline
+phdthesis & 博士论文 \\
+& 必要：author, title, year, school\\
+& 选填：address, month, keywords, note\\
+\hline
+techreport & 教育，商业机构的技术报告\\
+& 必要：author, title, institution, year\\
+& 选填：type, number, address, month, note\\
+\hline
+unpublished & 未出版的论文或图书\\
+& 必要：author, title, note\\
+& 选填：month, year\\
+\hline
+\end{tabular}
+\end{table}
+
+最后，你可能需要\RED{编译\xelatex , 再编译\bibtex , 最后连续编译两次\xelatex 来完成你的文档建立}。
+
+\section{公式与图表编号样式}
+\subsection{取消公式编号}
+取消单行公式的编号，用\latexline{\\[\\]}或者equation*环境，代替equation环境即可。
+
+取消多行公式中某行的编号，使用amsmath宏包支持的\latexline{\\notag}或\latexline{\\nonumber}命令。命令放在对应行的末尾即可。该方法同样适用于equation环境。
+
+取消多行公式中所有行的编号，请使用align*环境而不是align环境。你可以参考\hyperref[subsec:multieqnum]{多行公式及其编号}这一小节的内容。
+
+\subsection{增加公式编号}
+amsmath宏包提供了增加编号的\latexline{\\tag}命令：
+
+\begin{codeshow}
+\[a^2>0 \tag{$\star$}\]
+\begin{equation}
+b^2 \geqslant 0
+\tag*{[Axiom]}
+\end{equation}
+\end{codeshow}
+
+其中\latexline{\\tag*}命令会去掉编号行间公式的小括号，从而定制性更强。
+
+\subsection{父子编号：公式1与公式1a}
+有时你需要叙述一些推论，你不希望这些推论被编号为公式，但是不进行编号又难以叙述。这时可以尝试amsmath宏包提供的subequations环境：
+
+\begin{codeshow}
+\begin{subequations}
+This is an upright text.
+\begin{align}
+A' &=B+C \\
+X &=0 \nonumber \\
+D' &=E \times F
+\end{align}
+Enjoy this environment.
+\end{subequations}
+\end{codeshow}
+
+父子编号样式的定义参考\hyperref[code:parenteqnum]{这里}。还有一种利用计数器的方式，可以插入公式1和公式1'这样的效果，但是实现起来稍显麻烦。参考\hyperref[code:eq1plus]{这里}。
+
+\subsection{在新一节重新编号公式}
+只需要：
+\begin{latex}{}
+\numberwithin{equation}{section}
+\end{latex}
+
+对于article文档类，显示为(2.1), (2.2), \ldots ;对于chapter等文档类，显示为(1.2.1), (1.2.2), \ldots 这样。
+
+\subsection{公式编号样式定义}
+通过控制计数器的方式可以方便地自定义公式编号样式：
+\begin{latex}{}
+% 更改为：(2-i), (2-ii)
+\renewcommand{\theequation}{\thechapter-\roman{equation}}
+% 父子公式编号样式，在subequation环境内使用
+% 效果：(4.1-i), (4.1-ii)
+\renewcommand{\theequation}`\label{code:parenteqnum}`
+  {\theparentequation-\roman{equation}}
+\end{latex}
+
+公式1和公式1'的实现方法可以这样：\label{code:eq1plus}
+\begin{latex}{}
+\begin{equation}\label{eq:example}
+A=B,\ B=C
+% 需要标记的公式内部给myeq计数器赋值
+\setcounter{myeq}{\value{equation}}
+\end{equation}
+插入另一个式子：
+\begin{equation}
+D>0
+\end{equation}
+由式\ref{eq:example}可以推出式\ref{eq:example'}：
+\begin{equation}\label{eq:example'}
+\tag{\arabic{chapter}.\arabic{myeq}$'$}
+A=C
+\end{equation}
+\end{latex}
+
+\section{附录}
 \label{sec:appendix}
-\section{编程代码输出环境}
+附录需要appendix宏包。加载时常用的选项是titletoc，目录中显示为``Appendix A''而不是只有一个``A''。如果你不喜欢Appendix这个名称，用重定义\latexline{\\appendixname}命令即可。header选项可以在附录页的标题前插入同样的名称。
+\begin{latex}{}
+\usepackage[titletoc]{appendix}
+\end{latex}
+
+附录一般出现在document环境的最后，本手册使用了：
+\begin{latex}{}
+\begin{appendices}
+\renewcommand{\thechapter}{\Alph{chapter}}
+\titleformat{\chapter}[display]{\Huge\bfseries}
+  {附录\Alph{chapter}}{1em}{}
+\chapter{...}
+...
+\end{appendices}
+\end{latex}
+
+\section{编程代码与行号}
 \label{sec:coding}
+\subsection{编程代码}
+编程代码不是用verbatim环境输出的……listings宏包是个好选择。你可以打开它的宏包文档查看它支持的编程语言，包括C/C++, Python, Java等等。当然还有\LaTeX，如果它也算编程代码的话。你也可以自定义一个全新的语言。预定义或自定义的语言均可用\latexline{\\lstset}命令来设置。
+\begin{latex}{}
+\lstdefinelanguage{`\textit{languagename}`}{`\textit{key=value}`}
+% 设置
+\lstset{language=`\textit{languagename}`, `\textit{key=value}`}
+\end{latex}
+
+可调整的参数包括：
+\begin{para}
+\item[language] 用于\latexline{\\lstset}中，表示设置只对该语言生效。该参数有可选参数，比如[Sharp]C表示C\#，具体需要查看listings宏包。
+\item[basicstyle] 基础输出格式，一般是\latexline{\\small\\ttfamily}
+\item[commentstyle] 注释样式。
+\item[keywordstyle] 保留词样式。
+\item[stringstyle] 字符串样式。
+\item[showstringspaces] 显示字符串中的空格。
+\item[numbers] 行号样式，默认是none. 可选left/right. 
+\item[stepnumber] 默认是1，即每行都显示行号。
+\item[numberfirstline] 默认false，即如果stepnumber>1，首行不显示数字。
+\item[numberstyle] 行号样式。
+\item[numberblanklines] 默认true，即在空白的代码行也显示行号。
+\item[firstnumber] 默认auto，可选last或填入数字，表示起始行号。
+\item[frame] 默认single，即trbl，分别表示top, right, buttom, left四条边的线都是单线。如果想变某边为双线，大写它：trBL. 
+\item[frameround] 在\latexline{\\lstset}中，从右上角顺时针设置，代码框为直角或圆角。比如fttt表示仅右上为直角。
+\item[framerule] 代码框的线宽。
+\item[backgroundcolor] 定义frame里代码的背景色，如\latexline{\\color{red}}。
+\item[belowskip] 默认\latexline{\\medskipamount}。代码框下端到下文正文的竖直距离。
+\item[aboveskip] 类似。
+\item[emptylines] 设置最多允许的空行，比如=1，会使多于1行的空行全部删除，并不计入行号。如果写为=*1，那么被删除的行的行号仍然会保留计数。
+\item[esacpeinside] 暂时脱离代码环境而输入一些\LaTeX 支持的命令，比如临时输入斜体。一般设置为一对重音符号（键盘数字1左侧的符号）。
+\end{para}
+
+代码环境的调用方式是lstlisting环境，例如：
+\begin{latex}{}
+\begin{lstlisting}[language=Python]
+for loopnum in lst:
+    sum += lst[loopnum]
+\end{lstlisting}
+\end{latex}
+
+也可以利用\latexline{\\lstnewenvironment}命令定义一个代码输出环境：
+\begin{latex}{}
+\lstnewenvironment{`\textit{envi-name}`}
+  [`\textit{opt}`][`\textit{opt default}`]
+  {`\textit{before-code}`}{`\textit{after-code}`}
+% 调用：
+\begin{envi-name}...\end{envi-name}
+\end{latex}
+
+如果只想在行内输出，可以像本手册这样用\latexline{\\lstinline}定义：
+\begin{latex}{}
+\newcommand{\latexline}[1]{{\lstinline
+  [language=TeX,basicstyle=\small\ttfamily]{#1}}}
+\end{latex}
+
+有时候，一些关键词并没有被宏包成功高亮，或者你需要更多种类的高亮方式，这时候你可以自己设置：
+\begin{latex}{}
+\lstset{language=..., classoffset=0, 
+  	morekeywords={begin,end},
+  	keywordstyle=\color{brown},
+  	classoffset=1,...}
+\end{latex}
+
+除了morekeywords外，你可以使用：
+\begin{latex}{}
+\lstdefinestyle{...}{
+morecomment=[l]{//}, % 单行注释
+morecomment=[s]{/*}{*/}, % 多行注释，不可嵌套
+morecomment=[n]{(*}{*)}, % 多行注释，可嵌套
+morestring=[b]", % 字符串}
+% 如果想在字符串内输出该符，前加反斜杠即可
+\end{latex}
+
+代码环境在复制的时候怎么才能不复制前面的行号呢？在导言区加上，
+\begin{latex}{}
+\usepackage{accsupp}
+\newcommand{\emptyaccsupp}[1]
+  {\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
+% 在lstset的numberstyle中加入
+...numberstyle=...\emptyaccsupp...,
+\end{latex}
+
+\RED{并请用Adobe Reader等功能健全的PDF阅读打开pdf}！如果是Sumatra仍然可能会选中前面的行号。
+
+最后，给出本手册的\LaTeX 的lstset，颜色另行定义：
+\begin{latex}{}
+\lstset{language=[LaTeX]TeX,
+    basicstyle=\small\ttfamily,
+    commentstyle=\color{commentcolor},
+    keywordstyle=\color{keywordcolor},
+    stringstyle=\color{stringcolor},
+    showstringspaces=false,
+    % Package/Tikz-Lib Using
+    classoffset=0,
+    morekeywords={begin,end,usetikzlibrary},
+    keywordstyle=\color{keywordcolor},
+    classoffset=1,
+    morekeywords={article,report,book,
+    	xeCJK,tikz,
+    	calc},
+    keywordstyle=\color{packagecolor},
+    classoffset=2,
+    morekeywords={document,tikzpicture},
+    keywordstyle=\color{envicolor},
+    % Line Number Style
+    numbers=left,
+    numberstyle=\tiny\emptyaccsupp,
+    stepnumber=1,
+    % Frame and Background Color
+    frame=single,
+    framerule=0pt,
+    backgroundcolor=\color{backcolor},
+    % Spaces
+    emptylines=1,
+    escapeinside=`\texttt{\char126{}\char126{}}`}
+\end{latex}
+
+\subsection{行号}
+\begin{linenumbers}
+\modulolinenumbers[3]
+行号使用lineno宏包进行生成，在此简单介绍宏包选项：
+\begin{para}
+  \item[left]默认选项，行号出现在左页边。
+  \item[right]右页边。
+  \item[switch]对于双页排版的文档，偶数页左页边，奇数页右页边。
+  \item[switch*]对于双页排版的文档，置于内侧页边。
+  \item[running]默认选项。整个文档进行计数。
+  \item[pagewise]每页行号重新从1计数。
+  \item[modulo]每5行显示行号。
+  \item[displaymath]自动将\LaTeX 默认的行间公式包装在新定义的\textit{linenomath}环境中。
+  \item[mathline]如果在文中使用了\textit{linenomath}环境，则对其中的数学公式也进行行号编号。
+\end{para}
+
+如果你想开始编号，使用\latexline{\\linenumbers[number]}命令，其中\textit{number}表示起始行号；并用\latexline{\\nolinenumbers}来结束。或者使用linenumbers环境、runninglinenumbers环境，并且仿上设置起始行号。如果使用\texttt{ \char92{}linenumbers*, \char92{}runninglinenumbers}或者带星的linenumbers、runninglinenumbers环境，那么行号会自动从1开始。
+
+你可以使用\latexline{\\resetlinenumber[number]}，在某处把行号设置为某个数值。
+
+如果想要每N行显示行号，使用\texttt{\char92{}modulolinenumbers[N]}命令。比如：
+\end{linenumbers}
+
+\begin{latex}{}
+\begin{linenumbers}
+  \modulolinenumbers[3]
+  ...TEXT...
+\end{linenumbers}
+\end{latex}
+
+本节的subsection后到代码段前的所有内容就是包含在如上的环境中的。
+
 
 % 如果你想查看Tikz绘图的内容，请取消这行注释
 %\include{AdditionalChapter-Tikz}
@@ -2231,7 +2714,7 @@ Here we go. This is a very long sentence and you will find that it goes to the s
 % 这里不用>{\ttfamily}而用\verb是为了减少报错可能
 \begin{center}
 \tabcaption{注音符号与特殊符号}
-\begin{tabular}{|*{4}{>{\centering}p{4em} @{-\hspace{1em}} p{3em}|}}
+\begin{tabular}{|*{4}{>{\centering}p{3em} @{-\hspace{1em}} p{3em}|}}
 \hline
 \texttt{样式} & 命令 & \texttt{样式} & 命令 & \texttt{样式} & 命令 & \texttt{样式} & 命令 \\
 \hline
@@ -2252,7 +2735,7 @@ Here we go. This is a very long sentence and you will find that it goes to the s
 
 \begin{center}
 \tabcaption{国际音标输入表（部分）}
-\begin{tabular}{|*{3}{>{\centering\rmfamily}p{3em} @{-\hspace{0.5em}} >{\ttfamily}p{7.5em}|}}
+\begin{tabular}{|*{3}{>{\rmfamily}c !{-} >{\ttfamily}p{7.5em}|}}
 \hline
 \texttt{样式} & 命令 & \texttt{样式} & 命令 & \texttt{样式} & 命令 \\
 \hline
