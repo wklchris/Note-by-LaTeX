@@ -14,7 +14,7 @@
 
 一份HTML 4的基础中文笔记。HTML是一种很有意思的标记语言，学习它对爬虫、使用Markdown都有帮助。 *A HTML basic note in Chinese. HTML is an interesting markup language. Learning it will help you on webcrawl and Markdown use.*
 
-## ▶ LaTeX-cn (LaTeX):
+## √ LaTeX-cn (LaTeX):
 
 LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在排版方面更有优势。本笔记记录如何使用LaTeX进行排版处理。*LaTeX is one kind of typesetting system, which outperforms Microsoft Word on typesetting. This note records how to use LaTeX.*
 
