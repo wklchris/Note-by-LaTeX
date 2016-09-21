@@ -18,6 +18,8 @@
 
 LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在排版方面更有优势。本笔记记录如何使用LaTeX进行排版处理。*LaTeX is one kind of typesetting system, which outperforms Microsoft Word on typesetting. This note records how to use LaTeX.*
 
+**第一版仍然存在的问题： 文档内主目录不能正常跳转，但章内目录与pdf阅读器的书签均能正常跳转。**
+
 ## … markdown-en (Markdown):
 
 Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__易写__之间的平衡。*Markdown is a markup language (like HTML), but it emphysizes the balance between __easy-reading__ and __easy-writing__.*
@@ -32,6 +34,18 @@ Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__�
 
 
 # 中文更新日志（Update Log in Chinese）
+
+2016-09-20
+
+> LaTeX-cn
+
+> 1. 修正了“数学字体”中空格的显示问题；修正了宏包数学字体表中字体显示的问题；修正了“自定义图表”中的一处中括号反向。
+
+> 2. 其他错字的订正和微小的修正。
+
+2016-09-17
+
+> Finish the first edition of **LaTeX-cn**
 
 2016-08-25 Add **LaTeX-cn, githubPush-cn**, **markdown-en**
 

@@ -976,13 +976,13 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 \section{数学字体、字号与空格}
 \label{sec:mathfont}
 \subsection{空格}
-在数学环境中，行文空格是被忽略的。比如\verb|$x,y$|和\verb|$x, y$|并没有区别。数学环境有独有的空格命令：
+在数学环境中，行文空格是被忽略的。比如\verb|$x,y$|和\verb|$x, y$|并没有区别。数学环境有独有的空格命令，最后一个是$-3/18$的空格：
 
 \begin{codeshow}
-  $没有空格,3/18空\,格$ \\
-  $4/18空\:格,5/18空\;格$ \\
-  $9/18空\ 格,一个空\quad 格$ \\
-  $两个空\qquad 格,负3/18空\!格$
+  $0/18Space,3/18Sp\,ace$ \\
+  $4/18Sp\:ace,5/18Sp\;ace$ \\
+  $9/18Sp\ ace,One1Sp\quad ace$ \\
+  $Two2Sp\qquad ace,nega3/18Sp\!ace$
 \end{codeshow}
 
 事实上，以上命令也可以在数学模式外使用，其中使用最广泛的是\verb|\,|，比如上文提到过的千位分隔符。在数学环境中它也应用广泛：
@@ -1008,7 +1008,7 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 以下简单介绍几种数学字体。数学字体的总表参见\tref{tab:mathfont}。
 
 \subsubsection{数学粗体}
-数学粗体使用amsmath宏包支持的\latexline{\\boldsymbol}命令。命令\latexline{\\boldmath}的问题在于它只能加粗一个数学环境，其中很可能包括了标点符号，而这时不严谨的。命令\latexline{\\mathbf}就差的更远，它只能把字体转为\textbf{正}粗体，而数学字体都是斜体的。
+数学粗体使用amsmath宏包支持的\latexline{\\boldsymbol}命令。命令\latexline{\\boldmath}的问题在于它只能加粗一个数学环境，其中很可能包括了标点符号，而这是不严谨的。命令\latexline{\\mathbf}就差的更远，它只能把字体转为\textbf{正}粗体，而数学字体都是斜体的。
 
 \begin{codeshow}
 $\mu,M$\\
@@ -1384,16 +1384,16 @@ mathcal\{ABCDabcde 1234\} & \mathcal{ABCDabcde 1234} \\
 \begin{center}
 \tabcaption{宏包数学字体表}
 \label{tab:mathfont-pk}
-\begin{tabular}{>{\ttfamily\char92}ll}
+\begin{tabular}{>{\ttfamily}ll}
 \hline
-mathscr\{ABCDabcde 1234\} & mathrsfs\\
-$\mathscr\{ABCDabcde 1234\}$ & \\
+\char92mathscr\{ABCDabcde 1234\} & mathrsfs\\
+$\mathscr{ABCDabcde 1234}$ & \\
 \hline
-mathfrak\{ABCDabcde 1234\} & amsfonts或者amssymb\\
-$\mathfrak\{ABCDabcde 1234\}$ & \\
+\char92mathfrak\{ABCDabcde 1234\} & amsfonts或者amssymb\\
+$\mathfrak{ABCDabcde 1234}$ & \\
 \hline
-mathbb\{ABCDabcde 1234\} & amsfonts或者amssymb\\
-$\mathbb\{ABCDabcde 1234\}$ & \\
+\char92mathbb\{ABCDabcde 1234\} & amsfonts或者amssymb\\
+$\mathbb{ABCDabcde 1234}$ & \\
 \hline
 \end{tabular}
 \end{center}
@@ -1965,7 +1965,7 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 \item[\char92LTright] 类似。
 \item[\char92LTpre] 表格上部到文本的距离，默认是\latexline{\\bigskipamount}\footnote{这个命令通常是一行左右的竖直距离，12pt$\pm$4pt左右。}。
 \item[\char92LTpost] 类似。
-\item[\char92\char92\char93\ldots\char91] 在换行后插入竖直空距。
+\item[\char92\char92\char91\ldots\char93] 在换行后插入竖直空距。
 \item[\char92\char92{*}] 禁止在该行后立刻进行分页。
 \item[\char92kill] 该行不显示，但用于计算宽度。
 \item[\char92footnote(mark/text)] \latexline{\\footnote}命令不能用于表头或表尾；\latexline{\\footnotemark}则可以。另外，\latexline{\\footnotetext}可以用于表中，对应上文的\latexline{\\footnotemark}命令。
@@ -2620,7 +2620,7 @@ for loopnum in lst:
 morecomment=[l]{//}, % 单行注释
 morecomment=[s]{/*}{*/}, % 多行注释，不可嵌套
 morecomment=[n]{(*}{*)}, % 多行注释，可嵌套
-morestring=[b]", % 字符串}
+morestring=[b]", % 字符串
 % 如果想在字符串内输出该符，前加反斜杠即可
 \end{latex}
 
