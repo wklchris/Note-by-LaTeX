@@ -1,7 +1,7 @@
-\documentclass[a4paper, zihao = -4]{ctexrep}
 % safe参数解决与\!在内的多个冲突
 % \sups命令可能被重定义,xeCJK放在tipa后
-\usepackage[safe]{tipa}
+\RequirePackage[safe]{tipa}
+\documentclass[a4paper, zihao = -4]{ctexrep}
 
 % 中文支持
 \iffalse
@@ -11,6 +11,7 @@
 \usepackage{indentfirst}
 \fi
 \setCJKmathfont{STXinwei}
+\newCJKfontfamily[zhxinwei]\xinwei{STXinwei}
 
 % 数学环境
 \usepackage{amsmath}
@@ -123,7 +124,8 @@
 \usepackage{graphicx}
   \graphicspath{{./tikz/}}
 % 页面修正宏包
-\usepackage[top=1in]{geometry}
+\usepackage{geometry}
+\geometry{top = 1in}
 
 % 代码环境
 \usepackage{listings}
@@ -230,4 +232,5 @@
 \makeatother
 
 % 引用
-\usepackage[colorlinks,bookmarksopen=true,bookmarksnumbered=true]{hyperref}
+\usepackage{hyperref}
+\hypersetup{colorlinks, bookmarksopen = true, bookmarksnumbered = true}
