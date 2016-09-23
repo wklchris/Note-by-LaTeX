@@ -20,6 +20,10 @@ LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在�
 
 **第一版仍然存在的问题： 文档内主目录不能正常跳转，但章内目录与pdf阅读器的书签均能正常跳转。**
 
+## ▶ LaTeX-beamer-en (LaTeX):
+
+用beamer宏包进行幻灯的排版，能方便地打印为幻灯展示、屏幕阅读、讲义分发这三种不同侧重的PDF文件. *How to use beamer package to make a slide. You can output your tex file into PDF in 3 kinds of features: __slide__, __screen-friendly__ and __handout__.*
+
 ## … markdown-en (Markdown):
 
 Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__易写__之间的平衡。*Markdown is a markup language (like HTML), but it emphysizes the balance between __easy-reading__ and __easy-writing__.*

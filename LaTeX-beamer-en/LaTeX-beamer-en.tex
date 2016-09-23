@@ -1,0 +1,223 @@
+\documentclass{beamer}
+\usetheme{Antibes}
+
+\usepackage{listings}
+  \lstset{language=[LaTeX]TeX,
+      basicstyle=\footnotesize\ttfamily,
+      frame=single, framerule=0pt,
+      classoffset=0,
+      keywordstyle=\color{blue},
+      morekeywords={usetheme,subtitle,institute,lecture,part, subsection,frametitle,framesubtitle,tableofcontents,partpage,AtBeginLecture,AtBeginSection},
+      classoffset=1,
+      keywordstyle=\color{orange},
+      morekeywords={inst,insertlecture},
+      escapeinside=``}
+\usepackage{hologo}
+\usepackage{ulem}
+\usepackage{amsmath}
+%\usepackage{hyperref}
+
+\newcommand{\Beamer}{\textrm{BEAMER}}
+\newcommand{\cmd}[2][blue]{{\color{#1}{\ttfamily\char92 #2}}}
+\newcommand{\env}[1]{\texttt{#1}}
+\newcommand{\imp}[1]{{\color{red}{#1}}}
+\newcommand{\st}[1]{\uline{#1}}
+\newcommand{\dpar}{\\ \mbox{}}
+
+\title{\Beamer{} Notes}
+\subtitle{A Brief Guide}
+\author{K.L Wu}
+\institute{From \LaTeX-beamer-en project on  {\color{cyan}wklchris-GitHub} \\
+\url{https://github.com/wklchris/Note-by-LaTeX}}
+
+\AtBeginSection[]{\begin{frame}{Outline of Section}
+    \tableofcontents[currentsection]
+  \end{frame}}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section*{Preamble}
+\begin{frame}{Preamble}
+After I've finished the 1st edition of \LaTeX-cn project, I plan to learn more about \LaTeX, especially its usage in research field. So \Beamer{} looks great.
+
+When I write down this note, I have just started heading for a master's degree. So how to apply my \LaTeX skill for my research goals weighs much to me. It may sound sad, but the fact is that I'm no longer the boy who just learnt what he wanted to, even it means nothing but only joy to him. 
+
+Fortunately I love \LaTeX, and I hope it can help me a lot in the future. \Beamer{} is just a very first step for me.
+
+\vfill
+
+\begin{flushright}
+
+Chris Wu\dpar
+
+\footnotesize\today
+
+Davis, CA
+\end{flushright}
+\end{frame}
+
+\section{Introduction}
+\subsection{What is \protect\Beamer?}
+\begin{frame}
+  \frametitle{What is \protect\Beamer?}
+  \Beamer{} is a \LaTeX{} package made by \textit{Till Tantau} for his phD thesis presentation. He uploaded it to CTAN one month after that in 2003, so it became a package that we can access.  
+\end{frame}
+
+\subsection{Why do we use \protect\Beamer?}
+\begin{frame}
+  \frametitle{Why do we use \Beamer?}
+  Because \Beamer{} has many attractive features:
+  \begin{itemize}
+    \item Plentiful overlay and transition effects;
+    \item Navigational bars;
+    \item 4 outputs: \st{screen}, \st{slides}, \st{handouts}, and \st{notes};
+    \item Support \hologo{pdfLaTeX} and \hologo{XeLaTeX}.
+  \end{itemize}
+\end{frame}
+
+\section{Basic Knowledge}
+\subsection{Beginning}
+\begin{frame}[fragile]
+  \frametitle{Beginning}
+  First, \Beamer{} begins with:
+  \begin{lstlisting}
+  \documentclass{beamer}
+  \usetheme{Antibes}
+  \title[Short]{BEAMER Tutorial}
+  \subtitle{A Short Guide Slide}
+  \author{K.L Wu\inst{Hey!}}
+  \institute{}
+  \date{\today}
+  \end{lstlisting}
+  
+  The \cmd[orange]{inst} command can make a superscript. 
+  
+  The \cmd{usetheme} command will be introduced later. 
+\end{frame}
+
+\begin{frame}[fragile]
+  To make the titlepage, here come these:
+  \begin{lstlisting}
+  \begin{document}
+  \begin{frame}
+    \titlepage
+  \end{frame}
+  ...
+  \end{lstlisting}
+  \imp{Things in a frame environment will be put in a single slide(i.e. page).} No page breaking command is required. 
+\end{frame}
+
+\subsection{Slide Structure}
+\begin{frame}[fragile]
+  \frametitle{Slide Structure}
+  You can set structure to your beamer, such as:
+  \begin{lstlisting}
+  \lecture{Lec}{Lec-label}
+  \part{Part}
+  \section{Sec}
+  \subsection{Subsec}
+  \begin{frame}
+  ...
+  \end{frame}
+  \end{lstlisting}
+  The structure commands are put \imp{outside of frame environment}. And they \imp{won't appear} on your slide under default format. \dpar
+\end{frame}
+
+\begin{frame}[fragile]
+  If you use \cmd{part} command, \Beamer{} also allows you to use \cmd{partpage} to get a title of this part:
+  \begin{lstlisting}
+  \part{Part}
+  \begin{frame}
+    \partpage
+  \end{frame}
+  \end{lstlisting}
+  On most occasions, you only need to use \cmd{part}, \cmd{section}, and \cmd{subsection}. If you really need a \cmd{lecture}, you may use \cmd[orange]{insertlecture} to print a lecture title:
+  \begin{lstlisting}
+  \AtBeginLecture{\begin{frame}
+    \Large Lecture Topic Today: \insertlecture
+    \end{frame}}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  The \cmd{AtBeginLecture} and \cmd{AtBeginSection} are used for putting something before \cmd{lecture} and \cmd{section}. Usually usage is like this:
+  \begin{lstlisting}
+  % In preamble: 
+  \AtBeginSection[]{\begin{frame}{Outline of Section}
+    \tableofcontents[currentsection]
+  \end{frame}}
+  \end{lstlisting}
+  The \imp{empty square brackets} mean that \cmd{section*} won't have this outline of section before it starts.
+\end{frame}
+
+\begin{frame}[fragile]
+  To get a slide with title, use:
+  \begin{lstlisting}
+  \begin{frame}
+    \frametitle{A real title}
+    \framesubtitle{A real sub-title}
+  \end{frame}
+  \end{lstlisting}
+  Or just:
+  \begin{lstlisting}
+  \begin{frame}{A real title}
+  ...
+  \end{frame}
+  \end{lstlisting}
+\end{frame}
+
+\subsection{Table of Contents}
+\begin{frame}[fragile]
+  \frametitle{Table of Contents}
+  You can add these frame to the very first of your slides for Table of Contents (ToC). 
+  \begin{lstlisting}
+  \begin{frame}
+    \frametitle{Outline}
+    \tableofcontents
+  \end{frame}
+  \end{lstlisting}
+  
+  Or you can use \cmd{AtBeginSection} and so on.\dpar
+  
+  If you want to show your ToC section by section, which means ToC will use more than one slide, you can try:
+  \begin{lstlisting}
+  \tableofcontents[pausesections]
+  \end{lstlisting}
+\end{frame}
+
+\subsection{Math Contents}
+\begin{frame}
+  \frametitle{Math Contents}
+  We can easily insert equations in slides:
+  \begin{gather}
+  \lim_{n\rightarrow\infty} \sum_{i=1}^n \frac{1}{2^i} = 1
+  \end{gather}
+  
+  \Beamer{} predefines many theorem environments, namely: \env{theorem}, \env{corollary}, \env{definition}, \env{definitions}, \env{fact}, \env{example}, and \env{examples}.
+\end{frame}
+
+\begin{frame}[fragile]
+  This is \env{theorem} environment, the same usage in normal \LaTeX:
+  \begin{theorem}
+  If A=B, B=C, then A=C. 
+  \end{theorem}
+  
+  Similarly, \Beamer{} has block environments: \env{block}, \env{alertblock}, and \env{exampleblock}.
+  \begin{lstlisting}
+  \begin{alertblock}{Title}
+  This is an alertblock.
+  \end{alertblock}
+  \end{lstlisting}
+  
+  \begin{alertblock}{Title Here}
+  This is an alertblock.
+  \end{alertblock}
+  
+\end{frame}
+
+\subsection{Figures and Tables}
+
+\end{document}
