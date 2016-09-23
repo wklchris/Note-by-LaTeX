@@ -61,9 +61,7 @@ September 17, 2016 于Davis, CA
 
 之后你可以在编译窗口输入一篇小文档，并保存为tex文件进行测试：
 \begin{latex}{}
-\documentclass{article}
-\usepackage[slantfont,boldfont]{xeCJK}
-\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\documentclass{ctexart}
 \begin{document}
   Hello, world!
   你好，世界！
@@ -76,12 +74,12 @@ September 17, 2016 于Davis, CA
 \subsection{命令与环境}
 \LaTeX 中的\co{命令}通常是由一个反斜杠加上命令名称，再加上花括号内的参数构成的。比如：
 \begin{latex}{}
-\documentclass{article}
+\documentclass{ctexart}
 \end{latex}
 
 如果有一些选项是备选的，那么通常会在花括号前用方括号标出。比如：
 \begin{latex}{}
-\documentclass[a4paper]{article}
+\documentclass[a4paper]{ctexart}
 \end{latex}
 
 在\LaTeX 中，还有一种重要的指令叫做\co{环境}。它定义了一整个区段的内容都受到环境（即其本身）的控制。这个区段是从\latexline{\\begin{environment}}开始，到\latexline{\\end{environment}}结束的。。比如：
