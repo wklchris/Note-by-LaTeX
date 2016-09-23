@@ -1,13 +1,16 @@
-\documentclass[a4paper,12pt]{report}
+\documentclass[a4paper, zihao = -4]{ctexrep}
 % safe参数解决与\!在内的多个冲突
 % \sups命令可能被重定义,xeCJK放在tipa后
 \usepackage[safe]{tipa}
 
 % 中文支持
+\iffalse
 \usepackage[slantfont,boldfont]{xeCJK}
 	\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
 	\setCJKmathfont{STXinwei}
 \usepackage{indentfirst}
+\fi
+\setCJKmathfont{STXinwei}
 
 % 数学环境
 \usepackage{amsmath}
