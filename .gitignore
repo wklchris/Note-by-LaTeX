@@ -1,4 +1,5 @@
 # LaTeX:
+*.pdf
 *.toc
 *.log
 *.aux
