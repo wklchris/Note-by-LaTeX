@@ -1,21 +1,22 @@
-\input{Head}
+%!TEX program = xelatex
 
+\input{Head}
 \title{简单粗暴\LaTeX }
 \author{K.L Wu\\
-  {\CJKfontspec{KaiTi} 本手册是\href{https://github.com/wklchris/Note-by-LaTeX}{wklchris-GitHub}的\LaTeX{}-cn项目}
+  {\kaishu 本手册是\href{https://github.com/wklchris/Note-by-LaTeX}{wklchris-GitHub}的\LaTeX{}-cn项目}
 }
 \date{第一版已定稿。\\
   最后更新于：\today}
 
 \begin{document}
-	
+
 \maketitle
 
 \tableofcontents
 
 \chapter{序}
 
-\noindent{\Huge\CJKfontspec{STXinwei} 第一稿序}\dpar\dpar
+\noindent{\Huge\xinwei 第一稿序}\dpar\dpar
 
 其实在之前我是有一稿手册的，开始撰写的日期大概在2015年4月。但是自己觉得写得太烂，因此索性推倒重写了这一版。这一版的主要特征是：
 \begin{feae}
@@ -30,10 +31,10 @@
 \item[数学排版] 包括数学符号、公式、编号等内容。
 \item[进阶] 主要是自定义命令，帮助你更高效、更简洁地书写你的文档。
 \item[Tikz绘图*] 附加章节，需要读者取消注释后重编译。
-\item[附录] 帮助你快速查找一些你想要的东西。 
+\item[附录] 帮助你快速查找一些你想要的东西。
 \end{fead}
 
-由于工作全部由我一人完成，限于视野，难免存在错漏之处。恳请读者指正。有任何使用中遇到的手册中无法解决的问题，欢迎向我提出。另外，我推荐\textit{The \LaTeX{} Companion}, 一个优秀的知识补漏手册。
+由于工作全部由我一人完成，限于视野，难免存在错漏之处。恳请读者指正。有任何使用中遇到的手册中无法解决的问题，欢迎向我提出。另外，我推荐\emph{The \LaTeX{} Companion}, 一个优秀的知识补漏手册。
 
 最后，还要感谢在\LaTeX 学习中为我解答疑惑的同学，特别是来自\LaTeX 度吧的吧友；本手册中许多的解决方案都是由他们提供的。我谨在此记录。
 
@@ -52,7 +53,7 @@ September 17, 2016 于Davis, CA
 \chapter{\LaTeX{}基础}
 \section{第一份文稿}
 
-编辑器的配置大概是需要讲解一下的，毕竟对于初学者来说是很头疼的事情。本手册就以\TeX Studio为例进行配置。首先你应该安装一个\TeX{} Live，它是完全免费的，网址：\url{http://tug.org/texlive/}. 
+编辑器的配置大概是需要讲解一下的，毕竟对于初学者来说是很头疼的事情。本手册就以\TeX Studio为例进行配置。首先你应该安装一个\TeX{} Live，它是完全免费的，网址：\url{http://tug.org/texlive/}.
 
 虽然它体积较大，但是却是最一劳永逸、最不需要花时间取配置的方法，同时它大概也是功能支持最强的\LaTeX 发行版。
 
@@ -60,9 +61,7 @@ September 17, 2016 于Davis, CA
 
 之后你可以在编译窗口输入一篇小文档，并保存为tex文件进行测试：
 \begin{latex}{}
-\documentclass{article}
-\usepackage[slantfont,boldfont]{xeCJK}
-\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\documentclass{ctexart}
 \begin{document}
   Hello, world!
   你好，世界！
@@ -75,12 +74,12 @@ September 17, 2016 于Davis, CA
 \subsection{命令与环境}
 \LaTeX 中的\co{命令}通常是由一个反斜杠加上命令名称，再加上花括号内的参数构成的。比如：
 \begin{latex}{}
-\documentclass{article}
+\documentclass{ctexart}
 \end{latex}
 
 如果有一些选项是备选的，那么通常会在花括号前用方括号标出。比如：
 \begin{latex}{}
-\documentclass[a4paper]{article}
+\documentclass[a4paper]{ctexart}
 \end{latex}
 
 在\LaTeX 中，还有一种重要的指令叫做\co{环境}。它定义了一整个区段的内容都受到环境（即其本身）的控制。这个区段是从\latexline{\\begin{environment}}开始，到\latexline{\\end{environment}}结束的。。比如：
@@ -92,7 +91,7 @@ September 17, 2016 于Davis, CA
 
 同样的，环境也可以使用备选选项，只需要写在begin的后面就行了。
 
-注意：不带花括号的命令后面如果想打印空格，请加上\RED{一对内部为空的花括号}再键入空格。否则空格会被忽略。例如：\verb+\LaTeX{} Studio+. 
+注意：不带花括号的命令后面如果想打印空格，请加上\RED{一对内部为空的花括号}再键入空格。否则空格会被忽略。例如：\verb+\LaTeX{} Studio+.
 
 \subsection{保留字符}
 
@@ -226,7 +225,7 @@ $\backslash$
 
 中文的破折号你也许可以直接使用日常的输入方式。中文的省略号同样。但是注意，\RED{英文的省略号使用\latexline{\\ldots}这个命令而不是三个句点}。
 
-至于减号，也许你应该借助于数学环境来输入：\verb|$-$|. 
+至于减号，也许你应该借助于数学环境来输入：\verb|$-$|.
 
 \subsection{强调：粗与斜}
 \LaTeX 中专门有个叫做\latexline{\\emph{text}}的命令，可以强调文本。对于通常的西文文本，上述命令的作用就是斜体。如果你对一段已经这样转换为斜体的文本再使用这个命令，它就会取消斜体，而成为正体。
@@ -577,7 +576,7 @@ This is the text following the reference.
 
 用\verb|\the|接上计数器名称的方式来调用计数器，比如\latexline{\\thechapter}。如果只是想输出计数器的数值，可以指定数值的形式，如阿拉伯数字、大小写英文字母，或大小写罗马数字。常用的命令包括：
 \begin{latex}{}
-\arabic{counter-name} 
+\arabic{counter-name}
 \Alph \alph \Roman \roman
 % ctex文档类还支持\chinese
 \end{latex}
@@ -590,7 +589,7 @@ This is the text following the reference.
 \end{latex}
 
 \subsection{列表}
-\LaTeX 支持的预定义列表有三种，分别是无序列表itemize, 自动编号列表enumerate, 还有描述列表description. 
+\LaTeX 支持的预定义列表有三种，分别是无序列表itemize, 自动编号列表enumerate, 还有描述列表description.
 
 \subsubsection{\textit{itemize}环境}
 例子：
@@ -714,7 +713,7 @@ This is the text following the reference.
 
 各参数的说明如下：
 \begin{feai}
-\item 可选参数\textbf{对齐方式}：[t] 表示表格上端与所在行的网格线对齐。如果与它同一行的有文字的话，文字是与表格上端同高的。如果使用参数 [b]，就是下端同高。[c] 是中央同高。t=top, b=buttom, c=center. 
+\item 可选参数\textbf{对齐方式}：[t] 表示表格上端与所在行的网格线对齐。如果与它同一行的有文字的话，文字是与表格上端同高的。如果使用参数 [b]，就是下端同高。[c] 是中央同高。t=top, b=buttom, c=center.
 \item 必选参数\textbf{列格式}：用竖线符号“|”来表示竖直表线，连续两个“|”表示双竖直表线。最右边留空了，表示没有竖直表线。或者你可以使用“@\{\}”表示没有竖直表线。你也可以用“@\{-\}”这样的形式把竖直表线替换成“-”，具体效果不再展示。而此处的l、c、r分别表示从左往右一共三列，分别\textbf{左对齐、居中对齐、右对齐}文字。在使用l、c、r时，表格宽度会自动调整。你可以用"p{2em}"这样的命\textbf{指定某一列的宽度}，这时文字自动左对齐。注意：单元格中的文字默认向上水平表线对齐，即竖直居上。
 \item 在tabular环境内部，命令\latexline{\\hline}来绘制水平表线。命令\latexline{\\cline{i-j}}用于绘制横跨从i到j行的水平表线。两个连续的\latexline{\\hline}命令可以画双线，但是双线之间相交时可能存在问题。
 \item 在tabular环境内部，命令"\texttt{\&}"用于把光标跳入该行下一列的单元格。每行的最后请使用两个反斜杠命令跳入下一行。命令\latexline{\\hline}或\latexline{\\cline}不能算作一行，因此它们后面没有附加换行命令。
@@ -744,7 +743,7 @@ This is the text following the reference.
 % 记得\usepackage{array}
 \begin{tabular}{|>{\setlength\parindent{5mm}}
   m{1cm}|>{\large\bfseries}m{1cm}|>{$}c<{$}|}
-  \hline A & 2 2 2 2 2 2 & C\\ 
+  \hline A & 2 2 2 2 2 2 & C\\
   \hline 1 1 1 1 1 1  & 10 & \sin x \\ \hline
 \end{tabular}
 \end{latex}
@@ -756,7 +755,7 @@ This is the text following the reference.
 \begin{center}
 \begin{tabular}{|c|c|c|}
   \hline
-  \multirow{2}{2cm}{A Text!} 
+  \multirow{2}{2cm}{A Text!}
     & ABC & DEF \\
   \cline{2-3} & abc & def \\
   \hline
@@ -813,9 +812,9 @@ This is the text following the reference.
 
 geometry宏包的具体的选项参数有：
 \begin{feai}
-\item \texttt{paper=<papername>:} 其中纸张尺寸有[a0--a6, b0--b6, c0--c6]paper, ansi[a--e]paper, letterpaper, executivepaper, legalpaper. 
+\item \texttt{paper=<papername>:} 其中纸张尺寸有[a0--a6, b0--b6, c0--c6]paper, ansi[a--e]paper, letterpaper, executivepaper, legalpaper.
 \item \texttt{papersize=\{<width>,<height>\}}: 自定义尺寸。也可以单独对paperwidth或者paperheigth赋值。
-\item \texttt{landscape}: 切换到横向纸张。默认的是portrait. 
+\item \texttt{landscape}: 切换到横向纸张。默认的是portrait.
 \end{feai}
 
 body部分分为两个概念：一个是总文本区(total body)，另一个是主文本区(body). 总文本区可以由主文本区加上页眉(head)、页脚(foot)、侧页边(marginalpar)组成。默认的选项为includehead，表示总文本区包含页眉。要包括其他内容，可使用：\texttt{includefoot, includeheadfoot, includemp, includeall}，以及以上各个参数将include改为ignore后的参数。
@@ -882,7 +881,7 @@ fancyhdr在定义双页文档时，采用了如下的默认设置：
 % 这里的参数#1是指输入的section/chapter的标题
 % 效果：“1.2. The section”
 \renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
-% 效果：“CHAPTER 2. The chapter” 
+% 效果：“CHAPTER 2. The chapter”
 \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{%
   \chaptername}\ \thechapter.\ #1}{}}
 \end{latex}
@@ -960,7 +959,7 @@ My telephone number is: \mbox{012 3456 7890}
 $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 \end{latex}
 
-一般推荐第一种方式。例如：\verb|$\sum_{i=1}^{n}a_i$|，即：$\sum_{i=1}^{n}a_i$. 
+一般推荐第一种方式。例如：\verb|$\sum_{i=1}^{n}a_i$|，即：$\sum_{i=1}^{n}a_i$.
 
 另外一种公式排版方式是\co{行间公式}，也称行外公式，使用：
 \begin{latex}{}
@@ -1930,7 +1929,7 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 
 各参数的含义：
 \begin{para}
-\item[section:] 目录对象。可以是chapter, section, 或者figure, table. 
+\item[section:] 目录对象。可以是chapter, section, 或者figure, table.
 \item[left:] 目录对象左侧到左页边区的距离。请作必选使用。
 \item[above-code:] 格式调整命令。可以包含垂直对象，也可以使用\latexline{\\contentslabel}，将在下面介绍。
 \item[label-width:] 标签宽。
@@ -1958,7 +1957,7 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 主要是涉及长表格的使用，包括supertabular, longtable, tabu在内的多个宏包都能完成长表格的排版，大致的功能会包括：
 \begin{para}
 \item[表头控制：] 首页的表头样式，以及转页后表头的样式。
-\item[转页样式：] 在表格跨页时，页面最下方插入的特殊行，比如to be continued. 
+\item[转页样式：] 在表格跨页时，页面最下方插入的特殊行，比如to be continued.
 \end{para}
 
 这里主要介绍longtable宏包。主要命令：
@@ -2026,7 +2025,7 @@ a table across pages, so go to the & next page and \\
 check whether the head at next page is & different from \\
 that on this page. Also you can have a look & at lastfoot. \\[10ex]
 So do you get how to use this & package? \\
-Maybe you'll love it. So enjoy & \texttt{longtable}! 
+Maybe you'll love it. So enjoy & \texttt{longtable}!
 \end{longtable}
 
 它的代码如下：
@@ -2076,7 +2075,7 @@ check whether the head at next page is & different from \\
 that on this page. Also you can have a look & at lastfoot.
 \\[10ex]
 So do you get how to use this & package? \\
-Maybe you'll love it. So enjoy & \texttt{longtable}! 
+Maybe you'll love it. So enjoy & \texttt{longtable}!
 \end{longtable}
 \end{latex}
 
@@ -2084,7 +2083,7 @@ Maybe you'll love it. So enjoy & \texttt{longtable}!
 \label{sec:list}
 编号列表的自定义主要使用enumitem宏包。主要的计数器有：
 \begin{feai}
-\item enumerate: 
+\item enumerate:
   \begin{feai}
     \item \textbf{Counter:} enumi, enumii, enumiii, enumiv
     \item \textbf{Label:} labelenumi, labelenumii, \ldots
@@ -2110,7 +2109,7 @@ enumitem宏包支持众多参数：
 \item[ref] 设置嵌套序号格式，比如\latexline{[ref=\\emph{\\alph*}]}表示引用的上层序号是强调后的小写字母。你也可以写：\latexline{[label=\alph{enumi}. \roman*]}这样的形式。
 \item[label*] 加在enumerate上层序号上。比如上层是2，那么就是2.1, 2.1.1……
 \item[font/format] 设置label的字体。如果环境是description, 那么就会设置\latexline{\\item}命令后方括号内的文本字体。
-\item[align] 对齐方式默认right, 也可以选择left/parleft. 
+\item[align] 对齐方式默认right, 也可以选择left/parleft.
 \item[start] 初始序号。start=2表示初始序号是2, b, B, ii或II.
 \item[resume] 不需赋值的布尔参数。表示接着上一个enumerate环境的结尾进行编号。
 \item[resume*] 不需赋值的布尔参数。表示完全继承上一个enumerate环境的参数。如果你常常使用这个命令，也许你可以新定义一个列表环境。
@@ -2383,7 +2382,7 @@ num & \multicolumn{2}{c}{此模式下与\texttt{\char92citep}相同} \\
 \bibliographystyle{plain}
 \begin{document}
   ...
-  ... and published here\cite{Smith93TRB}. 
+  ... and published here\cite{Smith93TRB}.
   ...
   \bibliography{myBib}
 \end{document}
@@ -2577,13 +2576,13 @@ A=C
 \item[keywordstyle] 保留词样式。
 \item[stringstyle] 字符串样式。
 \item[showstringspaces] 显示字符串中的空格。
-\item[numbers] 行号样式，默认是none. 可选left/right. 
+\item[numbers] 行号样式，默认是none. 可选left/right.
 \item[stepnumber] 默认是1，即每行都显示行号。
 \item[numberfirstline] 默认false，即如果stepnumber>1，首行不显示数字。
 \item[numberstyle] 行号样式。
 \item[numberblanklines] 默认true，即在空白的代码行也显示行号。
 \item[firstnumber] 默认auto，可选last或填入数字，表示起始行号。
-\item[frame] 默认single，即trbl，分别表示top, right, buttom, left四条边的线都是单线。如果想变某边为双线，大写它：trBL. 
+\item[frame] 默认single，即trbl，分别表示top, right, buttom, left四条边的线都是单线。如果想变某边为双线，大写它：trBL.
 \item[frameround] 在\latexline{\\lstset}中，从右上角顺时针设置，代码框为直角或圆角。比如fttt表示仅右上为直角。
 \item[framerule] 代码框的线宽。
 \item[backgroundcolor] 定义frame里代码的背景色，如\latexline{\\color{red}}。
@@ -2618,7 +2617,7 @@ for loopnum in lst:
 
 有时候，一些关键词并没有被宏包成功高亮，或者你需要更多种类的高亮方式，这时候你可以自己设置：
 \begin{latex}{}
-\lstset{language=..., classoffset=0, 
+\lstset{language=..., classoffset=0,
   	morekeywords={begin,end},
   	keywordstyle=\color{brown},
   	classoffset=1,...}
