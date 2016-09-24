@@ -12,3 +12,5 @@
 *.nav
 *.snm
 *.vrb
+*.bbl
+*.blg

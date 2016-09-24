@@ -448,6 +448,16 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 {\color{`\textit{color-name}`}{text}}
 \end{latex}
 
+\LaTeX 原生支持的颜色：
+\begin{center}
+\tabcaption{\protect\LaTeX{} 预定义颜色}
+\begin{tabular}{*{6}{l|}l}
+\scol{black} & \scol{darkgray} & \scol{lime} & \scol{pink} & \scol{violet} & \scol{blue} & \scol{gray} \\
+\scol{magenta} & \scol{purple} & \scol{white} & \scol{brown} & \scol{green} & \scol{olive} & \scol{red}\\
+\scol{yellow} & \scol{cyan} & \scol{lightgray} & \scol{orange} & \multicolumn{3}{|l}{\scol{teal}}
+\end{tabular}
+\end{center}
+
 \section{引用与注释}
 电子文档的最大优越在于能够使用超链接，跳转标签、目录，甚至访问外部网站。这些功能实现都需要“引用”。
 \subsection{标签和引用}
@@ -481,7 +491,7 @@ bookmarksnumbered=true]{hyperref}
 \footnote{This is a footnote.}
 \end{latex}
 
-行文中切忌过多地使用脚注，它会分散读者的注意力。默认情况下脚注按章编号。脚注与正文的间距使用类似\latexline{\\setlength{\\skip\\footins}{0.5cm}}的命令调节。
+行文中切忌过多地使用脚注，它会分散读者的注意力。默认情况下脚注按章编号。调节脚注与正文的间距类似\latexline{\\setlength{\\skip\\footins}{0.5cm}}即可。
 
 \subsection{参考文献}
 \label{subsec:cite}
@@ -820,7 +830,7 @@ body部分分为两个概念：一个是总文本区(total body)，另一个是�
 
 最后，这是一个小例子：
 \begin{latex}{}
-\usepackage[marginpar=3cm, includemp]{package}
+\usepackage[marginpar=3cm,top=1in,includemp]{geometry}
 \end{latex}
 
 \subsection{页眉和页脚}
@@ -1545,7 +1555,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \end{tabular}
 \end{table}
 
-依旧给出一个基于amssymb宏包的附\tref{amsarrow}。
+依旧给出一个基于amssymb宏包的附\tref{tab:amsarrow}。
 \begin{table}[!htb]
 \centering
 \caption{amssymb箭头}
