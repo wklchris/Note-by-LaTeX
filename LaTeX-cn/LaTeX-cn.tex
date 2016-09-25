@@ -82,7 +82,7 @@ September 17, 2016 于Davis, CA
 \documentclass[a4paper]{ctexart}
 \end{latex}
 
-在\LaTeX 中，还有一种重要的指令叫做\co{环境}。它定义了一整个区段的内容都受到环境（即其本身）的控制。这个区段是从\latexline{\\begin{environment}}开始，到\latexline{\\end{environment}}结束的。。比如：
+在\LaTeX 中，还有一种重要指令叫做\co{环境}。它定义某区段的内容受到环境（即其本身）的控制，区段从\latexline{\\begin{environment}}开始，到\latexline{\\end{environment}}结束的。比如：
 \begin{latex}{}
 \begin{document}
 	...内容...
@@ -421,8 +421,8 @@ Huge         & 25pt & 25pt & 25pt \\
 \item CJKMath=ture/\uline{false}：是否支持数学环境CJK字体。
 \item CheckSingle=true/\uline{false}：是否检查CJK标点单独占用段落最后一行。此检查在倒数二、三个字符为命令时可能失效。
 \item LongPunct=\verb|{——……}|：设置CJK长标点集，默认的只有中文破折号和中文省略号。长标点不允许在内部产生断行。你也可以用$+=$或者$-=$号来修改CJK长标点集。
-\item MiddlePunct=\verb|{——·}|：设置CJK居中标点集，默认的只有中文破折号和中文间隔号（中文输入状态下按数字1左侧的重音符号键）。居中标点保证标点两端距前字和后字的距离等同，并禁止在其之前断行。你同样可以使用$+=/-=$进行修改。
-\item AutoFakeBold=true/\uline{false}：是否启用全局伪粗体。如果启用，在setCJKmainfont等命令中，将用AutoFakeBold=2这种参数代替原有的BoldFont=SimHei这种参数。其中，数字2表示将原字体加粗2倍实现伪粗体。
+\item MiddlePunct=\verb|{——·}|：设置CJK居中标点集，默认的只有中文破折号和中文间隔号（中文输入状态下按数字1左侧的重音符号键）。居中标点保证标点两端距前字和后字的距离等同，并禁止在其之前断行。你同样可以使用\texttt{+=/-=}进行修改。
+\item AutoFakeBold=true/\uline{false}：是否启用全局伪粗体。如果启用，在setCJKmainfont等命令中，将用AutoFakeBold=2参数代替原有的BoldFont=SimHei这种参数。其中，数字2表示将原字体加粗2倍实现伪粗体。
 \item AutoFakeSlant=true/\uline{false}：是否启用全局伪斜体。仿上。
 \end{feai}
 
@@ -688,7 +688,7 @@ This is the text following the reference.
 \end{wrapfigure}
 \end{latex}
 
-各参数的含义是
+各参数的含义
 \begin{inlinee}
 \item {\bfseries\itshape linenum:} （可选）图片所占行数，一般不指定
 \item {\bfseries\itshape place:} 图片在文字段中的位置——R, L, I, O分别代表右侧、左侧、近书脊、远书脊
@@ -797,7 +797,7 @@ This is the text following the reference.
 \makeatother
 \end{latex}
 
-这部分是底层的\TeX 代码，不多介绍。定义后，你可以在浮动体外使用\latexline{\\figcaption和\\tabcaption}命令。注意：为了防止标题和图表不在一页，可以用minipage环境把它们包起来。
+这部分是底层的\TeX 代码，在此就不多介绍了。在如上定义后，你可以在浮动体外使用\latexline{\\figcaption和\\tabcaption}命令。注意：为了防止标题和图表不在一页，可以用minipage环境把它们包起来。
 
 \section{页面设置}
 
@@ -988,10 +988,10 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 在数学环境中，行文空格是被忽略的。比如\verb|$x,y$|和\verb|$x, y$|并没有区别。数学环境有独有的空格命令，最后一个是$-3/18$的空格：
 
 \begin{codeshow}
-  $0/18Space,3/18Sp\,ace$ \\
-  $4/18Sp\:ace,5/18Sp\;ace$ \\
-  $9/18Sp\ ace,One1Sp\quad ace$ \\
-  $Two2Sp\qquad ace,nega3/18Sp\!ace$
+  $没有空格,3/18空\,格$ \\
+  $4/18空\:格,5/18空\;格$ \\
+  $9/18空\ 格,一个空\quad 格$ \\
+  $两个空\qquad 格,负3/18空\!格$
 \end{codeshow}
 
 事实上，以上命令也可以在数学模式外使用，其中使用最广泛的是\verb|\,|，比如上文提到过的千位分隔符。在数学环境中它也应用广泛：
