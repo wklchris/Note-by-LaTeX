@@ -1,5 +1,7 @@
 # What's this? 这是什么？
 
+**== 所有PDF内容如果定稿，下载会发布在release中。PDF files can be accessed in the release of this git.  ==**
+
 本仓库用于存放我的个人学习笔记，全部使用 LaTeX 或者 Markdown 进行撰写。具体包括：*This repository is for the use of storing my learning notes (by LaTeX or Markdown), including:*
 
 所有运行环境均为Windows系统. 打勾的项表示已完成（但如有必要仍会修改），省略号表示项目进度缓慢，播放符号表示项目正作为主力项目推进。*All running environments are __Windows__ system. '√' means it has been finished (but I will still modify it if necessary), '…' means I put it aside recently and will continue in the future, and '▶' means I am working hard on it.*
