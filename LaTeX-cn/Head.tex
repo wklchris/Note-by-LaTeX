@@ -3,7 +3,7 @@
 \RequirePackage[safe]{tipa}
 \documentclass[a4paper, zihao=-4, linespread=1]{ctexrep}
   \xeCJKsetup{CJKmath=true}
-  \renewcommand{\CTEXthechapter}{\arabic{chapter}}
+  \renewcommand{\CTEXthechapter}{\thechapter}
 
 
 % 中文支持
@@ -14,7 +14,7 @@
 	\setCJKmathfont{STXinwei}
 \usepackage{indentfirst}
 \fi
-\setCJKmathfont{STXinwei}
+\setCJKmathfont{KaiTi}
 \newCJKfontfamily[zhxinwei]\xinwei{STXinwei}
 
 % 数学环境
@@ -52,7 +52,7 @@
 \newcommand{\dpar}{\\ \mbox{}}	% 空两行
 \newcommand{\qd}[1]{{\bfseries{#1}}}	% 强调
 \newcommand{\co}[1]{{\bfseries{#1}}}   % Style of concept
-\newcommand{\RED}[1]{{\color{red}{#1}}}
+\newcommand{\RED}[1]{{\color{cyan}{#1}}}
 \newcommand{\cmmd}[1]{\fbox{\texttt{\char92{}#1}}}
 \newcommand{\charef}[1]{第\ref{#1}章}
 \newcommand{\secref}[1]{第\ref{#1}节}
@@ -206,6 +206,7 @@
 
 % 附录
 \usepackage{appendix}
+\renewcommand{\appendixname}{App.}
 
 % 行号
 \usepackage{lineno}
@@ -236,6 +237,12 @@
 \par\addvspace{1em}}
 \makeatother
 
+\usepackage{booktabs}
+
+\bibliographystyle{plain}
+\renewcommand{\bibname}{参考文献}
+\usepackage[square,super,sort&compress]{natbib}
+
 % 引用
 \usepackage{hyperref}
-\hypersetup{colorlinks, bookmarksopen = true, bookmarksnumbered = true}
+\hypersetup{colorlinks, bookmarksopen = true, bookmarksnumbered = true, pdftitle=LaTeX-cn, pdfauthor=K.L Wu, pdfstartview=FitH}
