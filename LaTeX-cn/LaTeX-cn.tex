@@ -82,7 +82,7 @@ September 17, 2016 于Davis, CA
 \documentclass[a4paper]{ctexart}
 \end{latex}
 
-在\LaTeX 中，还有一种重要指令叫做\co{环境}。它定义某区段的内容受到环境（即其本身）的控制，区段从\latexline{\\begin{environment}}开始，到\latexline{\\end{environment}}结束的。比如：
+在\LaTeX 中，还有一种重要指令叫做\co{环境}。它定义某区段的内容受到其本身的控制，从\latexline{\\begin{environment}}开始，到\latexline{\\end{environment}}结束的。比如：
 \begin{latex}{}
 \begin{document}
 	...内容...
@@ -137,14 +137,14 @@ $\backslash$
 
 其中，在语句\latexline{\\begin{document}}之前的内容称为\co{导言区}。导言区可以留空，以可以进行一些文档的准备操作。你可以粗浅地理解为：\RED{导言区即模板定义}。\dpar
 
-文档类的参数doc-class和可选选项{\textit{options}}有以下取值：
+文档类的参数doc-class和可选选项{\textit{options}}有\tref{tab:documentclass}取值：
 \begin{table}[!htb]
-\begin{center}
+    \centering
 	\caption{文档类和选项}
-	\label{tb:documentclass}
+	\label{tab:documentclass}
 	\begin{tabular}{p{5em} @{\ -\ } p{24em}}
 		\hline
-		\multicolumn{2}{l}{\bfseries doc-class文档类} \\
+		\multicolumn{2}{l}{\bfseries doc-class文档类\footnotemark} \\
 		\hline
 		article   & 科学期刊，演示文稿，短报告，邀请函。\\
 		proc      & 基于article的会议论文集。\\
@@ -163,14 +163,15 @@ $\backslash$
 		公式对齐 & 默认居中，可改为左对齐fleqn；默认编号居右，可改为左对齐leqno。\\
 		\hline
 	\end{tabular}
-\end{center}
 \end{table}
 
-在本文中，多数的文档类提及的均为report/book类。如果有article类将会特别指明。其余的文档类不予说明。本手册排版即使用了book类。\dpar
+在本文中，多数的文档类提及的均为report/book类。如果有article类将会特别指明。其余的文档类不予说明。本手册排版即使用了report类。\dpar
 
 在导言区最常见的是\co{宏包}的加载工作，命令形如：\latexline{\\usepackage{package}}。通俗地讲，宏包是指一系列已经制作好的功能``模块''，在你需要使用一些原生\LaTeX 不带有的功能时，只需要调用这些宏包就可以了。比如本文的代码就是利用{\texttt{listings}}宏包实现的。
 
 宏包的具体使用将参在各部分内容说明中进行讲解。如果你想学习一个宏包的使用，按Win+R组合键呼出运行对话框，输入texdoc加上宏包名称即可打开宏包帮助pdf文档。例如：\verb|texdoc xeCJK|
+
+\footnotetext{此外还有beamer宏包定义的beamer文档类，常用于创建幻灯片。}
 
 \subsection{错误的排查}
 \label{subsec:debug}
@@ -195,13 +196,21 @@ $\backslash$
 你在tex文档的文件夹下可能看到的其他文件类型：
 \begin{tabbing}
 	.sty{\hspace{2em}}\=宏包文件\\
+	.cls	\> 文档类文件。\\
 	.aux    \> 用于储存交叉引用信息的文件。因此，在更新交叉引用（公式编号、\\
 	\> 大纲级别）后，需要编译两次才能正常显示。\\
-	.log    \> 记录上次编译的信息。\\
+	.log    \> 日志。记录上次编译的信息。\\
 	.toc    \> 目录文件。\\
-	.idx    \> 如果文档中包含索引，该文件用于储存索引信息。\\
 	.lof    \> 图形目录。\\
-	.lot    \> 表格目录。
+	.lot    \> 表格目录。\\
+	.idx    \> 如果文档中包含索引，该文件用于储存索引信息。\\
+	.ind	\> 索引记录文件。\\
+	.ilg	\> 索引日志文件。\\
+	.bib	\> \bibtex 参考文献数据文件。\\
+	.bbl	\> \bibtex 生成的参考文献记录。\\
+	.bst	\> \bibtex 模板。\\
+	.blg	\> \bibtex 日志。\\
+	.out	\> \texttt{hyperref}宏包生成的pdf书签记录。
 \end{tabbing}
 
 有时\LaTeX 的编译出现异常，你需要删除文件夹下除了tex以外的文件再编译。此外，在某些独占程序打开了以上的文件时（比如用Acrobat打开了pdf），编译可能出现错误。请在编译时确保关闭这些独占程序。
@@ -236,7 +245,7 @@ $\backslash$
 西文中一般采用上述的斜体强调方式而不是粗体，例如在说明书名的时候就会使用以上命令。关于字体的更多内容参考\hyperref[sec:font]{字体}这一节。
 
 \subsection{下划线与删除线}
-\LaTeX 原生提供了\latexline{\\underline}命令简直烂的可以，建议你使用ulem宏包下的\texttt{uline}命令代替。ulem宏包还提供了一系列有用的命令：
+\LaTeX 原生提供了\latexline{\\underline}命令简直烂的可以，建议你使用ulem宏包下的\texttt{uline}命令代替，且后者支持换行文本。ulem宏包还提供了一系列有用的命令：
 
 \begin{codeshow}
 \uline{下划线} \\
@@ -248,7 +257,7 @@ $\backslash$
 \xout{斜删除线}
 \end{codeshow}
 
-需要注意的是，ulem宏包重定义了\verb|\emph|命令，\RED{使得原来的加斜强调变成了下划线、原来的两次强调就取消强调变成了两次强调就双下划线}，同时也支持换行文本。
+需要注意的是，ulem宏包重定义了\verb|\emph|命令，\RED{使得原来的加斜强调变成了下划线、原来的两次强调就取消强调变成了两次强调就双下划线}。通过宏包的normalem选项可以取消这个更改。
 
 \subsection{其他}
 角度符号或者温度符号需要借助数学模式\verb|$...$|输入：
@@ -260,7 +269,7 @@ $37\,^{\circ}\mathrm{C}$
 
 然后是欧元符号，可能需要用到textcomp宏包，然后调用\latexline{\\texteuro}命令就可以了。
 
-其次是千位分隔符，比如\verb|1\,000\,000|。如果你不想它在中间断行就在外侧再加上一个\latexline{\\mbox}命令。
+其次是千位分隔符，比如\verb|1\,000\,000|。如果你不想它在中间断行就在外侧再加上一个\latexline{\\mbox}命令：\latexline{\\mbox{1\\,000\\,000}}。
 
 再次是注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号表}部分的附录内容。如果你想输入音标，请使用tipa宏包\footnote{tipa会重定义\texttt{\char92{}!}命令，因此请使用\texttt{\negthinspace}代替，或在加载时使用safe选项。}，同样参考附录A。
 
@@ -408,8 +417,16 @@ Huge         & 25pt & 25pt & 25pt \\
   \lucida{This is Lucida Calligraphy}
 \end{latex}
 
-\subsection{中文字体}
-对于中文，需要参考\xelatex 编译下的xeCJK宏包的使用。
+\subsection{中文支持与CJK字体}
+ctex宏包直接定义了新的中文文档类ctexart, ctexrep与ctexbook，以及ctexbeamer幻灯文档类。例如本手册\texttt{Head.tex}中：
+\begin{latex}{}
+\documentclass[a4paper, zihao=-4, linespread=1]{ctexrep}
+  \renewcommand{\CTEXthechapter}{\thechapter}
+\end{latex}
+
+以上设置字号为小四，行距因子为1（故行距为$1\times 1.2=1.2$倍，其中1.2是\LaTeX 默认的基线间距）。而a4paper选项继承与原生文档类report，可见ctex文档类还是很好地保留了原生文档类的特征。\RED{值得注意的是，ctex文档类会用\texttt{\char92 CTEX}开头的计数器命令代替原有的}，除非你使用\texttt{scheme=plain}来让ctex文档类\uline{仅支持中文而不做任何文档细节更改}。具体的使用参考ctex宏包文档——它是中文的。
+
+再者参考\xelatex 编译下的xeCJK宏包的使用。在使用\xelatex 时，如果你使用ctex文档类，它会直接调用xeCJK宏包，所以你无须再显式地加载xeCJK宏包。当然你也可以使用原生文档类，然后逐一汉化参数内容。
 
 比如在导言区：
 \begin{latex}{}
@@ -425,7 +442,7 @@ Huge         & 25pt & 25pt & 25pt \\
 
 上面提到的xeCJKsetup有下列可以定制的参数，下划线为默认值：
 \begin{feai}
-\item CJKMath=ture/\uline{false}：是否支持数学环境CJK字体。
+\item CJKMath=ture/\uline{false}：是否支持数学环境CJK字体。如果想在数学环境中直接输入汉字，请开启该选项；否则在数学环境内，需要将汉字写在\latexline{\\textrm}、或者amsmath宏包支持的\latexline{\\text}命令中。
 \item CheckSingle=true/\uline{false}：是否检查CJK标点单独占用段落最后一行。此检查在倒数二、三个字符为命令时可能失效。
 \item LongPunct=\verb|{——……}|：设置CJK长标点集，默认的只有中文破折号和中文省略号。长标点不允许在内部产生断行。你也可以用$+=$或者$-=$号来修改CJK长标点集。
 \item MiddlePunct=\verb|{——·}|：设置CJK居中标点集，默认的只有中文破折号和中文间隔号（中文输入状态下按数字1左侧的重音符号键）。居中标点保证标点两端距前字和后字的距离等同，并禁止在其之前断行。你同样可以使用\texttt{+=/-=}进行修改。
@@ -456,7 +473,7 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 
 xcolor宏包预定义的颜色：
 \begin{center}
-\tabcaption{\protect\LaTeX{} 预定义颜色}
+\tabcaption{\texttt{xcolor}宏包预定义颜色}
 \begin{tabular}{*{6}{l|}l}
 \scol{black} & \scol{darkgray} & \scol{lime} & \scol{pink} & \scol{violet} & \scol{blue} & \scol{gray} \\
 \scol{magenta} & \scol{purple} & \scol{white} & \scol{brown} & \scol{green} & \scol{olive} & \scol{red}\\
@@ -529,7 +546,18 @@ bookmarksnumbered=true]{hyperref}
 \footnote{This is a footnote.}
 \end{latex}
 
-在某些环境内（如表格），脚注无法正常使用，可以先用\latexline{\\footnotemark}依次插入计数位置，再在环境外用\latexline{\\footnotetext}依次指明脚注的内容。
+在某些环境内（如表格），脚注无法正常使用，可以先用\latexline{\\footnotemark}依次插入位置，再在tabular/table环境外用\latexline{\\footnotetext}依次指明脚注的内容。
+
+minipage环境是一个支持脚注的环境，功能之强正如其名。在其支持下写一个表格的脚注：
+
+\begin{codeshow}
+\begin{minipage}{\linewidth}
+\begin{tabular}{l}
+This is an exmaple\footnotemark. 
+\end{tabular}
+\footnotetext{You don't need more.}
+\end{minipage}
+\end{codeshow}
 
 行文中切忌过多地使用脚注，它会分散读者的注意力。默认情况下脚注按章编号。调节脚注与正文的间距类似\latexline{\\setlength{\\skip\\footins}{0.5cm}}即可。
 
@@ -554,22 +582,16 @@ bookmarksnumbered=true]{hyperref}
 另外一个诗歌援引环境叫verse，是悬挂缩进的。一般很少用到。
 
 \begin{codeshow}
-Rabindranath Tagore wrote this in his \emph{The Gardener}: 
+Rabindranath Tagore wrote this in 
+his \emph{The Gardener}: 
 \begin{verse}
-I long to go away from your side; but 
-I dare not, for fear my cowardice 
-should become known to you. 
-
-That is why I hold my head high and 
-carelessly come into your presence. 
-
 Constant thrusts from your eyes keep 
 my pain fresh for ever.
 \end{verse}
 \end{codeshow}
 
 \subsection{摘要}
-article和report文档类支持摘要，在\latexline{\\maketitle}命令之后可以使用abstract环境。在单栏模式下，其相当于一个带标题（这个标题可以通过重定义\latexline{\\abstractname}更改）的quotation环境；双栏下则相当于带星section命令定义的一节。
+article和report文档类支持摘要，在\latexline{\\maketitle}命令之后可以使用abstract环境。在单栏模式下，其相当于一个带标题的quotation环境，而这个标题可以通过重定义\latexline{\\abstractname}更改；双栏下则相当于\latexline{\\section*}命令定义的一节。
 
 \subsection{参考文献}
 \label{subsec:cite}
@@ -647,7 +669,7 @@ book文档类还提供了以下的命令：
 关于附录\latexline{\\appendix}部分的大纲级别问题不在此讨论，请参考\hyperref[sec:appendix]{这一节}。在book文档类中，附录一般放在正文与后记之间；当然你也可以在非book文档类中使用附录。关于章节样式自定义的问题，则请看\hyperref[sec:titlesec]{这里}。
 
 \subsection{目录}
-目录在大纲的基础上生成，使用命令\latexline{\\tableofcontents}即可插入目录。目录在加载了hyperref宏包后，可以实现点击跳转的功能。你可以通过renewcommand命令更改contentsname，即“目录”的标题名。
+目录在大纲的基础上生成，使用命令\latexline{\\tableofcontents}即可插入目录。目录在加载了hyperref宏包后，可以实现点击跳转的功能。你可以通过renewcommand命令更改\latexline{\\contentsname}，即“目录”的标题名。
 
 你也可以插入图表目录，分别是\latexline{\\listoffigures}, \latexline{\\listoftables}. 通过重定义listfigurename和listtablename可以更改图表目录的标题。
 
@@ -882,7 +904,15 @@ book文档类还提供了以下的命令：
 \end{center}
 \end{codeshow}
 
-嵌套表格可以方便地“拆分单元格”。注意下例中如何确保嵌套单元格表线显示正常：
+一些其他的使用技巧：
+\begin{feae}
+\item 输入同格式的列：参数\verb+|*{7}{c|}r|+，相当于7个居中和1个居右。
+\item 表格重音：原本的重音命令\verb|\`|, \verb|\'|与\verb|\=|，改为\verb|\a`|, \verb|\a'|与\verb|\a=|。
+\item 控制整表宽度：tabularx宏包提供\latexline{\\begin{tabular*}{width}[pos]{cols}}，比如你可以把width取值为\latexline{0.8\\linewidth}之类。
+\item 如想实现单元格内换行，使用makecell宏包支持的\latexline{\\makecell}命令。
+\end{feae}
+
+此外，\qd{表格还可以嵌套}，以方便地“拆分单元格”。注意下例中如何确保嵌套单元格表线显示正常：
 
 \begin{codeshow}
 \begin{tabular}{|c|l|c|}
@@ -897,15 +927,6 @@ aa & bb \\
 a & b & c \\ \hline
 \end{tabular}
 \end{codeshow}
-
-如想实现单元格内换行，使用makecell宏包支持的\latexline{\\makecell}命令。
-
-一些其他的使用技巧：
-\begin{feae}
-\item 输入同格式的列：参数\verb+|*{7}{c|}r|+，相当于7个居中和1个居右。
-\item 表格重音：原本的重音命令\verb|\`|, \verb|\'|与\verb|\=|，改为\verb|\a`|, \verb|\a'|与\verb|\a=|。
-\item 控制整表宽度：tabularx宏包提供\latexline{\\begin{tabular*}{width}[pos]{cols}}，比如你可以把width取值为\latexline{0.8\\linewidth}之类。
-\end{feae}
 
 \subsection{非浮动体图表和并排图表}
 如果不使用浮动体，又想给图、表添加标题，请在导言区加上：
@@ -1050,7 +1071,7 @@ fancyhdr在定义双页文档时，采用了如下的默认设置：
 
 \section{文档拆分}
 \label{sec:include}
-文档拆分很简单，只需要把多个tex文件放在一起，然后再主文件中使用\latexline{\\input{filename.tex}}或者\latexline{\\include{filename}}命令就可以了，注意include不带扩展名。两个命令区别在于\latexline{\\include}命令将会很好地支持大纲编号。
+文档拆分很简单，只需要把多个tex文件放在一起，然后再主文件中使用\latexline{\\input{filename.tex}}或者\latexline{\\include{filename}}命令，不带扩展名默认为.tex。两者区别在于\latexline{\\include}命令将会另起一页再读取文件，并很好地支持大纲编号。
 
 拆分的优势在于可以根据chapter（或其他）分为多个文件，省去了长文档浏览时的一些不便。你也可以把整个导言区做成一个文件，然后在不同的\LaTeX 文档中反复使用，即充当模板的功能。你还可以把较长的tikz绘图代码写到一个tex中，在需要时\latexline{\\input}即可。
 
@@ -1077,6 +1098,27 @@ tic\-ex\-pi\-al\-i\-do\-cious
 My telephone number is: \mbox{012 3456 7890}
 \end{latex}
 
+\subsection{硬空格与句末标点}
+如果你想在某个不带参数的命令后输入空格，请接上一个空的花括号确保空格能够正常输出。例如：\latexline{这是\\TeX{} Live. }
+
+在\LaTeX 中还有一个命令“\texttt{\char92\textvisiblespace}”，用于产生一个硬空格（区别于软空格\texttt{\char92space}），所以你也可以用\latexline{\\TeX\\ Live}。
+
+西文排版下，\LaTeX 会判断一种\co{句末标点}，即小写字母后的“.”，“?”或者“!”三个英文标点。句末标点后如果键入空格，\LaTeX 会自动增加空格的距离。如果句子以大写字母结尾，\LaTeX 会认为这是人名而不增加空格，这时候需要手动添加命令：
+
+\begin{codeshow}
+OK. That's fine.\\
+OK\null. That's fine.
+\end{codeshow}
+
+相反，有些并非句末标点的情况会被识别为句末标点，这时候需要在标点后插入一个\texttt{\char92\textvisiblespace}或者\texttt{\char126}来缩小间距；区别在于前者允许断行，后者不允许。
+
+\begin{codeshow}
+Prof. Smith is a nice man.\\
+Prof.~Smith is a nice man.
+\end{codeshow}
+
+在标点后使用\latexline{\\frenchspacing}命令，可以调整为极小的空距。这个命令在排版参考文献列表时可能被使用。
+
 \subsection{特殊符号}
 符号的总表可以参照symbols-a4文档，运行texdoc symbols-a4即可调出。包括希腊字母在内的一些数学符号将会在下一章介绍。这里给出基于wasysym宏包的一些常用符号：
 \begin{center}
@@ -1088,9 +1130,6 @@ My telephone number is: \mbox{012 3456 7890}
      \hexstar    & hexstar  & \phone    & phone & \twonotes     & twonotes
   \end{tabular}
 \end{center}
-
-\subsection{其他}
-如果你想在某个不带参数的命令后输入空格，请接上一个空的花括号确保空格能够正常输出。例如：\latexline{这是\\TeX{} Live. }
 
 \chapter{数学排版}
 \section{行间与行内公式}
@@ -1104,16 +1143,16 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 另外一种公式排版方式是\co{行间公式}，也称行外公式，使用：
 \begin{latex}{}
 \[...\] 或者 \begin{displaymath}...\end{displaymath}
-或者 amsmath 提供的\begin{equation*}...\end{equation*}
+或者 amsmath 提供的 \begin{equation*}...\end{equation*}
 \end{latex}
 
-一般也推荐第一种命令\footnote{还有一种\texttt{\$\$...\$\$}的写法，问题很多，绝不建议使用。}，例如：\verb|\[\sum_{i=1}^n{a_i}\]|，得到：
+一般也推荐第一种命令\footnote{还有一种\texttt{\$\$...\$\$}的写法，源自底层\TeX，不建议使用。}，例如：\verb|\[\sum_{i=1}^n{a_i}\]|，得到：
 
 \[\sum_{i=1}^{n}a_i\]
 
 从上面的两个例子可以看出，即使输出相同的内容，行内和行间的排版也是有区别的，比如累计符号上标是写在正上方还是写在右上角。
 
-如果行间公式需要编号，使用equation环境\footnote{需要注意有一个\RED{已经淘汰}的多行公式编号环境叫\texttt{eqnarray}，请不要再使用。}，还可以插入标签：
+如果行间公式需要编号，使用equation环境\footnote{需要注意有一个\RED{已被放弃}的多行公式编号环境叫\texttt{eqnarray}，请不要再使用。}，还可以插入标签：
 
 \begin{codeshow}
 \begin{equation}
@@ -1156,7 +1195,7 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 \end{para}
 
 \subsection{数学字体}
-将字体转为正体使用\latexline{\\mathrm}命令。如需保留文中空格，使用\latexline{\\textrm}命令——这个与正文一致。但是，textrm命令内的字号可能不会自适应，mathrm则稳定得多。
+将字体转为正体使用\latexline{\\mathrm}命令。如需保留空格，使用\latexline{\\textrm}命令——这与正文一致。但是，textrm命令内的字号可能不会自适应，mathrm则稳定得多。
 
 例如自然对数的底数$\ue$，在本文中就是这样定义的：
 \begin{latex}{}
@@ -1169,9 +1208,8 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 数学粗体使用amsmath宏包支持的\latexline{\\boldsymbol}命令。命令\latexline{\\boldmath}的问题在于它只能加粗一个数学环境，其中很可能包括了标点符号，而这是不严谨的。命令\latexline{\\mathbf}就差的更远，它只能把字体转为\textbf{正}粗体，而数学字体都是斜体的。
 
 \begin{codeshow}
-$\mu,M$\\
-$\boldsymbol{\mu},
-\boldsymbol{M}$ \\
+$\mu,M$\\ $\boldsymbol{\mu},
+\boldsymbol{M}$
 \end{codeshow}
 
 \subsubsection{空心粗体}
@@ -1280,11 +1318,18 @@ $\closure{AB}$
   \overline{\mkern-#1mu#2}}
 \end{latex}
 
-向量符号：
+能堆叠到其他对象上的箭头符，比如向量符号：
 
 \begin{codeshow}
   $\vec a\quad\overrightarrow{PQ}$
   $\overleftarrow{EF}$
+\end{codeshow}
+
+你也许还需要能够添加上下堆叠的箭头符：
+
+\begin{codeshow}
+\[ a\xleftarrow{x+y+z} b \]
+\[ c\xrightarrow[x<y]{a*b*c}d \]
 \end{codeshow}
 
 尖帽符号或者波浪符号：
@@ -1714,7 +1759,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \end{tabular}
 \end{table}
 
-依旧给出一个基于amssymb宏包的附\tref{tab:amsarrow}。
+依旧另外给出一个基于amssymb宏包的附\tref{tab:amsarrow}。
 \begin{table}[!htb]
 \centering
 \caption{amssymb箭头}
@@ -1771,13 +1816,14 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 
 \clearpage
 \chapter{\LaTeX{}进阶}
+
 本章的内容多数与宏包的使用相关。记得使用texdoc命令查看宏包的使用手册，这是学习宏包最好的手段，没有之一。
 
 \section{自定义命令与环境}
 \label{sec:newcommand}
 自定义命令是\LaTeX 相比于字处理软件MS Word之流最强大的功能之一。它可以大幅度优化你的文档体积，用法是：
 \begin{latex}{}
-\newcommand{cmd}[args][default]{def}
+\newcommand{`\textit{cmd}`}[`\textit{args}`][`\textit{default}`]{`\textit{def}`}
 \end{latex}
 
 现在来解释一下各个参数：
@@ -1886,7 +1932,8 @@ xcolor宏包支持的颜色箱子命令：
 \textcolor{red}{红色}强调\\
 \colorbox[gray]{0.95}{浅灰色背景} \\
 \fcolorbox{blue}{yellow}{%
-\textcolor{blue}{蓝色边框+文字，黄色背景}}
+\textcolor{blue}{蓝色边框+文字，
+  黄色背景}}
 \end{codeshow}
 
 命令fcolorbox也能调整\latexline{\\fboxrule, \\fboxsep}，colorbox只能调整后者。参考前面的加框箱子一节。
@@ -1924,7 +1971,7 @@ xcolor宏包支持的颜色箱子命令：
 
 类似地使用\latexline{\\vspace}和\latexline{\\vspace*}命令，作为竖直距离的输出。
 
-要定义新的长度宏，使用\latexline{\\newlength}命令；要重设现有长度宏的值，使用\latexline{\\setlength}命令；要调整长度宏的值，使用\latexline{\\addtolength}命令。
+要定义新的长度宏，使用\latexline{\\newlength}命令；要重设现有长度宏的值，可以选择使用\latexline{\\setlength}命令；要调整长度宏的值，则使用\latexline{\\addtolength}命令。
 \begin{latex}{}
 \newlength{\mylatexlength}
 \setlength{\mylatexlength}{10pt}
@@ -2110,7 +2157,7 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 \label{sec:titletoc}
 这一节主要涉及titletoc宏包，它与titlesec宏包的文档写在同一个pdf中。上一节的例子（即本手册Chapter）涉及\latexline{\\startcontents}与\latexline{\\printcontents}命令，旨在每一章的开始插入本章的一个目录。
 
-首先是目录的标题，可以通过renewcommand更改。分别是\texttt{\char92~contentsname, \char92~listfigurename, \char92~listtablename}三个。
+首先是目录的标题，可以通过renewcommand更改。分别是\texttt{\char92 contentsname, \char92 listfigurename, \char92 listtablename}三个。
 
 再来看命令\latexline{\\dottecontents}与命令\latexline{\\titlecontents}：
 \begin{latex}{}
@@ -2205,7 +2252,7 @@ This is the & bottom. \\
 \footnotetext{Footnotemark: first footnote in table head.}
 This is an example & and you can \\
 see how longtable will & work. \\
-Space after line are & allowed. \\[20ex]
+Space after line are & allowed. \\[25ex]
 You can adjust LTright and & LTleft \\
 if you want to. I'd like & to set \\
 LTleft as ``0pt'', but it all & depends on\\
@@ -2216,7 +2263,7 @@ As for footnotemark, you've seen it & in the firsthead.\\[15ex]
 And I think maybe it's long & enough to make \\
 a table across pages, so go to the & next page and \\
 check whether the head at next page is & different from \\
-that on this page. Also you can have a look & at lastfoot. \\[10ex]
+that on this page. Also you can have a look & at lastfoot. \\[20ex]
 So do you get how to use this & package? \\
 Maybe you'll love it. So enjoy & \texttt{longtable}!
 \end{longtable}
@@ -2253,7 +2300,7 @@ This is the & bottom. \\
 \footnotetext{Footnotemark: first footnote in table head.}
 This is an example & and you can \\
 see how longtable will & work. \\
-Space after line are & allowed. \\[20ex]
+Space after line are & allowed. \\[25ex]
 You can adjust LTright and & LTleft \\
 if you want to. I'd like & to set \\
 LTleft as ``0pt'', but it all & depends on\\
@@ -2266,7 +2313,7 @@ And I think maybe it's long & enough to make \\
 a table across pages, so go to the & next page and \\
 check whether the head at next page is & different from \\
 that on this page. Also you can have a look & at lastfoot.
-\\[10ex]
+\\[20ex]
 So do you get how to use this & package? \\
 Maybe you'll love it. So enjoy & \texttt{longtable}!
 \end{longtable}
@@ -2507,7 +2554,7 @@ Here we go. This is a very long sentence and you will find that it goes to the s
   yysep={,},notesep={, }}
 \end{latex}
 
-除了\LaTeX 原生支持的\latexline{\\cite}命令，\texttt{natbib}宏包还提供了其他几种引用命令，具体的使用见\tref{tab:natbib}。
+除了\LaTeX 原生的\latexline{\\cite}命令，\texttt{natbib}宏包还提供了\tref{tab:natbib}所示的引用命令。
 
 \begin{table}[!hbt]
 \centering
@@ -2682,7 +2729,8 @@ unpublished & 未出版的论文或图书\\
 \end{feae}
 
 索引命令\latexline{\\index}的用法如\tref{tab:index}：
-\begin{center}
+\begin{table}
+\centering
 \tabcaption{索引命令\texttt{\char92 index}的使用}
 \label{tab:index}
 \begin{tabular}{>{\ttfamily}ll}
@@ -2698,17 +2746,15 @@ hello!Foo!bar & \hspace{2em}bar, 3 \\
 alpha@\$\char92 alpha\$ & $\alpha$, 4 \\
 BOLD@\char92 textbf\{BOLD\} & \textbf{BOLD}, 5 \\
 \hline
-\multicolumn{2}{l}{|( \& |): 页码范围}\\
-wow|( & wow, 6--13 \\
-wow|) & \\
-\hline
-\multicolumn{2}{l}{|: 页码显示格式化} \\
+\multicolumn{2}{l}{|: 页码显示}\\
+wow|( & \multirow{2}*{wow, 6--13} \\
+wow|) & \\ 
 Meow|textbf & Meow, \textbf{14} \\
 Meow|see\{hello\} & Meow, \textit{see} hello \\
 Meow|seealso\{wow\} & Meow, \textit{see also} wow \\
 \hline	
 \end{tabular}
-\end{center}
+\end{table}
 
 索引标题可以通过重定义\latexline{\\indexname}来更改。
 
@@ -2903,24 +2949,19 @@ morestring=[b]", % 字符串
     morekeywords={begin,end,usetikzlibrary},
     keywordstyle=\color{keywordcolor},
     classoffset=1,
-    morekeywords={article,report,book,
-    	xeCJK,tikz,
-    	calc},
+    morekeywords={article,report,book,xeCJK,tikz,calc},
     keywordstyle=\color{packagecolor},
     classoffset=2,
     morekeywords={document,tikzpicture},
     keywordstyle=\color{envicolor},
     % Line Number Style
-    numbers=left,
-    numberstyle=\tiny\emptyaccsupp,
-    stepnumber=1,
+    numbers=left,stepnumber=1,
+    numberstyle=\tiny\emptyaccsupp,    
     % Frame and Background Color
-    frame=single,
-    framerule=0pt,
+    frame=single,framerule=0pt,    
     backgroundcolor=\color{backcolor},
     % Spaces
-    emptylines=1,
-    escapeinside=`\texttt{\char126{}\char126{}}`}
+    emptylines=1,escapeinside=`\texttt{\char96{}\char96{}}`}
 \end{latex}
 
 \subsection{行号}
@@ -2935,7 +2976,7 @@ morestring=[b]", % 字符串
   \item[running]默认选项。整个文档进行计数。
   \item[pagewise]每页行号重新从1计数。
   \item[modulo]每5行显示行号。
-  \item[displaymath]自动将\LaTeX 默认的行间公式包装在新定义的\textit{linenomath}环境中。
+  \item[displaymath]自动将\LaTeX 默认行间公式放在新定义的\textit{linenomath}环境中。
   \item[mathline]如果在文中使用了\textit{linenomath}环境，则对其中的数学公式也进行行号编号。
 \end{para}
 
@@ -3019,8 +3060,8 @@ morestring=[b]", % 字符串
 \item[texdoc fntguide] \TeX Live自带的字体使用手册。
 \item[texdoc symbols-a4] 一份速查表，基本上所有的\LaTeX 字符命令都在这里了。
 \item[texdoc latexcheat] 很有趣的命令表，只有两页。
-\item[texdoc impatient] \textit{\TeX{} for the Impatient}, 一本介绍底层\TeX 的书，中译本资源请自己寻找。这也是我阅读的第一本\TeX 书，Knuth的\textit{The \TeX book}虽然血统正但是难啃啊。
-\item[texdoc texbytopic] \textit{\TeX{} by Topic}, 个人觉得不如上面那本，但也许只是叙述方式不一样吧。
+\item[texdoc impatient] \emph{\TeX{} for the Impatient}, 一本介绍底层\TeX 的书，中译本资源请自己寻找。这也是我阅读的第一本\TeX 书，Knuth的\emph{The \TeX book}虽然血统正但是难啃啊。
+\item[texdoc texbytopic] \emph{\TeX{} by Topic}, 个人觉得不如上面那本，但也许只是叙述方式不一样吧。
 \end{para}
 
 \end{appendices}
