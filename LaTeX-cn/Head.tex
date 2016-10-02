@@ -4,7 +4,9 @@
 \documentclass[a4paper, zihao=-4, linespread=1]{ctexrep}
   \xeCJKsetup{CJKmath=true}
   \renewcommand{\CTEXthechapter}{\thechapter}
-
+% 最小行间间距设定
+\setlength{\lineskiplimit}{3pt}
+\setlength{\lineskip}{3pt}
 
 % 中文支持
 % \iffalse与\fi可以实现“多行注释”
@@ -101,7 +103,7 @@
 	\quad\rule[-12pt]{2pt}{70pt}\quad
 	{\fontsize{60}{60}\selectfont\thechapter}}
 \titleformat{\chapter}[block]{\hfill\LARGE\sffamily}{}{0pt}{\chaformat}[\vspace{2.5pc}\large
-	\startcontents\printcontents{}{1}{\setcounter{tocdepth}{2}\songti}]
+	\startcontents\setlength{\lineskiplimit}{0pt}\printcontents{}{1}{\setcounter{tocdepth}{2}\songti}]
 %\titleclass{\section}{top}
 %\titleformat{\section}{\Large\bfseries}{\thesection}{0.5em}{}
 \titleformat*{\section}{\centering\Large\bfseries}
@@ -125,7 +127,7 @@
 \usepackage{array,multirow}
   \setlength\extrarowheight{2pt} % 行高增加
 \usepackage{longtable}
-\usepackage{graphicx}
+\usepackage{graphicx,wrapfig}
   \graphicspath{{./tikz/}}
 % 页面修正宏包
 \usepackage{geometry}

@@ -12,7 +12,9 @@
 
 \maketitle
 
+\setlength{\lineskiplimit}{0pt}
 \tableofcontents
+\setlength{\lineskiplimit}{3pt}
 
 \chapter{序}
 
@@ -25,8 +27,9 @@
   \item 本手册使用的编辑器为\TeX Studio，而非之前的商业软件WinEdt. 这使得学习\LaTeX 的门槛更低。当然了，你有权使用任何编辑器。
 \end{feae}
 
-手册一共分为五大部分\cite{LHY2013latex,lamport1986document,mittelbach2004latex,partl2016}：
+手册主体分为六大部分\cite{LHY2013latex,lamport1986document,mittelbach2004latex,partl2016}：
 \begin{fead}
+\item[写给读者*] 介绍\LaTeX 背景、优缺点、适用情形。
 \item[基础] 包括标点、缩进、距离、章节、字体、颜色、注释、引用、封面、目录、列表、图表、页面等详细内容。
 \item[数学排版] 包括数学符号、公式、编号等内容。
 \item[进阶] 主要是自定义命令，帮助你更高效、更简洁地书写你的文档。
@@ -34,7 +37,7 @@
 \item[附录] 帮助你快速查找一些你想要的东西。
 \end{fead}
 
-由于工作全部由我一人完成，限于视野，难免存在错漏之处。恳请读者指正。有任何使用中遇到的手册中无法解决的问题，欢迎向我提出。另外，我推荐\emph{The \LaTeX{} Companion}, 一个优秀的知识补漏手册。
+由于工作全部由我一人完成，限于视野，难免存在错漏之处。恳请读者指正。如遇到的手册中无法解决的问题，欢迎向我提出。推荐书目可参考本手册附录。
 
 最后，还要感谢在\LaTeX 学习中为我解答疑惑的同学，特别是来自\LaTeX 度吧的吧友；本手册中许多的解决方案都是由他们提供的。我谨在此记录。
 
@@ -48,7 +51,77 @@ Chris Wu
 September 17, 2016 于Davis, CA
 \end{flushright}
 
+\chapter{写给读者*}
 
+我见过许多朋友初试\LaTeX ，他们都感到非常不能理解。主要有以下几个疑问：
+\begin{feae}
+\item “我平常使用MS Word，似乎也能完成科技排版工作，为什么我还需要\LaTeX ？”
+\item “\LaTeX 看上去不像是排版工具，更像是编程语言。我讨厌用写代码一样的方式来写文章。”
+\item “\LaTeX 似乎不能生成doc扩展名的文件啊？那我平时难道上交作业/汇报时使用别人不便修改pdf文件么？”
+\end{feae}
+
+本章希望能解决读者的这些疑问，让读者对于\LaTeX 有基础的了解，再决定是否需要学习。当然，如果你是被迫进入了\LaTeX 这个坑，你也可以阅读本章，或许本章能让你喜欢上\LaTeX 呢。
+
+\section{什么是\LaTeX ？}
+先讲\TeX （读音类似于“泰赫”）。
+
+\TeX 是Knuth\footnote{Donald Ervin Knuth(高德纳，1938--)，现代计算机科学的先驱者，斯坦福大学计算机系的终身荣誉教授，图灵奖和冯诺依曼奖得主，\TeX 和\hologo{METAFONT}的发明人。同时也是业内经久不衰的著作\emph{The Art of Computer Programming}的作者。}研发的免费、开源的排版系统，其初衷是为了“改变排版界糟糕的排版技术”，并用于排版他的著作《计算机程序设计艺术》。
+
+\TeX 对于读者来说应该是底层的内容，如果你有兴趣，可以阅读Knuth著的\emph{The \TeX book}，这本书是学习\TeX 最权威的材料，没有之一。在本手册的参考文献中也给出了其他\TeX 学习的资料。\dpar
+
+再讲\LaTeX （读音类似于“拉泰赫”）。
+
+\LaTeX 是基于\TeX 的宏\footnote{“宏(Macro)”是一个计算机概念，指用单个命令或操作完成一系列底层命令或操作的组合。}集，其作者是Dr.~Lamport\footnote{Leslie Lamport(1941--)，美国计算机科学家，图灵奖和冯诺依曼奖得主。}；其姓氏开头两个字母La与底层排版系统\TeX 相结合，就组成了名称\LaTeX 。\LaTeX 在\TeX 基础上定义了众多的宏命令，使得用户可以更方便地进行排版。本手册的参考文献中就有他的作品。
+
+\LaTeX 现在的版本是\LaTeXe ，意思是2.x版而没到3.0版。错位排版的字母E和字母A暗示了它是排版系统。在无法这样输出的场合，请写作LaTeX和LaTeX2e。
+
+\section{\TeX 与\LaTeX 的优缺点}
+\TeX 的优点：\qd{稳定、精确、美观}。底层的\TeX 系统已经很多年没有进行大的变动了，因为它注重\uline{稳定}；\TeX 系统可以让你把排版内容通过数字参数的方式写到任意的位置，量化的参数意味着\uline{精确}；\TeX 底层的空距调整机制，以及对于数学公式近乎完美的支持，则确保了排版效果的\uline{美观}。
+
+\LaTeX 是基于\TeX 的，自然不会抛弃上述\TeX 的优点。具体包括：
+\begin{feai}
+\item 排版出来就是印刷品。专业而美观。
+\item 易用、全面的数学排版支持，无出其右。
+\item 撰写文档时不会被文档排版细节干扰精力。你可以使用之前自定义的模板，或者方便地在文字组织完毕后调整你的模板，以轻松达到满意的效果。
+\item 复杂的排版功能支持，比如图表目录、索引、参考文献管理、高度自定义的目录样式、双栏甚至多栏排版。
+\item 丰富的功能以及易寻的帮助文档。众多的\LaTeX 宏包赋予了\LaTeX 强大的扩展功能，它们都自带文档供你学习。
+\item 源文件是\RED{文本文件}\footnote{文本文件的另一个优点是易于进行版本控制，比如利用git. 你可以方便地比较你相比上次修改了什么内容，也可以方便地恢复到之前某个时刻的版本。}。你可以在任何设备、任何文本编辑器中书写文档内容，无须担心复制时格式的变化，最后再粘贴到同一个tex文件中编译即可。
+\item 跨平台，Windows, OS X, GNU/Linux等均可使用。
+\item 免费，开源。
+\end{feai}
+
+那缺点呢？我认为主要有：
+\begin{feai}
+\item 入门门槛高。想要熟练地使用\LaTeX 并轻松地编写有自己的风格的文档，不是一两天就能够达到的。
+\item 并非“所见即所得”，总是需要编译才能看到效果。查找语法错误有时令人恼火。
+\item 完善一个自己的模板可能需要很长的时间。尽管\LaTeX 原生定义的模板能够满足绝大多数场合。
+\item 排版长表格有些复杂。但作为补充，在表格内插入数学公式是非常简单的。
+\end{feai}
+
+\section{为什么需要\LaTeX ？}
+你可能基于以下原因学习\LaTeX ：
+\begin{feae}
+\item 你的投稿对象要求你使用\LaTeX 排版，而不是MS Word——这种情况对没听说过\LaTeX 的你来说，真是糟糕透了。
+\item 你需要在多个设备上撰写同一份文档。但你发现把内容在多个文档间复制粘贴时，格式总是会出现问题。
+\item 你受够了MS Word自带的公式编辑器，或者你觉得购买的插件MathType的效果也不尽如人意。但你经常需要排版公式。
+\item 你想参加某个科学竞赛，比如MCM，然后你发现你的朋友用的一个叫\LaTeX 的东西似乎还不错。
+\item 你想出版一本书，或者投稿你的作品——结果他们告知你如果你使用\LaTeX 而不是MS Word攥写原稿件，他们会更快地把作品印刷出来。
+\item 呃……也许，只是你喜欢学习新事物？
+\end{feae}
+
+对于科研工作者或者在校研究生，我认为\LaTeX 是非常优秀的工具。如果你是本科生，或者更年轻的群体，你也可以先学习\LaTeX ，因为到了研究生和工作中，学习的时间可能就非常有限了。
+
+\section{MS Word难道不优秀吗？}
+我想说的是，\qd{MS Word当然是优秀的软件}。但是它与\LaTeX 的定位不同，所以它们分别适用于不同场合。前者注重简单组织内容，后者注重排版效果。
+
+在排版书籍、科学文档方面，\LaTeX 非常专业、美观，公式支持性极佳，几乎所有参数你都可以量化调整。如果你想高度自定义一份文件，比如拥有特殊几何、颜色元素，且易于更改模板的简历，\LaTeX 可以完全独当一面。这方面，MS Word是无法匹敌\LaTeX 的。
+
+但是如果你只是为了生成非正式的文档，比如1--2页的作业稿；或者只是为了给别人一份易于修改的非科学稿件，比如一份需要同事修改的演讲稿……那你无须使用\LaTeX 。这些方面，\LaTeX 无疑是比不上MS Word的。
+
+\section{\LaTeX 生成的文件格式？}
+一般广为使用的是pdf，以及dvi的格式。\LaTeX 无法生成doc或者docx扩展名文件，因为那是属于MS的商用格式，两者的工作机理也完全不同。
+
+所以很遗憾，如果你身处一个要求你“必须提交docx”的环境中，那么\LaTeX 对你并不是一个好选择。
 
 \chapter{\LaTeX{}基础}
 \section{第一份文稿}
@@ -59,7 +132,7 @@ September 17, 2016 于Davis, CA
 
 打开\TeX Studio后，选择选项$\rightarrow$ 设置\TeX Studio $\rightarrow$ 构建$\rightarrow$ 默认编译器，选择\xelatex{}. 这主要是基于中文文档编译的考虑，同时\xelatex 也能很好地编译英文文档。我建议始终使用它作为默认编译器。\dpar
 
-之后你可以在编译窗口输入一篇小文档，并保存为tex文件进行测试：
+之后你可以在窗口输入一篇小文档，并保存为tex扩展名的文件进行测试：
 \begin{latex}{}
 \documentclass{ctexart}
 \begin{document}
@@ -108,7 +181,7 @@ September 17, 2016 于Davis, CA
 \item[\^{}:] 数学环境中的上标命令符。
 \item[\&{}:] 表格环境中的跳列符。
 \item[\_{}:] 数学环境中的下标命令符。
-\item[\{and\}:] 花括号用于标记命令的必选参数，或者标记某一部分命令成为一个整体。
+\item[\{与\}:] 花括号用于标记命令的必选参数，或者标记某一部分命令成为一个整体。
 \item[\char92{}:] 反斜杠用于开始各种\LaTeX 命令。
 \end{para}
 
@@ -124,7 +197,7 @@ $\backslash$
 \texttt{\char92}
 \end{verbatim}
 
-另外需要说明的是，波浪线{\texttt{\~}}用来输出一个禁止在该处断行的空格，不能够直接输出。你可以通过命令\verb+$\sim$+，\verb|\~|或者仿上换成char126来产生一个。你也可以尝试命令\latexline{\\textasciitilde}。
+另外需要说明的是，波浪线{\texttt{\~}}用来输出一个禁止在该处断行的空格，也不能够直接输出。你可以通过命令\verb+$\sim$+，\verb|\~|或者仿上换成char126来产生一个。你也可以尝试命令\latexline{\\textasciitilde}。
 
 \subsection{导言区}
 任何一份\LaTeX{}文档都应当包含以下结构：
@@ -182,7 +255,7 @@ $\backslash$
 	\item {\qd{Bad Boxes坏箱}\footnote{Box是\LaTeX{}中的一个特殊概念，具体将在\hyperref[sec:box]{这里}进行讲解。}}：指排版中出现的长度问题，比如长度超出（Overfull）等。后面的Badness表示错误的严重程度，程度越高数值越大。这类问题需要检查，排除Badness高的选项。
 \end{feai}
 
-你可以向上翻阅控制台记录，来找到Warning开头的记录，或者Overfull/ Underfull开头的记录。这些记录会指出你的问题出在哪一行(比如line 1-2) 或者在输出pdf的哪一页（比如active [12]。注意，这个12表示页面显示页码或者计数器计数页码，而不是文件打印出来的真实页码）。此外你可以还需要了解：
+你可以向上翻阅日志记录（即.log文件），来找到Warning开头的记录，或者Overfull/ Underfull开头的记录。这些记录会指出你的问题出在哪一行(比如line 1-2) 或者在pdf的哪一页（比如active [12]。注意，这个12表示计数器计数页码，而不是文件打印出来的真实页数）。此外你还需要了解：
 \begin{feai}
 	\item 值得指出的是，由于\LaTeX{}的编译原理（第一次生成aux文件，第二次再引用它），目录想要合理显示\qd{需要连续编译两次}。在连续编译两次后，你会发现一些Warnings会在第二次编译后消失。在\TeX Studio中，你可以只单击一次“构建并查看”，它会检测到文章的变化并自动决定是否需要编译两次。
 	\item 对于大型文档，寻找行号十分痛苦。你需要学会合理地拆分tex文件，参阅\secref{sec:include}的内容。
@@ -216,6 +289,8 @@ $\backslash$
 有时\LaTeX 的编译出现异常，你需要删除文件夹下除了tex以外的文件再编译。此外，在某些独占程序打开了以上的文件时（比如用Acrobat打开了pdf），编译可能出现错误。请在编译时确保关闭这些独占程序。
 
 \section{标点与强调}
+英文符号$|\ <\ >\ +\ =$一般用于数学环境中，如果在文本中使用，请在它们两侧加上“\$”。在科技文章中，中文的句号也一般使用全角圆点“．”\footnote{这个标点是U+FF0E，称为“FULLWIDTH FULL STOP”。}而不是平常的“。”，也不是正常的英文句点“.”。这个符号很难正常输入；你可以先输入正常句点，最后再替换。
+
 \subsection{引号}
 单引号并不使用两个\verb|'|符号组合。左单引号是重音符\verb|`|（键盘上数字1左侧），而右单引号是常用的引号符。英文中，\RED{左双引号就是连续两个重音符}。
 
@@ -236,8 +311,6 @@ $\backslash$
 \end{feai}
 
 中文的破折号你也许可以直接使用日常的输入方式。中文的省略号同样。但是注意，\RED{英文的省略号使用\latexline{\\ldots}这个命令而不是三个句点}。
-
-至于减号，也许你应该借助于数学环境来输入：\verb|$-$|.
 
 \subsection{强调：粗与斜}
 \LaTeX 中专门有个叫做\latexline{\\emph{text}}的命令，可以强调文本。对于通常的西文文本，上述命令的作用就是斜体。如果你对一段已经这样转换为斜体的文本再使用这个命令，它就会取消斜体，而成为正体。
@@ -312,9 +385,9 @@ $37\,^{\circ}\mathrm{C}$
 \subsection{空格、换行与分段}
 在\LaTeX 中，多个空格会被视为一个，多个换行也会被视为一个。如果你想要禁止\LaTeX 在某个空格处的换行，将空格用\texttt{\char126}命令替代即可，比如“\texttt{Fig.\char126 8}”。
 
-通常的换行方法非常简单：\hologo{LaTeX}会自动转行，然后在每一段的末尾，只需要输入两个回车即可完成分段。如果需要一个空白段落（实质是一个空白行），先输入两个回车，再输入\latexline{\\mbox{}}，最后再输入两个回车即可。
+通常的换行方法非常简单：\hologo{LaTeX}会自动转行，然后在每一段的末尾，只需要输入两个回车即可完成分段。如果需要一个空白段落（实质是一个空白行），先输入两个回车，再输入\latexline{\\mbox{}}，最后再输入两个回车即可。你可以用\verb|\par|来产生一个带缩进的新段。
 
-在下划线一节的例子中已经给出了强制换行的方式，即两个反斜：\verb|\\|. 不过这样做的缺点在于下一行段首缩进会消失。你可以用\verb|\par|来解决这个问题。
+在下划线一节的例子中已经给出了强制换行的方式，即两个反斜：\verb|\\|. 不过这样做的缺点在于下一行段首缩进会消失，这个命令也的确一般\RED{不用于}正文换行；正文直接使用两个回车。
 
 \subsection{分页}
 用\latexline{\\newpage}命令开始新的一页。
@@ -399,6 +472,8 @@ LARGE        & 17pt & 17pt & 20pt \\
 huge         & 20pt & 20pt & 25pt \\
 Huge         & 25pt & 25pt & 25pt \\
 \hline
+\multicolumn{4}{l}{\small\textit{注：ctex宏包支持\textbackslash zihao命令。参数$0, -0,$}}\\
+\multicolumn{4}{l}{\small\textit{$1, -1, \ldots, 8$，即初号、小初、…}}
 \end{tabular}
 \end{table}
 
@@ -407,7 +482,17 @@ Huge         & 25pt & 25pt & 25pt \\
 \fontsize{font-size}{line-height}{\selectfont <text>}
 \end{latex}
 
-其中font-size填数字，以pt为单位；一般而言，line-height填\latexline{\\baselineskip}这个长度宏。
+其中font-size填数字，单位pt；一般而言，line-height填\latexline{\\baselineskip}\footnote{这个命令的意义是行与行之间的基线间距（即行距），默认是1.2倍文字高。}。
+
+默认全文的字体使用rmfamily族的字体。你可以通过重定义的方式更改它，使\latexline{\\rmfamily, \\textrm}命令都指向新的字体。甚至把默认字体改为sf/tt字族。
+\begin{latex}{}
+\renewcommand{\rmdefault}{`\textit{font-name}`}
+% 默认字体改为sf字族，也可用\ttdefault
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\sfdefault}{`\textit{font-name}`}
+% 如果你排版CJK文档，还需要更改CJK的默认字体
+\renewcommand{\CJKfamilydefault}{\CJKsfdefault}
+\end{latex}
 
 \subsection{西文字体}
 在\xelatex 编译下，一般使用fontspec宏包来选择西文字体。注意：fontspec宏包可能会明显增加编译所需的时间。
@@ -417,6 +502,10 @@ Huge         & 25pt & 25pt & 25pt \\
   \lucida{This is Lucida Calligraphy}
 \end{latex}
 
+该宏包的\latexline{\\setmathrm/sf/tt}与\latexline{\\setboldmathrm}命令可以支持你更改数学环境中调用的字体。
+
+另外，你也可以通过简单地加载txtfont宏包，设置西文字体为Roman体，且同时会为你设置好数学字体。其他的字体宏包在此不再介绍。
+
 \subsection{中文支持与CJK字体}
 ctex宏包直接定义了新的中文文档类ctexart, ctexrep与ctexbook，以及ctexbeamer幻灯文档类。例如本手册\texttt{Head.tex}中：
 \begin{latex}{}
@@ -424,7 +513,17 @@ ctex宏包直接定义了新的中文文档类ctexart, ctexrep与ctexbook，以�
   \renewcommand{\CTEXthechapter}{\thechapter}
 \end{latex}
 
-以上设置字号为小四，行距因子为1（故行距为$1\times 1.2=1.2$倍，其中1.2是\LaTeX 默认的基线间距）。而a4paper选项继承与原生文档类report，可见ctex文档类还是很好地保留了原生文档类的特征。\RED{值得注意的是，ctex文档类会用\texttt{\char92 CTEX}开头的计数器命令代替原有的}，除非你使用\texttt{scheme=plain}来让ctex文档类\uline{仅支持中文而不做任何文档细节更改}。具体的使用参考ctex宏包文档——它是中文的。
+以上设置字号为小四，行距因子为1（故行距为$1\times 1.2=1.2$倍，其中1.2是\LaTeX 默认的基线间距）。而a4paper选项继承与原生文档类report，可见ctex文档类还是很好地保留了原生文档类的特征。\RED{值得注意的是，ctex文档类会用\texttt{\char92 CTEX}开头的计数器命令代替原有的}，除非你使用\texttt{scheme=plain}来让ctex文档类\uline{仅支持中文而不做任何文档细节更改}。具体的使用参考ctex宏包文档。
+
+ctex宏包支持以下字体命令：
+\begin{center}
+\tabcaption{\texttt{ctex}宏包支持的字体命令}
+\begin{tabular}{*{4}{l>{\ttfamily\char92}l}}
+宋体 & songti & 黑体 & heiti & 仿宋 & fangsong & 楷书 & kaishu \\
+雅黑 & yahei & 隶书\textsuperscript{\dag} & lishu & 幼圆\textsuperscript{\dag} & youyuan &\multicolumn{2}{l}{} \\
+\multicolumn{8}{l}{\quad\dag\ \textit{带此符号的字体不受ubuntu字库支持}。}
+\end{tabular}
+\end{center}
 
 再者参考\xelatex 编译下的xeCJK宏包的使用。在使用\xelatex 时，如果你使用ctex文档类，它会直接调用xeCJK宏包，所以你无须再显式地加载xeCJK宏包。当然你也可以使用原生文档类，然后逐一汉化参数内容。
 
@@ -449,6 +548,13 @@ ctex宏包直接定义了新的中文文档类ctexart, ctexrep与ctexbook，以�
 \item AutoFakeBold=true/\uline{false}：是否启用全局伪粗体。如果启用，在setCJKmainfont等命令中，将用AutoFakeBold=2参数代替原有的BoldFont=SimHei这种参数。其中，数字2表示将原字体加粗2倍实现伪粗体。
 \item AutoFakeSlant=true/\uline{false}：是否启用全局伪斜体。仿上。
 \end{feai}
+
+如果预定义一种CJK字体，可以在导言区使用如下命令。比如这里定义了宋体，后文中直接使用\latexline{\\songti}来调用SimSun字体：
+\begin{latex}{}
+% 参数：[`\textit{family}`]\`\textit{font-switch}`[`\textit{features}`]{`\textit{font-name}`}
+\newCJKfontfamily[song]\songti{SimSun}
+\end{latex}
+
 
 如果要临时使用一种CJK字体，使用CJKfontspec命令。其中的FakeSlant和FakeBold参数根据全局伪字体的启用情况决定；如果未启用则使用BoldFont、SlantFont参数指定具体的字体。
 \begin{latex}{}
@@ -904,14 +1010,6 @@ book文档类还提供了以下的命令：
 \end{center}
 \end{codeshow}
 
-一些其他的使用技巧：
-\begin{feae}
-\item 输入同格式的列：参数\verb+|*{7}{c|}r|+，相当于7个居中和1个居右。
-\item 表格重音：原本的重音命令\verb|\`|, \verb|\'|与\verb|\=|，改为\verb|\a`|, \verb|\a'|与\verb|\a=|。
-\item 控制整表宽度：tabularx宏包提供\latexline{\\begin{tabular*}{width}[pos]{cols}}，比如你可以把width取值为\latexline{0.8\\linewidth}之类。
-\item 如想实现单元格内换行，使用makecell宏包支持的\latexline{\\makecell}命令。
-\end{feae}
-
 此外，\qd{表格还可以嵌套}，以方便地“拆分单元格”。注意下例中如何确保嵌套单元格表线显示正常：
 
 \begin{codeshow}
@@ -927,6 +1025,16 @@ aa & bb \\
 a & b & c \\ \hline
 \end{tabular}
 \end{codeshow}
+
+一些其他的使用技巧：
+\begin{feae}
+\item 输入同格式的列：参数\verb+|*{7}{c|}r|+，相当于7个居中和1个居右。
+\item 表格重音：原本的重音命令\verb|\`|, \verb|\'|与\verb|\=|，改为\verb|\a`|, \verb|\a'|与\verb|\a=|。
+\item 控制整表宽度：tabularx宏包提供\latexline{\\begin{tabular*}{width}[pos]{cols}}，比如你可以把width取值为\latexline{0.8\\linewidth}之类。
+\item 如想实现单元格内换行，使用makecell宏包支持的\latexline{\\makecell}命令。
+\end{feae}
+
+
 
 \subsection{非浮动体图表和并排图表}
 如果不使用浮动体，又想给图、表添加标题，请在导言区加上：
@@ -1060,7 +1168,7 @@ fancyhdr在定义双页文档时，采用了如下的默认设置：
 \verb+fooo{}bar+
 \end{latex}
 
-注意\latexline{\\verb(*)}以及verbatim(*)环境很脆弱，不能隐式地用于自定义环境，也一般不能用作命令的参数。verbatim宏包提供了更多的抄录支持，读者可自行查阅。
+注意\latexline{\\verb(*)}以及verbatim(*)环境很脆弱，不能隐式地用于自定义环境，也一般不能用作命令的参数。verbatim宏包提供了更多的抄录支持，fancyvrb宏包提供了\latexline{\\SaveVerb, \\UseVerb}命令，读者可自行查阅。
 
 代码环境的输出，比如本文中带行号的代码块，参见\hyperref[sec:coding]{这一节}。
 
@@ -1103,11 +1211,11 @@ My telephone number is: \mbox{012 3456 7890}
 
 在\LaTeX 中还有一个命令“\texttt{\char92\textvisiblespace}”，用于产生一个硬空格（区别于软空格\texttt{\char92space}），所以你也可以用\latexline{\\TeX\\ Live}。
 
-西文排版下，\LaTeX 会判断一种\co{句末标点}，即小写字母后的“.”，“?”或者“!”三个英文标点。句末标点后如果键入空格，\LaTeX 会自动增加空格的距离。如果句子以大写字母结尾，\LaTeX 会认为这是人名而不增加空格，这时候需要手动添加命令：
+西文排版下，\LaTeX 会判断一种\co{句末标点}，即小写字母后的“.”，“?”或者“!”三个英文标点。句末标点后如果键入空格，\LaTeX 会自动增加空格的距离。如果句子以大写字母结尾，\LaTeX 会认为这是人名而不增加空格，这时候需要手动添加命令\latexline{\\@}：
 
 \begin{codeshow}
 OK. That's fine.\\
-OK\null. That's fine.
+OK\@. That's fine.
 \end{codeshow}
 
 相反，有些并非句末标点的情况会被识别为句末标点，这时候需要在标点后插入一个\texttt{\char92\textvisiblespace}或者\texttt{\char126}来缩小间距；区别在于前者允许断行，后者不允许。
@@ -1118,6 +1226,12 @@ Prof.~Smith is a nice man.
 \end{codeshow}
 
 在标点后使用\latexline{\\frenchspacing}命令，可以调整为极小的空距。这个命令在排版参考文献列表时可能被使用。
+
+在\xelatex 编译模式下的中文字符，与西文或者符号之间会产生默认的空距。如果你不想要这个空距，把中文放在\latexline{\\mbox}内即可，比如：
+
+\begin{codeshow}
+\mbox{例子}-1
+\end{codeshow}
 
 \subsection{特殊符号}
 符号的总表可以参照symbols-a4文档，运行texdoc symbols-a4即可调出。包括希腊字母在内的一些数学符号将会在下一章介绍。这里给出基于wasysym宏包的一些常用符号：
@@ -1430,11 +1544,10 @@ x_{21} & x_{22} & \ldots \\
 6 & 0 \end{Vmatrix}$
 \end{codeshow}
 
-在矩阵中排版dfrac分式时，使用在换行符后添加竖直空距的方法解决行距问题：
+在矩阵中排版dfrac分式时，处理行距如下例的\texttt{\char92\char92 [8pt]}：
 
 \begin{codeshow}
-\[\mathbf{H}=
-\begin{bmatrix}
+\[\mathbf{H}=\begin{bmatrix}
 \dfrac{\partial^2 f}{\partial x^2} &
 \dfrac{\partial^2 f}
 {\partial x \partial y} \\[8pt]
@@ -1446,25 +1559,14 @@ x_{21} & x_{22} & \ldots \\
 
 
 \subsection{分段函数与联立方程}
-array也可以用来写分段函数：
-
-\begin{codeshow}
-\[y=\left\{\begin{array}{ll}
-x+1, & x>0 \\
-0,   & x=0 \\
-x-1, & x<0
-\end{array}\right.\]
-\end{codeshow}
-
-分段函数还能用cases环境，它自动生成一个花括号，也更紧凑：
+用cases环境书写分段函数，它自动生成一个比\texttt{\char92 left\char92\{}更紧凑的花括号：
 
 \begin{codeshow}
 \[y=\begin{cases}
 \int x, & x>0 \\
 0,   & x=0 \\
 x-1, & x<0
-\end{cases},\,
-x\in\mathbb{R}\]
+\end{cases},\,x\in\mathbb{R}\]
 \end{codeshow}
 
 如果想要生成display样式的内容（比如上面的积分号只是text样式的），使用mathtools宏包的dcases环境代替cases环境。如果cases环境的第二列条件不是数学语言而是一般文字，可以考虑使用dcases*环境，列中用\&{}隔开。
@@ -1579,6 +1681,8 @@ For an right triangle, we have:
 \subsection{数学字体}
 原生的数学字体命令：
 \begin{center}
+\begin{minipage}{\linewidth}
+\centering
 \tabcaption{原生数学字体表}
 \label{tab:mathfont}
 \begin{tabular}{>{\ttfamily\char92}l>{$}l<{$}}
@@ -1592,10 +1696,13 @@ mathnormal\{ABCDabcde 1234\} & \mathnormal{ABCDabcde 1234} \\
 mathcal\{ABCDabcde 1234\} & \mathcal{ABCDabcde 1234} \\
 \hline
 \end{tabular}
+\end{minipage}
 \end{center}
 
 需要其他宏包支持的数学字体：
 \begin{center}
+\begin{minipage}{\linewidth}
+\centering
 \tabcaption{宏包数学字体表}
 \label{tab:mathfont-pk}
 \begin{tabular}{>{\ttfamily}ll}
@@ -1610,6 +1717,7 @@ $\mathfrak{ABCDabcde 1234}$ & \\
 $\mathbb{ABCDabcde 1234}$ & \\
 \hline
 \end{tabular}
+\end{minipage}
 \end{center}
 
 \subsection{定界符}
@@ -1845,9 +1953,16 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 
 \section{箱子：排版的基础}
 \label{sec:box}
+
+\begin{wrapfigure}{R}{0.4\textwidth}
+\includegraphics{Texcharbox.pdf}
+\caption{箱子的参数}
+\label{fig:boxpara}
+\end{wrapfigure}
+
 \LaTeX 排版的基础单位就是“箱子(box)”，例如整个页面是一个矩形的箱子，侧边栏、主正文区、页眉页脚也都是箱子。在正常排版中，文字应当位于箱子内部；如果单行文字过长、没能正确断行，造成文字超出箱子，这便是Overfull的坏箱(bad box)；如果内容太少，导致文字不能美观地填满箱子，便是Underfull的坏箱。
 
-在\LaTeX 编译中，坏箱将记录在日志文件里。即使编译过程中产生了坏箱，编译也仍然会进行，并将坏箱强行输出到最终的文档。这就可能产生很多奇怪的情况，比如文字写到了页面之外。如果你是完美主义者，请你逐个排查坏箱；即使你不是，也请排查看起来非常不美观的那些坏箱。
+如\fref{fig:boxpara}所示，箱子的三个参数：高度(height)、宽度(width)和深度(depth)。分隔高度和深度的是基线。
 
 \subsection{无框箱子}
 命令\latexline{\\mbox}产生一个无框的箱子，宽度自适应。有时用它来强制“结合”一系列命令，使之不在中间断行。比如\TeX 这个命令的定义（其中\latexline{\\raisebox}命令在后面介绍。）：
@@ -1866,8 +1981,11 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \subsection{加框箱子}
 命令\latexline{\\fbox}产生加框的箱子，宽度自动调整，但不能跨行。命令\latexline{\\framebox}类似上面介绍的\latexline{\\makebox}。如果是想在数学环境下完成加框，使用\latexline{\\boxed}命令。
 
+width参数中，可以用\latexline{\\width}, \latexline{\\height}, \latexline{\\depth}, \latexline{\\totalheight}分别表示箱子的自然宽度、自然高度、自然深度和自然高深度之和。注意
+
 \begin{codeshow}
 \fbox{This is a frame box} \\
+\framebox[2\width]{double-width}\\
 \begin{equation}\boxed{x^2=4}
 \end{equation}
 \end{codeshow}
@@ -1887,7 +2005,7 @@ A\raisebox{-0.5ex}{n} example.
 \end{codeshow}
 
 \subsection{段落箱子}
-段落箱子的强大之处在于它提供自动换行的功能，当然你需要指定宽度给它。
+段落箱子的强大之处在于它提供自动换行的功能，当然你需要指定宽度。
 \begin{latex}{}
 \parbox[pos]{width}{text}
 \end{latex}
@@ -1924,6 +2042,14 @@ graphicx宏包提供了一种可以缩放的箱子\latexline{\scalebox{h-sc}[v-s
 \end{tabular}
 \end{codeshow}
 
+\subsection{覆盖箱子}
+有时候需要把一段文字覆盖到另一段上面。什么？你从没这么干过？但或许有一天你需要呢？
+
+\begin{codeshow}
+你看不清这些字\llap{是什么}\\
+\rlap{这些}你也看不清
+\end{codeshow}
+
 \subsection{颜色箱子}
 \label{subsec:colorbox}
 xcolor宏包支持的颜色箱子命令：
@@ -1936,7 +2062,7 @@ xcolor宏包支持的颜色箱子命令：
   黄色背景}}
 \end{codeshow}
 
-命令fcolorbox也能调整\latexline{\\fboxrule, \\fboxsep}，colorbox只能调整后者。参考前面的加框箱子一节。
+命令\latexline{\\fcolorbox}可以调整\latexline{\\fboxrule, \\fboxsep}参数，而\latexline{colorbox}只能调整后者。参考前面的加框箱子一节。
 
 \section{复杂距离}
 \label{sec:hvspace}
@@ -1998,7 +2124,23 @@ Left\hspace{\stretch{1}}Center
 \hspace{\stretch{2}}Right
 \end{codeshow}
 
-\subsection{制表位与行距*}
+你还可以使用类似\latexline{\\hfill}的其他命令：
+
+\begin{codeshow}
+L\hfill R\\
+L\hrulefill Mid\dotfill R
+\end{codeshow}
+
+\subsection{行距}
+\LaTeX 的行距由基线计算，可以使用命令\latexline{\\linespread{`\texit{num}`}}，默认的基线距离\latexline{\\baselineskip}是1.2倍的文字高。所以默认的行距是1.2倍；如果你更改linespread为1.3，那么行距变为$1.2\times 1.3=1.56$倍——这也是ctex文档类的做法。
+
+此外还有\latexline{\\lineskiplimit}和\latexline{\\lineskip}命令。有时候在两行之间，可能包含较高的内容（比如分式$\dfrac{1}{2}$），使得前一行底部与后一行顶部的距离小于limit值，则此时行距会改为由lineskip控制前一行行底到后一行行顶的距离。本手册采用：
+\begin{latex}{}
+\setlength{\lineskiplimit}{3pt}
+\setlength{\lineskip}{3pt}
+\end{latex}
+
+\subsection{制表位*}
 制表位使用tabbing环境，需要指出，这是一个极其容易造成坏箱的环境。一个丑陋的例子：
 \begin{latex}{}
 \begin{tabbing}
@@ -2977,7 +3119,7 @@ morestring=[b]", % 字符串
   \item[pagewise]每页行号重新从1计数。
   \item[modulo]每5行显示行号。
   \item[displaymath]自动将\LaTeX 默认行间公式放在新定义的\textit{linenomath}环境中。
-  \item[mathline]如果在文中使用了\textit{linenomath}环境，则对其中的数学公式也进行行号编号。
+  \item[mathline]如果使用了\textit{linenomath}环境，则对其中的数学公式也编行号。
 \end{para}
 
 如果你想开始编号，使用\latexline{\\linenumbers[number]}命令，其中\textit{number}表示起始行号；并用\latexline{\\nolinenumbers}来结束。或者使用linenumbers环境、runninglinenumbers环境，并且仿上设置起始行号。如果使用\texttt{ \char92{}linenumbers*, \char92{}runninglinenumbers}或者带星的linenumbers、runninglinenumbers环境，那么行号会自动从1开始。
@@ -3000,7 +3142,7 @@ morestring=[b]", % 字符串
 %\include{AdditionalChapter-Tikz}
 
 % 参考文献
-\include{Bib}
+\input{Bib}
 
 \clearpage
 \begin{appendices}
@@ -3017,8 +3159,8 @@ morestring=[b]", % 字符串
 \texttt{样式} & 命令 & \texttt{样式} & 命令 & \texttt{样式} & 命令 & \texttt{样式} & 命令 \\
 \hline
 \=o  & \verb|\=o|  & \'o  & \verb|\'o|  & \v o & \verb|\v o|  & \`o   & \verb|\`o|  \\
-\^o  & \verb|\^o|  & \"o  & \verb|\"o|  & \.o  & \verb|\.o|   & \H o  & \verb|\H o| \\
-\d o & \verb|\d o| & \u o & \verb|\u o| & \b o & \verb|\b o|  & \t oo & \verb|\t oo|\\
+\^o  & \verb|\^o|  & \"o  & \verb|\"o|  & \.o  & \verb|\.o|   & \H o  & \verb|\H{o}| \\
+\d o & \verb|\d{o}| & \u o & \verb|\u{o}| & \b o & \verb|\b{o}|  & \t oo & \verb|\t{oo}|\\
 \multicolumn{2}{|c@{\bf --}}{$\tilde{o}$} & \multicolumn{2}{@{\bf --}c|}{\tt{\$$\backslash$tilde\{o\}\$}} &%
 \multicolumn{2}{c@{\bf --}}{$\hat{o}$}    & \multicolumn{2}{@{\bf --}c|}{\tt{\$$\backslash$hat\{o\}\$}}\\
 \multicolumn{8}{|c|}{} \\
