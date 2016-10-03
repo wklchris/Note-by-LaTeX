@@ -51,13 +51,13 @@ Chris Wu
 September 17, 2016 于Davis, CA
 \end{flushright}
 
-\chapter{写给读者*}
+\chapter{\mbox{写给读者}*}
 
 我见过许多朋友初试\LaTeX ，他们都感到非常不能理解。主要有以下几个疑问：
 \begin{feae}
-\item “我平常使用MS Word，似乎也能完成科技排版工作，为什么我还需要\LaTeX ？”
-\item “\LaTeX 看上去不像是排版工具，更像是编程语言。我讨厌用写代码一样的方式来写文章。”
-\item “\LaTeX 似乎不能生成doc扩展名的文件啊？那我平时难道上交作业/汇报时使用别人不便修改pdf文件么？”
+\item “我平常使用MS Word，似乎也能完成科技排版工作，为什么我还需要\LaTeX ？”\hfill \textit{——见“为什么需要\LaTeX ？”一节。}
+\item “\LaTeX 看上去不像是排版工具，更像是编程语言。我讨厌用写代码一样的方式来写文章。”\hfill \textit{——文本文件使你更专注于内容而不是排版细节。}
+\item “\LaTeX 能生成doc文件吗？我平时上交作业/提交汇报时难道使用不便修改pdf文件么？”\hfill \textit{——见“\LaTeX 生成的文件格式？”一节。}
 \end{feae}
 
 本章希望能解决读者的这些疑问，让读者对于\LaTeX 有基础的了解，再决定是否需要学习。当然，如果你是被迫进入了\LaTeX 这个坑，你也可以阅读本章，或许本章能让你喜欢上\LaTeX 呢。
@@ -85,16 +85,15 @@ September 17, 2016 于Davis, CA
 \item 撰写文档时不会被文档排版细节干扰精力。你可以使用之前自定义的模板，或者方便地在文字组织完毕后调整你的模板，以轻松达到满意的效果。
 \item 复杂的排版功能支持，比如图表目录、索引、参考文献管理、高度自定义的目录样式、双栏甚至多栏排版。
 \item 丰富的功能以及易寻的帮助文档。众多的\LaTeX 宏包赋予了\LaTeX 强大的扩展功能，它们都自带文档供你学习。
-\item 源文件是\RED{文本文件}\footnote{文本文件的另一个优点是易于进行版本控制，比如利用git. 你可以方便地比较你相比上次修改了什么内容，也可以方便地恢复到之前某个时刻的版本。}。你可以在任何设备、任何文本编辑器中书写文档内容，无须担心复制时格式的变化，最后再粘贴到同一个tex文件中编译即可。
-\item 跨平台，Windows, OS X, GNU/Linux等均可使用。
-\item 免费，开源。
+\item 源文件是\RED{文本文件}\footnote{文本文件的另一个优点是易于进行版本控制，比如利用git. 你可以方便地比较你相比上次修改了什么内容，也可以方便地恢复到之前某个时刻的版本。}。你可以在任何设备、任何文本编辑器中书写文档内容，无须担心复制时格式的变化；最后粘贴到同一个tex文件中编译即可。
+\item 跨平台，免费，开源。
 \end{feai}
 
 那缺点呢？我认为主要有：
 \begin{feai}
 \item 入门门槛高。想要熟练地使用\LaTeX 并轻松地编写有自己的风格的文档，不是一两天就能够达到的。
-\item 并非“所见即所得”，总是需要编译才能看到效果。查找语法错误有时令人恼火。
-\item 完善一个自己的模板可能需要很长的时间。尽管\LaTeX 原生定义的模板能够满足绝大多数场合。
+\item 并非“所见即所得”，需要编译才能看到效果。编译查错有时令人恼火。
+\item 完善一个自己的模板可能需要很长的时间。尽管\LaTeX 原生定义的模板能够满足绝大多数场合的需要。
 \item 排版长表格有些复杂。但作为补充，在表格内插入数学公式是非常简单的。
 \end{feai}
 
@@ -114,14 +113,14 @@ September 17, 2016 于Davis, CA
 \section{MS Word难道不优秀吗？}
 我想说的是，\qd{MS Word当然是优秀的软件}。但是它与\LaTeX 的定位不同，所以它们分别适用于不同场合。前者注重简单组织内容，后者注重排版效果。
 
-在排版书籍、科学文档方面，\LaTeX 非常专业、美观，公式支持性极佳，几乎所有参数你都可以量化调整。如果你想高度自定义一份文件，比如拥有特殊几何、颜色元素，且易于更改模板的简历，\LaTeX 可以完全独当一面。这方面，MS Word是无法匹敌\LaTeX 的。
+在\uline{排版书籍、科学文档}方面，\LaTeX 非常专业、美观，公式支持性极佳，几乎所有参数你都可以量化调整。如果你想\uline{高度自定义一份文件}，比如拥有特殊几何、颜色元素，且易于更改模板的简历，\LaTeX 可以完全独当一面。在这些这方面，MS Word是无法匹敌\LaTeX 的。
 
-但是如果你只是为了生成非正式的文档，比如1--2页的作业稿；或者只是为了给别人一份易于修改的非科学稿件，比如一份需要同事修改的演讲稿……那你无须使用\LaTeX 。这些方面，\LaTeX 无疑是比不上MS Word的。
+但是如果你只是为了生成\uline{非正式的文档}，比如1--2页的作业稿；或者只是一份\uline{易于别人修改的非科学稿件}，比如一份需要同事修改的演讲稿……那你无须使用\LaTeX 。这些方面，\LaTeX 无疑是比不上MS Word的。
 
 \section{\LaTeX 生成的文件格式？}
 一般广为使用的是pdf，以及dvi的格式。\LaTeX 无法生成doc或者docx扩展名文件，因为那是属于MS的商用格式，两者的工作机理也完全不同。
 
-所以很遗憾，如果你身处一个要求你“必须提交docx”的环境中，那么\LaTeX 对你并不是一个好选择。
+所以很遗憾，如果你身处一个要求你“必须提交docx”的环境中，那么\LaTeX 对你并不是一个好选择。但我想指出的是，这是稳定、优秀的pdf格式没有得到你身处环境认可的遗憾——pdf也可以方便地添加批注，并在不同设备的显示上有更好的稳定性。
 
 \chapter{\LaTeX{}基础}
 \section{第一份文稿}
@@ -543,7 +542,7 @@ ctex宏包支持以下字体命令：
 \begin{feai}
 \item CJKMath=ture/\uline{false}：是否支持数学环境CJK字体。如果想在数学环境中直接输入汉字，请开启该选项；否则在数学环境内，需要将汉字写在\latexline{\\textrm}、或者amsmath宏包支持的\latexline{\\text}命令中。
 \item CheckSingle=true/\uline{false}：是否检查CJK标点单独占用段落最后一行。此检查在倒数二、三个字符为命令时可能失效。
-\item LongPunct=\verb|{——……}|：设置CJK长标点集，默认的只有中文破折号和中文省略号。长标点不允许在内部产生断行。你也可以用$+=$或者$-=$号来修改CJK长标点集。
+\item LongPunct=\verb|{——……}|：设置CJK长标点集，默认的只有中文破折号和中文省略号。长标点不允许在内部产生断行。你也可以用\texttt{+=}或者\texttt{-=}号来修改CJK长标点集。
 \item MiddlePunct=\verb|{——·}|：设置CJK居中标点集，默认的只有中文破折号和中文间隔号（中文输入状态下按数字1左侧的重音符号键）。居中标点保证标点两端距前字和后字的距离等同，并禁止在其之前断行。你同样可以使用\texttt{+=/-=}进行修改。
 \item AutoFakeBold=true/\uline{false}：是否启用全局伪粗体。如果启用，在setCJKmainfont等命令中，将用AutoFakeBold=2参数代替原有的BoldFont=SimHei这种参数。其中，数字2表示将原字体加粗2倍实现伪粗体。
 \item AutoFakeSlant=true/\uline{false}：是否启用全局伪斜体。仿上。
@@ -551,7 +550,7 @@ ctex宏包支持以下字体命令：
 
 如果预定义一种CJK字体，可以在导言区使用如下命令。比如这里定义了宋体，后文中直接使用\latexline{\\songti}来调用SimSun字体：
 \begin{latex}{}
-% 参数：[`\textit{family}`]\`\textit{font-switch}`[`\textit{features}`]{`\textit{font-name}`}
+% 参数：[family]\font-switch[features]{font-name}
 \newCJKfontfamily[song]\songti{SimSun}
 \end{latex}
 
@@ -685,7 +684,7 @@ This is an exmaple\footnotemark.
 \end{quotation}
 \end{codeshow}
 
-另外一个诗歌援引环境叫verse，是悬挂缩进的。一般很少用到。
+另外一个诗歌援引环境叫verse，\label{envi:verse}是悬挂缩进的。一般很少用到。
 
 \begin{codeshow}
 Rabindranath Tagore wrote this in 
@@ -2067,7 +2066,7 @@ xcolor宏包支持的颜色箱子命令：
 \section{复杂距离}
 \label{sec:hvspace}
 \subsection{水平和竖直距离}
-长度单位参考\hyperref[sec:length]{这里}介绍过的内容。水平距离命令有两种，一种禁止在此处断行，包括\tref{tab:nobreak-hspace}：
+长度单位参考\hyperref[sec:length]{这里}介绍过的内容。水平距离命令有两种，一种禁止在此处断行，如\tref{tab:nobreak-hspace}；另一种允许换行，如\tref{tab:break-hspace}。
 \begin{table}[!htb]
 \centering
 \caption{禁止换行的水平距离}
@@ -2080,7 +2079,6 @@ xcolor宏包支持的颜色箱子命令：
 \end{tabular}
 \end{table}
 
-另一种允许换行，如\tref{tab:break-hspace}：
 \begin{table}[!htb]
 \centering
 \caption{允许换行的水平距离}
@@ -2182,7 +2180,7 @@ L\hrulefill Mid\dotfill R
 \hangindent 6em
 这两行放在某一段的上方，作用是控制紧随其后的段落从第2行开始悬挂缩进，并且设置悬挂缩进的长度是\texttt{6em}。
 
-如果需要对连续的多段进行悬挂缩进，可以改造编号列表环境或者verse环境\footnote{事实上这是一个排版诗歌的环境。}来实现。或者尝试：
+如果需要对连续的多段进行悬挂缩进，可以改造编号列表环境或者verse环境\footnote{事实上这是一个排版诗歌的环境，参考前文的\hyperref[envi:verse]{这里}。}来实现。或者尝试：
 
 \begin{codeshow}
 正文...
@@ -2283,12 +2281,12 @@ changepage宏包提供了一个adjustwidth环境，它能够控制段落两侧�
 	{\fontsize{60}{60}\selectfont\thechapter}}
 % chapter样式定义中的\chaformat以章名作为隐式参数
 \titleformat{\chapter}[block]{\hfill\LARGE\sffamily}
-    {}{0pt}{\chaformat}[\vspace{2.5pc}\large
+    {}{0pt}{\chaformat}[\vspace{2.5pc}\normalsize
 	\startcontents\printcontents{}{1}
 	{\setcounter{tocdepth}{2}}]
 \titleformat*{\section}{\centering\Large\bfseries}
 \titleformat{\subsubsection}[hang]
-    {\bfseries\large}{\rule{1.5ex}{1.5ex}{0.5em}{}
+    {\bfseries\large}{\rule{1.5ex}{1.5ex}}{0.5em}{}
 \end{latex}
 
 本例没有定义subsection样式。如果你想给subsection级别标号（即赋予它标签），使用：\latexline{\\setcounter{secnumdepth}{3}}\footnote{report/book类part级别深度为0，递增；article类part为-1，无chapter级别。故section及以下深度一致。}。
@@ -2977,13 +2975,20 @@ A=C
 
 \section{附录}
 \label{sec:appendix}
-附录需要appendix宏包。加载时常用的选项是titletoc，目录中显示为``Appendix A''而不是只有一个``A''。如果你不喜欢Appendix这个名称，用重定义\latexline{\\appendixname}命令即可。header选项可以在附录页的标题前插入同样的名称。
+附录可以直接在文中需要开启的地方，使用下述命令。此后的最高大纲级别编号会变为大写英文字母：A, B, C, \ldots
 \begin{latex}{}
-\usepackage[titletoc]{appendix}
+\appendix
 \end{latex}
 
-附录一般出现在document环境的最后，本手册使用了：
+你也可以使用appendix宏包。加载时常用的选项：
+\begin{para}
+\item[titletoc:] 目录中显示为``Appendix A''而不是只有一个``A''。如果你不喜欢Appendix这个名称，用重定义\latexline{\\appendixname}命令即可。
+\item[header:] 在附录页的标题前插入同样的名称。
+\end{para}
+
+附录一般出现在document环境的最后，例如：
 \begin{latex}{}
+% 导言区：\usepackage[titletoc]{appendix}
 \begin{appendices}
 \renewcommand{\thechapter}{\Alph{chapter}}
 \titleformat{\chapter}[display]{\Huge\bfseries}
@@ -2991,6 +2996,8 @@ A=C
 \chapter{...} ...
 \end{appendices}
 \end{latex}
+
+本手册使用的是\latexline{\\appendix}命令，并在其后重定义了chapter的显示样式。读者可以从源码中参考。
 
 \section{编程代码与行号}
 \label{sec:coding}
@@ -3144,10 +3151,13 @@ morestring=[b]", % 字符串
 % 参考文献
 \input{Bib}
 
+% 附录
 \clearpage
-\begin{appendices}
-%\renewcommand{\CTEXthechapter}{\Alph{chapter}}
-\titleformat{\chapter}[display]{\Huge\bfseries}{附录\Alph{chapter}}{1em}{}
+\appendix
+% 重定义附录的chapter样式
+\renewcommand{\chaformat}[1]{%
+	\parbox[b]{.5\textwidth}{\raggedleft\bfseries \S 附录 \\ \vspace{0.2ex} #1} \quad\rule[-12pt]{2pt}{70pt}\quad
+	{\fontsize{60}{60}\selectfont\thechapter}}
 
 \chapter{注音符号}
 \label{app:phonetic}
@@ -3194,6 +3204,7 @@ morestring=[b]", % 字符串
 \textit{注：\texttt{\char92dh}命令在非CJK文档中有时编译会出现问题}。
 
 \chapter{建议}
+
 除了参考文献列表中给出的书籍以外，我还推荐你用控制台在\TeX{} Live中能找到的以下书籍：
 
 \begin{para}
@@ -3205,7 +3216,5 @@ morestring=[b]", % 字符串
 \item[texdoc impatient] \emph{\TeX{} for the Impatient}, 一本介绍底层\TeX 的书，中译本资源请自己寻找。这也是我阅读的第一本\TeX 书，Knuth的\emph{The \TeX book}虽然血统正但是难啃啊。
 \item[texdoc texbytopic] \emph{\TeX{} by Topic}, 个人觉得不如上面那本，但也许只是叙述方式不一样吧。
 \end{para}
-
-\end{appendices}
 
 \end{document}
