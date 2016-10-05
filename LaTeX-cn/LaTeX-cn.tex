@@ -5,7 +5,7 @@
 \author{K.L Wu\\
   {\kaishu 本手册是\href{https://github.com/wklchris/Note-by-LaTeX}{wklchris-GitHub}的\LaTeX{}-cn项目}
 }
-\date{第一版已定稿。\\
+\date{第一版已定稿。正修订至第二版。\\
   最后更新于：\today}
 
 \begin{document}
@@ -135,8 +135,8 @@ September 17, 2016 于Davis, CA
 \begin{latex}
 \documentclass{ctexart}
 \begin{document}
-  Hello, world!
-  你好，世界！
+    Hello, world!
+    你好，世界！
 \end{document}
 \end{latex}
 
@@ -157,7 +157,7 @@ September 17, 2016 于Davis, CA
 还有一种重要指令叫做\co{环境}。它被定义于控制命令\latexline{begin\{environment\}} 和\latexline{end\{environment\}}间的内容。比如：
 \begin{latex}
 \begin{document}
-	...内容...
+...内容...
 \end{document}
 \end{latex}
 
@@ -195,7 +195,7 @@ $\backslash$ \textbackslash
 \texttt{\char92}
 \end{codeshow}
 
-其中命令\latexline{char[num]}是一个特殊的命令，用于输出USCII码对应的字符；92对应的即反斜杠。你也可以用\latexline{char`}后加字符的方式输出你想输出的命令，但需要包裹在\latexline{texttt}或者\latexline{\char`\\ttfamily}内。如果想输出的字符是保留字符，需要再加一个反斜杠。
+其中命令\latexline{char[num]}是一个特殊的命令，使用环境需要是tt字体环境，用于输出USCII码对应的字符；92对应的即反斜杠。你也可以用\latexline{char`}后加字符的方式输出你想输出的命令，但需要包裹在\latexline{texttt}或者\latexline{\char`\\ttfamily}内。如果想输出的字符是保留字符，需要再加一个反斜杠。
 \begin{verbatim}
 \texttt{\char`~} % 输出一个波浪线
 \texttt{\char`\\} % 输出保留字反斜杠
@@ -308,10 +308,9 @@ a\textasciitilde b
 单引号并不使用两个\verb|'|符号组合。左单引号是重音符\verb|`|（键盘上数字1左侧），而右单引号是常用的引号符。英文中，\RED{左双引号就是连续两个重音符}。
 
 英文下的引号嵌套需要借助\latexline{thinspace}命令分隔，比如：
-
-\begin{codeshow}
+\begin{verbatim}
 ``\thinspace`Max' is here.''
-\end{codeshow}
+\end{verbatim}
 
 中文下的单引号和双引号你可以用中文输入法直接输入。
 
@@ -521,7 +520,7 @@ $37\,^{\circ}\mathrm{C}$
 
 以上设置字号为小四，行距因子为1（故行距为$1\times 1.2=1.2$倍，其中1.2是\LaTeX 默认的基线间距）。而a4paper选项继承与原生文档类report，可见ctex文档类还是很好地保留了原生文档类的特征。\RED{值得注意的是，ctex文档类会用\texttt{\char92 CTEX}开头的计数器命令代替原有的}，除非你使用\texttt{scheme=plain}来让ctex文档类\uline{仅支持中文而不做任何文档细节更改}。具体的使用参考ctex宏包文档。
 
-ctex宏包支持以下字体命令：
+\pkg{ctex}宏包支持以下字体命令：
 \begin{center}
 \tabcaption{\texttt{ctex}宏包支持的字体命令}
 \begin{tabular}{*{4}{ll}}
@@ -614,7 +613,7 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 \pageref{section:this}
 \end{latex}
 
-但是更常用的是hyperref宏包。由于它经常与其他宏包冲突，一般把它放在导言区的最后。比如本手册：
+但是更常用的是\pkg{hyperref}宏包。由于它经常与其他宏包冲突，一般把它放在导言区的最后。比如本手册：
 \begin{latex}
 \usepackage[colorlinks,bookmarksopen=true,
 bookmarksnumbered=true]{hyperref}
@@ -641,7 +640,7 @@ bookmarksnumbered=true]{hyperref}
 \section{质能公式\texorpdfstring{$E=mc^2$}{E=mc\textasciicircum 2}}
 \end{verbatim}
 
-在加载了hyperref宏包后，可以使用的命令有：
+在加载了\pkg{hyperref}宏包后，可以使用的命令有：
 \begin{latex}
 % 文档内跳转
 \hyperref[`\textit{label-name}`]{`\textit{print-text}`}
@@ -696,8 +695,8 @@ This is an exmaple\footnotemark.
 Rabindranath Tagore wrote this in 
 his \emph{The Gardener}: 
 \begin{verse}
-Constant thrusts from your eyes keep 
-my pain fresh for ever.
+Constant thrusts from your eyes
+keep my pain fresh for ever.
 \end{verse}
 \end{codeshow}
 
@@ -717,9 +716,9 @@ This is a sample text.\cite{author1.year1,author2.year2}
 This is the text following the reference.
 % “99”表示以最多两位数来编号参考文献，用于对齐
 \begin{thebibliography}{99}
-  \addtolength{\itemsep}{-2ex} % 用于更改行距
-  \bibitem{author1.year1}Au1. ArtName1[J]. JN1. Y1:1--2
-  \bibitem{author2.year2}Au2. ArtName2[J]. JN2. Y2:1--2
+    \addtolength{\itemsep}{-2ex} % 用于更改行距
+    \bibitem{author1.year1}Au1. ArtName1[J]. JN1. Y1:1--2
+    \bibitem{author2.year2}Au2. ArtName2[J]. JN2. Y2:1--2
 \end{thebibliography}
 \end{document}
 \end{latex}
@@ -874,13 +873,12 @@ book文档类还提供了以下的命令：
 图片的浮动体是\envi{figure}环境，而表格的浮动体是\envi{table}环境。一个典型的浮动体例子：
 \begin{latex}
 \begin{table}[!htb]
-  \begin{center}
+    \centering
     \caption{table-cap}
     \label{table-name}
     \begin{tabular}{...}
-      ...
+        ...
     \end{tabular}
-  \end{center}
 \end{table}
 \end{latex}
 
@@ -901,7 +899,7 @@ book文档类还提供了以下的命令：
 图片的插入使用\pkg{graphicx}宏包和\latexline{includegraphics}命令，例子：
 \begin{latex}
 \begin{center}
-  \includegraphics[width=0.8\linewidth]{ThisPic}
+    \includegraphics[width=0.8\linewidth]{ThisPic}
 \end{center}
 \end{latex}
 
@@ -920,8 +918,8 @@ book文档类还提供了以下的命令：
 \begin{latex}
 % \usepackage{wrapfig}
 \begin{wrapfigure}[linenum]{place}[overhang]{picwidth}
-  \includegraphics...
-  \caption...
+    \includegraphics...
+    \caption...
 \end{wrapfigure}
 \end{latex}
 
@@ -976,14 +974,16 @@ book文档类还提供了以下的命令：
 \end{latex}
 
 来一个\pkg{array}宏包下的例子：
-\begin{latex}
+\begin{codeshow}
 % 记得\usepackage{array}
-\begin{tabular}{|>{\setlength\parindent{5mm}}
-  m{1cm}|>{\large\bfseries}m{1cm}|>{$}c<{$}|}
+\begin{tabular}{|>{\setlength
+  \parindent{5mm}}m{1cm}|
+  >{\large\bfseries}m{1.5cm}|
+  >{$}c<{$}|}
   \hline A & 2 2 2 2 2 2 & C\\
   \hline 1 1 1 1 1 1  & 10 & \sin x \\ \hline
 \end{tabular}
-\end{latex}
+\end{codeshow}
 
 然后一个跨行跨列的例子。\RED{如果同时跨行跨列，必须把multirow命令放在multicolumn内部}。有时候会用\latexline{multirow}和\latexline{multicolumn}作用于单独的1行或1列，这可能是为了临时改变某个单元格的对齐方式。
 
@@ -1011,7 +1011,7 @@ book文档类还提供了以下的命令：
 \newcolumntype{P}[1]{>{#1
   \hspace{0pt}\arraybackslash}
   p{14mm}}
-% 命令\arraybackslash用于修复换行符
+% \arraybackslash用于修复换行符
 \begin{center}
 \begin{tabular}{|P{\raggedleft}|}
   \hline Superconsciousness \\ \hline
@@ -1061,10 +1061,10 @@ a & b & c \\ \hline
 \begin{figure}
 \centering
 \subfloat[...]{\label{sub-fig-1}
-  \begin{minipage}
-  \centering
-  \includegraphics[width=...]{...}
-  \end{minipage}}
+    \begin{minipage}
+    \centering
+    \includegraphics[width=...]{...}
+    \end{minipage}}
 \quad\subfloat[...]
 \end{latex}
 
@@ -1119,12 +1119,12 @@ body部分分为两个概念：一个是总文本区(total body)，另一个是�
 \begin{latex}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-  \lhead{}
-  \chead{}
-  \rhead{\bfseries wklchris}
-  \lfoot{Leftfoot}
-  \cfoot{\thepage}
-  \rfoot{Rightfoot}
+    \lhead{}
+    \chead{}
+    \rhead{\bfseries wklchris}
+    \lfoot{Leftfoot}
+    \cfoot{\thepage}
+    \rfoot{Rightfoot}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 \end{latex}
@@ -1132,11 +1132,11 @@ body部分分为两个概念：一个是总文本区(total body)，另一个是�
 加载这个宏包，更多地是为了解决双页（twoside）文档的排版问题。对于双页文档，\pkg{fancyhdr}宏包给出了一套新的指令：用E, O表示单数页和双数页，L, C, R表示左中右，H, F表示页眉和页脚。其中H, F需要配合\latexline{fancyhf}命令使用。如果不使用H, F这两个参数，也可以使用\latexline{fancyhead},  \latexline{fancyfoot}两个命令代替。一个新的例子：
 \begin{latex}
 \fancyhead{} % 清空页眉
-  \fancyhead[RO,LE]{\bfseries wklchris}
+    \fancyhead[RO,LE]{\bfseries wklchris}
 \fancyfoot{} % 清空页脚
-  \fancyfoot[LE,RO]{Leftfoot}
-  \fancyfoot[C]{\thepage}
-  \fancyfoot[RE,LO]{Rightfoot}
+    \fancyfoot[LE,RO]{Leftfoot}
+    \fancyfoot[C]{\thepage}
+    \fancyfoot[RE,LO]{Rightfoot}
 \end{latex}
 
 该宏包在定义双页文档时，采用了如下的默认设置：
@@ -1155,15 +1155,15 @@ body部分分为两个概念：一个是总文本区(total body)，另一个是�
 \renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
 % 效果：“CHAPTER 2. The chapter”
 \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{%
-  \chaptername}\ \thechapter.\ #1}{}}
+    \chaptername}\ \thechapter.\ #1}{}}
 \end{latex}
 
 如果你对于默认的\latexline{pagestyle}不满意，可以用\latexline{fancypagestyle}命令进行更改。例如更改plain页面类型：
 \begin{latex}
 \fancypagestyle{plain}{
-  \fancyhf{} % 清空页眉页脚
-  \fancyhead[c]{\thesection}
-  \fancyfoot{\thepage}}
+    \fancyhf{} % 清空页眉页脚
+    \fancyhead[c]{\thesection}
+    \fancyfoot{\thepage}}
 \end{latex}
 
 \section{抄录与代码环境}
@@ -1203,7 +1203,7 @@ body部分分为两个概念：一个是总文本区(total body)，另一个是�
 这个例子允许Hyphenation, hyphenation在短横处断词，同时\textbf{禁止}FORTRAN, Fortran, fortran断词。如果你在行文中加入\verb|\-|命令，则可以实现允许在对应位置断词的效果。比如：
 
 \begin{codeshow}
-I will show you this example:
+I will show you this:
 su\-per\-cal\-i\-frag\-i\-lis\-%
 tic\-ex\-pi\-al\-i\-do\-cious
 \end{codeshow}
@@ -1225,7 +1225,7 @@ OK. That's fine.\\
 OK\@. That's fine.
 \end{codeshow}
 
-相反，有些并非句末标点的情况会被识别为句末标点，这时候需要在标点后插入一个\latexline{\textvisiblespace}或者\latexline{\char`~}来缩小间距；区别在于前者允许断行，后者不允许。
+相反，有些并非句末标点的情况会被识别为句末标点，这时候需要在标点后插入一个\latexline{\textvisiblespace}或者\verb|~|来缩小间距；区别在于前者允许断行，后者不允许。
 
 \begin{codeshow}
 Prof. Smith is a nice man.\\
@@ -1234,7 +1234,7 @@ Prof.~Smith is a nice man.
 
 在标点后使用\latexline{frenchspacing}命令，可以调整为极小的空距。这个命令在排版参考文献列表时可能被使用。
 
-在\xelatex 编译模式下的中文字符，与西文或者符号之间会产生默认的空距。如果你不想要这个空距，把中文放在\latexline{mbox}内即可，比如：
+在\xelatex 编译模式下的中文字符，与西文或者符号之间会产生默认的空距\footnote{这个问题在ctex文档类下似乎被已解决。}。如果你不想要这个空距，把中文放在\latexline{mbox}内即可，比如：
 
 \begin{codeshow}
 \mbox{例子}-1
@@ -1431,7 +1431,7 @@ $\closure{AB}$
 其中\latexline{closure}是在导言区定义的
 \begin{latex}
 \newcommand{\closure}[2][3]{{}\mkern#1mu
-  \overline{\mkern-#1mu#2}}
+    \overline{\mkern-#1mu#2}}
 \end{latex}
 
 能堆叠到其他对象上的箭头符，比如向量符号：
@@ -1973,8 +1973,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \subsection{无框箱子}
 命令\latexline{mbox}产生一个无框的箱子，宽度自适应。有时用它来强制“结合”一系列命令，使之不在中间断行。比如\TeX 这个命令的定义（其中\latexline{raisebox}命令在后面介绍。）：
 \begin{latex}
-\mbox{T\hspace{-0.1667em}\raisebox{-0.5ex}{E}
-  \hspace{-0.125em}X}
+\mbox{T\hspace{-0.1667em}\raisebox{-0.5ex}{E}\hspace{-0.125em}X}
 \end{latex}
 
 或者也可以使用命令\latexline{makebox[width][pos]\{text\}}，宽度由width参数指定。pos参数的取值可以是l, s, r即居左、两端对齐、居右，还有竖直方向的t, b两个参数。
@@ -2149,7 +2148,7 @@ L\hrulefill Mid\dotfill R
 
 \subsection{制表位*}
 制表位使用\envi{tabbing}环境，需要指出，这是一个极其容易造成坏箱的环境。一个丑陋的例子：
-\begin{latex}
+\begin{codeshowabove}
 \begin{tabbing}
 \hspace{4em}\=\hspace{8em}\=\kill
 制表位 \> 就是这样 \> 使用的 \\
@@ -2157,16 +2156,7 @@ L\hrulefill Mid\dotfill R
 也可以 \= 随时重设 \= 制表位 \\
 这是 \> 新的 \> 一行
 \end{tabbing}
-\end{latex}
-
-效果：
-\begin{tabbing}
-\hspace{4em}\=\hspace{8em}\=\kill
-制表位 \> 就是这样 \> 使用的 \\
-随时 \> 可以添加 \> 新的： \= 就这样 \\
-也可以 \= 随时重设 \= 制表位 \\
-这是 \> 新的 \> 一行
-\end{tabbing}
+\end{codeshowabove}
 
 几个要点：
 \begin{para}
@@ -2232,7 +2222,7 @@ L\hrulefill Mid\dotfill R
 对于需要详细处理标签、标题文字两部分的情况，\pkg{titlesec}宏包还提供了一个\latexline{titleformat}命令。调用方式：
 \begin{latex}
 \titleformat{`\itshape command`}[`\itshape shape`]{`\itshape format`}{`\itshape label`}{`\itshape sep`}
-  {`\itshape before-code`}{`\itshape after-code`}
+    {`\itshape before-code`}{`\itshape after-code`}
 \end{latex}
 
 它们对应的含义如下：
@@ -2285,14 +2275,14 @@ L\hrulefill Mid\dotfill R
 最后，给出本手册中的样式定义，作为例子。这个例子稍微有些复杂，只使用到了\latexline{titleformat}相关的命令。
 \begin{latex}
 \newcommand{\chaformat}[1]{%
-	\parbox[b]{.5\textwidth}{\hfill\bfseries #1}%
-	\quad\rule[-12pt]{2pt}{70pt}\quad
-	{\fontsize{60}{60}\selectfont\thechapter}}
+    \parbox[b]{.5\textwidth}{\hfill\bfseries #1}%
+    \quad\rule[-12pt]{2pt}{70pt}\quad
+    {\fontsize{60}{60}\selectfont\thechapter}}
 % chapter样式定义中的\chaformat以章名作为隐式参数
 \titleformat{\chapter}[block]{\hfill\LARGE\sffamily}
     {}{0pt}{\chaformat}[\vspace{2.5pc}\normalsize
-	\startcontents\printcontents{}{1}
-	{\setcounter{tocdepth}{2}}]
+    \startcontents\printcontents{}{1}
+    {\setcounter{tocdepth}{2}}]
 \titleformat*{\section}{\centering\Large\bfseries}
 \titleformat{\subsubsection}[hang]
     {\bfseries\large}{\rule{1.5ex}{1.5ex}}{0.5em}{}
@@ -2311,9 +2301,9 @@ L\hrulefill Mid\dotfill R
 再来看命令\latexline{dottecontents}与命令\latexline{titlecontents}：
 \begin{latex}
 \dottecontents{`\itshape section`}[`\itshape left`]{`\itshape above-code`}
-  {`\itshape label-width`}{`\itshape leader-width`}
+    {`\itshape label-width`}{`\itshape leader-width`}
 \titlecontents{`\itshape section`}[`\itshape left`]{`\itshape above-code`}{`\itshape numbered-entry-format`}
-  {`\itshape numberless-entry-format`}{`\itshape filler-page-format`}[`\itshape below-code`]
+    {`\itshape numberless-entry-format`}{`\itshape filler-page-format`}[`\itshape below-code`]
 \end{latex}
 
 各参数的含义：
@@ -2496,11 +2486,11 @@ Roman & I & II& III \\
 \item description: 只有\latexline{descriptionlabel}定义，默认：
 \begin{latex}
 \newcomand*\descriptionlabel[1]
-  {\hspace\labelsep\normalfont\bfseries #1}
+    {\hspace\labelsep\normalfont\bfseries #1}
 \end{latex}
 \end{feai}
 
-在\LaTeX 默认的编号列表中，编号样式按照：1.$\rightarrow$(a)$\rightarrow$i.$\rightarrow$A的顺序嵌套。你可以通过计数器命令来指定编号样式，不过要额外加上一个星号，比如\latexline{\char`\\arabic*}表示阿拉伯数字。你也可以在\pkg{ctex}宏包被调用（包括ctex文档类被使用）时，在导言区加入：
+在\LaTeX 默认的编号列表中，编号样式按照：1.$\rightarrow$(a)$\rightarrow$i.$\rightarrow$A的顺序嵌套。你可以通过计数器命令来指定编号样式，不过要额外加上一个星号，比如\latexline{arabic*}表示阿拉伯数字。你也可以在\pkg{ctex}宏包被调用（包括ctex文档类被使用）时，在导言区加入：
 \begin{latex}
 \AddEnumerateCounter{\chinese}{\chinese}{}
 \end{latex}
@@ -2510,14 +2500,14 @@ Roman & I & II& III \\
 \pkg{enumitem}宏包支持众多参数：
 \begin{para}
 \item[label] 定义\envi{enumerate}环境的编号样式，或者\envi{itemize}环境的符号样式。
-\item[ref] 设置嵌套序号格式，比如\latexline{[ref=\char`\\emph\{\char`\\alph*\}]}表示引用的上层序号是强调后的小写字母。你也可以写：\latexline{[label=\char`\\alph\{enumi\}.\ \char`\\roman*]}这样的形式。
+\item[ref] 设置嵌套序号格式，比如\texttt{[ref=\char`\\emph\{\char`\\alph*\}]}表示引用的上层序号是强调后的小写字母。你也可以写：\texttt{[label=\char`\\alph\{enumi\}.\ \char`\\roman*]}。
 \item[label*] 加在\envi{enumerate}上层序号上。比如上层是2，那么就是2.1, 2.1.1……
 \item[font/format] 设置label的字体。如果环境是description, 那么就会设置\latexline{item}命令后方括号内的文本字体。
 \item[align] 对齐方式默认right, 也可以选择left/parleft.
 \item[start] 初始序号。start=2表示初始序号是2, b, B, ii或II.
 \item[resume] 不需赋值的布尔参数。表示接着上一个\envi{enumerate}环境的结尾进行编号。
 \item[resume*] 不需赋值的布尔参数。表示完全继承上一个\envi{enumerate}环境的参数。如果你常常使用这个命令，也许你可以新定义一个列表环境。
-\item[series] 给当前列表起名（比如mylist），可以在后文中用\latexline{resume=mylist}进行继续编号。
+\item[series] 给当前列表起名（比如mylist），可以在后文中用\texttt{resume=mylist}进行继续编号。
 \item[style] 定义\envi{description}列表的样式。
 \begin{para}
 \item[standard:] label放在盒子中。
@@ -2538,9 +2528,9 @@ Roman & I & II& III \\
 命令\latexline{setlist}，用于定义列表环境的样式。比如可以更改原有的列表：
 \begin{latex}
 \setlist[enumerate]{label=\arabic* -,
-  font=\bfseries, itemsep=0pt}
+    font=\bfseries, itemsep=0pt}
 \setlist[itemize]{label=$\bullet$,
-  font=\bfseries,leftmargin=\parindent}
+    font=\bfseries,leftmargin=\parindent}
 \setlist[description]{font=\bfseries\uline}
 \end{latex}
 
@@ -2554,9 +2544,9 @@ Roman & I & II& III \\
 几个小例子。\envi{description}环境：
 
 \begin{codeshow}
-\begin{description}[font=\bfseries
-\uline]\item[This]is BFSERIES.
-  \item[And]this also.
+\begin{description}[font=\bfseries\uline]
+    \item[This]is BFSERIES.
+    \item[And]this also.
 \end{description}
 \end{codeshow}
 
@@ -2627,15 +2617,15 @@ Here we go. This is a very long sentence and you will find that it goes to the s
 最后，本手册使用了如下5种：
 \begin{latex}
 \begin{description}[font=\bfseries\uline,
-  labelindent=\parindent]
+    labelindent=\parindent]
 \begin{description}[font=\bfseries\ttfamily]
 \begin{enumerate}[font=\bfseries,labelindent=0pt]
 \begin{itemize}[font=\bfseries]
 % 行内列表定义
 \newenvironment{inlinee}
-  {\begin{enumerate*}[label=(\arabic*), font=\rmfamily,
-  before=\unskip{：}, itemjoin={{；}}, itemjoin*={{，以及：}}]}
-  {\end{enumerate*}。}
+    {\begin{enumerate*}[label=(\arabic*), font=\rmfamily,
+    before=\unskip{：}, itemjoin={{；}}, itemjoin*={{，以及：}}]}
+    {\end{enumerate*}。}
 \end{latex}
 
 \section{\bibtex 参考文献}
@@ -2700,10 +2690,10 @@ Here we go. This is a very long sentence and you will find that it goes to the s
 默认的参数是：
 \begin{latex}
 \setcitestyle{authoryear,round,comma,aysep={;},
-  yysep={,},notesep={, }}
+    yysep={,},notesep={, }}
 \end{latex}
 
-除了\LaTeX 原生的\latexline{cite}命令，\texttt{natbib}宏包还提供了\tref{tab:natbib}所示的引用命令。
+除了\LaTeX 原生的\latexline{cite}命令，\pkg{natbib}宏包还提供了\tref{tab:natbib}所示的引用命令。
 
 \begin{table}[!hbt]
 \centering
@@ -2785,10 +2775,10 @@ num & \multicolumn{2}{c}{此模式下与\latexline{citep}相同} \\
 \begin{latex}
 \bibliographystyle{plain}
 \begin{document}
-  ...
-  ... and published here\cite{Smith93TRB}.
-  ...
-  \bibliography{myBib}
+    ...
+    ... and published here\cite{Smith93TRB}.
+    ...
+    \bibliography{myBib}
 \end{document}
 \end{latex}
 
@@ -2796,19 +2786,19 @@ num & \multicolumn{2}{c}{此模式下与\latexline{citep}相同} \\
 \begin{latex}
 % 如果引用期刊
 @article{Smith1993TRB,
-author = {作者, 多个作者用and 连接},
-title = {标题},
-journal = {期刊名},
-volume = {卷20},
-number = {页码},
-year = {年份},
-abstract = {摘要, 引用的时候自己参考, 非必须}}
+    author = {作者, 多个作者用and 连接},
+    title = {标题},
+    journal = {期刊名},
+    volume = {卷20},
+    number = {页码},
+    year = {年份},
+    abstract = {摘要, 引用的时候自己参考, 非必须}}
 % 如果引用书籍
 @book{Smith1993TRB,
-author ="作者",
-year="年份2008",
-title="书名",
-publisher ="出版社名称"}
+    author ="作者",
+    year="年份2008",
+    title="书名",
+    publisher ="出版社名称"}
 \end{latex}
 
 这里只介绍了article和book两种类型。更多的文献类型以及它们的使用条目选项，参考\tref{tab:bibtype}。
@@ -2961,24 +2951,24 @@ Enjoy this environment.
 % 父子公式编号样式，在subequation环境内使用
 % 效果：(4.1-i), (4.1-ii)
 \renewcommand{\theequation}`\label{code:parenteqnum}`
-  {\theparentequation-\roman{equation}}
+    {\theparentequation-\roman{equation}}
 \end{latex}
 
 公式1和公式1'的实现方法可以这样：\label{code:eq1plus}
 \begin{latex}
 \begin{equation}\label{eq:example}
-A=B,\ B=C
+    A=B,\ B=C
 % 需要标记的公式内部给myeq计数器赋值
 \setcounter{myeq}{\value{equation}}
 \end{equation}
 插入另一个式子：
 \begin{equation}
-D>0
+    D>0
 \end{equation}
 由式\ref{eq:example}可以推出式\ref{eq:example'}：
 \begin{equation}\label{eq:example'}
-\tag{\arabic{chapter}.\arabic{myeq}$'$}
-A=C
+    \tag{\arabic{chapter}.\arabic{myeq}$'$}
+    A=C
 \end{equation}
 \end{latex}
 
@@ -3001,7 +2991,7 @@ A=C
 \begin{appendices}
 \renewcommand{\thechapter}{\Alph{chapter}}
 \titleformat{\chapter}[display]{\Huge\bfseries}
-  {附录\Alph{chapter}}{1em}{}
+    {附录\Alph{chapter}}{1em}{}
 \chapter{...} ...
 \end{appendices}
 \end{latex}
@@ -3053,33 +3043,33 @@ for loopnum in lst:
 也可以利用\latexline{lstnewenvironment}命令定义一个代码输出环境：
 \begin{latex}
 \lstnewenvironment{`\textit{envi-name}`}
-  [`\textit{opt}`][`\textit{opt default}`]
-  {`\textit{before-code}`}{`\textit{after-code}`}
+    [`\textit{opt}`][`\textit{opt default}`]
+    {`\textit{before-code}`}{`\textit{after-code}`}
 % 调用：
 \begin{envi-name}...\end{envi-name}
 \end{latex}
 
-如果只想在行内输出，可以像本手册这样用\latexline{lstinline}定义：
+如果只想在行内输出，可以像这样用\latexline{lstinline}定义：
 \begin{latex}
-\newcommand{\latexline}[1]{{\lstinline
-  [language=TeX,basicstyle=\small\ttfamily]{#1}}}
+\newcommand{\latexinline}[1]{{\lstinline
+    [language=TeX,basicstyle=\small\ttfamily]{#1}}}
 \end{latex}
 
 有时候，一些关键词并没有被宏包成功高亮，或者你需要更多种类的高亮方式，这时候你可以自己设置：
 \begin{latex}
 \lstset{language=..., classoffset=0,
-  	morekeywords={begin,end},
-  	keywordstyle=\color{brown},
-  	classoffset=1,...}
+    morekeywords={begin,end},
+    keywordstyle=\color{brown},
+    classoffset=1,...}
 \end{latex}
 
 除了morekeywords外，你可以使用：
 \begin{latex}
 \lstdefinestyle{...}{
-morecomment=[l]{//}, % 单行注释
-morecomment=[s]{/*}{*/}, % 多行注释，不可嵌套
-morecomment=[n]{(*}{*)}, % 多行注释，可嵌套
-morestring=[b]", % 字符串
+    morecomment=[l]{//}, % 单行注释
+    morecomment=[s]{/*}{*/}, % 多行注释，不可嵌套
+    morecomment=[n]{(*}{*)}, % 多行注释，可嵌套
+    morestring=[b]", % 字符串
 % 如果想在字符串内输出该符，前加反斜杠即可
 \end{latex}
 
@@ -3087,7 +3077,7 @@ morestring=[b]", % 字符串
 \begin{latex}
 \usepackage{accsupp}
 \newcommand{\emptyaccsupp}[1]
-  {\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
+    {\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
 % 在lstset的numberstyle中加入
 ...numberstyle=...\emptyaccsupp...,
 \end{latex}
@@ -3152,8 +3142,8 @@ morestring=[b]", % 字符串
 
 \begin{latex}
 \begin{linenumbers}
-  \modulolinenumbers[3]
-  ...TEXT...
+    \modulolinenumbers[3]
+    ...TEXT...
 \end{linenumbers}
 \end{latex}
 

@@ -177,8 +177,19 @@
 \newtcblisting{codeshow}{skin=bicolor,colback=gray!30!white,
   colbacklower=pink!50!yellow,colframe=cyan!75!black, 
   left=6mm,righthand width=0.4\linewidth,fontupper=\small,
-  listing side text,
   % listing style
+  listing side text,
+  listing options={style=tcblatex,
+  keywordstyle=\color{blue},commentstyle=\color{green!50!black},
+  numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
+  emptylines=1,escapeinside=``}
+}
+
+\newtcblisting{codeshowabove}{skin=bicolor,colback=gray!30!white,
+  colbacklower=pink!50!yellow,colframe=cyan!75!black, 
+  left=6mm,righthand width=0.4\linewidth,fontupper=\small,
+  % listing style
+  listing and text,
   listing options={style=tcblatex,
   keywordstyle=\color{blue},commentstyle=\color{green!50!black},
   numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
