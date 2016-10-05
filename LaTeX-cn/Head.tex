@@ -155,7 +155,8 @@
 
 % pkg
 \iffalse
-  \newcommand{\pkg}[1]{这几行只为了自动补全支持}
+  \newcommand{\envi}[1]{def}
+  \newcommand{\pkg}[1]{这几行实质被注释，只为自动补全支持}
 \fi
 \newtcbox{\pkg}[1][orange!70!red]{on line,before upper={\rule[-0.2ex]{0pt}{1ex}\ttfamily},
   arc=0.8ex,colback=#1!30!white,colframe=#1!50!black,
@@ -174,9 +175,9 @@
 }
 
 \newtcblisting{codeshow}{skin=bicolor,colback=gray!30!white,
-  colbacklower=pink!50!yellow,colframe=cyan!75!black,
-  listing side text, 
+  colbacklower=pink!50!yellow,colframe=cyan!75!black, 
   left=6mm,righthand width=0.4\linewidth,fontupper=\small,
+  listing side text,
   % listing style
   listing options={style=tcblatex,
   keywordstyle=\color{blue},commentstyle=\color{green!50!black},
