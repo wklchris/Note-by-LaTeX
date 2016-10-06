@@ -245,6 +245,7 @@ a\textasciitilde b
 		双面打印 & 有oneside/twoside两个选项，用于排版奇偶页。article/report默认单面。\\
 		章节分页 & 有openright/openany两个选项，决定是在奇数页开启新页或是任意页开启新页。注意article是没有chapter（``章''）命令的，默认任意页。\\
 		公式对齐 & 默认居中，可改为左对齐fleqn；默认编号居右，可改为左对齐leqno。\\
+		草稿选项 & 默认final，可改为draft，使行溢出的部分显示为黑块。\\
 		\hline
 	\end{tabular}
 \end{table}
@@ -395,6 +396,16 @@ $37\,^{\circ}\mathrm{C}$
 通常的换行方法非常简单：\hologo{LaTeX}会自动转行，然后在每一段的末尾，只需要输入两个回车即可完成分段。如果需要一个空白段落（实质是一个空白行），先输入两个回车，再输入\latexline{mbox\{\}}，最后再输入两个回车即可。你可以用\latexline{par}来产生一个带缩进的新段。
 
 在下划线一节的例子中已经给出了强制换行的方式，即两个反斜：\latexline{\char`\\}. 不过这样做的缺点在于下一行段首缩进会消失，这个命令也的确一般\RED{不用于}正文换行；正文直接使用两个回车。
+
+段落之间的距离由\latexline{parskip}控制，默认\texttt{0pt plus 1pt}. 
+\begin{latex}
+\setlength{\parskip}{0pt}
+\end{latex}
+
+宏包\pkg{lettrine}能够产生首字下沉的效果：
+\begin{codeshow}
+\lettrine{T}{his} is an example. Hope you like this package, and enjoy your \LaTeX\ trip!
+\end{codeshow}
 
 \subsection{分页}
 用\latexline{newpage}命令开始新的一页。
@@ -650,7 +661,8 @@ bookmarksnumbered=true]{hyperref}
 \nolinkurl{URL} % 黑色可点击
 \end{latex}
 
-\subsection{脚注}
+\subsection{脚注、边注与尾注}
+\subsubsection{脚注}
 脚注是一种简单标注，使用方法是：
 \begin{latex}
 \footnote{This is a footnote.}
@@ -658,7 +670,7 @@ bookmarksnumbered=true]{hyperref}
 
 在某些环境内（如表格），脚注无法正常使用，可以先用\latexline{footnotemark}依次插入位置，再在tabular/table环境外用\latexline{footnotetext}依次指明脚注的内容。
 
-minipage环境是一个支持脚注的环境，功能之强正如其名。在其支持下写一个表格的脚注：
+minipage环境是支持脚注，在其内部或正文内这样可以写表格脚注：
 
 \begin{codeshow}
 \begin{minipage}{\linewidth}
@@ -669,7 +681,29 @@ This is an exmaple\footnotemark.
 \end{minipage}
 \end{codeshow}
 
-行文中切忌过多地使用脚注，它会分散读者的注意力。默认情况下脚注按章编号。调节脚注与正文的间距类似\latexline{setlength{\char`\\skip\char`\\footins}{0.5cm}}即可。
+行文中切忌过多地使用脚注，它会分散读者的注意力。默认情况下脚注按章编号。脚注相关的命令：
+\begin{latex}
+% 在大纲或者\caption命令中使用脚注，需要加\protect
+\caption{Titel\protect\footnote{This is footnote.}}
+% 脚注之间的距离：\footnotesep
+% 每页脚注之上横线：\footnoterule，默认值：
+\renewcommand\footnoterule{\rule{0.4\columnwidth}{0.4pt}}
+% 调整脚注到正文的间距，例如：
+\setlength{\skip\footins}{0.5cm}
+\end{latex}
+
+更多的参考\pkg{footmisc}宏包，比如其选项\texttt{perpage}让脚注编号每页清零。
+
+\subsubsection{边注}
+\LaTeX 支持的边注命令\latexline{marginpar}不会进行编号。其必选参数表示页右注释的内容；可选参数表示如果边注出现在偶数页，则在页左显示的内容。例如：
+\begin{latex}
+这一行有边注\marginpar[左--]{--右}
+\end{latex}
+
+如果想要改变边注的位置，使用\latexline{reversemarginpar}命令。此外，有关边注的长度命令\latexline{marginparwidth/sep/push}分别控制边注的宽、边注到正文的距离、边注之间的最小距离。可以使用\pkg{geometry}宏包来设置前两者，参考\secref{sec:geometry}。
+
+\subsubsection{尾注}
+尾注用于注释较长、无法使用脚注的场合，需要\pkg{endnotes}宏包。
 
 \subsection{援引环境}
 援引环境有quote和quotation两个。前者首行不缩进；后者首行缩进，且支持多段文字。
@@ -784,9 +818,12 @@ book文档类还提供了以下的命令：
 \renewcommand{\contensname}{目录}
 \end{latex}
 
-你也可以插入图表目录，分别是\latexline{listoffigures}, \latexline{listoftables}. 通过重定义\latexline{listfigurename}和\latexline{listtablename}可以更改图表目录的标题。
+你也可以插入图表目录，分别是\latexline{listoffigures}, \latexline{listoftables}。通过重定义\latexline{listfigurename}和\latexline{listtablename}可以更改图表目录的标题。如果要更改目录的显示的大纲级别深度，设置计数器:
+\begin{latex}
+\setcounter{tocdepth}{2} % 这是到subsection
+\end{latex}
 
-目录的深度自定义需要借助\pkg{titletoc}宏包，参考\hyperref[sec:titletoc]{这一节}。
+目录的高级自定义需要借助\pkg{titletoc}宏包，参考\secref{sec:titletoc}。
 
 \section{计数器与列表}
 
@@ -1069,7 +1106,7 @@ a & b & c \\ \hline
 \end{latex}
 
 \section{页面设置}
-
+\label{sec:geometry}
 \subsection{纸张、方向和边距}
 主要借助\pkg{geometry}宏包。先看一张页面构成，如\fref{fig:geo-paper}：
 \begin{figure}
@@ -1177,22 +1214,42 @@ body部分分为两个概念：一个是总文本区(total body)，另一个是�
 
 \latexline{verb(*)}以及\envi{verbatim(*)}环境很脆弱，不能隐式地用于自定义环境，也一般不能用作命令的参数。\pkg{verbatim}宏包提供了更多的抄录支持，\pkg{fancyvrb}宏包提供了\latexline{SaveVerb}, \latexline{UseVerb}命令，读者可自行查阅。
 
+宏包\pkg{shortverb}支持以一对符号代替\latexline{verb}命令，比如竖线号：
+\begin{latex}
+% \usepackage{shortverb}
+\MakeShortVerb|
+Verbatim between this pair of verts: |#\?*^|
+\end{latex}
+
 代码环境的输出，比如本文中带行号的代码块，参见\hyperref[sec:coding]{这一节}。
 
-\section{分栏}
-这部分内容使用\latexline{documentclass[twocolumn]\{...\}}这个可选参数就可以实现。在双栏模式下，\latexline{newpage}命令只会换栏，而\latexline{clearpage}命令才会换页。
+\begin{multicols}{2}[\section{分栏}]
+这部分内容使用文档类的\texttt{two\-column}可选参数就能实现。在\LaTeX 的双栏模式下，\latexline{newpage}命令只能进行换栏操作，而\latexline{clearpage}命令才会换进行换页操作。同时，文中随时可以使用\latexline{twocolumn}或者\latexline{onecolumn}命令执行\RED{换页、清空浮动队列，并切换分栏模式}。在双栏上方的跨栏内容，如摘要，可以写在\latexline{twocolumn[\ldots]}可选参数中。
 
-如果在同一页内需要分栏与单栏并存（比如摘要跨栏，正文分栏），或者想要分三栏，请参考\pkg{multicol}宏包。
+栏之间的间距由\latexline{columnsep}控制；栏宽为\latexline{columnwidth}，但请不要手工修改这个值。它可以被用作参数传递给其他命令。栏与栏之间的分隔线宽由长度\latexline{columnseprule}给出，默认值为0pt，一般需要可以将其设置为0.4pt。 
+
+如果在同一页内需要分栏与单栏并存，或者想要分成多栏，可以尝试使用\pkg{multicol}宏包。它提供一个支持任意多栏、但是边注和浮动体\footnote{带星号的浮动体或许可以使用，如\envi{figure*}，但参数\texttt{h}会失效。}无法使用的环境。比如本节：
+\begin{latex}
+\begin{multicols}{2}
+  [\section{分栏}]
+  ...
+\end{multicols}
+\end{latex}
+
+同时，该宏包会对齐每一栏的下边缘；在该环境下，使用\latexline{columnbreak}来强制切换到新的一栏。还需要指出的是，该宏包并不保证各栏之间每行的网格都是对齐的。如果你需要此功能，可以参考\pkg{grid}宏包。
+\end{multicols}
 
 \section{文档拆分}
 \label{sec:include}
-文档拆分很简单，只需要把多个tex文件放在一起，然后再主文件中使用\latexline{input\{filename.tex\}}或\latexline{include\{filename\}}命令，不写扩展名默认为.tex。两者区别在于\latexline{include}命令将会另起一页再读取文件，并很好地支持大纲编号。
+文档拆分很简单，只需要把多个tex文件放在一起，然后再主文件中使用\latexline{input\{filename.tex\}}或\latexline{include\{filename\}}命令，不写扩展名默认为.tex。两者区别在于\latexline{include}命令将会插入\latexline{clearpage}再读取文件。
 
 拆分的优势在于可以根据chapter（或其他）分为多个文件，省去了长文档浏览时的一些不便。你也可以把整个导言区做成一个文件，然后在不同的\LaTeX 文档中反复使用，即充当模板的功能。你还可以把较长的tikz绘图代码写到一个tex中，在需要时\latexline{input}即可。
 
+在导言区定义\latexline{includeonly}加上filename，可以确保只引入列表中的文件。在被引入文件的最后加入\latexline{endinput}命令，其后的内容会被忽略。
+
 \section{西文排版及其他}
 \subsection{连写}
-\LaTeX 排版以及正规排版中，如果你输入ff, fl, fi, ffi等内容，它们默认会连写。在字母中间插入空白的箱子以强制不连写：f\latexline{mbox\{\}}l。
+\LaTeX 排版以及正规排版中，如果你输入ff, fl, fi, ffi等内容，它们默认会连写。在字母中间插入空白的箱子以强制不连写：f~\latexline{mbox\{\}}~l。
 
 \subsection{断词}
 行末的英文单词太长，\LaTeX 就会以其音节断词。如果你想指定某些单词的断词位置，使用如下命令断词。例子：
@@ -2034,7 +2091,7 @@ example to show} how \parbox[b]
 \end{codeshow}
 
 \subsection{标尺箱子}
-命令\latexline{rule[lift]\{width\}\{height\}}能够画出一个黑色的矩形。你可以在单元格中使用width, height其一为0的该命令，作一个隐形的“支撑”来限定单元格的宽或高。例如：
+命令\latexline{rule[lift]\{width\}\{height\}}能够画出一个黑色的矩形。你可以在单元格中使用width, height其一为0的该命令，作一个隐形的“支撑”来限定单元格的宽或高。而\latexline{strut}命令则用当前字号大小设置高度与深度。例如：
 
 \begin{codeshow}
 \begin{tabular}{|c|}
@@ -2042,7 +2099,7 @@ example to show} how \parbox[b]
   \rule[-1em]{1em}{1ex}text
   \rule{0pt}{38pt} \\
   \hline
-  2nd text \\
+  2nd text\strut--- \\
   \hline
 \end{tabular}
 \end{codeshow}
@@ -2482,22 +2539,68 @@ Roman & I & II& III \\
     \item \textbf{Counter:} enumi, enumii, enumiii, enumiv
     \item \textbf{Label:} labelenumi, labelenumii, \ldots
   \end{feai}
-\item itemize: 只有Label没有Counter, 默认是\latexline{textbullet}
+\item itemize: 只有Label，该列表没有Counter。 
+  \begin{feai}
+    \item \textbf{Label:} labelitemi, labelitemii, \ldots
+  \end{feai}
 \item description: 只有\latexline{descriptionlabel}定义，默认：
 \begin{latex}
-\newcomand*\descriptionlabel[1]
-    {\hspace\labelsep\normalfont\bfseries #1}
+\newcommand*{\descriptionlabel}[1]{\hspace\labelsep
+    \normalfont\bfseries #1} % \labelsep标签间距，默认0.5em
 \end{latex}
 \end{feai}
 
-在\LaTeX 默认的编号列表中，编号样式按照：1.$\rightarrow$(a)$\rightarrow$i.$\rightarrow$A的顺序嵌套。你可以通过计数器命令来指定编号样式，不过要额外加上一个星号，比如\latexline{arabic*}表示阿拉伯数字。你也可以在\pkg{ctex}宏包被调用（包括ctex文档类被使用）时，在导言区加入：
+列表\envi{enumerate}, \envi{itemize}的默认参数见\tref{tab:enumitemdes}。
+
+\begin{table}[!hbt]
+\centering
+\caption{编号列表默认参数表}
+\label{tab:enumitemdes}
+\renewcommand{\arraystretch}{0.9}
+\begin{tabular}{@{}c@{\,}c@{\,}*{2}{>{\small}l@{}>{\ttfamily\char`\\}l}@{}}
+\hline
+环境 & 层 & Counter & \multicolumn{1}{l}{默认} & Label & \multicolumn{1}{l}{默认}	\\
+\hline
+\multirow{4}*{\envi{enumerate}} & 1 & \latexline{theenumi} & arabic\{enumi\} & \latexline{labelenumi} & theenumi. \\
+& 2 & \latexline{theenumii} & alph\{enumi\} & \latexline{labelenumi} & (theenumii) \\
+& 3 & \latexline{theenumiii} & roman\{enumi\} & \latexline{labelenumiii} & theenumiii. \\
+& 4 & \latexline{theenumiv} & Alph\{enumiv\} & \latexline{labelenumiv} & theenumiv. \\
+\hline
+\multirow{4}*{\envi{itemsize}} & 1 & \latexline{labelitemi} & \multicolumn{3}{l}{\ttfamily\char`\\ textbullet \dotfill\fbox{\textbullet}} \\
+& 2 & \latexline{labelitemii} & \multicolumn{3}{l}{\ttfamily\char`\\ textendash \dotfill\fbox{\textendash}}  \\
+& 3 & \latexline{labelitemiii} & \multicolumn{3}{l}{\ttfamily\char`\\ textasteriskcentered \dotfill\fbox{\textasteriskcentered}} \\
+& 4 & \latexline{labelitemiv} & \multicolumn{3}{l}{\ttfamily\char`\\ textperiodcentered \dotfill\fbox{\textperiodcentered}} \\
+\hline
+\end{tabular}
+\end{table}
+
+在\envi{enumerate}列表中，编号样式按照：1.$\rightarrow$(a)$\rightarrow$i.$\rightarrow$A的顺序嵌套，分别代表\latexline{theenumi}, \latexline{theenumii}, \latexline{theenumiii}, \latexline{theenumiv}的值。你可以通过计数器命令来指定编号样式，不过要额外加上一个星号，比如\latexline{arabic*}表示阿拉伯数字。一个例子：
+\begin{codeshow}
+\begin{enumerate}\item First
+  \begin{enumerate}\item Second
+     \begin{enumerate}\item Third
+       \begin{enumerate}
+       \item Fourth Layer
+\end{enumerate}\end{enumerate}
+\end{enumerate}\end{enumerate}
+% 改为首层小写罗马数字，放于圆括号
+\renewcommand{\theenumi}
+  {\roman{enumi}}
+\renewcommand{\labelenumi}
+  {(\theenumi)}
+\begin{enumerate}
+\item First-layer symbol has changed!
+\end{enumerate}
+\end{codeshow}
+
+你也可以在\pkg{ctex}宏包被调用（包括ctex文档类被使用）时，在导言区加入：
 \begin{latex}
 \AddEnumerateCounter{\chinese}{\chinese}{}
 \end{latex}
 
 这样就可以将汉字指定为编号样式了。
 
-\pkg{enumitem}宏包支持众多参数：
+宏包\pkg{enumitem}可添加参数于列表后，像\verb|\begin{list}[options]|：
 \begin{para}
 \item[label] 定义\envi{enumerate}环境的编号样式，或者\envi{itemize}环境的符号样式。
 \item[ref] 设置嵌套序号格式，比如\texttt{[ref=\char`\\emph\{\char`\\alph*\}]}表示引用的上层序号是强调后的小写字母。你也可以写：\texttt{[label=\char`\\alph\{enumi\}.\ \char`\\roman*]}。
@@ -2518,12 +2621,14 @@ Roman & I & II& III \\
 \end{para}
 \end{para}
 
-在列表定义中可能碰到的参数如\fref{fig:enumitemsep}。其中加粗加斜的\LaTeX 原生支持的。
+在列表定义中可能碰到的参数如\fref{fig:enumitemsep}。其中加粗加斜的\LaTeX 不原生支持。
 \begin{figure}[!hbt]
 \includegraphics[width=0.9\linewidth]{enumitemsep.pdf}
 \caption{列表长度参数总图}
 \label{fig:enumitemsep}
 \end{figure}
+
+\fref{fig:enumitemsep}中的竖直空距topsep, partopsep, parsep, itemsep，以及水平空距left/rightmargin, listparindent, labelwidth, labelsep, itemindent都是可以直接以\texttt{key=value}的形式写在列表环境后做参数的。
 
 命令\latexline{setlist}，用于定义列表环境的样式。比如可以更改原有的列表：
 \begin{latex}
@@ -2544,7 +2649,8 @@ Roman & I & II& III \\
 几个小例子。\envi{description}环境：
 
 \begin{codeshow}
-\begin{description}[font=\bfseries\uline]
+\begin{description}
+[font=\bfseries\uline]
     \item[This]is BFSERIES.
     \item[And]this also.
 \end{description}
@@ -2616,11 +2722,14 @@ Here we go. This is a very long sentence and you will find that it goes to the s
 
 最后，本手册使用了如下5种：
 \begin{latex}
-\begin{description}[font=\bfseries\uline,
-    labelindent=\parindent]
-\begin{description}[font=\bfseries\ttfamily]
-\begin{enumerate}[font=\bfseries,labelindent=0pt]
-\begin{itemize}[font=\bfseries]
+\begin{description}[font=\bfseries\uline,labelindent=\parindent,
+    itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]
+\begin{description}[font=\bfseries\ttfamily,itemsep=0pt,
+    parsep=0pt,topsep=0pt,partopsep=0pt]
+\begin{enumerate}[font=\bfseries,labelindent=0pt,itemsep=0pt,
+    parsep=0pt,topsep=0pt,partopsep=0pt]
+\begin{itemize}[font=\bfseries,itemsep=0pt,parsep=0pt,
+    topsep=0pt,partopsep=0pt]
 % 行内列表定义
 \newenvironment{inlinee}
     {\begin{enumerate*}[label=(\arabic*), font=\rmfamily,
@@ -3051,7 +3160,7 @@ for loopnum in lst:
 
 如果只想在行内输出，可以像这样用\latexline{lstinline}定义：
 \begin{latex}
-\newcommand{\latexinline}[1]{{\lstinline
+\newcommand{\inlatexline}[1]{{\lstinline
     [language=TeX,basicstyle=\small\ttfamily]{#1}}}
 \end{latex}
 

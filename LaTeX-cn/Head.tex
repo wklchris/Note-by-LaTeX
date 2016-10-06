@@ -19,6 +19,13 @@
 \setCJKmathfont{KaiTi}
 \newCJKfontfamily[zhxinwei]\xinwei{STXinwei}
 
+% 首字下沉
+\usepackage{lettrine}
+% 分栏
+\usepackage{multicol}
+\setlength{\columnsep}{8pt}
+\setlength{\columnseprule}{0.4pt}
+
 % 数学环境
 \usepackage{amsmath}
   \newcommand{\ue}{\mathrm{e}}
@@ -64,25 +71,22 @@
 
 % 编号列表宏包，并自定义了三个列表
 \usepackage[inline]{enumitem}
-	\setlist[enumerate]{label=\arabic* - ,font=\bfseries,itemsep=0pt}
-	\setlist[itemize]{label=$\bullet$,font=\bfseries,leftmargin=\parindent}
+	\setlist[enumerate]{font=\bfseries,itemsep=0pt}
+	\setlist[itemize]{font=\bfseries,leftmargin=\parindent}
 	\setlist[description]{font=\bfseries\uline}
 
 \newenvironment{fead}{\setlength{\parskip}{0pt}
-	\begin{description}[font=\bfseries\uline,labelindent=\parindent]
-		\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}}
+	\begin{description}[font=\bfseries\uline,labelindent=\parindent,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
 	{\end{description}}
 % 带宽度的
-\newenvironment{para}{\setlength{\parskip}{0pt}
-	\begin{description}[font=\bfseries\ttfamily]
-		\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}}
+\newenvironment{para}{
+	\begin{description}[font=\bfseries\ttfamily,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
 	{\end{description}}
 \newenvironment{feae}{\setlength{\parskip}{0pt}
-	\begin{enumerate}[font=\bfseries,labelindent=0pt]}
+	\begin{enumerate}[font=\bfseries,labelindent=0pt,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
 	{\end{enumerate}}
 \newenvironment{feai}{\setlength{\parskip}{0pt}
-	\begin{itemize}[font=\bfseries]
-		\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}}
+	\begin{itemize}[font=\bfseries,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
 	{\end{itemize}}
 \newenvironment{inlinee}
 {\begin{enumerate*}[label=(\arabic*), font=\rmfamily, before=\unskip{：},itemjoin={{；}},itemjoin*={{，以及：}}]}
@@ -156,6 +160,7 @@
 % pkg
 \iffalse
   \newcommand{\envi}[1]{def}
+  \newcommand{\latexline}[1]{def}
   \newcommand{\pkg}[1]{这几行实质被注释，只为自动补全支持}
 \fi
 \newtcbox{\pkg}[1][orange!70!red]{on line,before upper={\rule[-0.2ex]{0pt}{1ex}\ttfamily},
