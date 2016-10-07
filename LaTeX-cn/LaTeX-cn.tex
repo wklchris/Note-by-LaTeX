@@ -511,7 +511,35 @@ $37\,^{\circ}\mathrm{C}$
 \end{latex}
 
 \subsection{西文字体}
-在\xelatex 编译下，一般使用\pkg{fontspec}宏包来选择西文字体。注意：该宏包可能会明显增加编译所需的时间。
+\LaTeX 预包含字体如\tref{tab:alphafont}（参考\url{http://www.tug.dk/FontCatalogue/}）：
+\begin{table}[!hbt]
+\centering
+\caption{部分\LaTeX 西文字体}
+\label{tab:alphafont}
+\begin{tabular}{>{\ttfamily}ll}
+\hline
+命令 & \texttt{字体名} \\
+\hline
+cmr & \myfont{cmr}{Computer Modern Roman} (默认) \\
+lmr & \myfont{lmr}{Latin Modern Roman} \\
+pbk & \myfont{pbk}{Bookman} \\
+ppl & \myfont{ppl}{Palatino} \\
+lmss & \myfont{lmss}{Latin Modern Roman Serif} \\
+phv & \myfont{phv}{Helvetica} \\
+lmtt & \myfont{lmtt}{Latin Modern} \\
+\hline
+\end{tabular}
+\end{table}
+
+以上可以这样使用：
+\begin{latex}
+\newcommand{\myfont}[2]{{\fontfamily{#1}\selectfont #2}}
+\renewcommand{\rmdefault}{ptm} % 可更改默认字体，同理可改sfdefault等
+% 以上在导言区定义。在正文中：
+Let's change font to \myfont{ppl}{Palatino}!
+\end{latex}
+
+在\xelatex 编译下，一般使用\pkg{fontspec}宏包来选择\textbf{本地安装}的字体。注意：该宏包可能会明显增加编译所需的时间。
 \begin{latex}
 \usepackage{fontspec}
   \newfontfamily{\lucida}{Lucida Calligraphy}
@@ -627,7 +655,7 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 但是更常用的是\pkg{hyperref}宏包。由于它经常与其他宏包冲突，一般把它放在导言区的最后。比如本手册：
 \begin{latex}
 \usepackage[colorlinks,bookmarksopen=true,
-bookmarksnumbered=true]{hyperref}
+    bookmarksnumbered=true]{hyperref}
 \end{latex}
 
 宏包选项也可以以\latexline{hypersetup}的形式另起一行书写，键值包括：
@@ -695,9 +723,9 @@ This is an exmaple\footnotemark.
 更多的参考\pkg{footmisc}宏包，比如其选项\texttt{perpage}让脚注编号每页清零。
 
 \subsubsection{边注}
-\LaTeX 支持的边注命令\latexline{marginpar}不会进行编号。其必选参数表示页右注释的内容；可选参数表示如果边注出现在偶数页，则在页左显示的内容。例如：
+\LaTeX 的边注命令\latexline{marginpar}不会进行编号。必选参数表示在页右显示边注；可选参数表示如果边注在偶数页，则在页左显示。例如右边这个音符：\marginpar{\twonotes}
 \begin{latex}
-这一行有边注\marginpar[左--]{--右}
+这一行有边注\marginpar[左侧]{右侧}
 \end{latex}
 
 如果想要改变边注的位置，使用\latexline{reversemarginpar}命令。此外，有关边注的长度命令\latexline{marginparwidth/sep/push}分别控制边注的宽、边注到正文的距离、边注之间的最小距离。可以使用\pkg{geometry}宏包来设置前两者，参考\secref{sec:geometry}。
@@ -2001,7 +2029,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \begin{para}
 \item[cmd:] 新定义的命令，不能与现有命令重名。
 \item[args:] 参数个数。
-\item[default:] 首个参数，即\texttt{\#{}1}的默认值。
+\item[default:] 首个参数，即\texttt{\#{}1}的默认值。你可以定义只有一个参数、且参数含默认值的命令。
 \item[def:] 具体的定义内容。参数1以\texttt{\#{}1}代替，参数2以\texttt{\#{}2}代替，以此类推。
 \end{para}
 
@@ -2013,6 +2041,22 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 % 比如\cop{Sys}或者\cop[Sec.]{Sys}
 \newcommand{\cop}[2][]{\textbf{#2}}\index{#1 #2}}
 \end{latex}
+
+自定义环境的命令是\latexline{newenvironment}，也可以定义多个参数。注意后段定义中不能使用参数，但你可以“先保存后调用”。例子：
+\begin{latex}
+\newenvironment{QuoteEnv}[2][]
+    {\newcommand\Qauthor{#1}\newcommand\Qref{#2}}
+    {\medskip\begin{flushright}\small ——~\Qauthor\\
+    \emph{\Qref}\end{flushright}}
+\end{latex}
+
+下面是效果：
+\begin{codeshow}
+\begin{QuoteEnv}[William Butler]{When you are old}
+But one man loved the pilgrim soul in you.
+And loved the sorrows of your changing face.
+\end{QuoteEnv}
+\end{codeshow}
 
 \section{箱子：排版的基础}
 \label{sec:box}
@@ -2028,7 +2072,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 如\fref{fig:boxpara}所示，箱子的三个参数：高度(height)、宽度(width)和深度(depth)。分隔高度和深度的是基线。
 
 \subsection{无框箱子}
-命令\latexline{mbox}产生一个无框的箱子，宽度自适应。有时用它来强制“结合”一系列命令，使之不在中间断行。比如\TeX 这个命令的定义（其中\latexline{raisebox}命令在后面介绍。）：
+命令\latexline{mbox}产生一个无框的箱子，宽度自适应。有时用它来强制“结合”一系列命令，使之不在中间断行。比如\TeX 这个命令的定义（其中\latexline{raisebox}命令在后面介绍）：
 \begin{latex}
 \mbox{T\hspace{-0.1667em}\raisebox{-0.5ex}{E}\hspace{-0.125em}X}
 \end{latex}
@@ -2559,12 +2603,12 @@ Roman & I & II& III \\
 \renewcommand{\arraystretch}{0.9}
 \begin{tabular}{@{}c@{\,}c@{\,}*{2}{>{\small}l@{}>{\ttfamily\char`\\}l}@{}}
 \hline
-环境 & 层 & Counter & \multicolumn{1}{l}{默认} & Label & \multicolumn{1}{l}{默认}	\\
+环境 & 层 & Label & \multicolumn{1}{l}{默认} & Counter & \multicolumn{1}{l}{默认}	\\
 \hline
-\multirow{4}*{\envi{enumerate}} & 1 & \latexline{theenumi} & arabic\{enumi\} & \latexline{labelenumi} & theenumi. \\
-& 2 & \latexline{theenumii} & alph\{enumi\} & \latexline{labelenumi} & (theenumii) \\
-& 3 & \latexline{theenumiii} & roman\{enumi\} & \latexline{labelenumiii} & theenumiii. \\
-& 4 & \latexline{theenumiv} & Alph\{enumiv\} & \latexline{labelenumiv} & theenumiv. \\
+\multirow{4}*{\envi{enumerate}} & 1 & \latexline{labelenumi} & theenumi. & \latexline{theenumi} & arabic\{enumi\}\\
+& 2 & \latexline{labelenumi} & (theenumii) & \latexline{theenumii} & alph\{enumi\} \\
+& 3 & \latexline{labelenumiii} & theenumiii. & \latexline{theenumiii} & roman\{enumi\} \\
+& 4 & \latexline{labelenumiv} & theenumiv. & \latexline{theenumiv} & Alph\{enumiv\} \\
 \hline
 \multirow{4}*{\envi{itemsize}} & 1 & \latexline{labelitemi} & \multicolumn{3}{l}{\ttfamily\char`\\ textbullet \dotfill\fbox{\textbullet}} \\
 & 2 & \latexline{labelitemii} & \multicolumn{3}{l}{\ttfamily\char`\\ textendash \dotfill\fbox{\textendash}}  \\

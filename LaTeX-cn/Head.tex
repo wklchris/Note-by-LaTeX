@@ -69,6 +69,15 @@
 \newcommand{\fref}[1]{图\ref{#1}}
 \newcommand{\tref}[1]{表\ref{#1}}
 
+% Quote 环境
+\newenvironment{QuoteEnv}[2][]
+    {\newcommand\Qauthor{#1}\newcommand\Qref{#2}}
+    {\medskip\begin{flushright}\small ——~\Qauthor\\
+    \emph{\Qref}\end{flushright}}
+
+% 字体调用
+\newcommand{\myfont}[2]{{\fontfamily{#1}\selectfont #2}}
+
 % 编号列表宏包，并自定义了三个列表
 \usepackage[inline]{enumitem}
 	\setlist[enumerate]{font=\bfseries,itemsep=0pt}
