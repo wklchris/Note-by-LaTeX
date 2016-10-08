@@ -652,6 +652,8 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 \pageref{section:this}
 \end{latex}
 
+宏包\pkg{amsmath}提供了\latexline{eqref}命令，默认效果如(3.1)，实质上是调用了原生的\latexline{ref}命令。
+
 但是更常用的是\pkg{hyperref}宏包。由于它经常与其他宏包冲突，一般把它放在导言区的最后。比如本手册：
 \begin{latex}
 \usepackage[colorlinks,bookmarksopen=true,
@@ -663,7 +665,8 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 \item[colorlinks] 默认false，即加上带颜色的边框，\footnote{这个边框在打印时并不会打印出来。}而不是更改文字的颜色。默认linkcolor=red, anchorcolor=black, citecolor=green, urlcolor=magenta. 
 \item[hidelinks] 无参数，取消链接的颜色和边框。
 \item[bookmarks] 默认true，用于生成书签。
-\item[bookmarksopen] 默认false，是否展开所有书签。
+\item[bookmarksopen] 默认false，是否展开书签。
+\item[bookmarksopenlevel] 默认全部展开。设置为secnumdepth对应的值可以指定展开到这一级。比如对report指定2，就是展开到section为止。
 \item[bookmarksnumbered] 默认false，书签是否带章节编号。
 \item[unicode] 无参数，使用UTF-8编码时可以指定的选项。
 \item[pdftitle] pdf元数据：标题。
@@ -673,7 +676,7 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 \item[pdfstartview] 默认值Fit，设置打开pdf时的显示方式。Fit适合页面，FitH适合宽度，FitV适合高度。
 \end{para}
 
-如果章节标题中带有特殊内容无法正常显示在pdf书签中，使用：
+如果章节标题中带有特殊内容无法正常显示在pdf书签中，这样使用：
 
 \begin{verbatim}
 \section{质能公式\texorpdfstring{$E=mc^2$}{E=mc\textasciicircum 2}}
@@ -683,11 +686,45 @@ fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
 \begin{latex}
 % 文档内跳转
 \hyperref[`\textit{label-name}`]{`\textit{print-text}`}
+\autoref{`\textit{label-name}`} % 自动识别label上方的命令
 % 链接网站
 \href{URL}{print-text}
 \url{URL} %彩色可点击
 \nolinkurl{URL} % 黑色可点击
 \end{latex}
+
+其中\latexline{autoref}命令会先检查\latexline{label}引用的计数器，再在检查其\texttt{autref}宏是否存在。比如图表环境会检查是否有\latexline{figureautorefname}这个宏，如果有则引用之；而正常的\latexline{ref}命令只会引用\latexline{figurename}。以下列出\pkg{hyperref}宏包支持的计数器宏（请自行插入）：
+\begin{table}[!hbt]
+\centering
+\caption{\texttt{autoref}命令支持的计数器宏}
+\label{tab:autoref}
+\begin{tabular}{|*{2}{>{\ttfamily\char`\\}lc|}}
+\hline
+\multicolumn{1}{|c}{命令} & 默认值 & \multicolumn{1}{c}{命令} & 默认值 \\
+\hline
+figurename & Figure & tablename & Table \\
+partname & Part & appendixname & Appendix \\
+equationname & Equation & Itemname & item \\
+chaptername & chapter & sectionname & section \\
+subsectionname & subsection & subsubsectionname & subsubsection \\
+paragraphname & paragraph & Hfootnotename & footnote \\
+AMSname & Equation & theoremname & Theorem \\
+page & \multicolumn{3}{l|}{page. 但常使用\latexline{autopageref}命令代替。} \\
+\hline 
+\end{tabular}
+\end{table}
+
+比如，通过重定义\latexline{figureautorefname}，就能用“图3.1”的效果代替默认的“Figure 3.1”：
+\begin{latex}
+\renewcommand\figureautorefname{图}
+\end{latex}
+
+另一个宏包\pkg{nameref}不满足于只引用编号，提供了引用对象的标题内容的功能。使用\latexline{nameref}命令可以利用位于标题下方的标签来引用标题内容。
+
+关于页码引用，如果想要生成“第$\times$页，共$\times$页”的效果，可能需要借助\pkg{lastpage}宏包。它提供的标签LastPage可以保证在输出页面的最后（如果你自行添加标签，可能还会有后续浮动体），因此可以：
+\begin{codeshow}
+This is page \thepage\ of \pageref{LastPage}
+\end{codeshow}
 
 \subsection{脚注、边注与尾注}
 \subsubsection{脚注}
@@ -763,11 +800,11 @@ keep my pain fresh for ever.
 \end{codeshow}
 
 \subsection{摘要}
-article和report文档类支持摘要，在\latexline{maketitle}命令之后可以使用abstract环境。在单栏模式下，其相当于一个带标题的quotation环境，而这个标题可以通过重定义\latexline{abstractname}更改；双栏下则相当于\latexline{section*}命令定义的一节。
+article和report文档类支持摘要，在\latexline{maketitle}命令之后可以使用\envi{abstract}环境。在单栏模式下，其相当于一个带标题的\envi{quotation}环境，而这个标题可以通过重定义\latexline{abstractname}更改；双栏下则相当于\latexline{section*}命令定义的一节。
 
 \subsection{参考文献}
 \label{subsec:cite}
-参考文献主要使用的命令是\latexline{cite}，与\latexline{label}相似。通过natbib宏包的使用可以定制参考文献标号在文中的显示方式等格式，下面natbib宏包的选项含义为：数字编号、排序且压缩、上标、外侧方括号，总体像这样：\textsuperscript{\ttfamily [1,3-5]}。\footnote{这里的LaTeX代码实际为：\latexline{textsuperscript\{\char`ttfamily [1,3-5]\}}}
+参考文献主要使用的命令是\latexline{cite}，与\latexline{label}相似。通过\pkg{natbib}宏包的使用可以定制参考文献标号在文中的显示方式等格式，下面\pkg{natbib}宏包的选项含义为：数字编号、排序且压缩、上标、外侧方括号，总体像这样：\textsuperscript{\ttfamily [1,3-5]}。\footnote{这里的LaTeX代码实际为：\latexline{textsuperscript\{\char`ttfamily [1,3-5]\}}}
 \begin{latex}
 \documentclass{ctexart}
 % 如果是book类文档，把\refname改成\bibname
@@ -797,7 +834,7 @@ This is the text following the reference.
 \date{text}
 \end{latex}
 
-然后在document环境内第一行，写上：\latexline{maketitle}，就能产生一个简易的封面。其中\latexline{title}和\latexline{author}是必须定义的，\latexline{date}如果省略会自动以编译当天的日期为准，格式形如：January 1, 1970。 如果你不想显示日期，可以写\latexline{date\{\}}。
+然后在\envi{document}环境内第一行，写上：\latexline{maketitle}，就能产生一个简易的封面。其中\latexline{title}和\latexline{author}是必须定义的，\latexline{date}如果省略会自动以编译当天的日期为准，格式形如：January 1, 1970。 如果你不想显示日期，可以写\latexline{date\{\}}。
 
 标题页的脚注用\latexline{thanks}命令完成。
 
@@ -841,7 +878,7 @@ book文档类还提供了以下的命令：
 关于附录\latexline{appendix}部分的大纲级别问题不在此讨论，请参考\hyperref[sec:appendix]{这一节}。在book文档类中，附录一般放在正文与后记之间；当然你也可以在非book文档类中使用附录。关于章节样式自定义的问题，则请看\hyperref[sec:titlesec]{这里}。
 
 \subsection{目录}
-目录在大纲的基础上生成，使用命令\latexline{tableofcontents}即可插入目录。目录在加载了hyperref宏包后，可以实现点击跳转的功能。你可以通过重定义命令更改\latexline{contentsname}，即“目录”的标题名。
+目录在大纲的基础上生成，使用命令\latexline{tableofcontents}即可插入目录。目录在加载了\pkg{hyperref}宏包后，可以实现点击跳转的功能。你可以通过重定义命令更改\latexline{contentsname}，即“目录”的标题名。
 \begin{latex}
 \renewcommand{\contensname}{目录}
 \end{latex}
@@ -1459,6 +1496,11 @@ $a^3_{ij}$ \\
 $a^{\phantom{ij}3}_{ij}$
 \end{codeshow}
 
+宏包\pkg{mathtools}提供了\latexline{prescript}来避免手工调整：
+\begin{codeshow}
+$\prescript{12}{6}{\mathrm{C}}$
+\end{codeshow}
+
 \subsection{微分与积分}
 导数直接使用单引号\verb|'|，积分使用\latexline{int}符号：
 
@@ -1497,12 +1539,22 @@ $\sqrt{2} \quad \surd$ \\
 $\sqrt[3]{\sqrt{2}+1}$
 \end{codeshow}
 
-划线命令使用\latexline{underline}和\latexline{overline}，水平括号使用brace代替line：
+划线命令使用\latexline{underline}和\latexline{overline}，水平括号使用brace或者bracket代替line：
 
 \begin{codeshow}
 $\overline{m+n}$ \\
 $\underbrace{a_1+\ldots+a_n}_{n}$
 $\overbrace{a_1+\ldots+a_n}^{n}$
+% 可选参数：线宽；竖直空距
+$\underbracket[0.4pt][1ex]
+  {a_1+\cdots+a_n}_n$
+\end{codeshow}
+
+两个互有重叠的括号需要一个箱子命令\latexline{rlap}，会在后面提到。不过在$j$之前的空距有些异常，可能需要\latexline{,}进行修正。
+\begin{codeshow}
+\[b+\rlap{$\overbrace{\phantom{
+  c+d+e+f+g}}^x$}c+d+\underbrace{
+  e+f+g+h+i}_y+\,j \]
 \end{codeshow}
 
 事实上\latexline{overline}命令也存在问题，请比较：
@@ -1543,12 +1595,11 @@ $\closure{AB}$
 强制堆叠命\latexline{stackrel}，位于上方的符号与上标同等大小。如果有\pkg{amsmath}宏包，可以使用\latexline{overset}或者\latexline{underset} 命令，前者与\latexline{stackrel}命令完全等同：
 
 \begin{codeshow}
-  $\int f(x) \stackrel{?}{=} 1$\\
-  $A\overset{abc}{=}B$ \quad
-  $C\underset{def}{=}D$
+$\int f(x) \stackrel{?}{=} 1$\\
+$A\overset{abc}{=}B$ \quad $C\underset{def}{=}D$
 \end{codeshow}
 
-还有一个很强大的堆叠放置命令\latexline{sideset}：
+一个很强大的堆叠放置命令\latexline{sideset}，只用于巨算符：
 
 \begin{codeshow}
 \[\sideset{_a^b}{_c^d}\sum\]
@@ -2042,6 +2093,11 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \newcommand{\cop}[2][]{\textbf{#2}}\index{#1 #2}}
 \end{latex}
 
+如果想定义一个用于数学环境的命令，借助\latexline{ensuremath}命令。它保证其参数会在数学模式下运转， 且即使已位于数学模式中也不会报错。
+\begin{latex}
+\renewcommand\qedsymbol{\ensuremath{\Box}}
+\end{latex}
+
 自定义环境的命令是\latexline{newenvironment}，也可以定义多个参数。注意后段定义中不能使用参数，但你可以“先保存后调用”。例子：
 \begin{latex}
 \newenvironment{QuoteEnv}[2][]
@@ -2248,7 +2304,15 @@ L\hrulefill Mid\dotfill R
 \end{latex}
 
 \subsection{制表位*}
-制表位使用\envi{tabbing}环境，需要指出，这是一个极其容易造成坏箱的环境。一个丑陋的例子：
+制表位使用\envi{tabbing}环境，需要指出，这是一个极其容易造成坏箱的环境。几个要点：
+\begin{para}
+\item[\char92{}=] 在此处插入制表位。
+\item[\char92{}>] 跳入下一个制表位。
+\item[\char92{}\char92{}] 制表环境内必须手动换行和缩进。
+\item[\char92{}kill] 若行末用\verb|\kill|代替\verb|\\|，那么该行并不会被实际输出到文档中。
+\end{para}
+
+一个丑陋的例子：
 \begin{codeshowabove}
 \begin{tabbing}
 \hspace{4em}\=\hspace{8em}\=\kill
@@ -2258,14 +2322,6 @@ L\hrulefill Mid\dotfill R
 这是 \> 新的 \> 一行
 \end{tabbing}
 \end{codeshowabove}
-
-几个要点：
-\begin{para}
-\item[\char92{}=] 在此处插入制表位。
-\item[\char92{}>] 跳入下一个制表位。
-\item[\char92{}\char92{}] 制表环境内必须手动换行和缩进。
-\item[\char92{}kill] 若行末用\verb|\kill|代替\verb|\\|，那么该行并不会被实际输出到文档中。
-\end{para}
 
 \subsection{悬挂缩进*}
 这种缩进在实际排版中并不常用，经常是列表需要的场合才使用，但那可以借助列表宏包\pkg{enumitem}进行定义。这里介绍的是正文中的悬挂缩进使用。
@@ -3013,14 +3069,14 @@ unpublished & 未出版的论文或图书\\
 最后，你可能需要\RED{编译\xelatex , 再编译\bibtex , 最后连续编译两次\xelatex 来完成你的文档建立}。
 
 \section{索引}
-可以使用\pkg{makeidx}宏包来完成索引的建立。
+可以使用\pkg{makeidx}宏包来完成索引的建立。索引标题可以通过重定义\latexline{indexname}来更改。
 \begin{feae}
 \item 在导言区加载\pkg{makeidx}宏包，并输入\latexline{makeindex}开始收集索引。
 \item 在文中使用\latexline{index}命令来插入索引标签。
 \item 在需要插入索引列表的位置输入\latexline{printindex}。
 \end{feae}
 
-索引命令\latexline{index}的用法如\tref{tab:index}：
+索引命令\latexline{index}的用法如\tref{tab:index}。注意：这四种符号\verb+!|@"+如果要写在参数中，请在它们之前添加一个双引号。
 \begin{table}
 \centering
 \tabcaption{索引命令\texttt{\char92 index}的使用}
@@ -3048,7 +3104,20 @@ Meow|seealso\{wow\} & Meow, \textit{see also} wow \\
 \end{tabular}
 \end{table}
 
-索引标题可以通过重定义\latexline{indexname}来更改。
+此外，\pkg{imakeidx}宏包可能更强，它允许索引分组：
+\begin{latex}
+\makeindex[title={Group 1}]
+\makeindex[title={Group 2},name=another]
+% 以上在导言区，且需要\usepackage{imakeidx}
+    ...\index{...}
+    ...\index[another]{...}
+\printindex
+\printindex[another]
+\end{latex}
+
+如果想要定制索引样式，\pkg{imakeidx}提供了这部分功能；另一个宏包\pkg{idxlayout}也能实现这些功能，不过需要放置在前者之后加载。
+
+关于索引，部分用户有制作词汇表的需求，请参考\pkg{glossary}宏包。
 
 \section{公式与图表编号样式}
 \subsection{取消公式编号}
@@ -3360,11 +3429,11 @@ for loopnum in lst:
 
 \textit{注：\texttt{\char92dh}命令在非CJK文档中有时编译会出现问题}。
 
-\chapter{建议}
+\chapter{建议与其他}
 
 除了参考文献列表中给出的书籍以外，我还推荐你用控制台在\TeX{} Live中能找到的以下书籍：
 
-\begin{para}
+\medskip\begin{para}
 \item[texdoc usrguide] \TeX Live自带的用户手册。
 \item[texdoc clsguide] \TeX Live自带的文档类和宏包学习手册。
 \item[texdoc fntguide] \TeX Live自带的字体使用手册。
@@ -3373,5 +3442,12 @@ for loopnum in lst:
 \item[texdoc impatient] \emph{\TeX{} for the Impatient}, 一本介绍底层\TeX 的书。这也是我阅读的第一本\TeX 书，Knuth的\emph{The \TeX book}虽然血统正但是难啃啊。本书中译本在：\url{https://bitbucket.org/zohooo/impatient/wiki/Home}
 \item[texdoc texbytopic] \emph{\TeX{} by Topic}, 个人觉得不如上面那本，但也许只是叙述方式不一样吧。
 \end{para}
+
+\vfill
+
+\noindent 你可能还需要的功能：
+\begin{description}
+\item[\pkg{mhchem}] 该宏包用于输入化学式，提供了\latexline{ce}命令。
+\end{description}
 
 \end{document}

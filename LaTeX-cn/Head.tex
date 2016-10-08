@@ -35,7 +35,7 @@
     % overline的替代命令
 \newcommand{\closure}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
 \usepackage{yhmath} % 左下-右上省略号
-\usepackage{mathtools} % dcases环境
+\usepackage{mathtools} % dcases环境，prescript命令
 \usepackage{amsthm} % 定理环境
   \theoremstyle{definition}\newtheorem{laws}{Law}[section]
   \theoremstyle{plain}\newtheorem{ju}[laws]{Jury}
@@ -56,6 +56,8 @@
 \usepackage{tikz}
   \usetikzlibrary{calc}
   \newcommand{\tikzline}[1]{{#1\tikz{\draw[#1,line width=9](0,0)--(0.5,0);}}, }
+% 最后一页
+\usepackage{lastpage}
 
 % 奇怪的小定义
 \newcommand{\dpar}{\\ \mbox{}}	% 空两行
@@ -74,7 +76,6 @@
     {\newcommand\Qauthor{#1}\newcommand\Qref{#2}}
     {\medskip\begin{flushright}\small ——~\Qauthor\\
     \emph{\Qref}\end{flushright}}
-
 % 字体调用
 \newcommand{\myfont}[2]{{\fontfamily{#1}\selectfont #2}}
 
