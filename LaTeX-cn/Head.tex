@@ -34,13 +34,16 @@
 \usepackage{mathrsfs} % 线性代数字体
     % overline的替代命令
 \newcommand{\closure}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
-\usepackage{yhmath} % 左下-右上省略号
+\usepackage{yhmath} % \wideparen命令
+\usepackage{mathdots} % 数学省略号
 \usepackage{mathtools} % dcases环境，prescript命令
 \usepackage{amsthm} % 定理环境
   \theoremstyle{definition}\newtheorem{laws}{Law}[section]
   \theoremstyle{plain}\newtheorem{ju}[laws]{Jury}
   \theoremstyle{remark}\newtheorem*{marg}{Margaret}
 \usepackage{esint} % 多重积分，需放在amsmath后
+% 中括号类二项式
+\newcommand{\Bfrac}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}}
 
 % 下划线宏包
 \usepackage{ulem}
@@ -168,11 +171,6 @@
   boxrule=0pt,bottomrule=1pt,toprule=1pt}
 
 % pkg
-\iffalse
-  \newcommand{\envi}[1]{def}
-  \newcommand{\latexline}[1]{def}
-  \newcommand{\pkg}[1]{这几行实质被注释，只为自动补全支持}
-\fi
 \newtcbox{\pkg}[1][orange!70!red]{on line,before upper={\rule[-0.2ex]{0pt}{1ex}\ttfamily},
   arc=0.8ex,colback=#1!30!white,colframe=#1!50!black,
   boxsep=0pt,left=1.5pt,right=1.5pt,top=1pt,bottom=1pt,
@@ -319,6 +317,15 @@
 \bibliographystyle{plain}
 \renewcommand{\bibname}{参考文献}
 \usepackage[square,super,sort&compress]{natbib}
+
+% 为了自动补全支持
+\iffalse
+  \newcommand{\envi}[1]{def}
+  \newcommand{\latexline}[1]{def}
+  \newenvironment{codeshow}{begdef}{enddef}
+  \newenvironment{codeshowabove}{begdef}{enddef}
+  \newcommand{\pkg}[1]{这几行实质被注释，只为自动补全支持}
+\fi
 
 % 引用
 \usepackage{hyperref}
