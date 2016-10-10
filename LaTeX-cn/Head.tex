@@ -2,6 +2,7 @@
 % \sups命令可能被重定义,xeCJK放在tipa后
 \RequirePackage[safe]{tipa}
 \documentclass[a4paper, zihao=-4, linespread=1]{ctexrep}
+\usepackage{amsmath}  
   \xeCJKsetup{CJKmath=true}
   \renewcommand{\CTEXthechapter}{\thechapter}
 % 最小行间间距设定
@@ -19,6 +20,8 @@
 \setCJKmathfont{KaiTi}
 \newCJKfontfamily[zhxinwei]\xinwei{STXinwei}
 
+\usepackage[table]{xcolor}
+  \newcommand{\scol}[1]{\colorbox{#1}{\rule{0em}{1ex}}\,#1}
 % 首字下沉
 \usepackage{lettrine}
 % 分栏
@@ -27,7 +30,6 @@
 \setlength{\columnseprule}{0.4pt}
 
 % 数学环境
-\usepackage{amsmath}
   \newcommand{\ue}{\mathrm{e}}
   \newcommand{\ud}{\mathop{}\negthinspace\mathrm{d}}
 \usepackage{amssymb}
@@ -88,17 +90,17 @@
 	\setlist[itemize]{font=\bfseries,leftmargin=\parindent}
 	\setlist[description]{font=\bfseries\uline}
 
-\newenvironment{fead}{\setlength{\parskip}{0pt}
-	\begin{description}[font=\bfseries\uline,labelindent=\parindent,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
+\newenvironment{fead}{	
+    \begin{description}[font=\bfseries\uline,labelindent=\parindent,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
 	{\end{description}}
 % 带宽度的
 \newenvironment{para}{
 	\begin{description}[font=\bfseries\ttfamily,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
 	{\end{description}}
-\newenvironment{feae}{\setlength{\parskip}{0pt}
+\newenvironment{feae}{
 	\begin{enumerate}[font=\bfseries,labelindent=0pt,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
 	{\end{enumerate}}
-\newenvironment{feai}{\setlength{\parskip}{0pt}
+\newenvironment{feai}{
 	\begin{itemize}[font=\bfseries,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
 	{\end{itemize}}
 \newenvironment{inlinee}
@@ -141,11 +143,15 @@
 \newcommand\tabcaption{\def\@captype{table}\caption}
 \makeatother
 % 图表
-\usepackage{array,multirow}
+\usepackage{array,multirow,makecell}
   \setlength\extrarowheight{2pt} % 行高增加
+\usepackage{diagbox}
 \usepackage{longtable}
 \usepackage{graphicx,wrapfig}
   \graphicspath{{./tikz/}}
+\usepackage{caption,subcaption}
+  \captionsetup[sub]{labelformat=simple}
+  \renewcommand{\thesubtable}{(\alph{subtable})}
 % 页面修正宏包
 \usepackage{geometry}
 \geometry{vmargin = 1in}
@@ -210,8 +216,6 @@
 }
 
 % Color
-\usepackage{xcolor}
-  \newcommand{\scol}[1]{\colorbox{#1}{\rule{0em}{1ex}}\,#1}
 %	\definecolor{commentcolor}{RGB}{85,139,78}
 %	\definecolor{numbercolor}{RGB}{166,206,168}
 %	\definecolor{stringcolor}{RGB}{206,145,108}

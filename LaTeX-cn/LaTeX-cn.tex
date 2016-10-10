@@ -1005,7 +1005,7 @@ book文档类还提供了以下的命令：
 \end{center}
 \end{latex}
 
-可选参数指定了图片宽度为0.8倍该行文字宽。类似地可以指定height(图片高)，scale(图片缩放倍数)，angle(图片逆时针旋转角度)这样的命令。除angle外的命令不建议同时使用。
+可选参数指定了图片宽度为0.8倍该行文字宽。类似地可以指定height(图片高)，scale(图片缩放倍数)，angle(图片逆时针旋转角度)，origin(图片旋转中心lrctbB\footnote{这六个字母分别代表左、右、中、顶、底，以及基线。})这样的命令。前三个命令不建议同时使用。旋转的图片基线会变化，故一般用totalheight代替height. 
 
 对于\texttt{Thispic}这个参数的写法，\xelatex 支持pdf, eps, png, jpg图片扩展名。你可以书写带扩展名的图片名称ThisPic.png，也可以不带扩展名。如果不给出扩展名，将按上述四个扩展名的顺序依次搜索文件。\dpar
 
@@ -1057,7 +1057,7 @@ book文档类还提供了以下的命令：
 \item 在tabular环境内部，跨列命令\latexline{multicolumn\{number\}\{format\}\{text\}}用于以format格式合并该行的number个单元格，并在合并后的单元格中写入文本text。如果一行有了跨列命令，请注意相应地减少"\texttt{\&}"的数量。
 \end{feai}
 
-文章中出现了表格，几乎就一定会加载\pkg{array}宏包。在\pkg{array}宏包支持下，cols参数除了l, c, r, p\{\}, @\{\}以外，还可以使用：
+文章中出现了表格，几乎就一定会加载\pkg{array}宏包。在\pkg{array}宏包支持下，\texttt{cols}参数除了l, c, r, p\{\}, @\{\}以外，还可以使用：
 \begin{feai}
 \item \texttt{m\{\}, b\{\}}: 指定宽度的竖直居中，居下的列。
 \item \verb|>{decl}, <{decl}|: 前者用在lcrpmb参数之前，表示该列的每个单元格都以此decl命令开头；后者用于结尾。比如\footnote{例中的\latexline{centering}命令后可加入\latexline{arraybackslash}以应对可能的表格换行命令异常。}：
@@ -1075,6 +1075,7 @@ book文档类还提供了以下的命令：
 \newcolumntype{T}{>{$}c<{$}}
 \end{latex}
 
+\subsubsection{\texttt{array, multirow}宏包}
 来一个\pkg{array}宏包下的例子：
 \begin{codeshow}
 % 记得\usepackage{array}
@@ -1087,7 +1088,7 @@ book文档类还提供了以下的命令：
 \end{tabular}
 \end{codeshow}
 
-然后一个跨行跨列的例子。\RED{如果同时跨行跨列，必须把multirow命令放在multicolumn内部}。有时候会用\latexline{multirow}和\latexline{multicolumn}作用于单独的1行或1列，这可能是为了临时改变某个单元格的对齐方式。
+然后一个跨行跨列的例子。\RED{如果同时跨行跨列，必须把multirow命令放在multicolumn内部}。用\latexline{multirow}和\latexline{multicolumn}作用于单独的1行或1列，能临时改变某单元格的对齐方式。如果用星号代替列样式，表示自适应宽度。
 
 \begin{codeshow}
 % \usepackage{multirow}
@@ -1137,12 +1138,66 @@ a & b & c \\ \hline
 \end{tabular}
 \end{codeshow}
 
+用\latexline{firsthline}和\latexline{lasthline}能够解决行内表格竖直方向对齐问题。
+
+\subsubsection{\texttt{makecell}宏包}
+宏包\pkg{makecell}提供了一种方便在单元格内换行的方式，并可以配合参数tblrc；带星表示有更大的竖直空距。此外，命令\latexline{multirowcell}由\pkg{multirow}宏包与该宏包共同支持。命令\latexline{thead}则有更小的字号，通常用于表头。
+\begin{codeshow}
+\begin{tabular}{|c|c|}
+\hline
+\thead{双行\\表头} & \thead{双行\\表头}\\
+\hline
+\multirowcell{2}{简单\\粗暴} & \makecell[l]{ABCD\\EF} \\
+\cline{2-2} & \makecell*{更大的竖直空距} \\
+\hline
+\end{tabular}
+\end{codeshow}
+
+该宏包还提供了\latexline{Xhline}和\latexline{Xcline}命令，可以指定横线的线宽。例如模仿三线表\footnote{更正规的三线表绘制，参考后文的\pkg{booktabs}宏包。}：
+\begin{codeshow}
+\begin{tabular}{ccc}
+\Xhline{2pt}
+\multirow{2}*{X} & 
+\multicolumn{2}{c}{Hey}\\
+\Xcline{2-3}{0.4pt}
+& Left & Right \\
+\Xhline{1pt} 
+a & A & B \\
+b & C & D \\
+\Xhline{2pt}
+\end{tabular}
+\end{codeshow}
+
+\subsubsection{\texttt{diagbox}宏包}
+该宏包提供了分割表头的命令\latexline{diagbox}。虽然斜线表头并不是规范的科技排版内容，但是在许多场合也可能用到。命令支持两或三参数。
+\begin{codeshow}
+\begin{tabular}{c|cc}
+\diagbox{左边}{中间}{右边} & A & B \\
+\hline
+1 & A1 & B1 \\
+2 & A2 & B2 
+\end{tabular}
+\end{codeshow}
+
+\subsubsection{其他}
+关于表格的间距：
+\begin{feai}
+\item \latexline{tabcolsep}或者\latexline{arraycolsep}控制列与列之间的间距，取决于你使用\envi{tabular}还是\envi{array}环境。默认\texttt{6pt}。
+\item 列格式@能够去除列间的空距，比如“@\{\}”。而命令\latexline{extracolsep\{1pt\}}于@的参数中，那么会将其右侧的列间隔都增加\texttt{1pt}。
+\item 表格内行距用\latexline{arraystretch}控制，默认为1。
+\end{feai}
+
 一些其他的使用技巧：
 \begin{feae}
 \item 输入同格式的列：参数\verb+|*{7}{c|}r|+，相当于7个居中和1个居右。
 \item 表格重音：原本的重音命令\verb|\`|, \verb|\'|与\verb|\=|，改为\verb|\a`|, \verb|\a'|与\verb|\a=|。
 \item 控制整表宽度：\pkg{tabularx}宏包提供\latexline{begin\{tabular*\}\{width\}[pos]\{cols\}}，比如你可以把width取值为\latexline{0.8\char`\\linewidth}之类。
 \item 如想实现单元格内换行，使用\pkg{makecell}宏包支持的\latexline{makecell}命令。
+\item 宏包\pkg{dcolumn}提供了新的列对齐方式D，并调用\pkg{array}宏包。故你可以利用后者支持的命令，这样定义：
+\begin{latex}
+% 表示输入小数点、显示为小数点、保留2位
+\newcolumntype{d}{D{.}{.}{2}}
+\end{latex}
 \end{feae}
 
 \subsection{非浮动体图表和并排图表}
@@ -1440,7 +1495,7 @@ $\sqrt{A_{n_k}} \qquad
 \sqrt{\smash[b]{A_{n_k}}}$
 \end{codeshow}
 
-\subsection{数学字号}
+\subsection{字号}
 \LaTeX{}提供四种字号尺寸命令：
 \begin{para}
 \item[\latexline{displaystyle}] 行间公式尺寸。如$\displaystyle \sum_{i=1}^n a$
@@ -1973,7 +2028,7 @@ $\sqrt{b}\sqrt{y}\qquad
 \caption{希腊字母表}
 \label{tab:greekletter}
 \renewcommand\arraystretch{1}
-\begin{tabular}{*{4}{>{$}c<{$}!{}>{\ttfamily\char92}p{6em} @{}}}
+\begin{tabular}{*{4}{>{$}c<{$}!{}>{\ttfamily\char`\\}p{6em} @{}}}
 \alpha & alpha & \theta & theta & o & \multicolumn{1}{p{6em}}{o} & \upsilon & upsilon \\
 \beta & beta & \vartheta & vartheta & \pi & pi & \phi & phi \\
 \gamma & gamma & \iota & iota & \varpi & varpi & \varphi & varphi \\
@@ -2258,13 +2313,14 @@ example to show} how \parbox[b]
 
 \subsection{缩放箱子}
 宏包\pkg{graphicx}提供了一种可缩放的箱子\latexline{scalebox\{h-sc\}[v-sc]\{pbj\}}，注意其中水平缩放因子是必要参数。缩放内容可以是文字也可以是图片，例子：
-
 \begin{codeshow}
 \LaTeX---\scalebox{-1}[1]{\LaTeX}\\
 \LaTeX---\scalebox{1}[-1]{\LaTeX}\\
 \LaTeX---\scalebox{-1}{\LaTeX}\\
 \LaTeX---\scalebox{2}[1]{\LaTeX}
 \end{codeshow}
+
+此外还有\latexline{resizebox\{width\}\{heigh\}\{text\}}命令。
 
 \subsection{标尺箱子}
 命令\latexline{rule[lift]\{width\}\{height\}}能够画出一个黑色的矩形。你可以在单元格中使用width, height其一为0的该命令，作一个隐形的“支撑”来限定单元格的宽或高。而\latexline{strut}命令则用当前字号大小设置高度与深度。例如：
@@ -2286,6 +2342,12 @@ example to show} how \parbox[b]
 \begin{codeshow}
 你看不清这些字\llap{是什么}\\
 \rlap{这些}你也看不清
+\end{codeshow}
+
+\subsection{旋转箱子}
+宏包\pkg{graphicx}提供了\latexline{rotatebox}命令，参数与插图命令相同。
+\begin{codeshow}
+\rotatebox[origin=c]{90}{专}治颈椎病。
 \end{codeshow}
 
 \subsection{颜色箱子}
@@ -2566,7 +2628,8 @@ L\hrulefill Mid\dotfill R
 
 \section{自定义图表}
 \label{sec:figtab}
-主要是涉及长表格的使用，包括\pkg{supertabular}, \pkg{longtable}, \pkg{tabu}在内的多个宏包都能完成长表格的排版，大致的功能会包括：
+\subsection{长表格}
+包括\pkg{supertabular}, \pkg{longtable}, \pkg{tabu}在内的多个宏包都能完成长表格的排版，大致的功能会包括：
 \begin{para}
 \item[表头控制：] 首页的表头样式，以及转页后表头的样式。
 \item[转页样式：] 在表格跨页时，页面最下方插入的特殊行，比如to be continued.
@@ -2691,8 +2754,8 @@ Maybe you'll love it. So enjoy & \texttt{longtable}!
 \end{longtable}
 \end{latex}
 
+\subsection{\texttt{booktabs}：三线表}
 \pkg{booktabs}宏包提供\latexline{toprule}, \latexline{midrule}与\latexline{bottomrule}命令来绘制三线表。更多需要的横线可以通过\latexline{midrule}添加。
-
 \begin{codeshow}
 \begin{tabular}{cccc}
 \toprule
@@ -2705,6 +2768,76 @@ Roman & I & II& III \\
 \bottomrule
 \end{tabular}
 \end{codeshow}
+
+命令\latexline{cmidrule}如果连续使用，还能写成\latexline{cmiderule(lr)}的形式，使其向内缩进一小段，造成相互“断开”的样子。\dpar
+
+\subsection{彩色表格}
+彩色表格依靠\pkg{colortbl}宏包，它会调用\pkg{array}和\pkg{color}宏包。但是可以在加载\pkg{xcolor}宏包时添加table选项来调用\pkg{colortbl}宏包。
+
+首先是命令\latexline{columncolor}，给表格某列加背景色。其中mode参数是指rgb/cmyk等。left/right-ex参数表示向两侧填充的距离，默认是\latexline{tablecolsep}。
+\begin{latex}
+\columncolor[mode]{colorname}[left-ex][right-ex]
+\end{latex}
+
+命令\latexline{rowcolor}和\latexline{cellcolor}分别用于更改表头行的颜色和单个单元格的颜色，放置在表格内对应位置即可。在\pkg{xcolor}支持下还可以使用\latexline{rowcolors}命令，但放在表格开始之前：
+\begin{latex}
+% 表线为单横，从第2行开始，奇数行绿，偶数行青
+\rowcolors[\hline]{2}{green}{cyan}
+\begin{tabular}...
+\end{latex}
+
+要临时开关奇偶行颜色，使用\latexline{show/hiderowcolors}命令。
+
+彩色表格中跨行，需要把跨行命令放在最后一行，并跨负数行：
+\begin{codeshow}
+\rowcolors{2}{green}{cyan}
+\begin{tabular}{ll}
+\hline Col 1 & Col 2\\
+& A\\ \multirow{-2}*{Hey} & B\\
+\hline
+\end{tabular}
+\end{codeshow}
+
+\subsection{子图表}
+子图表输出用\pkg{subcaption}宏包，它需要与\pkg{caption}宏包共同加载。比如：
+\begin{latex}
+\usepackage{caption,subcaption}
+  \captionsetup[sub]{labelformat=simple}
+  \renewcommand{\thesubtable}{(\alph{subtable})}
+% 用\ref引用得到如“图1.1(a)”的效果
+\begin{table}
+\caption{Parents}
+\begin{subtable}[b]{0.5\linewidth}
+  \centering
+  \begin{tabular}{|c|c|}
+  A & B \\ \end{tabular}
+  \caption{First}\label{...}
+\end{subtable}  
+\begin{subtable}[b]{0.5\linewidth}
+  \centering
+  \begin{tabular}{|c|c|}
+  A & B \\ C & D \end{tabular}
+  \caption{Second}
+\end{subtable}  
+\end{table}
+\end{latex}
+
+效果如\tref{subtab:subcaption1}与\tref{subtab:subcaption2}。更多的请参考\pkg{caption}宏包。
+\begin{table}[!htb]
+\caption{Parents}
+\begin{subtable}[b]{0.5\linewidth}
+  \centering
+  \begin{tabular}{|c|c|}
+  A & B \\ \end{tabular}
+  \caption{First}\label{subtab:subcaption1}
+\end{subtable}  
+\begin{subtable}[b]{0.5\linewidth}
+  \centering
+  \begin{tabular}{|c|c|}
+  A & B \\ C & D \end{tabular}
+  \caption{Second}\label{subtab:subcaption2}
+\end{subtable}  
+\end{table}
 
 \section{自定义编号列表}
 \label{sec:list}
@@ -2733,7 +2866,7 @@ Roman & I & II& III \\
 \caption{编号列表默认参数表}
 \label{tab:enumitemdes}
 \renewcommand{\arraystretch}{0.9}
-\begin{tabular}{@{}c@{\,}c@{\,}*{2}{>{\small}l@{}>{\ttfamily\char`\\}l}@{}}
+\begin{tabular}{@{}c@{\,}c*{2}{>{\small}l@{}>{\ttfamily\char`\\}l}@{}}
 \hline
 环境 & 层 & Label & \multicolumn{1}{l}{默认} & Counter & \multicolumn{1}{l}{默认}	\\
 \hline
@@ -2742,10 +2875,10 @@ Roman & I & II& III \\
 & 3 & \latexline{labelenumiii} & theenumiii. & \latexline{theenumiii} & roman\{enumi\} \\
 & 4 & \latexline{labelenumiv} & theenumiv. & \latexline{theenumiv} & Alph\{enumiv\} \\
 \hline
-\multirow{4}*{\envi{itemsize}} & 1 & \latexline{labelitemi} & \multicolumn{3}{l}{\ttfamily\char`\\ textbullet \dotfill\fbox{\textbullet}} \\
-& 2 & \latexline{labelitemii} & \multicolumn{3}{l}{\ttfamily\char`\\ textendash \dotfill\fbox{\textendash}}  \\
-& 3 & \latexline{labelitemiii} & \multicolumn{3}{l}{\ttfamily\char`\\ textasteriskcentered \dotfill\fbox{\textasteriskcentered}} \\
-& 4 & \latexline{labelitemiv} & \multicolumn{3}{l}{\ttfamily\char`\\ textperiodcentered \dotfill\fbox{\textperiodcentered}} \\
+\multirow{4}*{\envi{itemsize}} & 1 & \latexline{labelitemi} & \multicolumn{3}{p{.5\textwidth}}{\ttfamily\char`\\ textbullet \dotfill\fbox{\textbullet}} \\
+& 2 & \latexline{labelitemii} & \multicolumn{3}{p{.5\textwidth}}{\ttfamily\char`\\ textendash \dotfill\fbox{\textendash}}  \\
+& 3 & \latexline{labelitemiii} & \multicolumn{3}{p{.5\textwidth}}{\ttfamily\char`\\ textasteriskcentered \dotfill\fbox{\textasteriskcentered}} \\
+& 4 & \latexline{labelitemiv} & \multicolumn{3}{p{.5\textwidth}}{\ttfamily\char`\\ textperiodcentered \dotfill\fbox{\textperiodcentered}} \\
 \hline
 \end{tabular}
 \end{table}
@@ -3145,7 +3278,7 @@ unpublished & 未出版的论文或图书\\
 最后，你可能需要\RED{编译\xelatex , 再编译\bibtex , 最后连续编译两次\xelatex 来完成你的文档建立}。
 
 \section{索引}
-可以使用\pkg{makeidx}宏包来完成索引的建立。索引标题可以通过重定义\latexline{indexname}来更改。
+使用\pkg{makeidx}宏包来建立索引。索引标题通过重定义\latexline{indexname}更改。
 \begin{feae}
 \item 在导言区加载\pkg{makeidx}宏包，并输入\latexline{makeindex}开始收集索引。
 \item 在文中使用\latexline{index}命令来插入索引标签。
@@ -3191,7 +3324,7 @@ Meow|seealso\{wow\} & Meow, \textit{see also} wow \\
 \printindex[another]
 \end{latex}
 
-如果想要定制索引样式，\pkg{imakeidx}提供了这部分功能；另一个宏包\pkg{idxlayout}也能实现这些功能，不过需要放置在前者之后加载。
+定制索引样式可使用\pkg{imakeidx}宏包；另一个宏包\pkg{idxlayout}也能实现这些功能，不过需要放置在前者之后加载。
 
 关于索引，部分用户有制作词汇表的需求，请参考\pkg{glossary}宏包。
 
@@ -3295,6 +3428,24 @@ Enjoy this environment.
 \end{latex}
 
 本手册使用的是\latexline{appendix}命令，并在其后重定义了chapter的显示样式。读者可以从源码中参考。
+
+\section{自定义浮动体*}
+可以使用\pkg{newfloat}宏包自定义浮动体。形如：
+\begin{latex}
+\DeclareFloatingEnvironment[`\textit{options}`]{`\textit{float-name}`}
+\end{latex}
+
+选项包括：
+\begin{para}
+\item[name] 标签内容。如name=插图。
+\item[listname] 目录名。如listname=插图目录。
+\item[fileext] 目录文件扩展名，默认是\textit{float-name}前加lo。
+\item[placement] 位置参数htbp。
+\item[within] 父计数器名称。比如chapter. 可以设为none.
+\item[chapterlistsgaps] 赋值on/off. 是否允许浮动体目录中，不同章节的浮动体间有额外的空距。
+\end{para}
+
+要输出浮动体目录，请插入命令\latexline{listof[float-name]s}。
 
 \section{编程代码与行号*}
 \label{sec:coding}
