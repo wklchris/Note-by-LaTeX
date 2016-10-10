@@ -3564,7 +3564,47 @@ for loopnum in lst:
 \subsection{\texttt{tcolorbox}宏包}
 \label{subsec:tcolorbox}
 本手册在修订过程中发现了一个可以方便地“一侧写源代码，另一侧展示结果”的宏包，名叫\pkg{tcolorbox}；因此基本用其替换了原有的\pkg{listings}宏包——但是引擎仍然使用的是\pkg{listings}，在使用新宏包时也需要借助旧宏包选项来设置引擎。
-（待续）
+
+该宏包支持下，本手册用\latexline{newtcblisting}定义了\LaTeX 代码环境：
+\begin{latex}
+\usepackage{tcolorbox}
+  \tcbuselibrary{listings,skins,breakable}
+% listings是代码展示引擎，breakable为了可跨页
+\newtcblisting{latex}{breakable,skin=bicolor,colback=gray!30!white,
+  colbacklower=white,colframe=cyan!75!black,listing only, 
+  left=6mm,top=2pt,bottom=2pt,fontupper=\small,
+  % listing style
+  listing options={style=tcblatex,
+  keywordstyle=\color{blue},commentstyle=\color{green!50!black},
+  numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
+  emptylines=1,escapeinside=``}}
+\end{latex}
+
+其中很多选项意义显然，就不赘述了。需要指明的有：
+\begin{para}
+\item[skin] bicolor，让源代码和显示结果可以分开设置背景色。
+\item[colbacklower] 背景色。\texttt{tcolorbox}分为两段，下段（或右段）叫lower。
+\item[fontupper] 上段（或左段）叫upper，这是设置在进入upper前插入的格式命令，不局限于字号。
+\item[代码展示参数] 该参数经常用到的是：
+    \begin{para}
+      \item[listing only] 仅展示源代码。也有text only选项。
+      \item[listing and text] 上段源代码，下段结果。本手册的\envi{codeshowabove}环境采用该参数。如果text与listing交换，即上段结果下段源代码。
+      \item[listing side text] 左段源代码，右段结果。本手册的\envi{codeshow}环境就采用了该参数。同样也可以交换，变成左段结果右段源代码。
+      \item[listing outside text] 同上，只是结果“看起来”在盒子外。
+    \end{para}
+\item[listing option] 除了特殊的style字段，这些参数都会被传递给引擎（本手册是listings宏包）。\texttt{style=tcblatex}是\pkg{tcolorbox}宏包预定义的。
+\end{para}
+
+\mbox{}
+
+通过该宏包的\latexline{newtcbox}命令，本手册实现了对于命令、环境、宏包的高亮。以下给出宏包高亮作为例子，参数含义显然：
+\begin{latex}
+\newtcbox{\pkg}[1][orange!70!red]{on line,before upper={\rule[-0.2ex]{0pt}{1ex}\ttfamily},
+    arc=0.8ex,colback=#1!30!white,colframe=#1!50!black,
+    boxsep=0pt,left=1.5pt,right=1.5pt,top=1pt,bottom=1pt,    boxrule=1pt}
+\end{latex}
+
+实际上\pkg{tcolorbox}的强大之处远不止此，它能做出颜值很高的箱子样式。更多的内容请自行查阅其宏包文档学习。
 
 \subsection{行号}
 \begin{linenumbers}
