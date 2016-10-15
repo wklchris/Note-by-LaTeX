@@ -27,7 +27,7 @@
   \item 本手册使用的编辑器为\TeX Studio，而非之前的商业软件WinEdt. 这使得学习\LaTeX 的门槛更低。当然了，你有权使用任何编辑器。
 \end{feae}
 
-手册主体分为六大部分\cite{LHY2013latex,lamport1986document,mittelbach2004latex,partl2016}：
+手册主体分为六大部分\cite{LHY2013latex,lamport1986document,mittelbach2004latex,partl2016,Casteleyn2016tikz}：
 \begin{fead}
 \item[写给读者*] 介绍\LaTeX 背景、优缺点、适用情形。
 \item[基础] 包括标点、缩进、距离、章节、字体、颜色、注释、引用、封面、目录、列表、图表、页面等详细内容。
@@ -3638,7 +3638,6 @@ for loopnum in lst:
 
 本节的subsection后到代码段前的所有内容就是包含在如上的环境中的。
 
-% 如果你想查看Tikz绘图的内容，请取消这行注释
 \input{AdditionalChapter-Tikz}
 
 % 参考文献
@@ -3696,8 +3695,6 @@ for loopnum in lst:
 
 \textit{注：\texttt{\char92dh}命令在非CJK文档中有时编译会出现问题}。
 
-\printindex
-
 \chapter{建议与其他}
 
 除了参考文献列表中给出的书籍以外，我还推荐你用控制台在\TeX{} Live中能找到的以下书籍：
@@ -3717,5 +3714,9 @@ for loopnum in lst:
 \begin{description}
 \item[\pkg{mhchem}] 该宏包用于输入化学式，提供了\latexline{ce}命令。
 \end{description}
+
+% TikZ索引
+\setlength{\columnseprule}{0pt}
+\printindex
 
 \end{document}

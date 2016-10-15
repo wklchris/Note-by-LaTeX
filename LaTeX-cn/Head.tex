@@ -26,7 +26,7 @@
 \usepackage{lettrine}
 % 分栏
 \usepackage{multicol}
-\setlength{\columnsep}{8pt}
+\setlength{\columnsep}{20pt}
 \setlength{\columnseprule}{0.4pt}
 
 % 数学环境
@@ -329,7 +329,7 @@
 
 \usepackage{booktabs}
 
-% 索引
+% 索引与参考文献
 \usepackage{imakeidx}
   \newcommand{\tikzidx}[1]{\index{\char`\\ #1}}
   \newcommand{\tikzoptstyle}[1]{\texttt{#1}}
@@ -337,9 +337,9 @@
   \renewcommand{\indexname}{\tikzz 命令索引}
 \makeindex[intoc]
 
-% 参考文献
 \bibliographystyle{plain}
 \renewcommand{\bibname}{参考文献}
+\usepackage[numindex,numbib]{tocbibind}
 \usepackage[square,super,sort&compress]{natbib}
 
 % 为了自动补全支持

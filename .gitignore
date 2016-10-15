@@ -18,3 +18,4 @@
 *.listing
 
 !LaTeX-cn/tikz/*.pdf
+!python-matplotlib-en/mpl-image/*.pdf

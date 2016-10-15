@@ -8,15 +8,15 @@
 
 **== 所有内容请勿用于商业用途。DO NOT use those docs for commercial purpose. ==**
 
-## √ githubPush-cn (Markdown):
+## √ githubPush-cn (by Markdown):
 
 怎样使用Git Bash管理本地Git以及推送到Github. *How to use Git Bash to manage local git repositories, and how to push files to Github.* 
 
-## … html-cn (LaTeX)：
+## … html-cn (by LaTeX)：
 
 一份HTML 4的基础中文笔记。HTML是一种很有意思的标记语言，学习它对爬虫、使用Markdown都有帮助。 *A HTML basic note in Chinese. HTML is an interesting markup language. Learning it will help you on webcrawl and Markdown use.*
 
-## ▶ LaTeX-cn (LaTeX):
+## ▶ LaTeX-cn (by LaTeX):
 
 LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在排版方面更有优势。本笔记记录如何使用LaTeX进行排版处理。*LaTeX is one kind of typesetting system, which outperforms Microsoft Word on typesetting. This note records how to use LaTeX.*
 
@@ -26,19 +26,23 @@ __第一版已发布于release中。__
 
 **> 在完成 TikZ 章节的结构搭建前，不会发布新的PDF版本。**
 
-## … LaTeX-beamer-en (LaTeX):
+## … LaTeX-beamer-en (by LaTeX):
 
 用beamer宏包进行幻灯的排版，能方便地打印为幻灯展示、屏幕阅读、讲义分发这三种不同侧重的PDF文件. *How to use beamer package to make a slide. You can output your tex file into PDF in 3 kinds of features: __slide__, __screen-friendly__ and __handout__.*
 
-## … markdown-en (Markdown):
+## … markdown-en (by Markdown):
 
 Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__易写__之间的平衡。*Markdown is a markup language (like HTML), but it emphysizes the balance between __easy-reading__ and __easy-writing__.*
 
-## √ python-cn (LaTeX)：
+## √ python-cn (by LaTeX)：
 
 一份Python 3的基础中文笔记，不涉及太多库的知识。基于Python 3.4。 *A Python basic note in Chinese, which doesn't include much contents about libs. Based on Python 3.4*
 
-## … Vim-cn (Markdown)：
+## ▶ python-matplotlib-en (by LaTeX):
+
+一份Matplotlib的英文笔记。数据处理解决方案不能依赖于LaTeX的TikZ或者PgfPlots，因此我决定学习Python中关于绘图的内容。 *A Matplotlib note in English. Although TikZ/PgfPlots in LaTeX provide plotting functions, but they are not able to provide a whole data solution suite. Therefore, I decide to learn this Python package*
+
+## … Vim-cn (by Markdown)：
 
 一份Vim使用笔记。也许会有帮助。此外我推荐：[七张图学用Vim](http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html)这个页面。*A Vim using notes in Chinese. It may help. Besides, I recommand this website: [Learning Vim use by 7 pictures](http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html).*
 
@@ -49,6 +53,8 @@ Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__�
 >
 > —— 正在阅读 PGF&TikZ 宏包手册以改进至下一版。
 >
+> **githubpush-cn**: 2016年8月24日定稿。
+>
 > **python-cn**: 2016年7月22日定稿。
 > 
-> Python安装Lib的[非官方Whl文件下载点](http://www.lfd.uci.edu/~gohlke/pythonlibs)。
+> —— 附：Python安装Lib的[非官方Whl文件下载点](http://www.lfd.uci.edu/~gohlke/pythonlibs)。
