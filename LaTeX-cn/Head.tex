@@ -53,6 +53,7 @@
 \usepackage{hologo}
 	\newcommand{\xelatex}{\Hologo{XeLaTeX}}
 	\newcommand{\bibtex}{\Hologo{BibTeX}}
+	\newcommand{\tikzz}{TikZ}
 % 其他符号
 \usepackage{wasysym}
 % 带箱小页
@@ -283,6 +284,16 @@
 		breaklines=true,%backgroundcolor=\color{white},
 		linewidth=0.7\linewidth,#1}}{}
 
+\newtcblisting{tikzshow}{tikz lower,skin=bicolor,colback=gray!30!white,
+  colbacklower=white,colframe=cyan!75!black, 
+  left=6mm,righthand width=3.5cm,listing outside text,
+  % listing style  
+  listing options={style=tcblatex,language=TeX,basicstyle=\small\ttfamily,
+  keywordstyle=\color{blue},commentstyle=\color{green!50!black},
+  numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
+  emptylines=1,escapeinside=``}
+}
+
 % 附录
 % \usepackage{appendix}
 \renewcommand{\appendixname}{App.}
@@ -318,6 +329,15 @@
 
 \usepackage{booktabs}
 
+% 索引
+\usepackage{imakeidx}
+  \newcommand{\tikzidx}[1]{\index{\char`\\ #1}}
+  \newcommand{\tikzoptstyle}[1]{\texttt{#1}}
+  \newcommand{\tikzopt}[2][draw]{\tikzoptstyle{#2}\index{\char`\\ #1!#2}\ }
+  \renewcommand{\indexname}{\tikzz 命令索引}
+\makeindex[intoc]
+
+% 参考文献
 \bibliographystyle{plain}
 \renewcommand{\bibname}{参考文献}
 \usepackage[square,super,sort&compress]{natbib}

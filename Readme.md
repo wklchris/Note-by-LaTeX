@@ -1,6 +1,6 @@
 # What's this? 这是什么？
 
-**== 所有PDF内容如果定稿，下载会发布在release中。PDF files can be accessed in the release of this git.  ==**
+**== 所有PDF内容如果定稿，下载会发布在release（[https://github.com/wklchris/Note-by-LaTeX/releases](https://github.com/wklchris/Note-by-LaTeX/releases)）中。PDF files can be accessed in the release of this git.  ==**
 
 本仓库用于存放我的个人学习笔记，全部使用 LaTeX 或者 Markdown 进行撰写。具体包括：*This repository is for the use of storing my learning notes (by LaTeX or Markdown), including:*
 
@@ -23,6 +23,8 @@ LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在�
 __第一版已发布于release中。__
 
 **> 正在阅读 PGF&TikZ 宏包手册，以改进到第二版。**
+
+**> 在完成 TikZ 章节的结构搭建前，不会发布新的PDF版本。**
 
 ## … LaTeX-beamer-en (LaTeX):
 

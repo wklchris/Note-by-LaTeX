@@ -33,7 +33,7 @@
 \item[基础] 包括标点、缩进、距离、章节、字体、颜色、注释、引用、封面、目录、列表、图表、页面等详细内容。
 \item[数学排版] 包括数学符号、公式、编号等内容。
 \item[进阶] 主要是自定义命令，帮助你更高效、更简洁地书写你的文档。
-\item[Tikz绘图*] 附加章节，需要读者取消注释后重编译。
+\item[Tikz绘图*] 附加章节，\sout{需要读者取消注释后重编译}~现已加入正文。
 \item[附录] 帮助你快速查找一些你想要的东西。
 \end{fead}
 
@@ -988,7 +988,7 @@ book文档类还提供了以下的命令：
 
 \latexline{caption}命令给表格一个标题，写在了表格内容（即\envi{tabular}环境）之前，表示标题会位于表格上方。对于图片，一般将把此命令写在图片插入命令的下方。注意：\RED{label命令请放在caption下方，否则可能出现问题}。\dpar
 
-浮动体的自调整属性可能导致它“一直找不到合适的插入位置”，然后多个浮动体形成排队（因为靠前的浮动体插入后，靠后的才能插入）。如果在生成的文档中发现浮动体丢失的情况，请尝试更改浮动参数、去掉部分浮动体，或者使用\latexline{clearpage}\index{/clearpage}\index{/cleardoublepage}命令来清空浮动队列，以正常开始随后的内容。
+浮动体的自调整属性可能导致它“一直找不到合适的插入位置”，然后多个浮动体形成排队（因为靠前的浮动体插入后，靠后的才能插入）。如果在生成的文档中发现浮动体丢失的情况，请尝试更改浮动参数、去掉部分浮动体，或者使用\latexline{clearpage}命令来清空浮动队列，以正常开始随后的内容。
 
 如果希望浮动体不要跨过section，使用：
 \begin{latex}
@@ -3639,7 +3639,7 @@ for loopnum in lst:
 本节的subsection后到代码段前的所有内容就是包含在如上的环境中的。
 
 % 如果你想查看Tikz绘图的内容，请取消这行注释
-%\include{AdditionalChapter-Tikz}
+\input{AdditionalChapter-Tikz}
 
 % 参考文献
 \input{Bib}
@@ -3695,6 +3695,8 @@ for loopnum in lst:
 \end{center}
 
 \textit{注：\texttt{\char92dh}命令在非CJK文档中有时编译会出现问题}。
+
+\printindex
 
 \chapter{建议与其他}
 

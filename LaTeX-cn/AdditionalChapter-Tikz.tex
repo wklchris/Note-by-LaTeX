@@ -1,374 +1,276 @@
-\chapter{\mbox{Tikz绘图}*}
-其实\LaTeX 本身是有绘图功能的，可以绘制线段、斜率为整数的直线等基础功能。显然这是不能满足绘图需求的。因此在本手册中，对于\LaTeX{}原生的绘图功能不再多做介绍，有兴趣的可以自行了解。本手册主要针对Tikz绘图。\footnote{在\LaTeX 中其实还可以使用PSTricks宏包，是非常强力。XYpic宏包则有时用来画小图。}
+\chapter{\tikzz 绘图*（截至\today ，仍在编写中）}
 
-PGFPlots/Tikz是两个\LaTeX{}的绘图宏包，功能极其强大。其基本的结构为：
-\begin{latex}{}
-\documentclass{doc-class}
+\section{所需宏包与命令}
+使用\tikzz ，首先需要加载宏包\pkg{tikz}：\index{Package!tikz}
+\begin{latex}
 \usepackage{tikz}
-\usetikzlibrary{...}
+% 有时也需要库：\usetikzlibrary{...}
+\end{latex}
+
+接着，需要环境\envi{tikzpicture}用于输出\tikzz 代码。在本手册中，如果没有特殊说明，代码都包括在这个环境中。
+\index{Environment!tikzpicture}
+\begin{latex}
+\begin{tikzpicture}
+\draw (-0.5,0) -- (0.5,0);
+\draw (0,-0.5) -- (0,0.5);
+\end{tikzpicture}
+\end{latex}
+
+你也可以用\latexline{tikz}\tikzidx{tikz}命令代替以上环境输出简单图像。它需要一个花括号参数，或者搜索分号来结束语句。
+\begin{latex}
+\tikz \draw (-0.5,0) -- (0.5,0); % 二者等价
+\tikz{\draw (-0.5,0) -- (0.5,0)}
+\end{latex}
+
+命令\latexline{draw}\tikzidx{draw}是最基础的\tikzz 命令，用于画线。单位1的长度是1cm。
+
+\section{基础命令}
+\subsection{路径：直线与曲线}
+路径(path)是\tikzz 的基础单元，指一系列连接在一起的直线或曲线。绘制直线和曲线都使用\latexline{draw}命令，只是曲线可以用\tikzopt{controls}指定曲线上任意两点间的切线方向。准确地说，这是 B\'{e}zier 曲线。
+\begin{tikzshow}
+\draw (-1.5,0) -- (1.5,0);
+\draw (0,-1.5) -- (0,1.5);
+\draw (-1,0) .. controls (-1,0.555) and (-0.555,1) .. (0,1)
+             .. controls (0.555,1) and (1,0.555) .. (1,0);
+\end{tikzshow}
+
+\subsection{长度与单位}
+默认单位1的长度是1cm，但是你也可以指定单位：
+\begin{tikzshow}
+\draw (0,1)--(2,1);
+\draw (0,0)--(5pt,0);
+\end{tikzshow}
+
+重定义单位长度也是可以的：
+\begin{tikzshow}
+\draw[x=5pt,y=5pt] (0,0)--(0,2);
+\end{tikzshow}
+
+\subsection{线宽}
+线宽可以通过\tikzopt{ulrta thin}, \tikzopt{very thin}, \tikzopt{thin}, \tikzopt{semithick}, \tikzopt{thick}, \tikzopt{very thick}, \tikzopt{ultra thick}这七种预定义的线宽来指定。它们的宽度依次上升。也可以直接用\tikzopt{line width}指定。
+\begin{tikzshow}
+\draw[very thin] (0,0) -- (1,0);
+\draw[ultra thick] (1,0) -- (1,1);
+\draw[line width=10pt] (2,0) -- (2,1);
+\end{tikzshow}
+
+\subsection{线型}
+常用的线型除实线外，有虚线(\tikzopt{dashed})、点线(\tikzopt{dotted})、点划线(\tikzopt{dash dot})和双点画线(\tikzopt{dash dot dot})四种。还可以配合\tikzopt{loosely}和\tikzopt{densely}进行调整。
+\begin{tikzshow}
+\draw[dashed] (0,2.5) -- (2,2.5);
+\draw[densely dotted] (0,2) -- (2,2);
+\draw[densely dash dot] (0,1) -- (2,1);
+\draw[dash dot dot,thick] (0,0.5) -- (2,0.5);
+\end{tikzshow}
+
+线型也可以自由设置，用选项\tikzopt{dash pattern}。并可用\tikzopt{dash phase}指定线型起始的距离：
+\begin{tikzshow}
+\draw[dash pattern=on 1cm off .25cm on .25cm off .5cm,dash phase=1cm] (0,0)--(4,0);
+\end{tikzshow}
+
+\subsection{双线}
+选项\tikzopt{double}用于设置双线，另有\tikzopt{double distance}及\tikzopt{double distance between line centers}可选：
+\begin{tikzshow}
+\draw[line width=.2cm,double distance=.3cm] (0,0)--(1,1);
+\draw[line width=.2cm,draw=blue,double=red] (1,0)--(2,1);
+\draw[line width=.2cm,double distance between line centers=.3cm] (2,0)--(3,1);
+\end{tikzshow}
+
+\subsection{网格}
+\tikzz 支持\tikzopt{grid}绘制网格，指定左下角和右上角即可。\tikzopt{help lines}还预定义了一种颜色较浅、宽度较小的线型。
+\begin{tikzshow}
+\draw[step=0.5] (0,0) grid (1,2);
+\draw[step=0.5,help lines] (1.9,0) grid (3,2);
+\end{tikzshow}
+
+\subsection{缩放：全局与局部}
+你可以在单个\latexline{draw}后使用缩放\tikzopt{scale}，但更常见的是在环境后统一缩放：
+\begin{tikzshow}
+\begin{tikzpicture}[scale=0.5]
+\draw[step=0.5,help lines] (1.9,0) grid (3,2);
+\end{tikzpicture}
+\end{tikzshow}
+
+局部的缩放\latexline{clip}\tikzidx{clip}实现了剪裁的效果：
+\begin{tikzshow}
+\clip (-1.1,-1.1) rectangle (1.1,1.1);
+\draw[step=1] (-2,-2) grid (2,1);
+\end{tikzshow}
+
+\tikzoptstyle{clip}与\tikzoptstyle{draw}实质都是\latexline{path}命令的参数的简写形式。使用该命令可以在剪裁时画出剪裁边缘：
+\begin{tikzshow}
+\path[clip,draw] (0,-0.5) circle [radius=1.2];
+\draw[step=1] (-2,-2) grid (2,1);
+\end{tikzshow}
+
+剪裁命令在剪裁后经常需要放大，配合\tikzoptstyle{scale}选项较多。
+
+\subsection{自定义}
+选项\tikzoptstyle{help lines}实质是\tikzoptstyle{style=very thin, gray}的联合。使用\latexline{tikzset}\tikzidx{tikzset}命令设置它：
+\begin{tikzshow}
+\tikzset{help lines/.style = {color=blue,very thin}}
+\draw[step=0.5,help lines] (0,0) grid (2,2);
+\end{tikzshow}
+
+或者在使用环境时直接将其作为选项写上：
+\begin{tikzshow}
+\begin{tikzpicture}[help lines/.style = {color=red,very thin}]
+\draw[step=0.5,help lines] (0,0) grid (2,2);
+\end{tikzpicture}
+\end{tikzshow}
+
+你也可以自定义选项，并且带参数：
+\begin{tikzshow}
+\tikzset{mystyle/.style={very thick,color=#1!50},
+mystyle/.default=blue}
+\draw[mystyle] (0,2) -- (3,2);
+\draw[mystyle=green!50!black] (0,0) -- (3,0);
+\end{tikzshow}
+
+\section{几何形状}
+\subsection{圆与椭圆}
+圆与椭圆有专门的选项\tikzopt{circle}与\tikzopt{ellipse}，指定圆心和半径：
+\begin{tikzshow}
+\draw (1,1) circle (0.5);
+\draw (1,1) ellipse (1 and 0.5);
+\end{tikzshow}
+
+也可以写全参数：
+\begin{tikzshow}
+\draw (0,0) circle [radius=10pt];
+\draw (0,0) ellipse [x radius=20pt, y radius=10pt];
+\end{tikzshow}
+
+\subsection{圆弧与椭圆弧}
+圆弧可以通过指定起点角度、终点角度、圆弧半径来绘制，选项\tikzopt{arc}：
+\begin{tikzshow}
+\draw (3,0) arc (0:30:3);
+ndraw (-2,1) arc (180:-45:2 and 1)
+%等价：\draw (3,0) arc [start angle=0,end angle=30,radius=3];
+\end{tikzshow}
+
+类似地绘制椭圆弧：
+\begin{tikzshow}
+\draw (0,0) arc (0:270:0.7 and 0.4);
+\end{tikzshow}
+
+\subsection{矩形}
+矩形的命令是\tikzopt{rectangle}，指定左下角点和右上角点：
+\begin{tikzshow}
+\draw (0,0) rectangle (2,1);
+\end{tikzshow}
+
+\subsection{圆角与倒角}
+选项\tikzopt{rounded corners}和\tikzopt{sharp corners}控制圆角和倒角。默认值是4\texttt{pt}。
+\begin{tikzshow}
+\draw [rounded corners] (0,0) -- (1,1)
+-- (2,0) .. controls (3,1) .. (4,0);
+\end{tikzshow}
+
+如果写在两个点之间，可以“开关”圆角和尖角：
+\begin{tikzshow}
+\draw (0,0) [rounded corners=10pt] -- (1,1) -- (2,1)
+[sharp corners] -- (2,0)
+[rounded corners=5pt] -- cycle;
+\end{tikzshow}
+
+\subsection{抛物线*}
+并不常用的\tikzopt{parabola}以及\tikzopt{bend}，请读者自行理解：
+\begin{tikzshow}
+\draw (0,0) rectangle (1,1.5) (0,0) parabola (1,1.5);
+\draw[xshift=1.5cm] (0,0) rectangle (1,1.5) (0,0) parabola[bend at end] (1,1.5);
+\draw[xshift=3cm] (0,0) rectangle (1,1.5) (0,0) parabola bend (.75,1.75) (1,1.5);
+\draw[yshift=-2cm] (1,1.5) --(0,0) parabola cycle;
+\end{tikzshow}
+
+其中\tikzoptstyle{bend}的含义是“拐点”，平常理解即一阶导数符号变化的点。理解：
+\begin{tikzshow}
+\draw[color=blue] (0,0) parabola[bend pos=0.25] (3,3);
+\draw (0,1) parabola[parabola height=2cm] (3,0);
+\end{tikzshow}
+
+\subsection{填充与渐变}
+填充命令\latexline{fill}\tikzidx{fill}只能用于闭合对象，需要\tikzopt{cycle}选项或者手动闭合到第一个点。也可以在填充的同时绘制，使用\latexline{filldraw}\tikzidx{filldraw}命令\footnote{颜色命令可能需要\pkg{xcolor}宏包。}。
+\begin{tikzshow}
+\fill[green] (0,0)--(1,0)--(0,1)--cycle;
+\filldraw[fill=blue!50!white,draw=black] (1,0)--(3,0) arc (0:30:2) -- cycle;
+\end{tikzshow}
+
+填充还能根据重叠次数来判断填充与否，\tikzopt[fill]{even odd rule}例子：
+\begin{tikzshow}
+\fill[even odd rule, blue] (0,0) -- (2,0.5) -- (1,1) circle (0.25);
+\end{tikzshow}
+
+类似的渐变命令是\latexline{shade}\tikzidx{shade}和\latexline{shadedraw}\tikzidx{shadedraw}：
+\begin{tikzshow}
+\shade (0,0) rectangle (0.5,4);
+\shade[top color=green,bottom color=white] (1,0) rectangle (1.5,2.5);
+\shadedraw[left color=blue,right color=white] (1,3) rectangle (3,4);
+\shade[inner color=yellow,outer color=black] (1.8,1.5) rectangle (3,2.5);
+\shade[ball color=cyan] (2.4,0.75) circle (0.5);
+\end{tikzshow}
+
+上例的\tikzopt[shade]{ball}只是一种渐变类型，默认是\tikzopt[shade]{axis}，另外还有\tikzopt[shade]{radial}可选。在\tikzoptstyle{axis}下，还可以选择渐变角度\tikzoptstyle{shading angle}。
+\begin{tikzshow}
+\shade[shading=radial,inner color=orange] (0,0) rectangle (3,1.5);
+\shade[shading angle=45,right color=lime] (0,1.5) rectangle (3,3);
+\end{tikzshow}
+
+\section{坐标系与坐标}
+\subsection{箭头}
+绘制坐标系的方法非常基础，使用带箭头的直线：
+\begin{tikzshow}
+\draw[->] (1,2)--(2,2); 
+\draw[<-] (1,1)--(2,1); % 反过来画
+\draw[<->] (0,2.5)--(0,0)--(2.5,0);
+\draw[|<->|] (1.5,0.5)--(1.5,2.5); % 很实用
+\end{tikzshow}
+
+也有一些其他风格的箭头，更多的请调用\pkg{arrows.meta}这个库。
+\begin{tikzshow}
+\draw[-latex] (0,3)--(2,3);
+\draw[-stealth] (0,2.5)--(2,2.5);
+\draw[-to] (0,2)--(2,2);
+\draw[-to reversed] (0,1.5)--(2,1.5);
+\end{tikzshow}
+
+\subsection{极坐标与相对坐标}
+直角坐标的表示非常简单，比如(0,1)。也可以指定单位，比如(0,1pt)。而极坐标则可以用(30:1)的方式表示在30$^\circ$方向上的1单位长位置的点。
+
+加号可以用来指代相对坐标，是相对该语句中最后一个绝对坐标而言的；而两个加号用于移动“笔”的位置，是相对该语句最后一个坐标而言的。体会：
+\begin{tikzshow}
+\filldraw[fill=green!20,draw=green!50!black] (0,0) -- (0.5,0)
+arc [start angle=0, end angle=30, radius=0.5] -- cycle;
+\draw[red,very thick] (30:2) -- +(0,-1);
+\draw[blue,very thick] (30:2) ++(0,-1) -- (0,0);
+\end{tikzshow}
+
+\subsection{横纵坐标投影}
+这个命令是象形的：\tikzoptstyle{-|}与\tikzoptstyle{|-}两种。
+\begin{tikzshow}
+\draw (0,0)--(2,1) -| cycle;
+\draw (1.5,0)--(3,1) |- cycle;
+\end{tikzshow}
+
+\section{输出单个文件}
+要输出为\texttt{.svg}矢量文件，用于更多的插图场合。需要在电脑安装pdf2svg\footnote{\url{http://www.cityinthesky.co.uk/opensource/pdf2svg/}}。下例中的\texttt{multi=false}表示只输出为单页文件。
+
+\begin{latex}
+\documentclass[tikz,convert=pdf2svg,multi=false]{standalone}
+% tikz package already loaded by 'tikz' option
 \begin{document}
-  \begin{tikzpicture}
-    ...
-  \end{tikzpicture}
+\begin{tikzpicture}
+  \draw (0,0) -- (10,10);
+  \draw (10,0) -- (0,10);
+\end{tikzpicture}
 \end{document}
 \end{latex}
 
-废话不多说，进入正题。
-\section{简单的实例}
-\subsection{直线、网格与点}
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw (0,0) -- (1,2);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw (0,0) -- (1,2);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
+在编译时如果是\xelatex ，还需要添加参数：
+\begin{latex}
+xelatex -shell-escape example.tex
+\end{latex}
 
-注意到help lines这个参数使网格绘制更有辅助线的效果，颜色更淡：\vspace{0.5em}
+如果只是要输出pdf图片，那么可以去掉以上参数和\texttt{convert}选项。
 
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw (0,0) grid (2,1);
-  \draw [help lines](0,1) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw (0,0) grid (2,1);
-  \draw [help lines](0,1) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-点命令也非常好理解。其中\verb+\coordinate+是真正将点的名字和坐标联系起来的命令（相当于``赋值''），而\verb+\node+命令仅是一个标注文本的作用。
-
-注意到第二行\verb+\node+命令，它使得字母B标注在pB点315度的位置。这样的效果往往优于其上一行的\verb+\node+命令的效果。注意：\RED{不要忘记{\texttt{\char92{}node}}命令后面的花括号（即使它是空的）}！
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node at (pC) {$C$};
-  \node[label=315:$B$] at (pB){};
-  \draw (pA) -- (pB) -- (pC) -- (pA);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node at (pC) {$C$};
-  \node[label=315:$B$] at (pB){}; 
-  \draw (pA) -- (pB) -- (pC) -- (pA);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\subsection{拉伸}
-拉伸只需要在tikzpicture后添加xscale/yscale/scale的可选参数赋值即可。例如：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east),yscale=0.5]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw (pA) -- (pB) -- (pC) -- (pA);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}[yscale=0.5]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw (pA) -- (pB) -- (pC) -- (pA);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\subsection{线宽}
-线宽可以在tikzpicture后使用``[line width=5pt]''之类的参数进行\RED{全局调整}，也可以在每个draw指令下分别地进行调整：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node[label=270:$A$] at (pA){};
-  \node[label=0:$B$] at (pB){};
-  \node[label=180:$C$] at (pC){};
-  \draw[ultra thick] (pA) -- (pB);
-  \draw[thick] (pB)-- (pC);
-  \draw[thin] (pC)-- (pA);
-  \draw[ultra thin] (pB) -- (0,0);
-  \draw[line width=0.3cm] (pC) -- (2,1);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node[label=270:$A$] at (pA){};
-  \node[label=0:$B$] at (pB){};
-  \node[label=180:$C$] at (pC){};
-  \draw[ultra thick] (pA) -- (pB);
-  \draw[thick] (pB)-- (pC);
-  \draw[thin] (pC)-- (pA);
-  \draw[ultra thin] (pB) -- (0,0);
-  \draw[line width=0.3cm] (pC) -- (2,1);
-  \draw [help lines](0,0) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\subsection{填色}
-填色的逻辑非常简单，是指向绘制的\qd{闭合}图形内部填色。本例中，draw命令首尾相接地连接三个点，构成一个闭合图形——三角形，因此可以填色：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \draw[help lines](0,0) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \draw[help lines] (0,0) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\subsection{点样式}
-填色之后图形好看了许多，但是还不够。点标在图中似乎也不看清位置，不过这是有方法解决的：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node[label=270:$A$,circle,draw,fill,inner sep=3pt] at (pA){};
-  \node[label=0:$B$,circle,draw,fill,inner sep=3pt] at (pB){};
-  \node[label=180:$C$,circle,draw,fill,inner sep=3pt] at (pC){};
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \draw[help lines] (0,0) grid (2,3);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \node[label=270:$A$,circle,draw,fill,inner sep=3pt] at (pA){};
-  \node[label=0:$B$,circle,draw,fill,inner sep=3pt] at (pB){};
-  \node[label=180:$C$,circle,draw,fill,inner sep=3pt] at (pC){};
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \draw[help lines] (0,0) grid (2,3);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-但是这一长串简直是太复杂了。大概能看懂circle是将点画成圆形，fill表示填充，inner sep表示点的大小。而Tikz给出的\verb+\tikzstyle+能够简化步骤。
-
-还有一点就是，绿色的填充似乎位于点的上方？还是乖乖地调整语句顺序吧。
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw[help lines] (0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \tikzstyle{every node} = [circle,draw,fill=blue,inner sep=2pt];
-  \node[label=270:$A$] at (pA){};
-  \node[label=0:$B$] at (pB){};
-  \node[label=180:$C$] at (pC){};   
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw[help lines] (0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[fill=green] (pA) -- (pB) -- (pC) -- (pA);
-  \tikzstyle{every node} = [circle,draw,fill=blue,inner sep=2pt];
-  \node[label=270:$A$] at (pA){};
-  \node[label=0:$B$] at (pB){};
-  \node[label=180:$C$] at (pC){}; 
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-注意：\verb+\tikzstyle{every node}+控制的是其下方代码的所有node的点样式，不影响其上方代码中的点。
-
-\subsection{线型和颜色}
-除了点的定义，线当然也可以定义。线型有dashed/dotted两种，颜色除了默认的也可以通过叹号的形式控制。
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw[help lines] (0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[dashed, ultra thick] (pA) -- (pB);
-  \draw[dotted, red, thick] (pB) -- (pC);
-  \draw[blue!30!yellow, ultra thick] (pC) -- (pA);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw[help lines] (0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \draw[dashed, ultra thick] (pA) -- (pB);
-  \draw[dotted, red, thick] (pB) -- (pC);
-  \draw[blue!30!yellow, ultra thick] (pC) -- (pA);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-主要的颜色包括\footnote{以下色块用\texttt{\char92{}tikz\{\char92{}draw[{\it color},line width=9] (0,0) -- (0.5,0);\}绘制得到。}}：
-\tikzline{red}\tikzline{green}\tikzline{yellow}\tikzline{blue}\tikzline{cyan}
-\tikzline{magenta}\tikzline{black}\tikzline{gray}\tikzline{darkgray}\tikzline{lightgray}
-\tikzline{brown}\tikzline{lime}\tikzline{olive}\tikzline{orange}\tikzline{pink}\tikzline{purple}
-\tikzline{teal}\tikzline{violet}
-还有white\tikz{\draw[white,line width=9](0,0)--(0.5,0);}.
-
-\subsection{箭头}
-箭头也是需要经常绘制的内容。主要也是根据\verb+\draw+命令的参数控制：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw[->] (0.5,2.5) -- (2,3);
-  \draw[<-] (0.5,1.5) -- (2,2);
-  \draw[|->] (0.5,0.5)-- (2,1); 
-  \draw[<->] (0,3) -- (0,0) -- (2,0);
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw[->] (0.5,2.5) -- (2,3);
-  \draw[<-] (0.5,1.5) -- (2,2);
-  \draw[|->] (0.5,0.5)-- (2,1); 
-  \draw[<->] (0,3) -- (0,0) -- (2,0);
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\section{高效书写}
-\subsection{变量}
-变量申请使用与\LaTeX 相同的语句：\verb+\newcommand+. 注意：变量需要以反斜杠开头，并与现有命令不重复。
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw [help lines](0,0) grid (2,3);
-  \newcommand{\aaa}{1};
-  \newcommand{\bbb}{3};
-  \newcommand{\ccc}{2};
-  \coordinate (pA) at (\aaa,0);
-  \coordinate (pB) at (\ccc,\bbb);
-  \coordinate (pC) at (0,\ccc);
-  \draw[fill=red] (pA) -- (pB) -- (pC) -- (pA); 
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw [help lines](0,0) grid (2,3);
-  \newcommand{\aaa}{1};
-  \newcommand{\bbb}{3};
-  \newcommand{\ccc}{2};
-  \coordinate (pA) at (\aaa,0);
-  \coordinate (pB) at (\ccc,\bbb);
-  \coordinate (pC) at (0,\ccc);
-  \draw[fill=red] (pA) -- (pB) -- (pC) -- (pA); 
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-\subsection{循环}
-但是同样的语句书写很多遍是很复杂的，好在Tikz提供了循环的实现方法：
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \newcommand{\la}{1};
-  \newcommand{\lb}{3};
-  \newcommand{\lc}{2};
-  \draw [help lines](0,0) grid (\lc,\lb);
-  \coordinate (pA) at (\la,0);
-  \coordinate (pB) at (\lc,\lb);
-  \coordinate (pC) at (0,\lc);
-  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
-  \foreach \x/\y in {A/270,B/0,C/180}{
-    \node[label=\y:$\x$] at (p\x){};
-  }
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \newcommand{\la}{1};
-  \newcommand{\lb}{3};
-  \newcommand{\lc}{2};
-  \draw [help lines](0,0) grid (\lc,\lb);
-  \coordinate (pA) at (\la,0);
-  \coordinate (pB) at (\lc,\lb);
-  \coordinate (pC) at (0,\lc);
-  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
-  \foreach \x/\y in {A/270,B/0,C/180}{
-    \node[label=\y:$\x$] at (p\x){};
-  }
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
-
-注意到：甚至点的名称pA, pB, pC中的A, B, C也是可以通过foreach来指定的！
-
-\subsection{运算}
-\fbox{{\itshape{注意：需要在导言区添加}}\latexline{\\usetikzlibrary{calc}}。文中不再写出。}
-
-如果一个绘图工具仅仅能够绘图而不能做运算……它有什么用呢？如果作为科学排版系统下的绘图工具而不支持运算的话，Tikz岂不是太弱了？
-
-\noindent\begin{tabular}{p{0.25\linewidth}l}
-\begin{tikzpicture}[baseline=(current bounding box.east)]
-  \draw [help lines](0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \coordinate (pD) at ($(pB)+(0,-1)$);
-  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
-  \foreach \x/\y in {A/270,B/0,C/45,D/315}{
-    \node[label=\y:$\x$] at (p\x){};
-  }
-\end{tikzpicture}
-&
-\begin{tikzcode}{}
-\begin{tikzpicture}
-  \draw [help lines](0,0) grid (2,3);
-  \coordinate (pA) at (1,0);
-  \coordinate (pB) at (2,3);
-  \coordinate (pC) at (0,2);
-  \coordinate (pD) at ($(pB)+(0,-1)$);
-  \tikzstyle{every node}=[circle, draw, fill=blue,inner sep=2pt];
-  \foreach \x/\y in {A/270,B/0,C/45,D/315}{
-    \node[label=\y:$\x$] at (p\x){};
-  }
-\end{tikzpicture}
-\end{tikzcode}
-\end{tabular}
+\endinput
