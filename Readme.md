@@ -40,7 +40,7 @@ Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__�
 
 ## ▶ python-matplotlib-en (by LaTeX):
 
-一份Matplotlib的英文笔记。数据处理解决方案不能依赖于LaTeX的TikZ或者PgfPlots，因此我决定学习Python中关于绘图的内容。 *A Matplotlib note in English. Although TikZ/PgfPlots in LaTeX provide plotting functions, but they are not able to provide a whole data solution suite. Therefore, I decide to learn this Python package*
+一份Matplotlib的英文笔记。数据处理解决方案不能依赖于LaTeX的TikZ或者PgfPlots，因此我决定学习Python中关于绘图的内容。也会有NumPy的基础内容在内。 *A Matplotlib note in English. Although TikZ/PgfPlots in LaTeX provide plotting functions, but they are not able to provide a whole data solution suite. Therefore, I decided to learn this Python package. In addition, basic NumPy contents are also included.*
 
 ## … Vim-cn (by Markdown)：
 

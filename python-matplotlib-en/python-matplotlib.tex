@@ -2,7 +2,7 @@
 
 % Basic packages and settings
 \usepackage{xcolor}
-\usepackage{ulem}
+\usepackage[normalem]{ulem}
 \usepackage{indentfirst}
   \setlength{\parindent}{2.5em}
 \setlength{\lineskiplimit}{3pt}
@@ -11,6 +11,7 @@
   \geometry{top = 0.8in, bottom = 1in}
 \usepackage{graphicx}
   \graphicspath{{./mpl-image/}}
+\usepackage[section]{placeins}
 
 % My newcommand & newenvironment
 \newcommand{\pkg}[1]{\texttt{#1}}
@@ -20,6 +21,9 @@
 \newcommand{\mpl}{\texttt{Matplotlib}}
 \newcommand{\Emph}[1]{\textcolor{cyan!80!white}{{\bfseries #1}}}
 \newcommand{\nextblock}{\vspace{2ex}}
+\newcommand{\smallquote}[3][0.8ex]{\begin{quote}
+\flushright\emph{#2}\\[#1]
+\ttfamily\rule[0.5ex]{2em}{0.8pt} #3\end{quote}}
 
 % List settings
 \usepackage{enumitem}
@@ -28,7 +32,7 @@
   \setlist[itemize]
     {font=\bfseries,itemsep=0pt,parsep=0pt,topsep=1ex,partopsep=0pt}
   \setlist[description]
-    {font=\bfseries\ttfamily,itemsep=0pt,parsep=0pt,topsep=1ex,partopsep=0pt}
+    {font=\bfseries\textbullet\ttfamily~,itemsep=0pt,parsep=0pt,topsep=1ex,partopsep=0pt}
 
 % Code
 \usepackage{tcolorbox}
@@ -56,13 +60,21 @@
 \hypersetup{colorlinks, bookmarksopen = true, bookmarksnumbered = true, pdftitle=Python-matplotlib, pdfauthor=K.L Wu, pdfstartview=FitH}
 
 % Cover of Report
-\title{Simple \mpl}
-\author{K.L Wu}
-\date{Last revision: \today}
+\title{\flushright\framebox{\Huge Simple \mpl} \\[0.4ex]
+with basic \NumPy \\[2.5ex]
+\ttfamily K.L Wu \\[4ex]
+\rmfamily\fontsize{12}{18}\selectfont
+Last revision: \\
+\today
+}
+\author{}
+\date{}
 
 \begin{document}
 
 \maketitle
+
+\tableofcontents
 
 \chapter{Introduction}
 \mpl\ is a package of \Py\ (\url{https://www.python.org/}) and it provides strong 2D plotting support. Here are some features of it:
@@ -78,7 +90,7 @@ Visit its main website: \url{http://matplotlib.org/} to find more information an
 \section{How to get it?}
 You can simply install a distribution of \Py, say, Anaconda (\href{https://www.continuum.io/downloads}{Free download here}), to make sure \mpl\ is installed on your computer. 
 
-If you are an advanced \Py\ user, you can also install \mpl package by yourself. Running the setup.py script or downloading unofficial .whl files from \href{http://www.lfd.uci.edu/~gohlke/pythonlibs/#matplotlib}{UC Irvine Unofficial whl \Py\ Downloadpage} and run command line: \texttt{pip install matplotlib.whl} both works.
+If you are an advanced \Py\ user, you can also install \mpl\ package by yourself. Running the setup.py script or downloading unofficial .whl files from \href{http://www.lfd.uci.edu/~gohlke/pythonlibs/#matplotlib}{UC Irvine Unofficial whl \Py\ Downloadpage} and run command line: \texttt{pip install matplotlib.whl} both works.
 
 \section{Dependencies}
 You should first install \NumPy\ before getting \mpl .
@@ -96,7 +108,7 @@ To check whether you have already had a \NumPy\ installed on your computer, use 
 
 \nextblock This manual is written under Windows operating system and \Py\ 3. You can search for more dependencies if you are a non-Windows users.
 
-\section{Hello, world!}
+\section{Hello, world: the very first example}
 Here comes the very beginning of drawing a plot with \mpl :
 \begin{py}
 import matplotlib.pyplot as plt
@@ -104,12 +116,110 @@ plt.plot([0, 2, 3, 1])
 plt.show()
 \end{py}
 
-And we get a picture like \autoref{fig:beginning}:
+And we get a picture like \autoref{fig:interface}:
+
 \begin{figure}[!htb]
   \centering
-  \includegraphics[height=2.5in]{beginning}
-  \caption{A simple example}
-  \label{fig:beginning}
+  \includegraphics[width=90mm]{Example-Interface.png}
+  \caption{The interface of \mpl\ figure show}
+  \label{fig:interface}
 \end{figure}
+
+We are going to read this example line-by-line.
+
+\subsection{Import \mpl}
+Let's focus on the first sentence:
+\begin{py}
+import matplotlib.pyplot as plt
+\end{py}
+
+Usually we won't import the whole \mpl\ package. In this example, we only import the \texttt{pyplot} module of \mpl , which is written as ``\texttt{import matplotlib.pyplot}''. Actually, this module is the most frequently used one. 
+
+Its name is too long for the lazies to type. So use ``\texttt{as plt}'' to let Python know we will use ``\texttt{plt}'' instead of ``\texttt{matplotlib.pyplot}'' below.
+
+NEVER recommand you to behave like below. Please avoid being so greedy and lazy.
+\begin{py}
+from matplotlib import * # NEVER recommand
+\end{py}
+
+\subsection{Simple \texttt{plt} command}
+And the second line:
+\begin{py}
+plt.plot([0, 2, 3, 1])
+\end{py}
+
+The command \texttt{plot} provided by \texttt{plt} (i.e. \texttt{matplotlib.pyplot}) is used to draw a figure. In this example, \mpl\ will first draw points at $(0,0)$, $(1,2)$, $(2,3)$, and $(3,1)$. Then it will connect these points by straight lines.
+
+And maybe it's more clear if you write like this:
+\begin{py}
+x = [0, 1, 2, 3]
+y = [0, 2, 3, 1]
+plt.plot(x, y)
+\end{py}
+
+\nextblock Users who know how to use \NumPy\ can also do this instead:
+\begin{py}
+# import numpy as np
+x = np.linspace(0, 4, 4)
+y = [0, 2, 3, 1]
+plt.plot(x, y)
+\end{py}
+
+\subsection{Show the figure}
+The last line of the example is to show the figure:
+\begin{py}
+plt.show()
+\end{py}
+
+\section{Figure Interface}
+If you run those commands, you will get a window like \autoref{fig:interface}. Buttons listed on the bottom of the window are:
+
+\begin{description}[labelindent=.5\parindent]
+\item[House:] Reset original view of figure.
+\item[Arrows:] Redo/Undo view changes.
+\item[Moving:] Pan with left mouse button; zoom with right mouse button.
+\item[Zoom:] Zoom to a rectangle area.
+\item[Subplots:] Adjust the subplots spacing parameters.
+\item[Save:] Save to files. 
+\end{description}
+
+The output filetypes surely fulfill your need. Supporting \texttt{.png, .jpg, .raw, .svg, .pdf, .eps, .ps, .tiff}, and also \texttt{.pgf} which lets you insert into your \LaTeX\ documents. For MS Word, vector output \texttt{.tiff} and raster output \texttt{.jpg/.png} work fine.
+
+\chapter{Basic commands}
+After reading the simple example in Chapter 1, you can move on to some more complex ones. 
+
+\smallquote{Talk is cheap. Show me the code.}{Linus Torvalds}
+
+\section{\texttt{plt.plot}}
+
+\begin{py}
+# These two lines will be omitted in later sections
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(-3, 3, 100)
+y1 = 6*x
+y2 = 2*x**2
+
+plt.plot(x, y1, color='black', linestyle=':')
+plt.plot(x, y2, linewidth=2, linestyle='--')
+plt.plot(x, [xi**3/2 for xi in x])
+plt.show() # `\autoref{fig:plt-plot}`
+\end{py}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=90mm]{plt-plot}
+  \caption{Multiline plots}
+  \label{fig:plt-plot}
+\end{figure}
+
+You can use ``\texttt{plt.hold}'' to close multiline drawing feature (i.e. figure window can only show you ONE line created by the nearest used \texttt{plot} command).  
+\begin{py}
+plt.hold(False)
+\end{py}
+
+\section{\texttt{plt.figure}}
+The \texttt{figure}\index{plt!figure} command let you to create many plots in one run. 
 
 \end{document}
