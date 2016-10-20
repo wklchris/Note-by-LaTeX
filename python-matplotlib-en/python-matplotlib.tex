@@ -12,6 +12,7 @@
 \usepackage{graphicx}
   \graphicspath{{./mpl-image/}}
 \usepackage[section]{placeins}
+\usepackage{array}
 
 % My newcommand & newenvironment
 \newcommand{\pkg}[1]{\texttt{#1}}
@@ -64,7 +65,7 @@
 with basic \NumPy \\[2.5ex]
 \ttfamily K.L Wu \\[4ex]
 \rmfamily\fontsize{12}{18}\selectfont
-Last revision: \\
+Last revision\footnote{Github: \url{https://github.com/wklchris/Note-by-LaTeX/tree/master/python-matplotlib-en}}: \\
 \today
 }
 \author{}
@@ -148,7 +149,7 @@ And the second line:
 plt.plot([0, 2, 3, 1])
 \end{py}
 
-The command \texttt{plot} provided by \texttt{plt} (i.e. \texttt{matplotlib.pyplot}) is used to draw a figure. In this example, \mpl\ will first draw points at $(0,0)$, $(1,2)$, $(2,3)$, and $(3,1)$. Then it will connect these points by straight lines.
+The command \texttt{plot} provided by \python{plt} (i.e. \texttt{matplotlib.pyplot}) is used to draw a figure. In this example, \mpl\ will first draw points at $(0,0)$, $(1,2)$, $(2,3)$, and $(3,1)$. Then it will connect these points by straight lines.
 
 And maybe it's more clear if you write like this:
 \begin{py}
@@ -214,12 +215,207 @@ plt.show() # `\autoref{fig:plt-plot}`
   \label{fig:plt-plot}
 \end{figure}
 
-You can use ``\texttt{plt.hold}'' to close multiline drawing feature (i.e. figure window can only show you ONE line created by the nearest used \texttt{plot} command).  
+The command \python{linspace} is used for conveying value to a matrix. Like MATLAB, matrix in \NumPy\ can be regarded as operation unit, such as ``y = 2*x''. Matrix is similar to list or tuple in \Py , but without \NumPy\ you need to type something more complex: ``y = [2*xi for xi in x]'' .
+
+\nextblock You can use \python{plt.hold} to close multiline drawing feature (i.e. figure window can only show you ONE line created by the nearest used \texttt{plot} command).  
 \begin{py}
 plt.hold(False)
 \end{py}
 
+The default setting is blue and solid line. You can simply write like this:
+\begin{py}
+plt.plot(x, y, 'b-')
+\end{py}
+
+\subsection{Line Style, Marker and Line Color}
+The line style, marker and line color can be chosen from \autoref{tab:linestylecolor}.
+
+\begin{table}[!hbt]
+\centering
+\caption{Line style and line color}
+\label{tab:linestylecolor}
+\begin{tabular}{|*{3}{>{\ttfamily}cl}|}
+\hline
+\multicolumn{6}{|c|}{Line Styles} \\
+'-'	& solid line style &
+'--' & dashed line style &
+'-.' & dash-dot line style \\
+':'	& dotted line style & & & &\\
+\hline
+\multicolumn{6}{|c|}{Marker Styles} \\
+'.'	& point marker &
+','	& pixel marker &
+'o'	& circle marker \\
+'v'	& triangle\_down marker &
+'\^{}' & triangle\_up marker &
+'<'	& triangle\_left marker \\
+'>'	& triangle\_right marker &
+'s'	& square marker &
+'p'	& pentagon marker \\
+'*'	& star marker &
+'h'	& hexagon1 marker &
+'H'	& hexagon2 marker \\
+'+'	& plus marker &
+'x'	& x marker &
+'D'	& diamond marker \\
+'d'	& thin\_diamond marker &
+'|'	& vline marker &
+'\_' & hline marker \\
+\hline
+\multicolumn{6}{|c|}{Line Colors} \\
+`b' & blue &
+`g' & green &
+`r' & red \\
+`c' & cyan &
+`m' & magenta &
+`y' & yellow \\
+`k' & black &
+`w' & white & & \\
+\hline
+\end{tabular}
+\end{table}
+
+You can also define color by hex value, or by RGB/RGBA tuple:
+\begin{py}
+... color='#66ccff' # Uppercase '#66CCFF' also acceptable
+... color=(1, 0, 0) # RGB -> Red
+\end{py}
+
+As an example, we draw a scatter plot with blue circle (i.e. 'bo' in \mpl):
+\begin{py}
+x = np.arange(0, 9, 1)
+y = x**(1/2)
+
+plt.plot(x, y, 'bo')
+plt.show() # `\autoref{fig:plt-plot-2}`
+\end{py}
+
+Also you can find command \python{arange}, a command provided by \NumPy\ to create a vector from 0 to 9 (9 is NOT included) with step 1: [0, 1, 2,\ldots ,8]. 
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=90mm]{plt-plot-2}
+  \caption{Scatter plots}
+  \label{fig:plt-plot-2}
+\end{figure}
+
+Other properties you may use are: \python{markeredgewidth}, \python{markeredgecolor}, \python{markerfacecolor}, \python{markersize}, and:
+\begin{py}
+# The ratio of ink & space in a dashed line:
+linestyle='--', dashes = (3, 1)
+# Drawstyle: steps = stair-like
+drawstyle = 'default'/'steps'/'steps-pre'/'steps-mid'
+# The style of at the end of the line: 
+solid_capstyle = 'butt'/'round'/'projecting'
+\end{py} 
+
+\section{\texttt{plt.axis/xlim/ylim}}
+On most occasions that axis needs setting, those commands will be useful:
+
+\begin{py}
+print(plt.axis()) # show current axis
+plt.axis([0, 8, 0, 3]) # set current axis
+plt.axis(xmin=0, ymax=3) # Only set some specific limits
+plt.xlim([0, 8]) # Set X-min and X-max. The same with ylim
+\end{py}
+
+Besides, \python{axis} command has some other features:
+\begin{py}
+# Hide the axis lines and labels:
+plt.axis('off')
+# equal - Equal scales in X and Y by changing axis limits;
+# scaled - Equal scales in X and Y by changing the plot box;
+# tight - Change limits to show all data; 
+# square - Same Xlim and Ylim range, and same scaling.
+plt.axis('equal'/'scaled'/'tight'/'square')
+\end{py}
+
 \section{\texttt{plt.figure}}
 The \texttt{figure}\index{plt!figure} command let you to create many plots in one run. 
+
+\section{\texttt{plt.grid}} 
+\begin{py}
+x = np.linspace(-3, 3, 100)
+y1 = 6*x
+y2 = 2*x**2
+
+plt.plot(x, y1, x, y2)
+# Simply using "plt.grid(True)" also works
+plt.grid(axis='y', linestyle='--')
+plt.show() # `\autoref{fig:plt-grid}`
+\end{py}
+
+Default value of `\texttt{axis}' is `both'. Value `x' and `y' are also allowed.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=90mm]{plt-grid}
+  \caption{Grid example}
+  \label{fig:plt-grid}
+\end{figure}
+
+\section{\texttt{plt.axis \& plt.xlim/ylim}}
+\begin{py}
+x = np.linspace(-3, 3, 100)
+y1 = 6*x
+y2 = 2*x**2
+
+plt.plot(x, y1, x, y2)
+plt.axis([-4, 4, -20, 20])
+plt.show() # `\autoref{fig:plt-axis}`
+\end{py}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=90mm]{plt-axis}
+  \caption{Axis setting example}
+  \label{fig:plt-axis}
+\end{figure}
+
+Line 6 of above is equal to：
+\begin{py}
+# One para is also allowed if needed: "plt.xlim(xmin=-4)"
+plt.xlim([-4, 4]) 
+plt.ylim([-20, 20])
+\end{py}
+
+\section{\texttt{plt.title \& plt.xlabel/ylabel}}
+\begin{py}
+x = np.linspace(-3, 3, 100)
+y1 = 6*x
+y2 = 2*x**2
+
+plt.plot(x, y1, x, y2)
+plt.title('Very simple title here')
+plt.xlabel('Times(s)')
+plt.ylabel(r'$f(x)=\alpha x^{\beta}$') # LaTeX code included
+plt.show() # `\autoref{fig:plt-title}`
+\end{py}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=90mm]{plt-title}
+  \caption{Title example}
+  \label{fig:plt-title}
+\end{figure}
+
+\section{\texttt{plt.legend}}
+\begin{py}
+x = np.linspace(-3, 3, 100)
+y1 = 6*x
+y2 = 2*x**2
+
+plt.plot(x, y1, label='First')
+plt.plot(x, y2, label='Second')
+plt.legend(loc='lower center', ncol=2)
+plt.show() # `\autoref{fig:plt-legend}`
+\end{py}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=90mm]{plt-legend}
+  \caption{Legend example}
+  \label{fig:plt-legend}
+\end{figure}
 
 \end{document}

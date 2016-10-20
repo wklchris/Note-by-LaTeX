@@ -195,7 +195,7 @@ $\backslash$ \textbackslash
 \texttt{\char92}
 \end{codeshow}
 
-其中命令\latexline{char[num]}是一个特殊的命令，使用环境需要是tt字体环境，用于输出USCII码对应的字符；92对应的即反斜杠。你也可以用\latexline{char`}后加字符的方式输出你想输出的命令，但需要包裹在\latexline{texttt}或者\latexline{\char`\\ttfamily}内。如果想输出的字符是保留字符，需要再加一个反斜杠。
+其中命令\latexline{char[num]}是一个特殊的命令，使用环境需要是tt字体环境，用于输出USCII码对应的字符；92对应的即反斜杠。你也可以用\latexline{char`}后加字符的方式输出你想输出的命令，但需要包裹在\latexline{texttt}或者\latexline{ttfamily}内。如果想输出的字符是保留字符，需要再加一个反斜杠。
 \begin{verbatim}
 \texttt{\char`~} % 输出一个波浪线
 \texttt{\char`\\} % 输出保留字反斜杠
@@ -357,7 +357,7 @@ $37\,^{\circ}\mathrm{C}$
 
 其次是千位分隔位，比如\verb|1\,000\,000|。如果你不想它在中间断行就在外侧再加上一个\latexline{mbox}命令：\latexline{mbox\{1\char`\\,000\char`\\,000\}}。
 
-再次是注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号表}部分的附录内容。如果你想输入音标，请使用tipa宏包\footnote{tipa会重定义\texttt{\char92{}!}命令，因此请使用\texttt{\negthinspace}代替，或在加载时使用safe选项。}，同样参考附录A。
+再次是注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号表}部分的附录内容。如果你想输入音标，请使用tipa宏包\footnote{tipa会重定义\latexline{!}命令，因此请使用\latexline{negthinspace}代替；或在\pkg{xeCJK}与\pkg{amsmath}宏包前加载，并使用safe选项。}，同样参考附录A。
 
 最后，介绍\pkg{hologo}宏包，它可以输出许多\TeX 家族标志。其实\LaTeX 原生自带了\latexline{LaTeX}, \latexline{TeX}等命令。而hologo宏包支持的命令是：
 
@@ -417,7 +417,7 @@ $37\,^{\circ}\mathrm{C}$
 注意：以上命令都是基于\latexline{vfill}的。如果要连续新开两页，请在中间加上一个空的箱子（\latexline{mbox\{\}}），如\latexline{newpage\char`\\mbox\{\}\char`\\newpage}。
 
 \subsection{缩进、对齐与行距}
-英文的段首不需要缩进。但是对中文而言，段首缩进需要借助\pkg{indentfirst}宏包来完成。你可能还需要使用\latexline{setlength{\char`\\indent}\{2em\}}这样的命令来完成缩进距离的设置。如果在句首强制取消缩进，你可以在段首使用\latexline{noindent}命令。
+英文的段首不需要缩进。但是对中文而言，段首缩进需要借助\pkg{indentfirst}宏包来完成。你可能还需要使用\latexline{setlength{\char`\\parindent}\{2em\}}这样的命令来设置缩进距离。如果在句首强制取消缩进，你可以在段首使用\latexline{noindent}命令。
 
 \LaTeX 默认使用两端对齐的排版方式。你也可以使用\envi{flushleft}, \envi{flushright}, \envi{center}这三种环境来构造居左、居中、居右三种效果。特殊的\latexline{centering}命令常常用在环境内部（或者一对花括号内部），以实现居中的效果。但请尽量用\envi{center}环境代替这个老旧的命令。类似的命令还有\latexline{raggedleft}来实现居右，\latexline{raggedright}来实现居左。更多的空格控制请参考\hyperref[sec:hvspace]{这一节}。
 
