@@ -4,61 +4,68 @@
 \usepackage{xcolor}
 \usepackage[normalem]{ulem}
 \usepackage{indentfirst}
-  \setlength{\parindent}{2.5em}
-\setlength{\lineskiplimit}{3pt}
-\setlength{\lineskip}{3pt}
+    \setlength{\parindent}{2.5em}
+    \setlength{\lineskiplimit}{3pt}
+    \setlength{\lineskip}{3pt}
 \usepackage{geometry}
-  \geometry{top = 0.8in, bottom = 1in}
+    \geometry{top = 0.8in, bottom = 1in}
 \usepackage{graphicx}
-  \graphicspath{{./mpl-image/}}
+    \graphicspath{{./mpl-image/}}
 \usepackage[section]{placeins}
 \usepackage{array}
 
+% Contents, Appendix, and Chapter format
+\renewcommand{\contentsname}{Table of Contents}
+
+% Bibliography & Index
+\usepackage[numbib]{tocbibind}
+\usepackage[square,super,sort&compress]{natbib}
+
 % My newcommand & newenvironment
 \newcommand{\pkg}[1]{\texttt{#1}}
-  \newcommand{\Py}{\pkg{Python}}
-  \newcommand{\NumPy}{\pkg{NumPy}}
-  \newcommand{\SciPy}{\pkg{SciPy}}
+    \newcommand{\Py}{\pkg{Python}}
+    \newcommand{\NumPy}{\pkg{NumPy}}
+    \newcommand{\SciPy}{\pkg{SciPy}}
 \newcommand{\mpl}{\texttt{Matplotlib}}
 \newcommand{\Emph}[1]{\textcolor{cyan!80!white}{{\bfseries #1}}}
 \newcommand{\nextblock}{\vspace{2ex}}
 \newcommand{\smallquote}[3][0.8ex]{\begin{quote}
-\flushright\emph{#2}\\[#1]
-\ttfamily\rule[0.5ex]{2em}{0.8pt} #3\end{quote}}
+    \flushright\emph{#2}\\[#1]
+    \ttfamily\rule[0.5ex]{2em}{0.8pt} #3\end{quote}}
 
 % List settings
 \usepackage{enumitem}
-  \setlist[enumerate]
+\setlist[enumerate]
     {font=\bfseries,labelindent=0pt,itemsep=0pt,parsep=0pt,topsep=1ex,partopsep=0pt}
-  \setlist[itemize]
+\setlist[itemize]
     {font=\bfseries,itemsep=0pt,parsep=0pt,topsep=1ex,partopsep=0pt}
-  \setlist[description]
+\setlist[description]
     {font=\bfseries\textbullet\ttfamily~,itemsep=0pt,parsep=0pt,topsep=1ex,partopsep=0pt}
 
 % Code
 \usepackage{tcolorbox}
-  \tcbuselibrary{listings,skins,breakable}
+    \tcbuselibrary{listings,skins,breakable}
 % Avoid copy line numbers of the listing code
 \usepackage{accsupp}
 	\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
 % Code-only Environment
 \newtcblisting{py}{breakable,skin=bicolor,colback=gray!30!white,
-  colbacklower=white,colframe=cyan!75!black,listing only, 
-  left=6mm,top=2pt,bottom=2pt,
-  % listing style
-  listing options={language=Python,basicstyle=\small\ttfamily,
-  keywordstyle=\color{blue},commentstyle=\color{green!50!black},
-  numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
-  emptylines=1,escapeinside=``}}
+    colbacklower=white,colframe=cyan!75!black,listing only, 
+    left=6mm,top=2pt,bottom=2pt,
+    % listing style
+    listing options={language=Python,basicstyle=\small\ttfamily,
+    keywordstyle=\color{blue},commentstyle=\color{green!50!black},
+    numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
+    emptylines=1,escapeinside=``}}
 % Inline Python commands
 \newtcbox{\python}[1][green]{on line,before upper=\ttfamily,
-  arc=0pt,outer arc=0pt,colback=#1!10!white,colframe=#1!50!black,
-  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,
-  boxrule=0pt,bottomrule=1pt,toprule=1pt}
+    arc=0pt,outer arc=0pt,colback=#1!10!white,colframe=#1!50!black,
+    boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,
+    boxrule=0pt,bottomrule=1pt,toprule=1pt}
 
 % Hyperref
 \usepackage{hyperref}
-\hypersetup{colorlinks, bookmarksopen = true, bookmarksnumbered = true, pdftitle=Python-matplotlib, pdfauthor=K.L Wu, pdfstartview=FitH}
+    \hypersetup{colorlinks, bookmarksopen = true, bookmarksnumbered = true, pdftitle=Python-matplotlib, pdfauthor=K.L Wu, pdfstartview=FitH}
 
 % Cover of Report
 \title{\flushright\framebox{\Huge Simple \mpl} \\[0.4ex]
@@ -76,6 +83,8 @@ Last revision\footnote{Github: \url{https://github.com/wklchris/Note-by-LaTeX/tr
 \maketitle
 
 \tableofcontents
+
+\listoffigures
 
 \chapter{Introduction}
 \mpl\ is a package of \Py\ (\url{https://www.python.org/}) and it provides strong 2D plotting support. Here are some features of it:
@@ -122,7 +131,7 @@ And we get a picture like \autoref{fig:interface}:
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=90mm]{Example-Interface.png}
-  \caption{The interface of \mpl\ figure show}
+  \caption{The interface of \mpl\ figure window}
   \label{fig:interface}
 \end{figure}
 
@@ -211,7 +220,7 @@ plt.show() # `\autoref{fig:plt-plot}`
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=90mm]{plt-plot}
-  \caption{Multiline plots}
+  \caption{Multiline figure}
   \label{fig:plt-plot}
 \end{figure}
 
@@ -279,6 +288,7 @@ You can also define color by hex value, or by RGB/RGBA tuple:
 \begin{py}
 ... color='#66ccff' # Uppercase '#66CCFF' also acceptable
 ... color=(1, 0, 0) # RGB -> Red
+... color='0.8' # Gray shade (1.0 is white, 0.0 is black)
 \end{py}
 
 As an example, we draw a scatter plot with blue circle (i.e. 'bo' in \mpl):
@@ -295,7 +305,7 @@ Also you can find command \python{arange}, a command provided by \NumPy\ to crea
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=90mm]{plt-plot-2}
-  \caption{Scatter plots}
+  \caption{Scatter figure}
   \label{fig:plt-plot-2}
 \end{figure}
 
@@ -330,8 +340,44 @@ plt.axis('off')
 plt.axis('equal'/'scaled'/'tight'/'square')
 \end{py}
 
-\section{\texttt{plt.figure}}
-The \texttt{figure}\index{plt!figure} command let you to create many plots in one run. 
+\section{\texttt{plt.figure \& plt.subplot}}
+The \texttt{figure}\index{plt!figure} command let you to create many plots in one run. You can have $N$ figure windows if you use \texttt{figure} command for $N$ times. Here's an example:
+
+\begin{py}
+x = np.linspace(-3, 3, 100)
+y1 = 6*x
+y2 = 2*x**2
+
+plt.figure(1) # First figure window
+plt.plot(x, y1, 'b-')
+plt.figure(2) # Second figure window
+plt.plot(x, y2, 'r-')
+plt.show()
+\end{py}
+
+And \texttt{subplot} allows you to draw many subplot in one figure window\cite{mplwebsite}:
+\begin{py}
+def f(t):
+    return np.exp(-t) * np.cos(2*np.pi*t)
+
+t1 = np.arange(0.0, 5.0, 0.1)
+t2 = np.arange(0.0, 5.0, 0.02)
+
+plt.figure(1)
+plt.subplot(211)  # Total 2 Row 1 Col. Figure 1 of 2
+plt.plot(t1, f(t1), 'bo', t2, f(t2), 'k')
+
+plt.subplot(212, facecolor=(0, 0.2, 0.5))  # Figure 2 of 2
+plt.plot(t2, np.cos(2*np.pi*t2), 'r--')
+plt.show() # `\autoref{fig:plt-subplot}`
+\end{py}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=90mm]{plt-subplot}
+  \caption{Subplots example}
+  \label{fig:plt-subplot}
+\end{figure}
 
 \section{\texttt{plt.grid}} 
 \begin{py}
@@ -341,7 +387,7 @@ y2 = 2*x**2
 
 plt.plot(x, y1, x, y2)
 # Simply using "plt.grid(True)" also works
-plt.grid(axis='y', linestyle='--')
+plt.grid(axis='y', linestyle='--', color='0.85')
 plt.show() # `\autoref{fig:plt-grid}`
 \end{py}
 
@@ -378,6 +424,43 @@ Line 6 of above is equal to：
 plt.xlim([-4, 4]) 
 plt.ylim([-20, 20])
 \end{py}
+
+\section{\texttt{plt.xticks/yticks}}
+\begin{py}
+x = np.linspace(-3, 3, 100)
+y1 = 6*x
+y2 = 2*x**2
+
+plt.plot(x, y1, x, y2)
+plt.axis([-4, 4, -20, 20])
+plt.xticks(np.linspace(-4, 4, 5))
+plt.yticks(np.arange(-20, 20, 10), ['$A$', '$B$', '$C$', '$D$'])
+plt.show() # `\autoref{fig:plt-xtick-ytick}`
+\end{py}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=90mm]{plt-xtick-ytick}
+  \caption{Change ticks}
+  \label{fig:plt-xtick-ytick}
+\end{figure}
+
+\begin{py}
+# Hide the top and right spine
+ax = plt.gca()
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+ax.spines['bottom'].set_position(('data', 0))
+ax.spines['left'].set_position(('data', 0))
+plt.show() # `\autoref{fig:plt-spines}`
+\end{py}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=90mm]{plt-spines}
+  \caption{Move the axises}
+  \label{fig:plt-spines}
+\end{figure}
 
 \section{\texttt{plt.title \& plt.xlabel/ylabel}}
 \begin{py}
@@ -417,5 +500,41 @@ plt.show() # `\autoref{fig:plt-legend}`
   \caption{Legend example}
   \label{fig:plt-legend}
 \end{figure}
+
+\section{\texttt{plt.text}}
+\begin{py}
+plt.plot([1, 1], [0, 3], color='k', linewidth=0.5, linestyle='--')
+plt.text(2, 1, 'Hmm', fontsize=12)
+plt.text(1, 1, 'Two lines\n text', horizontalalignment='center')
+plt.text(1, 3, 'With box', bbox=dict(facecolor='red', alpha=0.3))
+plt.axis([0, 3, 0, 4])
+plt.show()  # `\autoref{fig:plt-text}`
+\end{py}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=90mm]{plt-text}
+  \caption{Text example}
+  \label{fig:plt-text}
+\end{figure}
+
+%
+% Appendix
+%
+
+\appendix
+
+\begin{thebibliography}{9}
+\bibitem{mplwebsite} Matplotweb Official Website. 
+  \newblock \emph{Pyplot Tutorial}, \\ \url{http://matplotlib.org/users/pyplot_tutorial.html}
+
+\bibitem{mplwebsite} Matplotweb Official Website. 
+  \newblock \emph{Pyplot API}, \\  
+  \url{http://matplotlib.org/api/pyplot_api.html}
+  
+\bibitem{tosi2009matplotlib} Sandro Tosi.
+  \newblock \emph{Matplotlib for Python Developers},
+  \newblock Packt Publishing Ltd, 2009
+\end{thebibliography}
 
 \end{document}

@@ -15,6 +15,8 @@
 *.vrb
 *.bbl
 *.blg
+*.lof
+*.lot
 *.listing
 
 !LaTeX-cn/tikz/*.pdf
