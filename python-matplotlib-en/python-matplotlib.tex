@@ -14,11 +14,14 @@
 \usepackage[section]{placeins}
 \usepackage{array}
 \usepackage{boxedminipage}
+\usepackage{amsmath}
 
 % Contents, Appendix, and Chapter format
-\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\contentsname}{- Table of Contents -}
 \usepackage{titlesec}
+    \setcounter{secnumdepth}{4} % Attribute a label to subsubsection
     \titleformat{\chapter}[display]{\Huge\ttfamily}{\chaptername~ \thechapter}{0.5ex}{}{}
+    \titleformat{\subsubsection}[hang]{\large\bfseries}{\rule[0.3ex]{1ex}{1ex}}{0.5em}{}{}
 
 % Bibliography & Index
 \usepackage[numbib]{tocbibind}
@@ -97,13 +100,15 @@ This book is written for who don't have any basic for data analysis with \Py . H
 
 \nextblock If you don't meet the requirements all above, \Emph{at least} you should:
 \begin{itemize}
-\item \uline{Have experiences of learning a programming language.} Being identified as a learner is enough. You needn't to become an export and exports won't read this book for sure. The syntax of \Py\ is one of the easiest to understand among all the programming languages. 
-\item \uline{Be capacable to understand some basical math concepts}, such as linear and quadratic functions, is enough. 
+\item \uline{Have experiences of learning a programming language.} Being identified as a learner is enough. You needn't to become an export and exports won't read this book for sure. The syntax of \Py\ is one of the easiest to understand among all the programming languages. So, relax your body (but not the brain) and take it easy. 
+\item \uline{Be capacable to understand some basical math concepts}, such as linear and quadratic functions. That's enough. 
 \end{itemize}
 
 \nextblock You can read chapters according to your need. Chapters in this manual are not related to each other closely. You can choose what to read from the list below:
 
-\nextblock\noindent{\setlength{\fboxsep}{3ex}
+\vfill
+
+\noindent{\setlength{\fboxsep}{3ex}
 \begin{boxedminipage}{\linewidth}
 \begin{description}
 \item[\S~Chapter 1:] What is \mpl . How to install it. A simple example.
@@ -112,6 +117,8 @@ This book is written for who don't have any basic for data analysis with \Py . H
 \item[\S~Chapter 4:] Advanced solutions for \mpl\ soem specific needs. 
 \end{description}
 \end{boxedminipage}}
+
+\vfill\clearpage
 
 \tableofcontents
 
@@ -569,7 +576,7 @@ fig.savefig(filename, transparent=True, format='pdf')
 \end{py}
 
 \chapter{\pd\ Basics}
-This chapter\cite{mckinney2012py} will introduce \pd\ basics, which is useful for data processing. How to read data from a \texttt{.csv}, \texttt{.xls} or even database to visualize it immediately need your attention. If you can process these through one \Py\ file or a small \Py\ program, it will definitely improve your efficiency of data analysis and visualization. 
+This chapter\cite{mckinney2012py, pandasOG} will introduce \pd\ basics, which is useful for data processing. How to read data from a \texttt{.csv}, \texttt{.xls} or even database to visualize it immediately need your attention. If you can process these through one \Py\ file or a small \Py\ program, it will definitely improve your efficiency of data analysis and visualization. 
 
 \section{What is \pd ?}
 Of course, \pd\ doesn't refer to the famous double-color animal from Sichuan, China. \pd\ (\url{http://pandas.pydata.org/}) is a library which provides high-performance, easy-to-use data structures and data analysis tools for \Py .
@@ -583,7 +590,8 @@ import pandas as pd
 from pandas import Series, DataFrame
 \end{py}
 
-\section{Series and DataFrame}
+\section{Introduction to \pd 's data structure}
+\subsection{Series}
 Series is like a dictionary in specific sequence. It contains a one-column N-row data with same size indices. When you print a Series, indices will show up on left side with data next to them. You can create a Series from a list: 
 \begin{py}
 s = Series([1, 2, np.nan, 4])
@@ -593,12 +601,209 @@ s = Series([1, 2, np.nan, 4])
 # 3    4.0
 \end{py}
 
+\subsection{DataFrame}
 DataFrame is like a matrix or table. Two Series are combined so as to create a two-dimension data structure\footnote{DataFrame can have more than two dimensions, but it won't be covered in this manual.} called DataFrame. You can create a DataFrame from a dictionary:
 \begin{py}
 frame = DataFrame({'states': ['A', 'B'], 'year':[2001, 2002]})
 #   states  year
 # 0      A  2001
 # 1      B  2002
+\end{py}
+
+You can rename the indeces and columns by:
+\begin{py}
+frame = DataFrame(np.random.randn(3, 2), index=list('XYZ'),　\ 
+        columns=list('AB'))
+#           A         B
+# X  1.783129  0.561611
+# Y -0.154252 -0.315642
+# Z  0.963743 -0.510286
+\end{py}
+
+\section{Viewing Data}
+For a DataFrame \texttt{df}, you can use \python{df.head} or \python{df.tail} to view the top/bottom rows of it. 
+\begin{py}
+df = frame
+df.head()  # Show all 3 rows
+df.tail(2) # Show the last 2 rows
+#           A         B
+# Y -0.154252 -0.315642
+# Z  0.963743 -0.510286
+\end{py}
+
+Use \python{df.index/columns/values} to view the name of rows (indeces), columns or values:
+\begin{py}
+df.index
+# Index(['X', 'Y', 'Z'], dtype='object')
+df.columns
+# Index(['A', 'B'], dtype='object')
+df.values
+# array([[1.78312892,  0.56161079],
+#       [-0.15425229, -0.31564214],
+#       [ 0.96374298, -0.51028626]])
+\end{py}
+
+\section{Simple Operation}
+\subsection{Copy}
+DO NOT use \texttt{df2 = df}, otherwise you won't get a new DataFrame.
+\begin{py}
+df2 = df.copy()
+\end{py}
+
+\subsection{Transpose}
+Just like matrix $\boldsymbol{A}$ and its transpose $\boldsymbol{A}^{\mathrm{T}}$, we use \python{df.T}: 
+\begin{py}
+df.T
+#           X         Y         Z
+# A  1.783129 -0.154252  0.963743
+# B  0.561611 -0.315642 -0.510286
+\end{py}
+
+\subsection{Sorting}
+To sort by axis, use \python{df.sort\_{}index()}:
+\begin{py}
+df = DataFrame({'B':[0, 7, 3], 'A':[2, 5, 4]}, index=list('PCD'))
+#    A  B
+# P  2  0
+# C  5  7
+# D  4  3
+df.sort_index()  # Default: axis=0, i.e. sorting rows
+#    A  B
+# C  5  7
+# D  4  3
+# P  2  0
+df.sort_index(ascending=False)
+#    A  B
+# P  2  0
+# D  4  3
+# C  5  7
+df.sort_index(axis=1, ascending=False) # Sorting columns
+#    B  A
+# P  0  2
+# C  7  5
+# D  3  4
+\end{py}
+
+To sort by column values, use \python{df.sort\_values()} instead:
+\begin{py}
+df.sort_values(by='B')
+#    A  B
+# P  2  0
+# D  4  3
+# C  5  7
+\end{py}
+
+\subsection{Selection \& filter}
+\subsubsection{Simple Selection}
+To select one column, use \python{df.['A']} or \python{df.A}: 
+\begin{py}
+df = DataFrame({'B':[0, 7, 3], 'A':[2, 5, 4]}, index=list('PCD'))
+df['A']
+# P    2
+# C    5
+# D    4
+# Name: A, dtype: int64
+\end{py}
+
+Attention: \Emph{\texttt{df[0:2]} will select rows} but not columns:
+\begin{py}
+df[0:2] # Select top two rows
+#    A  B
+# P  2  0
+# C  5  7
+\end{py}
+
+\subsubsection{By Labels}
+Select by labels to get a Series, default by row label:
+\begin{py}
+df.loc['P']  # Return a Series
+# A    2
+# B    0
+# Name: P, dtype: int64
+df.loc[['P', 'D'], :]  # Return a DataFrame
+#    A  B
+# P  2  0
+# D  4  3
+df.loc['P':'D', 'A']
+# P    2
+# C    5
+# D    4
+# Name: A, dtype: int64
+\end{py}
+
+If you want to get a single value from DataFrame, use \python{df.loc} or \python{df.at} are both correct:
+\begin{py}
+df.at['P', 'A']
+# 2
+df.loc['P', 'A']
+# 2
+\end{py}
+
+\subsubsection{By Numerical Positions}
+The number ``2'' in \python{df.iloc} indicates ``row 3'' (\Emph{NOT row 2}):
+\begin{py}
+df.iloc[2] # Default by row
+# A    4
+# B    3
+# Name: D, dtype: int64
+df.iloc[0:2, 0:1]
+#    A
+# P  2
+# C  5
+\end{py}
+
+Similarly, you can use \python{df.iat[]} to select a single cell from \texttt{df}. 
+
+\subsubsection{By Boolean}
+The simplest example:
+\begin{py}
+df[df.B > 0]
+#    A  B
+# C  5  7
+# D  4  3
+df[df > 0]
+#    A    B
+# P  2  NaN
+# C  5  7.0
+# D  4  3.0
+\end{py}
+
+We can check the value of one column by using \python{isin()}:
+\begin{py}
+df[df['A'].isin([2, 4])]
+#    A  B
+# P  2  0
+# D  4  3
+df[df['A'].isin([2, 3])]
+#    A  B
+# P  2  0
+\end{py}
+
+\section{Value Change}
+Adding a new column cannot be easier:
+\begin{py}
+df['Z'] = [1, 8, 6]
+df
+#    A  B  Z
+# P  2  0  1
+# C  5  7  8
+# D  4  3  6
+\end{py}
+
+Convey a number to \python{df.at[]/iat[]}, or an \NumPy\ array to \python{df.loc[]/iloc[]}: 
+\begin{py}
+df.iat[0,1] = 0
+df.loc[:,'Z'] = np.array([5] * len(df)) # len(df) is the number of rows
+#    A  B  Z
+# P  2  0  5
+# C  5  7  5
+# D  4  3  5
+\end{py}
+
+A tricky one:
+\begin{py}
+df2 = df.copy()
+df2[df2 > 0] = -df2
 \end{py}
 
 \chapter{Solution for \mpl\ challenges}
@@ -670,14 +875,19 @@ plt.show() # `\autoref{fig:sol-tick-minorinterval}`
 \bibitem{mplwebsite} Matplotweb Official Website. 
   \newblock \emph{Pyplot Tutorial}, \\ \url{http://matplotlib.org/users/pyplot_tutorial.html}
 
-\bibitem{mplwebsite} Matplotweb Official Website. 
+\bibitem{mplwebsiteAPI} Matplotweb Official Website. 
   \newblock \emph{Pyplot API}, \\  
   \url{http://matplotlib.org/api/pyplot_api.html}
-  
+
 \bibitem{mckinney2012py} McKinney W. 
   \newblock \emph{Python for data analysis: Data wrangling with Pandas, NumPy, and IPython}, 
   \newblock O'Reilly Media Inc., 2012.
-  
+
+\bibitem{pandasOG} Wes McKinney \& PyData Development Team. 
+  \newblock \emph{Pandas: powerful Python data analysis toolkit (Release 0.19.0)}, 
+  \newblock Oct 02, 2016 \\
+  \url{http://pandas.pydata.org/pandas-docs/version/0.19.0/pandas.pdf}
+
 \bibitem{tosi2009matplotlib} Sandro Tosi.
   \newblock \emph{Matplotlib for Python Developers},
   \newblock Packt Publishing Ltd, 2009
