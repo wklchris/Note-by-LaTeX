@@ -122,8 +122,6 @@ This book is written for who don't have any basic for data analysis with \Py . H
 
 \tableofcontents
 
-\listoffigures
-
 \chapter{Introduction to \mpl}
 \mpl\ is a package of \Py\ (\url{https://www.python.org/}) and it provides strong 2D plotting support. Here are some features of it:
 \begin{enumerate}
@@ -644,6 +642,12 @@ df.values
 \end{py}
 
 \section{Simple Operation}
+\subsection{Size}
+\begin{py}
+df.shape  # It's NOT a method but an attribute
+#  (4,2) means 4 rows and 2 columns
+\end{py}
+
 \subsection{Copy}
 DO NOT use \texttt{df2 = df}, otherwise you won't get a new DataFrame.
 \begin{py}
@@ -804,6 +808,45 @@ A tricky one:
 \begin{py}
 df2 = df.copy()
 df2[df2 > 0] = -df2
+\end{py}
+
+\section{Missing Data: \pkg{np.nan}}
+If you have a data variable including \pkg{np.nan} in it, then you can use:
+\begin{py}
+df.dropna(how='any')  # Drop rows with NaN in them
+df.fillna(value=0)  # Fill all NaN with zero
+pd.isnull(df)  # Return a boolean matrix with True/False 
+\end{py}
+
+\section{Simple Operations}
+\subsection{Stats functions}
+We have those functions to do simple stats with data:
+\begin{py}
+# Sum by rows; if a row has NaN, its sum will be NaN
+df.sum(axis=1, skipna=False)
+df.count()  # Count of Non-NaN values by columns
+df.min()/df.max()
+df.argmin()/df.argmax()  # The location of min/max (integer)
+df.idxmin()/df.idxmax()  # The location of min/max (row&col label)
+df.median()/df.var()/df.std()
+df.cumsum()/df.cumprod()
+df.diff()  # The first row will be all NaN
+\end{py}
+
+\subsection{Broadcast}
+When we conduct an operation between Series/DataFrame with different size, the result will behave in a different way from normal operation. It's called broadcast.  
+\begin{py}
+s = Series([1, 3, 5, np.nan], index=list('abcd'))
+# Or "axis=0"
+df.sub(s, axis='index')  # Every cols in df will minus "s"
+\end{py}
+
+Similarly, you can try \python{df.divide}. 
+
+\subsection{Apply}
+To apply one function to all columns of DataFrame. You can also use "axis" arguement to apply the function to all rows.
+\begin{py}
+df.apply(lambda x: x.max()-x.min(), axis=1)
 \end{py}
 
 \chapter{Solution for \mpl\ challenges}
