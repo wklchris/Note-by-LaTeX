@@ -38,7 +38,10 @@ Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__�
 
 一份Python 3的基础中文笔记，不涉及太多库的知识。基于Python 3.4。 *A Python basic note in Chinese, which doesn't include much contents about libs. Based on Python 3.4*
 
-## ▶ python-matplotlib-en (by LaTeX):
+## … python-matplotlib-en (by LaTeX):
+
+【**It has been moved to "Note-by-Jupyter" repository and changed into a Chinese version.  
+该项目已经移至 Note-by-Jupyter 仓库，并改为中文版本。**】
 
 一份Matplotlib的英文笔记。数据处理解决方案不能依赖于LaTeX的TikZ或者PgfPlots，因此我决定学习Python中关于绘图的内容。也会有NumPy的基础内容在内。 *A Matplotlib note in English. Although TikZ/PgfPlots in LaTeX provide plotting functions, but they are not able to provide a whole data solution suite. Therefore, I decided to learn this Python package. In addition, basic NumPy contents are also included.*
 
