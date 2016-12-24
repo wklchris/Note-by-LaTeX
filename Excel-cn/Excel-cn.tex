@@ -1,0 +1,174 @@
+\input{Head.tex}
+\title{简单粗暴Excel}
+\author{K.L Wu\\
+  {\kaishu 本手册是\href{https://github.com/wklchris/Note-by-LaTeX}{wklchris-GitHub}的Excel-cn项目}
+}
+\date{最后更新于：\today}
+
+\begin{document}
+\maketitle
+
+\setlength{\lineskiplimit}{0pt}
+\tableofcontents
+\setlength{\lineskiplimit}{3pt}
+
+\chapter{Excel基础须知}
+本手册基于Excel 2016，但对不早于2010的版本亦应有良好的兼容性。
+
+\section{单元格引用}
+四种单元格引用可以将光标放置在引用处，按F4键循环切换。
+\begin{itemize}
+\item 直接：A1
+\item 固定列: \$A1
+\item 固定行: A\$1
+\item 固定单元格：\$A\$1
+\end{itemize}
+
+\vspace*{1ex}此外，用形如\texttt{A:A}的方式可以引用整个列。
+
+\section{二元关系和通配符}
+常用二元关系符有以下四种：\verb|<, =, >, <>|。\dpar
+
+通配符有：
+\begin{itemize}
+\item 西文问号：任何一个字符。例如，sm?th 可找到``smith''和``smyth''。
+\item 星号：任意的数量字符。例如，*east 可找到``Northeast''和``Southeast''。
+\item 波浪号：转义字符。通过\verb|~?, ~*, ~~|可以找到问号、星号和波浪号。
+\end{itemize}
+
+\section{常用快捷操作}
+包括鼠标和键盘的快捷操作。
+\begin{description}
+\item[F4] 在四种单元格引用方式之间切换。
+\item[Ctrl + ↓] 跳到列尾。可结合Shift使用。
+\item[Ctrl + Enter] 将公式应用到所选的所有单元格。
+\item[Ctrl + Shift + Enter] 作为数组表达式执行。
+\item[Ctrl + D] 将选中区域首个单元格的公式向下填充。
+\end{description}
+
+\chapter{数学计算}
+\section{求和: SUM}
+函数\excel{SUM}用于求区域内数值的和。
+\begin{excode}
+= SUM(1, 2, 3)   
+= SUM(A1, 3)
+= SUM(A1:A2, B1:B2)
+\end{excode}
+
+跨多个工作表求和也是常见的用法：
+\begin{excode}
+= SUM(Sheet1:Sheet3!A1)  # 三个工作表的A1相加
+= SUM('Sheet 1:Sheet 3'!A1)  # 当工作表名含空格时
+\end{excode}
+
+\section{条件求和}
+\subsection{单条件求和：SUMIF}
+函数\excel{SUMIF}将满足某个条件的单元格值相加。语法是：
+\begin{syntax}
+= SUMIF(range, criteria, [sum-range])
+\end{syntax}
+
+其中\exstyle{range}表示条件判断区域，\exstyle{criteria}表示条件；可选参数\exstyle{sum-range}表示实际求和区域。\RED{实际求和区域如果空缺，用条件判断区域代替}。
+
+\begin{table}[!hbt]
+    \centering
+    \caption{SUMIF示例}\label{tab:sumif}
+    \begin{tabular}{c|cc}
+    \hline
+      & A & B \\
+    \hline
+    1 & 1 & 2 \\
+    2 & 3 & 4 \\
+    3 & 5 & 6 \\
+    \hline
+    \end{tabular}
+\end{table}
+
+对于\autoref{tab:sumif}中的数据A1:B2，可以：
+\begin{excode}
+= SUMIF(A1:A2, ">1")  # A列中>1的数字之和。结果3
+= SUMIF(A1:A2, ">1", B1:B2)  # 对应到B列，再求和。结果4
+= SUMIF(A1:A3, ">1", B1:B2)  # 尺寸不同以A列为准。结果10
+\end{excode}
+
+\subsection{多条件求和：SUMIFS}
+函数\excel{SUMIFS}可以将满足多个条件的单元格值相加。语法是：
+\begin{syntax}
+= SUMIFS(sum-range, cri-rg1, cri1, [cri-rg2, cri2], \ldots)
+\end{syntax}
+
+\begin{table}[!hbt]
+    \centering
+    \caption{SUMIFS示例}\label{tab:sumifs}
+    \begin{tabular}{c|ccc}
+    \hline
+      & A & B & C \\
+    \hline
+    1 & 1 & 2 & 苹果\\
+    2 & 3 & 4 & 苹果\\
+    3 & 5 & 6 & 梨子\\
+    \hline
+    \end{tabular}
+\end{table}
+
+对于\autoref{tab:sumifs}的数据，有：
+\begin{excode}
+= SUMIFS(A1:A3, B1:B3, ">3")  # 因为4>3, 6>3，故结果3+5=8
+= SUMIFS(A1:A3, B1:B3, ">3", C1:C3, "<>苹果")  # 结果5
+\end{excode}
+
+\section{高级数组求和}
+\subsection{乘积和：SUMPRODUCT}
+函数\excel{SUMPRODUCT}将多个数组对应元素相乘，然后累加。
+
+\begin{table}[!hbt]
+    \centering
+    \caption{SUMPRODUCT示例}\label{tab:sumproduct}
+    \begin{tabular}{c|ccc}
+    \hline
+      & A & B & C \\
+    \hline
+    1 & 3 & 3 & 2\\
+    2 & 2 & 2 & 3\\
+    3 & 1 & 1 & 4\\
+    \hline
+    \end{tabular}
+\end{table}
+
+对于\autoref{tab:sumproduct}的数据，有：
+\begin{excode}
+= SUMPRODUCT(A1:A3, B1:B3)  # 结果`\greenmath{3\times 3+2\times 2+1\times 1=14}`
+= SUMPRODUCT(A1:A3, B1:B3, C1:C3)  # 结果34
+\end{excode}
+
+\subsection{平方和：SUMSQ}
+函数\excel{SUMSQ}用于求传入参数的平方和。比如：
+\begin{excode}
+= SUMSQ(3, 4)  # 结果`\greenmath{3^2+4^2=25}`
+\end{excode}
+
+\subsection{差加方和：SUMXMY2/SUMX2MY2/SUMX2PY2}
+函数\excel{SUMXMY2}用于计算两数组对应元素之差的平方的和；函数\excel{SUMX2MY2}则用于计算两数组对应元素平方之差的和；函数\excel{SUMX2PY2}则用于计算两数组对应元素平方之和的和，相当于全体用\excel{SUMSQ}作平方和。
+
+\begin{table}[!hbt]
+    \centering
+    \caption{SUMXMY2示例}\label{tab:sumxmy}
+    \begin{tabular}{c|cc}
+    \hline
+      & A & B \\
+    \hline
+    1 & 1 & 2 \\
+    2 & 3 & 4 \\
+    3 & 5 & 6 \\
+    \hline
+    \end{tabular}
+\end{table}
+
+对于\autoref{tab:sumxmy}的数据，有：
+\begin{excode}
+= SUMXMY2(A1:A3, B1:B3)  # 结果`\greenmath{(1-2)^2+(3-4)^2+(5-6)^2=3}`
+= SUMX2MY2(A1:A3, B1:B3)  # 结果`\greenmath{(1^2-2^2)+(3^2-4^2)+(5^2-6^2)=-21}`
+= SUMX2PY2(A1:A3, B1:B3)  # 结果91。等同于SUMSQ(A1:B3)
+\end{excode}
+
+\end{document}

@@ -1,0 +1,150 @@
+\documentclass[a4paper, zihao=-4, linespread=1]{ctexrep}
+\renewcommand{\CTEXthechapter}{\thechapter}
+
+% 页面修正
+\usepackage{geometry}
+    \geometry{vmargin = 1in}
+% 最小行间间距设定
+\setlength{\lineskiplimit}{3pt}
+\setlength{\lineskip}{3pt}
+% 其他宏包
+\usepackage{ulem}
+\usepackage{xcolor}
+
+% 中文支持
+% \usepackage[slantfont,boldfont]{xeCJK}
+%	\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+%	\setCJKmathfont{STXinwei}
+% \usepackage{indentfirst}
+% 新字体声明
+% \setCJKmathfont{KaiTi}
+% \newCJKfontfamily[zhxinwei]\xinwei{STXinwei}
+
+
+% 小定义及重命名
+\newcommand{\dpar}{\\ \mbox{}}	% 空两行
+\newcommand{\RED}[1]{{\color{cyan}{#1}}}
+
+\renewcommand{\contentsname}{目录}
+	\renewcommand{\tablename}{表}
+	\renewcommand\arraystretch{1.2}	% 表格行距
+	\renewcommand{\figurename}{图}
+
+
+% 编号列表宏包
+\usepackage[inline]{enumitem}
+	\setlist[enumerate]{font=\bfseries,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
+	\setlist[itemize]{font=\bfseries,leftmargin=\parindent,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
+	\setlist[description]{font=\bfseries\uline,labelindent=\parindent,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
+% 行内列表
+\newenvironment{inlinee}
+{\begin{enumerate*}[label=(\arabic*), font=\rmfamily, before=\unskip{：},itemjoin={{；}},itemjoin*={{，以及：}}]}
+	{\end{enumerate*}。}
+
+
+% 目录和章节样式
+\usepackage{titlesec}
+\usepackage{titletoc}   % 用于目录
+
+\titlecontents{chapter}[1.5em]{}{\contentslabel{1.5em}}{\hspace*{-2em}}{\hfill\contentspage}
+\titlecontents{section}[3.3em]{}{\contentslabel{1.8em}}
+	{\hspace*{-2.3em}}{\titlerule*[8pt]{$\cdot$}\contentspage}
+\titlecontents*{subsection}[2.5em]{\small}{\thecontentslabel{} }{}{, \thecontentspage}[;\qquad][.]
+% 章节样式
+\setcounter{secnumdepth}{3} % 一直到subsubsection
+% 扩展章节
+\newcommand{\starsec}{\noindent\fbox{\S\textit{注意：本章节是一个扩展阅读章节。}}
+	\\ \mbox{}}
+
+
+% 图表
+\setlength{\abovecaptionskip}{5pt}
+\setlength{\belowcaptionskip}{3pt}
+
+\usepackage{array,multirow,makecell}
+  \setlength\extrarowheight{2pt} % 行高增加
+\usepackage{diagbox}
+\usepackage{longtable}
+\usepackage{graphicx}
+  \graphicspath{{./pics/}}
+\usepackage{caption}
+  % \usepackage{subcaption}
+  % \captionsetup[sub]{labelformat=simple}
+  % \renewcommand{\thesubtable}{(\alph{subtable})}
+
+
+% 代码环境
+\usepackage{listings}
+\usepackage{accsupp}
+	\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
+\usepackage{tcolorbox}
+    \tcbuselibrary{listings,skins,breakable}
+
+% 语法介绍环境
+\newenvironment{syntax}{\begin{center}\ttfamily}
+    {\end{center}}
+
+% 行内Excel函数
+\newcommand{\exstyle}[1]{\texttt{#1}}
+\newtcbox{\excel}[1][green]{on line,before upper=\ttfamily,
+  arc=0pt,outer arc=0pt,colback=#1!10!white,colframe=#1!50!black,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,
+  boxrule=0pt,bottomrule=1pt,toprule=1pt}
+
+% Excel Code
+\lstdefinelanguage{excellang}{
+	classoffset=0, % 蓝色的keyword
+	morekeywords={sum, sumif, sumifs, sumproduct, sumsq, sumx2my2, sumx2py2, sumxmy2, 
+	              product, mmult, combin, permut, mod, base, abs, 
+	              rand, randbetween, power, sqrt, odd, even, trunc,
+	              int, ceiling, floor, round, rounddown, roundup, 
+	              subtotal, true, false, and, or, not, if, iferror, 
+	              asc, widechar, code, char, concatenate, 
+	              proper, lower, upper, value, text, fixed, rept, len,
+	              trim, find, replace, search, substitute, left, mid, right,
+	              clean, numbervalue, average, averagea, averageif,
+	              count, counta, countblank, countif, countifs,
+	              max, dmax, min, dmin, small, large, mode, rank, frequency,
+	              now, today, date, year, month, day, yearfrac, edate, eomonth, datedif,
+	              timevalue, hour, minute, second, weekday, weeknum, workday, networkdays,
+	              row, rows, column, columns, indirect, address, offset, transpose, index,
+	              formulatext, vlookup, hlookup, match, lookup, choose, hyperlink, iseven, isodd,
+	              iserr, iserror, isna, istext, isnumber, cell, isblank, evaluate, 
+	              fv, pv, nper, rate, cumipmt, cumprinc, db, ddb, syd, vbd},
+	sensitive=false,
+	% keywordstyle=\color{blue},
+	% classoffset=1,   % 第二关键字(如有)
+	% morekeywords={},
+	% keywordstyle=\color{envicolor},
+	morecomment=[l]{\#},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]',
+	% Escape
+	escapeinside=``
+}
+
+% 多行Excel代码环境
+\newtcblisting{excode}{breakable,skin=bicolor,colback=gray!30!white,
+  colbacklower=white,colframe=cyan!75!black,listing only, 
+  left=6mm,top=2pt,bottom=2pt,fontupper=\small,
+  % listing style
+  listing options={language=excellang, keywordstyle=\color{blue}, commentstyle=\ttfamily\color{green!50!black},
+  numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
+  emptylines=1}
+}
+\newcommand{\greenmath}[1]{{\color{green!50!black}\begin{math}#1\end{math}}}
+
+% 附录
+\renewcommand{\appendixname}{App.}
+
+% 参考文献
+\bibliographystyle{plain}
+\renewcommand{\bibname}{参考文献}
+\usepackage[numindex,numbib]{tocbibind}
+\usepackage[square,super,sort&compress]{natbib}
+
+% 引用
+\usepackage{hyperref}
+    \renewcommand{\figureautorefname}{图}
+    \renewcommand{\tableautorefname}{表}
+\hypersetup{colorlinks, bookmarksopen = true, bookmarksnumbered = true, pdftitle=Excel-cn, pdfauthor=K.L Wu, pdfstartview=FitH}
