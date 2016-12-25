@@ -36,18 +36,35 @@
 \item 波浪号：转义字符。通过\verb|~?, ~*, ~~|可以找到问号、星号和波浪号。
 \end{itemize}
 
+\section{基本字符操作}
+最简单的是“\&”符号，用于连接字符串。比如：\exstyle{A1\& A2, ``a''\& ``b''}。
+
 \section{常用快捷操作}
 包括鼠标和键盘的快捷操作。
 \begin{description}
-\item[F4] 在四种单元格引用方式之间切换。
-\item[Ctrl + ↓] 跳到列尾。可结合Shift使用。
+\item[F4] 1. 在输入状态下，可以在四种单元格引用方式之间切换；2. 在非输入状态，可以重复最近一次操作的内容。
+\item[Shift + F8] 开启多选模式。无需按Ctrl，鼠标单击即可进行多选。
+\item[Alt + =] 对当前单元格同列的上方所有单元格求和。
+\item[Ctrl + ↑/↓] 跳到列首/列尾。可结合Shift使用。
+\item[Ctrl + PgUp/PgDn] 切换工作表。
 \item[Ctrl + Enter] 将公式应用到所选的所有单元格。
 \item[Ctrl + Shift + Enter] 作为数组表达式执行。
 \item[Ctrl + D] 将选中区域首个单元格的公式向下填充。
 \end{description}
 
+\vspace*{1ex}鼠标操作：
+\begin{description}
+\item[最适列宽：] 选中一列或多列，出现宽度改变指针后双击。
+\item[多次格式刷：] 双击格式刷按钮，就能把格式复制给多个单元格。
+\item[复制区域：] 选中，出现移动指针后，按住Ctrl，然后拖动。
+\item[移动行/列：] 选中行/列，出现移动指针后，按住Shift，然后拖动。
+\item[插入行/列：] 选中要在下方插入行的行（或要在右侧插入列的列），按住Shift，出现插入指针（相比宽度改变指针，在两箭头间多一个竖线）后，向下（或向左）拉动可以插入多行、列。
+\item[删除行/列：] 类似，只是向上（或向左）拉动。
+\end{description}
+
 \chapter{数学计算}
-\section{求和: SUM}
+\section{求和函数}
+\subsection{求和：SUM}
 函数\excel{SUM}用于求区域内数值的和。
 \begin{excode}
 = SUM(1, 2, 3)   
@@ -61,7 +78,6 @@
 = SUM('Sheet 1:Sheet 3'!A1)  # 当工作表名含空格时
 \end{excode}
 
-\section{条件求和}
 \subsection{单条件求和：SUMIF}
 函数\excel{SUMIF}将满足某个条件的单元格值相加。语法是：
 \begin{syntax}
@@ -117,7 +133,6 @@
 = SUMIFS(A1:A3, B1:B3, ">3", C1:C3, "<>苹果")  # 结果5
 \end{excode}
 
-\section{高级数组求和}
 \subsection{乘积和：SUMPRODUCT}
 函数\excel{SUMPRODUCT}将多个数组对应元素相乘，然后累加。
 
@@ -169,6 +184,86 @@
 = SUMXMY2(A1:A3, B1:B3)  # 结果`\greenmath{(1-2)^2+(3-4)^2+(5-6)^2=3}`
 = SUMX2MY2(A1:A3, B1:B3)  # 结果`\greenmath{(1^2-2^2)+(3^2-4^2)+(5^2-6^2)=-21}`
 = SUMX2PY2(A1:A3, B1:B3)  # 结果91。等同于SUMSQ(A1:B3)
+\end{excode}
+
+\section{求积和幂指函数}
+\subsection{乘积：PRODUCT}
+类似于函数\excel{SUM}的用法，只不过是乘积。例子：
+\begin{excode}
+= PRODUCT(A1:A2, B2, 0.5)
+\end{excode}
+
+\subsection{幂指函数：POWER/SQRT}
+\begin{excode}
+= POWER(8, 1/3)  # 结果`\greenmath{8^{\frac{1}{3}}=2}`
+= SQRT(4)  # 结果`\greenmath{2}`
+\end{excode}
+
+\section{奇偶、余数与舍入函数}
+\subsection{奇偶性判断：ISODD/ISEVEN}
+返回值是TRUE或者FALSE。例如：\exstyle{ISODD(3)}，结果是\exstyle{TRUE}。
+
+\subsection{取余与求模：MOD/QUOTIENT}
+取余函数\excel{MOD}的余数结果，符号与\textbf{除数}相同。函数\excel{QUOTIENT}则尽可能地使商靠近0。
+\begin{excode}
+= MOD(5, -2)  # 结果`\greenmath{-1}` 
+= QUOTIENT(5, 2)  # 结果`\greenmath{2}`
+= QUOTIENT(-5, 2)  # 结果`\greenmath{-2}`
+\end{excode}
+
+\section{三角函数}
+
+\section{随机数}
+
+\section{其他函数}
+\subsection{绝对值：ABS}
+拒绝赘述。
+
+\subsection{排列组合：COMBIN/PERMUT}
+\begin{excode}
+= COMBIN(4, 2)  # 结果`\greenmath{\mathrm{C}_4^2 = \frac{4\times 3}{2} = 6}`
+= PERMUT(4, 2)  # 结果`\greenmath{\mathrm{P}_4^2 = 4\times 3 = 12}`
+\end{excode}
+
+\subsection{进制转换：BASE}
+函数BASE用于转换进制，语法：
+\begin{syntax}
+= BASE(number, radix, [min-length])
+\end{syntax}
+
+其中\exstyle{number}是将进行转换的数字；\exstyle{radix}是基数，必须是整数且$radix\in [2, 36]$；可选参数\exstyle{min-length}用于指定返回值的最小位数。
+
+\begin{excode}
+= BASE(10, 2)  # 转二进制，结果`\greenmath{1010}`
+= BASE(10, 8, 4)  # 转八进制并补齐四位，结果`\greenmath{0012}`
+\end{excode}
+
+\section{矩阵运算函数}
+数组函数需要借助Ctrl + Shift + Enter（下文称CSE）进行运算。
+
+\subsection{矩阵点乘：MMULT}
+\begin{syntax}
+= MMULT(array1, array2)
+\end{syntax}
+
+其中，array1区域的行数必须等于array2区域的列数；这也是矩阵点乘的定义所要求的。你需要确认计算结果是几行几列的，然后选择同等大小的区域，在编辑模式下按CSE进行应用。
+
+\begin{table}[!hbt]
+    \centering
+    \caption{MMULT示例}\label{tab:mmult}
+    \begin{tabular}{c|cccc}
+    \hline
+      & A & B & C & D \\
+    \hline
+    1 & 1 & 2 & 1 & 2 \\
+    2 & 3 & 4 & 3 & 4 \\
+    \hline
+    \end{tabular}
+\end{table}
+
+对于\autoref{tab:mmult}的数据，选中\exstyle{F1:G2}，再输入：
+\begin{excode}
+= MMULT(A1:B2,C1:D2)  # 按CSE。结果是：`\greenmath{\{7, 10; 15, 22\}}`
 \end{excode}
 
 \end{document}
