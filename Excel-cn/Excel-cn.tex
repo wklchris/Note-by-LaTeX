@@ -52,7 +52,7 @@
 \item[Ctrl + D] 将选中区域首个单元格的公式向下填充。
 \end{description}
 
-\vspace*{1ex}鼠标操作：
+\vspace*{2ex}鼠标操作：
 \begin{description}
 \item[最适列宽：] 选中一列或多列，出现宽度改变指针后双击。
 \item[多次格式刷：] 双击格式刷按钮，就能把格式复制给多个单元格。
@@ -199,25 +199,113 @@
 = SQRT(4)  # 结果`\greenmath{2}`
 \end{excode}
 
-\section{奇偶、余数与舍入函数}
+\section{奇偶与求余函数}
 \subsection{奇偶性判断：ISODD/ISEVEN}
 返回值是TRUE或者FALSE。例如：\exstyle{ISODD(3)}，结果是\exstyle{TRUE}。
 
 \subsection{取余与求模：MOD/QUOTIENT}
-取余函数\excel{MOD}的余数结果，符号与\textbf{除数}相同。函数\excel{QUOTIENT}则尽可能地使商靠近0。
+函数\excel{MOD}的取余结果，符号与\qd{除数}相同。函数\excel{QUOTIENT}将商向零取整。
 \begin{excode}
 = MOD(5, -2)  # 结果`\greenmath{-1}` 
 = QUOTIENT(5, 2)  # 结果`\greenmath{2}`
 = QUOTIENT(-5, 2)  # 结果`\greenmath{-2}`
 \end{excode}
 
-\section{三角函数}
+\section{取整与舍入函数}
+在本手册中，尽管并不规范，将使用\qd{向零/背零}表示绝对值减小/增大的取整方式，使用\qd{向下/向上}表示取整结果永远小于/大于传入值的取整方式。
 
-\section{随机数}
+\subsection{奇偶取整：ODD/EVEN}
+函数\excel{ODD}背零舍入到最近的奇数；函数\excel{EVEN}背零舍入到最近的偶数。
+\begin{excode}
+= ODD(1.4)  # 结果`\greenmath{3}`
+= EVEN(-2.4)  # 结果`\greenmath{-4}`
+\end{excode}
+
+\subsection{向下取整：INT}
+函数\excel{INT}用于向下取整，取整结果总是不小于传入的数字。
+\begin{excode}
+= 3.56-INT(3.56)  # 返回正数的小数部分。结果`\greenmath{0.56}`
+= INT(-2.1)  # 结果`\greenmath{-3}`
+\end{excode}
+
+\subsection{四舍五入：ROUND}
+函数\excel{ROUND}用于四舍五入。
+\begin{excode}
+= ROUND(1.2345, 3)  # 结果`\greenmath{1.235}`
+= ROUND(12.34, -1)  # 结果`\greenmath{10}`
+\end{excode}
+
+\subsection{截尾舍入：TRUNC}
+函数\excel{TRUNC}截去指定数位之后的部分。数位参数为负，表示小数点之前的数位。
+\begin{excode}
+= TRUNC(1.2345,3)  # 结果`\greenmath{1.234}`
+= =TRUNC(321.123,-1)  # 结果`\greenmath{320}`
+\end{excode}
+
+\subsection{向上/向下舍入：CEILING/FLOOR}
+函数\excel{CEILING}用于向上取整；函数\excel{FLOOR}用于向下取整。语法：
+\begin{syntax}
+= CEILING(num, signif)
+\end{syntax}
+
+其中\exstyle{num}是传入值，舍入结果是\exstyle{signif}的整数倍。\excel{FLOOR}语法类似。
+
+\begin{excode}
+= CEILING(-2.6,0.5)  # 结果`\greenmath{-2.5}`
+= CEILING(2.6,0.5)  # 结果`\greenmath{3}`
+\end{excode}
+
+\subsection{背零/向零舍入：ROUNDUP/ROUNDDOWN}
+语法不同于\excel{CEILING}和\excel{FLOOR}：
+\begin{syntax}
+= ROUNDUP(num, digit)
+\end{syntax}
+
+其中\exstyle{num}是传入值，舍入到小数点后第\exstyle{digit}位。如果\exstyle{digit}是负数，那么舍入到小数点左侧相应位数。\excel{ROUNDDOWN}语法类似。
+
+\begin{excode}
+= ROUNDUP(-2.44,1)  # 背零，结果`\greenmath{-2.5}`
+= ROUNDUP(2.44,1)  # 背零，结果`\greenmath{2.5}`
+= ROUNDDOWN(-1.88,1)  # 向零，结果`\greenmath{-1.8}`
+\end{excode}
+
+\section{三角函数}
+Excel 内置了圆周率\excel{PI}函数，参数为空，精度是15位小数。即：
+\begin{syntax}
+PI() = 3.14159265358979
+\end{syntax}
+
+\subsection{角度弧度转换：DEGREES/RADIANS}
+函数\excel{DEGREES}将弧度转为角度，而\excel{RADIANS}则将角度转为弧度。
+\begin{excode}
+= DEGREES(PI())  # 结果`\greenmath{180}`
+= RADIANS(90)  # 结果`\greenmath{\frac{\pi}{2}=1.5707963267949}`
+\end{excode}
+
+\subsection{正弦/余弦/正切/余切/正割/余割：SIN/COS/TAN/COT/SEC/CSC}
+\begin{excode}
+= SIN(PI()/2)  # 结果`\greenmath{1}`
+= DEGREES(ASIN(1))  # 结果`\greenmath{0}`
+= TAN(RADIANS(45))  # 结果`\greenmath{1}`
+= COT(RADIANS(45))  # 结果`\greenmath{1}`
+\end{excode}
+
+\subsection{反三角函数：ASIN/ACOS/ATAN/ACOT}
+拒绝赘述。
+
+\section{随机数：RAND/RANDBETWEEN}
+函数\excel{RAND}用于生成\RED{大于等于0、小于1}的实数；函数\excel{RANDBETWEEN}用于生成\RED{介于两参数之间（闭区间）}的整数。
+\begin{excode}
+= RAND()*(5-1)+1  # 生成大于等于1、小于5的随机实数
+= RANDBETWEEN(1, 10)  # 生成大于等于1、小于10的随机整数
+\end{excode}
 
 \section{其他函数}
 \subsection{绝对值：ABS}
 拒绝赘述。
+
+\subsection{指数函数：EXP}
+自然对数的底通过\exstyle{EXP(1)}来表示，其他拒绝赘述。
 
 \subsection{排列组合：COMBIN/PERMUT}
 \begin{excode}
