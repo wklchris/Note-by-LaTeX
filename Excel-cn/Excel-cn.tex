@@ -37,7 +37,7 @@
 \end{itemize}
 
 \section{基本字符操作}
-最简单的是“\&”符号，用于连接字符串。比如：\exstyle{A1\& A2, ``a''\& ``b''}。
+最简单的是“\&”符号，用于连接字符串。比如：\exstyle{A1\& A2, "a"\& "b"}。
 
 \section{常用快捷操作}
 包括鼠标和键盘的快捷操作。
@@ -79,6 +79,7 @@
 \end{excode}
 
 \subsection{单条件求和：SUMIF}
+\label{fun:sumif}
 函数\excel{SUMIF}将满足某个条件的单元格值相加。语法是：
 \begin{syntax}
 = SUMIF(range, criteria, [sum-range])
@@ -108,6 +109,7 @@
 \end{excode}
 
 \subsection{多条件求和：SUMIFS}
+\label{fun:sumifs}
 函数\excel{SUMIFS}可以将满足多个条件的单元格值相加。语法是：
 \begin{syntax}
 = SUMIFS(sum-range, cri-rg1, cri1, [cri-rg2, cri2], \ldots)
@@ -300,6 +302,120 @@ PI() = 3.14159265358979
 = RANDBETWEEN(1, 10)  # 生成大于等于1、小于10的随机整数
 \end{excode}
 
+\section{统计函数}
+前面介绍的\excel{SUM}也可以算作统计函数。
+
+\subsection{均值：AVERAGE/AVERAGEA}
+若现有$m+n$条数据，其中$m$条是数值，$n$条不是数值，那么均值有：
+\begin{itemize}
+\item 数值均值：函数\excel{AVERAGE}将忽略$n$条数据，只计算数值数据。
+\item 全体均值：函数\excel{AVERAGEA}计算均值时，分母仍为$m+n$。
+\end{itemize}
+
+\begin{table}[!hbt]
+    \centering
+    \caption{AVERAGE示例}\label{tab:average}
+    \begin{tabular}{c|ccccc}
+    \hline
+      & A & B & C & D & E\\
+    \hline
+    1 & 1 & 2 & 3 & 4 & N/A\\
+    \hline
+    \end{tabular}
+\end{table}
+
+对于\autoref{tab:average}的数据，有：
+\begin{excode}
+= AVERAGE(A1:E1)  # 结果`\greenmath{\frac{1+2+3+4}{4}=2.5}`
+= AVERAGEA(A1:E1)  # 结果`\greenmath{\frac{1+2+3+4}{5}=2}`
+\end{excode}
+
+\subsection{条件均值：AVERAGEIF/AVERAGEIFS}
+语法与\autoref{fun:sumif}以及\autoref{fun:sumifs}相似，不再赘述。
+
+\subsection{计数函数：COUNT/COUNTA/COUNTBLANK}
+函数\excel{COUNT}统计\RED{数字单元格}的数量；函数\excel{COUNTA}统计\RED{非空单元格}的数量\footnote{注意：即使单元格内的公式结果是空字符，该单元格也\qd{不是}空的。}；而函数\excel{COUNTBLANK}统计\RED{空单元格}的数量。
+
+\subsection{条件计数：COUNTIF/COUNTIFS}
+语法与\autoref{fun:sumif}以及\autoref{fun:sumifs}相似，不再赘述。
+
+\subsection{频数统计：FREQUENCY}
+函数\excel{FREQUENCY}是一个数组函数，用于统计落在多个区间内的数据量。参考
+
+\subsection{极值与分位值：MAX/MIN/LARGE/SMALL}
+函数\excel{MAX}和\excel{MIN}求区域最大和最小值。函数\excel{LARGE}和\excel{SMALL}则用于求区域第$k$大值或第$k$小值。
+
+\begin{excode}
+= SMALL({1,2,3,4},3)  # 第三小的数。结果`\greenmath{3}`
+\end{excode}
+
+\subsection{条件极值：DMIN/DMAX}
+语法：
+\begin{syntax}
+= DMIN(database, field, criteria)
+\end{syntax}
+
+其中，\exstyle{database}是数据总表，\exstyle{field}是要寻找极值的列名，\exstyle{criteria}是条件约束区。函数\excel{DMAX}语法类似。
+
+\begin{table}[!hbt]
+    \centering
+    \caption{DMIN示例}\label{tab:dmin}
+    \begin{tabular}{c|cccc}
+    \hline
+      & A & B & C & D \\
+    \hline
+    1 & 树种 & 高度 & 产量 & 高度 \\
+    2 & 苹果树 & $>10$ & & $<16$ \\
+    3 & 梨树 & \\
+    4 & \\
+    5 & 树种 & 高度 & 产量 &  \\
+    6 & 苹果树 & 18 & 14 \\
+    7 & 梨树 & 12 & 10 \\
+    8 & 樱桃树 & 13 & 9 \\
+    9 & 苹果树 & 14 & 10 \\
+    10 & 梨树 & 9 & 8 \\
+    11 & 苹果树 & 8 & 6 \\
+    \hline
+    \end{tabular}
+\end{table}
+
+对于\autoref{tab:dmin}的数据，有：
+\begin{excode}
+# 寻找高度在10与16间的苹果树、或者任何梨树，之中的最小产量
+= DMIN(A5:C11, "产量", A1:D3)  
+\end{excode}
+
+\subsection{中位数与众数：MEDIAN/MODE}
+函数\excel{MEDIAN}返回中位数，函数\excel{MODE}返回众数。注意，\excel{MODE}函数在有多个众数时也只返回一个值（函数\excel{MODE.MULT}可以解决这个问题，参考\autoref{fun:mode.mult}）。
+
+\subsection{排名：RANK.AVG/RANK.EQ}
+旧版本的函数\excel{RANK}在将来可能不再受支持。新版本的\excel{RANK.AVG}返回平均排名；函数\excel{RANK.EQ}则返回同一排名（可能造成某些排名空缺）。
+
+语法：
+\begin{syntax}
+= RANK.AVG(num, ref, [order])
+\end{syntax}
+其中，\exstyle{num}是要进行排名的数值，\exstyle{ref}是数据列表，可选参数\exstyle{order}非零时返回升序下的排名，为零或省略时返回降序下的排名。
+
+\begin{table}[!hbt]
+    \centering
+    \caption{RANK示例}\label{tab:rank}
+    \begin{tabular}{c|ccccc}
+    \hline
+      & A & B & C & D & E\\
+    \hline
+    1 & 1 & 2 & 2 & 3 & 4\\
+    \hline
+    \end{tabular}
+\end{table}
+
+对于\autoref{tab:rank}的数据，有：
+\begin{excode}
+= RANK.AVG(2,A1:E1)  # 降序，2在第3、4位。结果3.5（平均排名）
+= RANK.EQ(2,A1:E1)  # 降序，2在第3、4位。结果3（同一排名）
+= RANK.EQ(2,A1:E1,1)  # 升序，2在第2、3位。结果2（同一排名）
+\end{excode}
+
 \section{其他函数}
 \subsection{绝对值：ABS}
 拒绝赘述。
@@ -326,8 +442,8 @@ PI() = 3.14159265358979
 = BASE(10, 8, 4)  # 转八进制并补齐四位，结果`\greenmath{0012}`
 \end{excode}
 
-\section{矩阵运算函数}
-数组函数需要借助Ctrl + Shift + Enter（下文称CSE）进行运算。
+\section{数组函数}
+数组函数在确认公式时，需要借助Ctrl + Shift + Enter（下文称CSE）而不是普通的Enter。数组的表示方法很简单：一对外侧的花括号，内部用逗号表示列分隔，用分号表示行分隔。通常地，在Excel中选中的任一单元格区域都能看做一个数组。
 
 \subsection{矩阵点乘：MMULT}
 \begin{syntax}
@@ -353,5 +469,21 @@ PI() = 3.14159265358979
 \begin{excode}
 = MMULT(A1:B2,C1:D2)  # 按CSE。结果是：`\greenmath{\{7, 10; 15, 22\}}`
 \end{excode}
+
+\subsection{众数数组：MODE.MULT}
+\label{fun:mode.mult}
+选中一个竖直的区域作为返回值区域，然后用CSE组合键就能显示所有众数。例如，选中A1:B1，输入以下公式再按CSE：
+\begin{excode}
+= MODE.MULT({1,2,2,3,3,4,6})  # 结果`\greenmath{\{2; 3\}}`
+\end{excode}
+
+\subsection{频数数组：FREQUENCY}
+\label{fun:frequency}
+选中一个竖直的区域作为返回值区域，然后用CSE组合键就能显示各区间的频数。例如，选中A1:C1，输入以下公式再按CSE：
+\begin{excode}
+= FREQUENCY({1,2,3,8,10,15},{5,10})  # 结果`\greenmath{\{3; 2; 1\}}`
+\end{excode}
+
+以上公式的含义：在数据集$1,2,3,4,10,15$中，小于等于5的数有3个，大于5小于等于10的数有2个，大于10的数有一个。
 
 \end{document}

@@ -22,7 +22,7 @@
 
 
 % 小定义及重命名
-\newcommand{\qd}[1]{\uline{\textbf{#1}}}
+\newcommand{\qd}[1]{\textbf{\uline{#1}}}
 \newcommand{\dpar}{\\ \mbox{}}	% 空两行
 \newcommand{\RED}[1]{{\color{cyan}{#1}}}
 
@@ -148,4 +148,7 @@
 \usepackage{hyperref}
     \renewcommand{\figureautorefname}{图}
     \renewcommand{\tableautorefname}{表}
+    \renewcommand{\chapterautorefname}{章}
+    \renewcommand{\sectionautorefname}{节}
+    \renewcommand{\subsectionautorefname}{次节}
 \hypersetup{colorlinks, bookmarksopen = true, bookmarksnumbered = true, pdftitle=Excel-cn, pdfauthor=K.L Wu, pdfstartview=FitH}
