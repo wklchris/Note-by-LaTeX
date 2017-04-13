@@ -1,42 +1,40 @@
 % safe参数解决与\!在内的多个冲突
 % \sups命令可能被重定义,xeCJK放在tipa后
 \RequirePackage[safe]{tipa}
+
 \documentclass[a4paper, zihao=-4, linespread=1]{ctexrep}
 \usepackage{amsmath}  
-  \xeCJKsetup{CJKmath=true}
   \renewcommand{\CTEXthechapter}{\thechapter}
 % 最小行间间距设定
 \setlength{\lineskiplimit}{3pt}
 \setlength{\lineskip}{3pt}
 
 % 中文支持
-% \iffalse与\fi可以实现“多行注释”
-\iffalse
-\usepackage[slantfont,boldfont]{xeCJK}
-	\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
-	\setCJKmathfont{STXinwei}
-\usepackage{indentfirst}
-\fi
-\setCJKmathfont{KaiTi}
-\newCJKfontfamily[zhxinwei]\xinwei{STXinwei}
+\setCJKmainfont[BoldFont=SourceHanSerifCN-Bold.otf]{SourceHanSerifCN-Regular.otf} 
+  \xeCJKsetup{CJKmath=true}
+  \setCJKmathfont{KaiTi}  % 数学环境中使用楷体
+\newCJKfontfamily[zhxinwei]\xinwei{STXinwei} % 定义新字体
 
+% 颜色
 \usepackage[table]{xcolor}
   \newcommand{\scol}[1]{\colorbox{#1}{\rule{0em}{1ex}}\,#1}
+  
 % 首字下沉
 \usepackage{lettrine}
+
 % 分栏
 \usepackage{multicol}
-\setlength{\columnsep}{20pt}
-\setlength{\columnseprule}{0.4pt}
+  \setlength{\columnsep}{20pt}
+  \setlength{\columnseprule}{0.4pt}
 
 % 数学环境
   \newcommand{\ue}{\mathrm{e}}
-  \newcommand{\ud}{\mathop{}\negthinspace\mathrm{d}}
+  \newcommand{\ud}{\mathop{}\negthinspace\mathrm{d}} % 微分号
 \usepackage{amssymb}
 \usepackage{mathrsfs} % 线性代数字体
-    % overline的替代命令
+% overline的替代命令
 \newcommand{\closure}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
-\usepackage{yhmath} % \wideparen命令
+\usepackage{yhmath} % \wideparen命令：弧AB
 \usepackage{mathdots} % 数学省略号
 \usepackage{mathtools} % dcases环境，prescript命令
 \usepackage{amsthm} % 定理环境
@@ -44,11 +42,13 @@
   \theoremstyle{plain}\newtheorem{ju}[laws]{Jury}
   \theoremstyle{remark}\newtheorem*{marg}{Margaret}
 \usepackage{esint} % 多重积分，需放在amsmath后
-% 中括号类二项式
+% 箭头与长等号
+\usepackage{extarrows}
+% 中括号的类二项式命令
 \newcommand{\Bfrac}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}}
 
 % 下划线宏包
-\usepackage{ulem}
+\usepackage[normalem]{ulem}
 % LaTeX符号宏包
 \usepackage{hologo}
 	\newcommand{\xelatex}{\Hologo{XeLaTeX}}
@@ -66,9 +66,9 @@
 \usepackage{lastpage}
 
 % 奇怪的小定义
-\newcommand{\dpar}{\\ \mbox{}}	% 空两行
-\newcommand{\qd}[1]{{\bfseries{#1}}}	% 强调
-\newcommand{\co}[1]{{\bfseries{#1}}}   % Style of concept
+\newcommand{\dpar}{\\ \mbox{}}  % 空两行
+\newcommand{\qd}[1]{{\bfseries{#1}}}  % 强调
+\newcommand{\co}[1]{{\bfseries{#1}}}  % Style of concept
 \newcommand{\RED}[1]{{\color{cyan}{#1}}}
 \newcommand{\cmmd}[1]{\fbox{\texttt{\char92{}#1}}}
 \newcommand{\charef}[1]{第\ref{#1}章}
@@ -124,8 +124,6 @@
 	{\fontsize{60}{60}\selectfont\thechapter}}
 \titleformat{\chapter}[block]{\hfill\LARGE\sffamily}{}{0pt}{\chaformat}[\vspace{2.5pc}\normalsize
 	\startcontents\setlength{\lineskiplimit}{0pt}\printcontents{}{1}{\setcounter{tocdepth}{2}\songti}]
-%\titleclass{\section}{top}
-%\titleformat{\section}{\Large\bfseries}{\thesection}{0.5em}{}
 \titleformat*{\section}{\centering\Large\bfseries}
 \titleformat{\subsubsection}[hang]{\bfseries\large}{\rule{1.5ex}{1.5ex}}{0.5em}{}
 % 扩展章节
@@ -153,17 +151,18 @@
 \usepackage{caption,subcaption}
   \captionsetup[sub]{labelformat=simple}
   \renewcommand{\thesubtable}{(\alph{subtable})}
+% 三线表
+\usepackage{booktabs}  
+
 % 页面修正宏包
 \usepackage{geometry}
-\geometry{vmargin = 1in}
+  \geometry{vmargin = 1in}
 
-% 代码环境(ver1.4以前的，For TikZ)
+% 代码环境
 \usepackage{listings}
-% Avoid copy line numbers of the listing code (Invalid for SumatraPDF Reader)
+% 复制代码时不复制行号
 \usepackage{accsupp}
 	\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
-
-% 代码环境（ver1.4以后的，For LaTeX source code）
 \usepackage{tcolorbox}
   \tcbuselibrary{listings,skins,breakable}
 
@@ -216,51 +215,6 @@
   emptylines=1,escapeinside=``}
 }
 
-% Color
-%	\definecolor{commentcolor}{RGB}{85,139,78}
-%	\definecolor{numbercolor}{RGB}{166,206,168}
-%	\definecolor{stringcolor}{RGB}{206,145,108}
-%	\definecolor{keywordcolor}{RGB}{34,34,250}
-%	\definecolor{backcolor}{RGB}{220,220,220}
-%	\definecolor{packagecolor}{RGB}{0,128,0}
-%	\definecolor{envicolor}{RGB}{185,70,15}
-
-
-% LaTeX Code Style
-%\lstset{language=[LaTeX]TeX,
-%		basicstyle=\small\ttfamily,
-%		commentstyle=\color{commentcolor},
-%		keywordstyle=\color{keywordcolor},
-%		stringstyle=\color{stringcolor},
-%		showstringspaces=false,
-%		% Package/Tikz-Lib Using
-%		classoffset=0,
-%		morekeywords={begin,end,usetikzlibrary},
-%		keywordstyle=\color{keywordcolor},
-%		classoffset=1,
-%		morekeywords={article,report,book,
-%			xeCJK,tikz,
-%			calc},
-%		keywordstyle=\color{packagecolor},
-%		classoffset=2,
-%		morekeywords={document,tikzpicture},
-%		keywordstyle=\color{envicolor},
-%		% Line Number Style
-%		numbers=left,
-%		numberstyle=\tiny\emptyaccsupp,
-%		stepnumber=1,
-%		% Frame and Background Color
-%		frame=single,
-%		framerule=0pt,
-%		backgroundcolor=\color{backcolor},
-%		% Spaces
-%		% belowskip=\medskipamount,
-%		emptylines=1,
-%		escapeinside=``}
-
-%\lstnewenvironment{latex}[1]{\lstset{#1}}{}
-%\newcommand{\latexline}[1]{{\lstinline[language=TeX,basicstyle=\small\ttfamily]{#1}}}
-
 % Tikz Code
 \lstdefinelanguage{tikzlang}{
 	classoffset=0, % 蓝色的keyword
@@ -301,34 +255,6 @@
 % 行号
 \usepackage{lineno}
 
-% 代码输入环境
-%\usepackage{verbatim,xcolor}
-%\newbox\savedlines
-%\newtoks\savedtokens
-%\makeatletter
-%\def\codeshow{%
-%\global\savedtokens={}%
-%\def\verbatim@processline{%
-%{\setbox0=\hbox{\the\verbatim@line}%
-%\hsize=\wd0
-%\the\verbatim@line\par}%
-%\global\savedtokens=\expandafter{\the\expandafter\savedtokens\the\verbatim@line^^J}}%
-%\@tempswatrue
-%\setbox0=\vbox\bgroup\parskip=0pt\topsep=0pt\partopsep=0pt
-%\verbatim}
-%\def\endcodeshow{\endverbatim%
-%\unskip\setbox0=\lastbox\egroup
-%\global\setbox\savedlines=\box0
-%\addvspace{1em}\par\noindent%
-%\colorbox{lightgray}{%
-%\begin{minipage}{.55\textwidth}{\usebox\savedlines}\end{minipage}}%
-%\hfill\fbox{\parbox{.40\textwidth}%
-%{\scantokens\expandafter{\the\savedtokens\unskip\endinput}}}%
-%\par\addvspace{1em}}
-%\makeatother
-
-\usepackage{booktabs}
-
 % 索引与参考文献
 \usepackage{imakeidx}
   \newcommand{\tikzidx}[1]{\index{\char`\\ #1}}
@@ -341,15 +267,6 @@
 \renewcommand{\bibname}{参考文献}
 \usepackage[numindex,numbib]{tocbibind}
 \usepackage[square,super,sort&compress]{natbib}
-
-% 为了自动补全支持
-\iffalse
-  \newcommand{\envi}[1]{def}
-  \newcommand{\latexline}[1]{def}
-  \newenvironment{codeshow}{begdef}{enddef}
-  \newenvironment{codeshowabove}{begdef}{enddef}
-  \newcommand{\pkg}[1]{这几行实质被注释，只为自动补全支持}
-\fi
 
 % 引用
 \usepackage{hyperref}

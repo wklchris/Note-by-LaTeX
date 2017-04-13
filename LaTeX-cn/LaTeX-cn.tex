@@ -50,6 +50,23 @@ Chris Wu
 
 September 17, 2016 于Davis, CA
 \end{flushright}
+\clearpage
+\noindent{\Huge\xinwei 更新日志：当前 v1.6}\dpar\dpar
+
+v1.6（未定稿）更新 --- 2017年4月13日：\dpar
+\begin{feai}
+\item 字体更换：思源宋体。
+\item 宏包\pkg{extarrows}：长等号命令。
+\item 宏包\pkg{xeCJK}：
+  \begin{feai}
+  \item 参数 CJKspace。该功能在新版宏包中已修复。
+  \item 命令 \latexline{setCJKmainfont}，可指定字体文件名。
+  \end{feai}
+\end{feai}
+
+\mbox{}
+
+更早版本的更新细节，请到\href{https://github.com/wklchris/Note-by-LaTeX/releases}{Project Release Webpage}浏览。
 
 \chapter{\mbox{写给读者}*}
 
@@ -65,7 +82,7 @@ September 17, 2016 于Davis, CA
 \section{什么是\LaTeX ？}
 先讲\TeX （读音类似于“泰赫”）。
 
-\TeX 是Knuth\footnote{Donald Ervin Knuth(高德纳，1938--)，现代计算机科学的先驱者，斯坦福大学计算机系的终身荣誉教授，图灵奖和冯诺依曼奖得主，\TeX 和\hologo{METAFONT}的发明人。同时也是业内经久不衰的著作\emph{The Art of Computer Programming}的作者。}研发的免费、开源的排版系统，其初衷是为了“改变排版界糟糕的排版技术”，并用于排版他的著作《计算机程序设计艺术》。
+\TeX 是Knuth\footnote{Donald Ervin Knuth(高德纳，1938--)，现代计算机科学的先驱者，斯坦福大学计算机系的终身荣誉教授，图灵奖和冯诺依曼奖得主，\TeX 和 \hologo{METAFONT} 的发明人。同时也是业内经久不衰的著作\emph{The Art of Computer Programming}的作者。}研发的免费、开源的排版系统，其初衷是为了“改变排版界糟糕的排版技术”，并用于排版他的著作《计算机程序设计艺术》。
 
 \TeX 对于读者来说应该是底层的内容，如果你有兴趣，可以阅读Knuth著的\emph{The \TeX book}，这本书是学习\TeX 最权威的材料，没有之一。在本手册的参考文献中也给出了其他\TeX 学习的资料。\dpar
 
@@ -73,7 +90,7 @@ September 17, 2016 于Davis, CA
 
 \LaTeX 是基于\TeX 的宏\footnote{“宏(Macro)”是一个计算机概念，指用单个命令或操作完成一系列底层命令或操作的组合。}集，其作者是Dr.~Lamport\footnote{Leslie Lamport(1941--)，美国计算机科学家，图灵奖和冯诺依曼奖得主。}；其姓氏开头两个字母La与底层排版系统\TeX 相结合，就组成了名称\LaTeX 。\LaTeX 在\TeX 基础上定义了众多的宏命令，使得用户可以更方便地进行排版。本手册的参考文献中就有他的作品。
 
-\LaTeX 现在的版本是\LaTeXe ，意思是2.x版而没到3.0版。错位排版的字母E和字母A暗示了它是排版系统。在无法这样输出的场合，请写作LaTeX和LaTeX2e。
+\LaTeX 现在的版本是\LaTeXe ，意思是2.x版而没到3.0版。错位排版的字母E和字母A暗示了它是排版系统。在无法这样输出的场合，请写作LaTeX和LaTeX~2e。
 
 \section{\TeX 与\LaTeX 的优缺点}
 \TeX 的优点：\qd{稳定、精确、美观}。底层的\TeX 系统已经很多年没有进行大的变动了，因为它注重\uline{稳定}；\TeX 系统可以让你把排版内容通过数字参数的方式写到任意的位置，量化的参数意味着\uline{精确}；\TeX 底层的空距调整机制，以及对于数学公式近乎完美的支持，则确保了排版效果的\uline{美观}。
@@ -161,7 +178,7 @@ September 17, 2016 于Davis, CA
 \end{document}
 \end{latex}
 
-环境的备选选项只需要写在\latexline{begin[...]\{name\}}这里就行。
+环境如果有备选参数，只需要写在\latexline{begin[...]\{name\}}这里就行。
 
 注意：不带花括号的命令后面如果想打印空格，请加上\RED{一对内部为空的花括号}再键入空格。否则空格会被忽略。例如：\verb+\LaTeX{} Studio+.
 
@@ -254,7 +271,7 @@ a\textasciitilde b
 
 在导言区最常见的是\co{宏包}的加载工作，命令形如：\latexline{usepackage\{package\}}。通俗地讲，宏包是指一系列已经制作好的功能``模块''，在你需要使用一些原生\LaTeX 不带有的功能时，只需要调用这些宏包就可以了。比如本文的代码就是利用\pkg{listings}宏包实现的。
 
-宏包的具体使用将参在各部分内容说明中进行讲解。如果你想学习一个宏包的使用，按Win+R组合键呼出运行对话框，输入texdoc加上宏包名称即可打开宏包帮助pdf文档。例如：\verb|texdoc xeCJK|
+宏包的具体使用将参在各部分内容说明中进行讲解。如果你想学习一个宏包的使用，按Win+R组合键呼出运行对话框，输入texdoc加上宏包名称即可打开宏包帮助pdf文档。例如：\verb|texdoc xeCJK|。
 
 \footnotetext{此外还有\pkg{beamer}宏包定义的beamer文档类，常用于创建幻灯片。}
 
@@ -306,7 +323,7 @@ a\textasciitilde b
 在科技文章中，中文的句号也一般使用全角圆点“．”\footnote{这个标点是U+FF0E，称为“FULLWIDTH FULL STOP”。}而不是平常的“。”，也不是正常的英文句点“.”。这个符号很难正常输入；你可以先输入正常句点，最后再替换。
 
 \subsection{引号}
-单引号并不使用两个\verb|'|符号组合。左单引号是重音符\verb|`|（键盘上数字1左侧），而右单引号是常用的引号符。英文中，\RED{左双引号就是连续两个重音符}。
+英文单引号并不使用两个\verb|'|符号组合。左单引号是重音符\verb|`|（键盘上数字1左侧），而右单引号是常用的引号符。英文中，\RED{左双引号就是连续两个重音符}。
 
 英文下的引号嵌套需要借助\latexline{thinspace}命令分隔，比如：
 \begin{verbatim}
@@ -328,7 +345,7 @@ a\textasciitilde b
 \subsection{强调：粗与斜}
 \LaTeX 中专门有个叫做\latexline{emph\{text\}}的命令，可以强调文本。对于通常的西文文本，上述命令的作用就是斜体。如果你对一段已经这样转换为斜体的文本再使用这个命令，它就会取消斜体，而成为正体。
 
-西文中一般采用上述的斜体强调方式而不是粗体，例如在说明书名的时候就会使用以上命令。关于字体的更多内容参考\hyperref[sec:font]{字体}这一节。
+西文中一般采用上述的斜体强调方式而不是粗体，例如在说明书名的时候可能就会使用以上命令。关于字体的更多内容参考\hyperref[sec:font]{字体}这一节。
 
 \subsection{下划线与删除线}
 \LaTeX 原生提供的\latexline{underline}命令简直烂的可以，建议你使用\pkg{ulem}宏包下的\texttt{uline}命令代替，它还支持换行文本。\pkg{ulem}宏包还提供了一些实用命令：
@@ -343,7 +360,7 @@ a\textasciitilde b
 \xout{斜删除线}
 \end{codeshow}
 
-需要注意的是，\pkg{ulem}宏包重定义了\latexline{emph}命令，\RED{使得原来的加斜强调变成了下划线、原来的两次强调就取消强调变成了两次强调就双下划线}。通过宏包的normalem选项可以取消这个更改。
+需要注意的是，\pkg{ulem}宏包重定义了\latexline{emph}命令，\RED{使得原来的加斜强调变成了下划线、原来的两次强调就取消强调变成了两次强调就双下划线}。通过宏包的normalem选项可以取消这个更改：\verb|\usepackage[normalem]{ulem}|。
 
 \subsection{其他}
 角度符号或者温度符号需要借助数学模式\verb|$...$|输入：
@@ -357,9 +374,9 @@ $37\,^{\circ}\mathrm{C}$
 
 其次是千位分隔位，比如\verb|1\,000\,000|。如果你不想它在中间断行就在外侧再加上一个\latexline{mbox}命令：\latexline{mbox\{1\char`\\,000\char`\\,000\}}。
 
-再次是注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号表}部分的附录内容。如果你想输入音标，请使用tipa宏包\footnote{tipa会重定义\latexline{!}命令，因此请使用\latexline{negthinspace}代替；或在\pkg{xeCJK}与\pkg{amsmath}宏包前加载，并使用safe选项。}，同样参考附录A。
+再次是注音符号，比如\^o，也常用于拼音声调，参考\hyperref[app:phonetic]{注音符号表}部分的附录内容。如果你想输入音标，请使用tipa宏包\footnote{tipa会重定义\latexline{!}命令，因此请使用\latexline{negthinspace}代替；或在\pkg{xeCJK}与\pkg{amsmath}宏包前加载，并使用safe选项。具体可以参见本手册的 Head.tex 文件。}，同样参考附录A。
 
-最后，介绍\pkg{hologo}宏包，它可以输出许多\TeX 家族标志。其实\LaTeX 原生自带了\latexline{LaTeX}, \latexline{TeX}等命令。而hologo宏包支持的命令是：
+最后，介绍\pkg{hologo}宏包，它可以输出许多\TeX 家族标志。其实\LaTeX 原生自带了\latexline{LaTeX}, \latexline{TeX}等命令。而hologo宏包支持的命令有：
 
 \begin{codeshow}
 % 大写H表示符号的首字母也大写
@@ -395,7 +412,7 @@ $37\,^{\circ}\mathrm{C}$
 
 通常的换行方法非常简单：\hologo{LaTeX}会自动转行，然后在每一段的末尾，只需要输入两个回车即可完成分段。如果需要一个空白段落（实质是一个空白行），先输入两个回车，再输入\latexline{mbox\{\}}，最后再输入两个回车即可。你可以用\latexline{par}来产生一个带缩进的新段。
 
-在下划线一节的例子中已经给出了强制换行的方式，即两个反斜：\latexline{\char`\\}. 不过这样做的缺点在于下一行段首缩进会消失，这个命令也的确一般\RED{不用于}正文换行；正文直接使用两个回车。
+在下划线一节的例子中已经给出了强制换行的方式，即两个反斜：\latexline{\char`\\}. 不过这样做的缺点在于下一行段首缩进会消失，这个命令也的确一般\RED{不用于}正文换行；\textbf{正文中想要换行，请直接使用两个回车}。
 
 段落之间的距离由\latexline{parskip}控制，默认\texttt{0pt plus 1pt}. 
 \begin{latex}
@@ -576,7 +593,9 @@ Let's change font to \myfont{ppl}{Palatino}!
 \usepackage[slantfont,boldfont]{xeCJK}
   \xeCJKsetup{CJKMath=true}
   \setCJKmainfont[BoldFont=SimHei]{SimSun}
-% 这里把SimHei直接写成中文“黑体”似乎也可以
+% 这里把SimHei直接写成中文“黑体”也可以
+% 也可以直接通过字体文件名调用
+% \setCJKmainfont{SourceHanSerifCN-Regular.otf}
 \end{latex}
 
 其中，加载xeCJK宏包时使用了slantfont和boldfont两个选项，表示允许设置中文的斜体和粗体字形。在setCJKmainfont命令中，把SimSun（宋体）设置为了主要字体，SimHei（黑体）设置为主要字体的粗体字形，即textbf或者bfseries命令的变换结果。你也可以使用SlantFont来设置它的斜体字形。
@@ -585,7 +604,8 @@ Let's change font to \myfont{ppl}{Palatino}!
 
 上面提到的xeCJKsetup有下列可以定制的参数，下划线为默认值：
 \begin{feai}
-\item CJKMath=ture/\uline{false}：是否支持数学环境CJK字体。如果想在数学环境中直接输入汉字，请开启该选项；否则在数学环境内，需要将汉字写在\latexline{textrm}、或者amsmath宏包支持的\latexline{text}命令中。
+\item CJKspace=true/\uline{false}：是否保留行文中CJK文字间的空格，默认忽略空格。
+\item CJKMath=true/\uline{false}：是否支持数学环境CJK字体。如果想在数学环境中直接输入汉字，请开启该选项；否则在数学环境内，需要将汉字写在\latexline{textrm}、或者\pkg{amsmath}宏包支持的\latexline{text}命令中。
 \item CheckSingle=true/\uline{false}：是否检查CJK标点单独占用段落最后一行。此检查在倒数二、三个字符为命令时可能失效。
 \item LongPunct=\verb|{——……}|：设置CJK长标点集，默认的只有中文破折号和中文省略号。长标点不允许在内部产生断行。你也可以用\texttt{+=}或者\texttt{-=}号来修改CJK长标点集。
 \item MiddlePunct=\verb|{——·}|：设置CJK居中标点集，默认的只有中文破折号和中文间隔号（中文输入状态下按数字1左侧的重音符号键）。居中标点保证标点两端距前字和后字的距离等同，并禁止在其之前断行。你同样可以使用\texttt{+=/-=}进行修改。
@@ -2100,7 +2120,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \end{tabular}
 \end{table}
 
-\subsection{箭头}
+\subsection{箭头与长等号}
 在\tref{tab:delimiter}中给出了几个箭头符号，但是不够全，这里给出总表如\tref{tab:arrow}。
 \begin{table}[!htb]
 \centering
@@ -2130,7 +2150,7 @@ $x=y \impliedby a=b$\\
 $x=y \iff a=b$
 \end{codeshow}
 
-最后，依旧另外给出一个基于\pkg{amssymb}宏包的附\tref{tab:amsarrow}。
+依旧另外给出一个基于\pkg{amssymb}宏包的附\tref{tab:amsarrow}。
 \begin{table}[!htb]
 \centering
 \caption{amssymb箭头}
@@ -2145,6 +2165,15 @@ $x=y \iff a=b$
 \nleftrightarrow & nleftrightarrow & \nLeftrightarrow & nLeftrightarrow
 \end{tabular}
 \end{table}
+
+最后，宏包\pkg{extarrows}给出了一些实用的长箭头与长等符号：
+
+\begin{codeshow}
+$\xlongequal{\Delta}$\quad
+$\xLeftrightarrow{\Delta}$\\
+$\xleftrightarrow{x=\tan t}$\\
+$\xLongleftarrow{x} \xLongrightarrow{y}$
+\end{codeshow}
 
 \subsection{其他符号}
 注意冒号如果从键盘输入，会识别为关系符，例如$:=$。在表示比例时也可以借用，或者外加\latexline{mathbin}命令$a\mathbin{:}b$。数学中可能用到的冒号，请使用\latexline{colon}命令，像$x\colon y\to\infty$这样。
@@ -2274,7 +2303,7 @@ And loved the sorrows of your changing face.
 \subsection{加框箱子}
 命令\latexline{fbox}产生加框的箱子，宽度自动调整，但不能跨行。命令\latexline{framebox}类似上面介绍的\latexline{makebox}。如果是想在数学环境下完成加框，使用\latexline{boxed}命令。
 
-width参数中，可以用\latexline{width}, \latexline{height}, \latexline{depth}, \latexline{totalheight}分别表示箱子的自然宽度、自然高度、自然深度和自然高深度之和。注意
+width参数中，可以用\latexline{width}, \latexline{height}, \latexline{depth}, \latexline{totalheight}分别表示箱子的自然宽度、自然高度、自然深度和自然高深度之和。
 
 \begin{codeshow}
 \fbox{This is a frame box} \\
@@ -2786,7 +2815,7 @@ Roman & I & II& III \\
 \begin{tabular}...
 \end{latex}
 
-要临时开关奇偶行颜色，使用\latexline{show/hiderowcolors}命令。
+要临时开关奇偶行颜色，使用\latexline{show/hide rowcolors}命令。
 
 彩色表格中跨行，需要把跨行命令放在最后一行，并跨负数行：
 \begin{codeshow}
@@ -3639,7 +3668,7 @@ for loopnum in lst:
 
 本节的subsection后到代码段前的所有内容就是包含在如上的环境中的。
 
-\input{AdditionalChapter-Tikz}
+%\input{AdditionalChapter-Tikz}
 
 % 参考文献
 \input{Bib}
@@ -3717,7 +3746,7 @@ for loopnum in lst:
 \end{description}
 
 % TikZ索引
-\setlength{\columnseprule}{0pt}
-\printindex
+%\setlength{\columnseprule}{0pt}
+%\printindex
 
 \end{document}

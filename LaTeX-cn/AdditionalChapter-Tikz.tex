@@ -253,7 +253,9 @@ arc [start angle=0, end angle=30, radius=0.5] -- cycle;
 \end{tikzshow}
 
 \section{输出单个文件}
-要输出为\texttt{.svg}矢量文件，用于更多的插图场合。需要在电脑安装pdf2svg\footnote{\url{http://www.cityinthesky.co.uk/opensource/pdf2svg/}}。下例中的\texttt{multi=false}表示只输出为单页文件。
+要输出为\texttt{.svg}矢量文件，用于更多的插图场合。需要在电脑安装pdf2svg\footnote{\url{http://www.cityinthesky.co.uk/opensource/pdf2svg/}}。不过在\LaTeX 使用的场合，可以去掉下述的\texttt{convert}参数，以输出\texttt{.pdf}格式的矢量文件。
+
+下例中的\texttt{multi=false}表示只输出为单页文件。
 
 \begin{latex}
 \documentclass[tikz,convert=pdf2svg,multi=false]{standalone}
@@ -268,9 +270,8 @@ arc [start angle=0, end angle=30, radius=0.5] -- cycle;
 
 在编译时如果是\xelatex ，还需要添加参数：
 \begin{latex}
+% 如果上例的文件名为 example.tex
 xelatex -shell-escape example.tex
 \end{latex}
-
-如果只是要输出pdf图片，那么可以去掉以上参数和\texttt{convert}选项。
 
 \endinput
