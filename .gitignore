@@ -19,5 +19,6 @@
 *.lot
 *.listing
 
+LaTeX-cn/tikz/*.png
 !LaTeX-cn/tikz/*.pdf
 !python-matplotlib-en/mpl-image/*.pdf

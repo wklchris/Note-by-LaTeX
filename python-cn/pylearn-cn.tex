@@ -589,9 +589,9 @@ name wkl
 \subsection{列表解析}
 这个功能实在是太方便了，以至于你知道怎么写\pyline{for}语句就应该知道怎么用它创建列表。
 \begin{py}
->>> lst = [x**2 for x in range(1,4)]
+>>> lst = [x**2 for x in range(1,4) if x > 1]
 >>> lst
-[1, 4, 9]
+[4, 9]
 \end{py}
 
 甚至这个功能可以用在文件读取上。参考\hyperref[sec:liebiaojiexi]{这一小节}。
@@ -829,7 +829,7 @@ with open r'e:\f.txt' as f:
     while True:
         line = f.readline()
         if not line: # 如果这一行非空，也就是未到文末
-            print(line)  
+            break  
 \end{py}
 
 你也可以借助\mytt{fileinput}模块，这样代码更简洁：

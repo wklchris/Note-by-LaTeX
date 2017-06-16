@@ -5,7 +5,7 @@
 \author{K.L Wu\\
   {\kaishu 本手册是\href{https://github.com/wklchris/Note-by-LaTeX}{wklchris-GitHub}的\LaTeX{}-cn项目}
 }
-\date{第一版已定稿。正修订至第二版。\\
+\date{当前版本号：v1.6.0\\
   最后更新于：\today}
 
 \begin{document}
@@ -33,7 +33,7 @@
 \item[基础] 包括标点、缩进、距离、章节、字体、颜色、注释、引用、封面、目录、列表、图表、页面等详细内容。
 \item[数学排版] 包括数学符号、公式、编号等内容。
 \item[进阶] 主要是自定义命令，帮助你更高效、更简洁地书写你的文档。
-\item[Tikz绘图*] 附加章节，\sout{需要读者取消注释后重编译}~现已加入正文。
+\item[Tikz绘图*] 附加章节，需要读者取消注释后重编译。
 \item[附录] 帮助你快速查找一些你想要的东西。
 \end{fead}
 
@@ -51,17 +51,35 @@ Chris Wu
 September 17, 2016 于Davis, CA
 \end{flushright}
 \clearpage
-\noindent{\Huge\xinwei 更新日志：当前 v1.6}\dpar\dpar
+\noindent{\Huge\xinwei 更新日志：}\dpar\dpar
 
-v1.6（未定稿）更新 --- 2017年4月13日：\dpar
+版本号以 $x.y.z$ 的形式公示。当$z=0$时，为决定正式 release 的版本。
+
+v1.6.0 更新 --- 2017年6月15日：\dpar
 \begin{feai}
+\item 重要更新：
+  \begin{feai}
+  \item Tikz 相关的内容停止更新。原因是现有的其他软件绘图功能强大，导出为 pdf 格式的矢量图后也易于调用；Tikz 相比之下学习成本过高。
+  \end{feai}
 \item 字体更换：思源宋体。
-\item 宏包\pkg{extarrows}：长等号命令。
-\item 宏包\pkg{xeCJK}：
+\item 编辑了 Head.tex 文件，使之更易阅读。
+\item [添加]宏包\pkg{animate}：在 PDF 中展示动态图。
+\item [添加]宏包\pkg{tocbibind}：
+  \begin{feai}
+  \item 将目录本身编入目录项。
+  \item 将参考文献章节编号、编入目录项。
+  \item 将索引章节编号、编入目录项。
+  \end{feai}
+\item [更新]宏包\pkg{xeCJK}：
   \begin{feai}
   \item 参数 CJKspace。该功能在新版宏包中已修复。
   \item 命令 \latexline{setCJKmainfont}，可指定字体文件名。
   \end{feai}
+\item 数学内容：
+  \begin{feai}
+  \item [添加]宏包\pkg{extarrows}：长等号命令。
+  \end{feai}
+\item 修复了一些错别字与无效的文档内跳转链接。
 \end{feai}
 
 \mbox{}
@@ -842,7 +860,15 @@ This is the text following the reference.
 \end{document}
 \end{latex}
 
-当然以上只是权宜之计的书写方法。更详尽的参考文献使用在\hyperref[sec:bibtex]{\bibtex{}这一节}进行介绍。
+当然以上只是权宜之计的书写方法。更详尽的参考文献使用（\bibtex\ 方法）在\hyperref[sec:bibtex]{\bibtex{}这一节}进行介绍。
+
+如果想要将参考文献章节正常编号，并加入到目录中，可以使用 \pkg{tocbibind} 宏包\label{pkg:tocbibind}。注意，此时需要重命名\latexline{tocbibname}（而不是 \latexline{refname} 或 \latexline{bibname}）来指定参考文献章节的标题。例如：
+\begin{latex}
+\usepackage[nottoc,numbib]{tocbibind}
+\renewcommand{\tocbibname}{References}
+\end{latex}
+
+该宏包对于将索引、目录本身、图表目录编入目录页同样有效。选项\texttt{nottoc}表示目录本身不编入，\texttt{notlof/lot}表示图/表目录不编入，\texttt{notindex}表示索引不编入，\texttt{notbib}表示参考文献不编入。而选项\texttt{numindex/bib}表示给索引/参考文献章节正常编号。选项\texttt{none}表示禁用所有。
 
 \section{正式排版：封面、大纲与目录}
 
@@ -907,6 +933,8 @@ book文档类还提供了以下的命令：
 \begin{latex}
 \setcounter{tocdepth}{2} % 这是到subsection
 \end{latex}
+
+想要将目录本身编入目录项，使用 \pkg{tocbibind} 宏包，参考\pageref{pkg:tocbibind}。
 
 目录的高级自定义需要借助\pkg{titletoc}宏包，参考\secref{sec:titletoc}。
 
@@ -2868,6 +2896,32 @@ Roman & I & II& III \\
 \end{subtable}  
 \end{table}
 
+\subsection{动态图}
+使用 \pkg{animate} 宏包（当然，\pkg{graphicx} 宏包也是需要的），可以将多张图片以动态图的形式插入 PDF。需要注意的是，\textbf{动态图在一些功能较弱的 PDF 浏览器中可能无法正常工作}，推荐使用 Adobe 系列 PDF 浏览器以保证正常浏览。代码如下：
+\begin{latex}
+\begin{figure}[!hbt]
+  \centering
+  \animategraphics[controls, autoplay, loop, width=0.6\linewidth]{20}{Py3-matplotlib-}{0}{98}
+\end{figure}
+\end{latex}
+
+以上代码对应的动态图\footnote{该例由 Python - matplotlib 绘制。可以参考\href{https://wklchris.github.io/Py3-matplotlib.html}{此页面}的附录。}给出如\fref{fig:GIF}所示：
+\begin{figure}[!hbt]
+  \centering
+  \animategraphics[controls, autoplay, loop, width=0.6\linewidth]{20}{Py3-matplotlib-}{0}{98}
+  \caption{动态图示例}\label{fig:GIF}
+\end{figure}
+
+以上会搜索文件夹（包括你在 \pkg{graphicx} 中设置的文件夹），找到图片依次序编号的从“Py3-matplotlib-0.png”到“Py3-matplotlib-98.png”的这99张图片，以每秒20帧为默认播放速度加载。参数 \texttt{controls} 表示在图片下方附加控制按钮，可以暂停/播放，正放/倒放，手动浏览帧，以及更改播放速度。参数 \texttt{autoplay} 表示当阅读者浏览到动态图所在页面时，动态图会自动开始播放。参数 \texttt{loop} 表示播放到尾帧后自动重播。最后，你可以像一般图片加载一样，指定它的 \texttt{width/height}。
+
+注意：如果你只有GIF图像，但安装了\href{https://www.imagemagick.org/script/download.php}{ImageMagick}，可以在图像文件夹下使用命令行命令：
+
+\begin{verbatim}
+convert Py3-matplotlib.gif -coalesce Py3-matplotlib.png
+\end{verbatim}
+
+来将单个 GIF 转为符合上述要求的多个 png 图像。
+
 \section{自定义编号列表}
 \label{sec:list}
 编号列表的自定义主要使用\pkg{enumitem}宏包。主要的计数器有：
@@ -3079,6 +3133,9 @@ Here we go. This is a very long sentence and you will find that it goes to the s
 \label{sec:bibtex}
 
 首先说一下基础的使用。通过重定义\latexline{refname}或\latexline{bibname}，前者是article类，后者是book类。这点在\secref{subsec:cite}这一节已经介绍过。
+
+关于怎样将参考文献正常编号并加入目录中，请参考\secref{subsec:cite}这一节。
+
 \begin{latex}
 \renewcommand{\bibname}{参考文献}
 \end{latex}
@@ -3354,6 +3411,8 @@ Meow|seealso\{wow\} & Meow, \textit{see also} wow \\
 \end{latex}
 
 定制索引样式可使用\pkg{imakeidx}宏包；另一个宏包\pkg{idxlayout}也能实现这些功能，不过需要放置在前者之后加载。
+
+想要将索引章节正常编号或编入目录项，使用 \pkg{tocbibind} 宏包，参考\pageref{pkg:tocbibind}。
 
 关于索引，部分用户有制作词汇表的需求，请参考\pkg{glossary}宏包。
 
