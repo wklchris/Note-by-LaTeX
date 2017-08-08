@@ -8,9 +8,6 @@
 
 **== 所有内容请勿用于商业用途。DO NOT use those docs for commercial purpose. ==**
 
-## ▶ Excel-cn (by LaTeX)
-一份Excel学习笔记，主要针对函数使用。不涉及VBA。*A Excel learning note aiming at functions usage. It doesn't include VBA contents.*
-
 ## √ githubPush-cn (by Markdown):
 
 怎样使用Git Bash管理本地Git以及推送到Github. *How to use Git Bash to manage local git repositories, and how to push files to Github.* 
@@ -25,9 +22,7 @@ LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在�
 
 __第一版已发布于release中。__
 
-**> 正在阅读 PGF&TikZ 宏包手册，以改进到第二版。**
-
-**> 在完成 TikZ 章节的结构搭建前，不会发布新的PDF版本。**
+**> 第二版内容补充中……**
 
 ## … LaTeX-beamer-en (by LaTeX):
 
@@ -48,9 +43,9 @@ Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__�
 
 # 已定稿的内容
 
-> **LaTeX-cn**: ver 1.5 于2016年10月定稿。
+> **LaTeX-cn**: ver 1.6 于2017年6月定稿。
 >
-> —— 正在阅读 PGF&TikZ 宏包手册以改进至下一版。
+> —— 正在思考如何改进至下一版。
 >
 > **githubpush-cn**: 2016年8月24日定稿。
 >

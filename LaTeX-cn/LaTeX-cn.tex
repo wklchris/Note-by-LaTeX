@@ -55,11 +55,15 @@ September 17, 2016 于Davis, CA
 
 版本号以 $x.y.z$ 的形式公示。当$z=0$时，为决定正式 release 的版本。
 
-v1.6.0 更新 --- 2017年6月15日：\dpar
+v1.6.0 更新 --- 2017年6月15日：
+
+v1.6.1 更新 --- 2017年8月9日；\dpar
+
 \begin{feai}
 \item 重要更新：
   \begin{feai}
-  \item Tikz 相关的内容停止更新。原因是现有的其他软件绘图功能强大，导出为 pdf 格式的矢量图后也易于调用；Tikz 相比之下学习成本过高。
+  \item \textbf{Tikz 相关的内容停止更新}。原因是现有的其他软件绘图功能强大，导出为 pdf 格式的矢量图后也易于调用；Tikz 相比之下学习成本过高。
+  \item \textbf{增加了加快\xelatex 调用字体速度的方式}。参考“中文支持与CJK字体”一节\texttt{fc-cache}相关内容。
   \end{feai}
 \item 字体更换：思源宋体。
 \item 编辑了 Head.tex 文件，使之更易阅读。
@@ -606,6 +610,8 @@ Let's change font to \myfont{ppl}{Palatino}!
 
 再者参考\xelatex 编译下的\pkg{xeCJK}宏包的使用。在使用\xelatex 时，如果你使用ctex文档类，它会在底层调用\pkg{xeCJK}宏包，所以你无须再显式地加载它。当然你也可以使用原生文档类，然后逐一汉化参数内容。
 
+\TeX\ Live 配合\xelatex 时， 调用字体非常慢。Windows下，把xelatex.exe与TeXStudio设为管理员运行，能大幅缩短编译用时。另外，安装新字体后，管理员命令行\texttt{fc-cache}能够刷新字体缓存（很慢），有时也能改善用时\footnote{提供这两种方式的网页链接：\href{https://tex.stackexchange.com/questions/325278/xelatex-runs-slow-on-windows-machine}{StackExchange页面}。}。
+
 比如在导言区：
 \begin{latex}
 \usepackage[slantfont,boldfont]{xeCJK}
@@ -637,7 +643,6 @@ Let's change font to \myfont{ppl}{Palatino}!
 \newCJKfontfamily[song]\songti{SimSun}
 \end{latex}
 
-
 如果要临时使用一种CJK字体，使用\latexline{CJKfontspec}命令。其中的FakeSlant和FakeBold参数根据全局伪字体的启用情况决定；如果未启用则使用BoldFont、SlantFont参数指定具体的字体。
 \begin{latex}
 {\CJKfontspec[FakeSlant=0.2,FakeBold=3]{SimSun} text}
@@ -645,10 +650,10 @@ Let's change font to \myfont{ppl}{Palatino}!
 
 对于Windows系统，想要获知电脑上安装的中文字体，使用CMD命令：
 \begin{verbatim}
-fc-list -f "%{family}\n" :lang=zh-cn >c:\list.txt
+fc-list -f "%{family}\n" :lang=zh-cn >d:\list.txt
 \end{verbatim}
 
-然后到\verb|C:\list.txt|中进行查看。
+然后到\verb|d:\list.txt|文件中查看中文字体列表。
 
 \subsection{颜色}
 使用\pkg{xcolor}宏包来方便地调用颜色。比如本文中代码的蓝色：
