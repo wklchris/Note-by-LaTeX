@@ -9,7 +9,7 @@
 
     $ mkdir folder_name
     $ cd folder_name
-    
+
 把这个文件夹设置为版本库：
 
     $ git init
@@ -44,14 +44,14 @@
 	$ git checkout dev
 
 编写完成，要把dev分支合并到主分支，先切换到主分支再merge：
-    
+​    
     $ git checkout master
-	$ git merge dev
+    $ git merge dev
 
 最后，删除已合并过的分支用 `-d` 参数，删除未合并过的用 `-D` 参数：
 
 	$ git branch -d dev
-    $ git branch -D feature-vulcan
+	$ git branch -D feature-vulcan
 
 # 本地提交 Commit
 
@@ -101,28 +101,37 @@
 3. **提交记录**：你的修改已经commit了，但是还没有push到远程版本库。有三种情况：
 
     + **这个提交很蠢，我想再提交一次，用一个新提交取代这个提交。**
-        
+
             $ git commit --amend 
-    
+
     + **我想回退到某个版本。每向前回退一个版本，就在 `HEAD` 后输入一个 `^` 号。或者输入对应的commit-id.**
-    
+
             $ git revert [HEAD^/commit-id]
-      
+
         你可以先用这个命令来查看 `HEAD^` 这个版本具体做了什么：
 
             $ git show HEAD^
 
     + **我想回退版本，并将末尾的N次commit从记录中去除。**
-    
+
             $ git reset [--soft/--hard/--mixed] [HEAD^/commit-id]
-    
+
         其中参数的含义是：
-        
+
         + soft：不修改当前的workdir和stage，同时把这几个版本的修改都添加到stage；
         + hard：完全回退到你想回去的时间点，清空该时间点后workdir的修改，并放弃stage的数据。
         + mixed：缺省值，删除你当前stage中的修改，但你回退的这几个版本修改仍存在于workdir中，你可以用add把回退前的修改重新加上。
 
 以上的所有回退方法，即使去除了 `$ git log` 中的记录，也均可以通过 `$ git reflog` 方式查看记录。
+
+# 删除文件
+
+保留本地文件，删除远程版本库的文件，并将相应的文件夹加入 gitignore 即可：
+
+	$ git rm -r --cached <folder/filename>
+如果本地文件也想删除，可以不使用 `--cached` 参数。
+
+如果想预览能删掉哪些文件，使用 `-n` 参数进行 dry run。
 
 # 推送到GitHub
 

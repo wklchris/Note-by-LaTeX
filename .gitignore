@@ -19,6 +19,11 @@
 *.lot
 *.listing
 
+# Ignored Project
+Markdown-en
+Vim-cn
+html-cn
+
 LaTeX-cn/tikz/*.png
 !LaTeX-cn/tikz/*.pdf
 !python-matplotlib-en/mpl-image/*.pdf
