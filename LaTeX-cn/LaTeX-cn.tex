@@ -5,7 +5,7 @@
 \author{K.L Wu\\
   {\kaishu 本手册是\href{https://github.com/wklchris/Note-by-LaTeX}{wklchris-GitHub}的\LaTeX{}-cn项目}
 }
-\date{当前版本号：v1.6.0\\
+\date{当前版本号：v1.6.2\\
   最后更新于：\today}
 
 \begin{document}
@@ -57,23 +57,28 @@ September 17, 2016 于Davis, CA
 
 v1.6.0 更新 --- 2017年6月15日：
 
-v1.6.1 更新 --- 2017年8月9日；\dpar
+v1.6.1 更新 --- 2017年8月9日；
+
+v1.6.2 更新 --- 2017年10月5日。\dpar
+
+以下内容中，未以括号注明的项是在v1.6.0中更新的。
 
 \begin{feai}
 \item 重要更新：
   \begin{feai}
-  \item \textbf{Tikz 相关的内容停止更新}。原因是现有的其他软件绘图功能强大，导出为 pdf 格式的矢量图后也易于调用；Tikz 相比之下学习成本过高。
-  \item \textbf{增加了加快\xelatex 调用字体速度的方式}。参考“中文支持与CJK字体”一节\texttt{fc-cache}相关内容。
+  \item \textbf{Tikz 相关的内容停止更新}。原因是现有的其他软件绘图功能强大，导出为 pdf 格式的矢量图后也易于调用；Tikz 相比之下学习成本过高。（在v1.6.2后，笔者又开始考虑是否重启Tikz章节的问题。）
+  \item \textbf{增加了加快\xelatex 调用字体速度的方式}。参考“中文支持与CJK字体”一节\texttt{fc-cache}相关内容。（v1.6.1）
   \end{feai}
 \item 字体更换：思源宋体。
 \item 编辑了 Head.tex 文件，使之更易阅读。
-\item [添加]宏包\pkg{animate}：在 PDF 中展示动态图。
+\item [添加]宏包\pkg{animate}：在 PDF 中展示动态图。（v1.6.1）
 \item [添加]宏包\pkg{tocbibind}：
   \begin{feai}
   \item 将目录本身编入目录项。
   \item 将参考文献章节编号、编入目录项。
   \item 将索引章节编号、编入目录项。
   \end{feai}
+\item [更新]宏包\pkg{dcolumn}，更详细说明了如何在表格中使用小数点对齐。（v1.6.2）
 \item [更新]宏包\pkg{xeCJK}：
   \begin{feai}
   \item 参数 CJKspace。该功能在新版宏包中已修复。
@@ -1248,9 +1253,16 @@ b & C & D \\
 \item 如想实现单元格内换行，使用\pkg{makecell}宏包支持的\latexline{makecell}命令。
 \item 宏包\pkg{dcolumn}提供了新的列对齐方式D，并调用\pkg{array}宏包。故你可以利用后者支持的命令，这样定义：
 \begin{latex}
-% 表示输入小数点、显示为小数点、保留2位
+% 表示输入小数点、显示为小数点、支持小数点后2位
 \newcolumntype{d}{D{.}{.}{2}}
+% 使用 d{2} 这样的参数进行控制 
+\newcolumntype{d}[1]{D{.}{.}{#1}}
 \end{latex}
+注意：\begin{itemize}
+\item 表头请用\latexline{multicolumn{1}{c}}类似的语句进行处理。
+\item 第三参数不能帮你截取、舍入，只用于预设列宽；小心超宽。
+\item 第三参数可以是“-1”，表示小数点居中；可以形如“2.1”，表示在小数点左侧预留2位宽、右侧预留1位宽。
+\end{itemize}
 \end{feae}
 
 \subsection{非浮动体图表和并排图表}
