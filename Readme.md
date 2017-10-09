@@ -1,47 +1,34 @@
-# What's this? 这是什么？
+# What does this repo include? 仓库内容？
 
-**== 所有PDF内容如果定稿，下载会发布在release（[https://github.com/wklchris/Note-by-LaTeX/releases](https://github.com/wklchris/Note-by-LaTeX/releases)）中。PDF files can be accessed in the release of this git.  ==**
-
-本仓库用于存放我的个人学习笔记，全部使用 LaTeX 或者 Markdown 进行撰写。具体包括：*This repository is for the use of storing my learning notes (by LaTeX or Markdown), including:*
-
-所有运行环境均为Windows系统. 打勾的项表示已完成（但如有必要仍会修改），省略号表示项目进度缓慢，播放符号表示项目正作为主力项目推进。*All running environments are __Windows__ system. '√' means it has been finished (but I will still modify it if necessary), '…' means I put it aside recently and will continue in the future, and '▶' means I am working hard on it.*
+**== 所有PDF内容如果定稿，下载会发布在release（[https://github.com/wklchris/Note-by-LaTeX/releases](https://github.com/wklchris/Note-by-LaTeX/releases)）中。PDF files can be accessed in the release page of this repo.  ==**
 
 **== 所有内容请勿用于商业用途。DO NOT use those docs for commercial purpose. ==**
 
-## √ githubPush-cn (by Markdown):
+本仓库用于存放我的个人学习笔记，全部使用 LaTeX 或者 Markdown 进行撰写。所有运行环境均为Windows系统。具体包括：*This repository is for the use of storing my learning notes (by LaTeX or Markdown). All running environments are __Windows__ system. Namely it  includes:*
 
-怎样使用Git Bash管理本地Git以及推送到Github. *How to use Git Bash to manage local git repositories, and how to push files to Github.* 
+## LaTeX-cn (Chinese)
 
-## … html-cn (by LaTeX)：
+LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在排版方面更有优势。该一站式手册讲述了如何高效使用LaTeX。*LaTeX is a typesetting system, which outperforms Microsoft Word on typesetting. I write this all-in-one manual to tell how to use LaTeX efficiently.*
 
-一份HTML 4的基础中文笔记。HTML是一种很有意思的标记语言，学习它对爬虫、使用Markdown都有帮助。 *A HTML basic note in Chinese. HTML is an interesting markup language. Learning it will help you on webcrawl and Markdown use.*
-
-## ▶ LaTeX-cn (by LaTeX):
-
-LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在排版方面更有优势。本笔记记录如何使用LaTeX进行排版处理。*LaTeX is one kind of typesetting system, which outperforms Microsoft Word on typesetting. This note records how to use LaTeX.*
-
-__第一版已发布于release中。__
-
-**> 第二版内容补充中……**
-
-## … LaTeX-beamer-en (by LaTeX):
-
-用beamer宏包进行幻灯的排版，能方便地打印为幻灯展示、屏幕阅读、讲义分发这三种不同侧重的PDF文件. *How to use beamer package to make a slide. You can output your tex file into PDF in 3 kinds of features: __slide__, __screen-friendly__ and __handout__.*
-
-## … markdown-en (by Markdown):
-
-Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__易写__之间的平衡。*Markdown is a markup language (like HTML), but it emphysizes the balance between __easy-reading__ and __easy-writing__.*
-
-## √ python-cn (by LaTeX)：
-
-一份Python 3的基础中文笔记，不涉及太多库的知识。基于Python 3.4。 *A Python basic note in Chinese, which doesn't include much contents about libs. Based on Python 3.4*
-
-## … Vim-cn (by Markdown)：
-
-一份Vim使用笔记。也许会有帮助。此外我推荐：[七张图学用Vim](http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html)这个页面。*A Vim using notes in Chinese. It may help. Besides, I recommand this website: [Learning Vim use by 7 pictures](http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html).*
+- 最新版本v1.6.2，于2017年10月发布。*Latest version is v1.6.2 releaesd in Oct, 2017.*
+- 正考虑将 Tikz 作为附加章节，届时可能发布带 Tikz与不带 Tikz 两版手册。*Considering adding Tikz as an additional chapter. And I might upload two versions of the manual (with/without Tikz respectively) at the next release.*
 
 
-# 已定稿的内容
+## LaTeX-beamer-en (English)
+
+关于beamer的基础使用，完全使用英文。*Basic beamer knowledge. Totally written in English.*
+
+## LaTeX-tikz (Bilingual)
+
+本项目预计将与 LaTeX-cn 项目中的 Tikz 章节一同上线。可能是双语版。*This project will come with the additional chapter in LaTeX-cn project. It probably be a bilingual one.*
+
+
+
+# 过往项目日志 Outdate Projects Log
+
+过往项目已于2017年10月初取消跟进。读者可以回退到当时的版本进行查找。
+
+p.s. 在 Release 页面，python-cn 的第一版仍保留了下来。
 
 > **LaTeX-cn**: ver 1.6 于2017年6月定稿。
 >
@@ -50,5 +37,5 @@ Markdown是一种标记语言，类似于HTML，但它很注重**易读**和__�
 > **githubpush-cn**: 2016年8月24日定稿。
 >
 > **python-cn**: 2016年7月22日定稿。
-> 
+>
 > —— 附：Python安装Lib的[非官方Whl文件下载点](http://www.lfd.uci.edu/~gohlke/pythonlibs)。

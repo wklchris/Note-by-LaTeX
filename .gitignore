@@ -20,9 +20,12 @@
 *.listing
 
 # Ignored Project
+githubPush-cn
+html-cn
+python-cn
 Markdown-en
 Vim-cn
-html-cn
+
 
 LaTeX-cn/tikz/*.png
 !LaTeX-cn/tikz/*.pdf
