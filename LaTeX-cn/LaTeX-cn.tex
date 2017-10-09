@@ -59,7 +59,7 @@ v1.6.0 更新 --- 2017年6月15日：
 
 v1.6.1 更新 --- 2017年8月9日；
 
-v1.6.2 更新 --- 2017年10月5日。\dpar
+v1.6.2 更新 --- 2017年10月5-8日。\dpar
 
 以下内容中，未以括号注明的项是在v1.6.0中更新的。
 
@@ -87,6 +87,8 @@ v1.6.2 更新 --- 2017年10月5日。\dpar
 \item 数学内容：
   \begin{feai}
   \item [添加]宏包\pkg{extarrows}：长等号命令。
+  \item [添加]命令\latexline{numberthis}，用于给多行公式中的某行编号。(v1.6.2)
+  \item [添加]命令\latexline{allowdisplaybreaks}，用于支持多行公式环境换页。
   \end{feai}
 \item 修复了一些错别字与无效的文档内跳转链接。
 \end{feai}
@@ -1889,7 +1891,11 @@ x-1, & x<0
 \end{align}
 \end{codeshow}
 
-\LaTeX 中长公式不能自动换行\footnote{不过\pkg{breqn}宏包的\envi{dmath}环境可以实现自动换行，读者可以自行尝试效果。}，请自行指定断行位置和缩进距离，就像上面一样。也许你不需要三个编号，你可以：
+\LaTeX 中长公式不能自动换行\footnote{不过\pkg{breqn}宏包的\envi{dmath}环境可以实现自动换行，读者可以自行尝试效果。}，请如上自行指定断行位置和缩进距离。
+
+至于多行公式换页，可以在导言区加上\latexline{allowdisplaybreaks}实现（可选参数：1为尽量避免换页，2至4为倾向于换页），或在特定位置加上\latexline{displaybreak}（可选参数：0为允许在下个换行符后换页，但不倾向换页；2-3介中；4为强制换页）。两种的默认可选参数都是4。
+
+上例给出三个编号，如果你只需要一个，可以：
 
 \begin{codeshow}
 \begin{align}
@@ -3452,7 +3458,7 @@ b^2 \geqslant 0
 \end{equation}
 \end{codeshow}
 
-其中\latexline{tag*}命令会去掉编号行间公式的小括号，从而定制性更强。
+其中\latexline{tag*}命令会去掉编号行间公式的小括号，从而定制性更强。如果想在\RED{多行公式中的某行}添加编号，使用\latexline{numberthis}命令。
 
 \subsection{父子编号：公式1与公式1a}
 有时你需要叙述一些推论，你不希望这些推论被编号为公式，但是不进行编号又难以叙述。这时可以尝试\pkg{amsmath}宏包提供的\envi{subequations}环境：
