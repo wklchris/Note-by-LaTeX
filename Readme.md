@@ -4,16 +4,16 @@
 
 **== 所有内容请勿用于商业用途。DO NOT use those docs for commercial purpose. ==**
 
-## Table of Contents 目录
+## Table of Contents
 
-   * [**Incoming Update 即将更新 (03.2018)**](#Incoming-Update-(03.2018))
-   * [Sub-repos 仓库内容](#Sub-repos)
-      * [LaTeX-cn 中文项目](#LaTeX-cn-(Chinese))
-      * [LaTeX-beamer 英文项目（挂起）](#LaTeX-beamer-en-(suspended))
-   * [过往项目日志](#Outdate-Projects-Log)
+   * [**Incoming Update 即将更新 (03.2018)**](#incoming-update)
+   * [Sub-repos 仓库内容](#sub-repos)
+      * [LaTeX-cn 中文项目](#latex-cn-chinese)
+      * [LaTeX-beamer 英文项目（挂起）](#latex-beamer-en-suspended)
+   * [过往项目日志](#outdate-projects-log)
 
 
-## Incoming Update (03.2018)
+## Incoming Update
 
 *本公告于2018年3月22日随v1.6.3版发送。This incoming announcement was leaked with v1.6.3 on Mar 22, 2018.*
 
