@@ -1,0 +1,779 @@
+%!TEX root = ../LaTeX-cn.tex
+\chapter{数学排版}
+\section{行间与行内公式}
+\co{行内公式}指将公式嵌入到文段的排版方式，主要要求公式垂直距离不能过高，否则影响排版效果。行内公式的书写方式：
+\begin{latex}
+$...$ 或者 \(...\) 或者 \begin{math}...\end{math}
+\end{latex}
+
+一般推荐第一种方式。例如：\verb|$\sum_{i=1}^{n}a_i$|，即：$\sum_{i=1}^{n}a_i$.
+
+另外一种公式排版方式是\co{行间公式}，也称行外公式，使用：
+\begin{latex}
+\[...\] 或者 \begin{displaymath}...\end{displaymath}
+或者 amsmath 提供的 \begin{equation*}...\end{equation*}
+\end{latex}
+
+一般也推荐第一种命令\footnote{还有一种\texttt{\$\$...\$\$}的写法，源自底层\TeX，不建议使用。}，例如：\verb|\[\sum_{i=1}^n{a_i}\]|，得到：
+
+\[\sum_{i=1}^{n}a_i\]
+
+从上面的两个例子可以看出，即使输出相同的内容，行内和行间的排版也是有区别的，比如累计符号上标是写在正上方还是写在右上角。
+
+如果行间公式需要编号，使用\envi{equation}环境\footnote{需要注意有一个\RED{已被放弃}的多行公式编号环境叫\texttt{eqnarray}，请不要再使用。}，还可以插入标签：
+
+\begin{codeshow}
+\begin{equation}
+\label{eq:NoExample}
+  |\epsilon|>M
+\end{equation}
+\end{codeshow}
+
+\section{数学字体、字号与空格}
+\label{sec:mathfont}
+\subsection{空格}
+在数学环境中，行文空格是被忽略的。比如\verb|$x,y$|和\verb|$x, y$|并没有区别。数学环境有独有的空格命令，最后一个是$-3/18$的空格：
+
+\begin{codeshow}
+  $没有空格,3/18空\,格$ \\
+  $4/18空\:格,5/18空\;格$ \\
+  $9/18空\ 格,一个空\quad 格$ \\
+  $两个空\qquad 格,负3/18空\!格$
+\end{codeshow}
+
+事实上，以上命令也可以在数学模式外使用，其中使用最广泛的是\latexline{,}，比如上文提到过的千位分隔符。在数学环境中它也应用广泛：
+
+\begin{codeshow}
+\[ \int_0^1 x \ud{}x
+= \frac{1}{2} \]
+\end{codeshow}
+
+其中\verb|\ud|命令是自定义的，这也是微分算子的正常定义\label{cmd:ud}：
+\begin{latex}
+\newcommand{\ud}{\mathop{}\negthinspace\mathrm{d}}
+\end{latex}
+
+\subsection{间距}
+命令\latexline{abovedisplayskip}和\latexline{belowdisplayskip}控制了行间公式与上下文之间的间距，并且该值不会随字号调整而调整。有时你需要自行指定。默认值\texttt{12pt plus 3pt minus 9pt}。多行公式之间的间距用\latexline{jot}来控制，默认\texttt{3pt}。命令\latexline{mathsurround}给出了行内公式与文字间，除了预留空格之外的间距，默认值为\texttt{0pt}。另外一个有趣的命令\latexline{smash}，可以忽略参数的全高：
+\begin{codeshow}
+\[\underline{\smash{\int f(x)\ud x}}=1\]
+\end{codeshow}
+
+也能够通过参数，单独忽略参数的高度(t)或深度(b)：
+\begin{codeshow}
+$\sqrt{A_{n_k}} \qquad
+\sqrt{\smash[b]{A_{n_k}}}$
+\end{codeshow}
+
+\subsection{字号}
+\LaTeX{}提供四种字号尺寸命令：
+\begin{para}
+\item[\latexline{displaystyle}] 行间公式尺寸。如$\displaystyle \sum_{i=1}^n a$
+\item[\latexline{textstyle}] 行内公式尺寸。如$\textstyle \sum_{i=1}^n a$
+\item[\latexline{scriptstyle}] 上下标尺寸。如$\scriptstyle \sum_{i=1}^n a$
+\item[\latexline{scriptscriptstyle}] 次上下标尺寸。如$\scriptscriptstyle \sum_{i=1}^n a$
+\end{para}
+
+\subsection{数学字体}
+将字体转为正体使用\latexline{mathrm}命令。如需保留空格，使用\latexline{textrm}命令——这与正文一致。但是，\latexline{textrm}命令内的字号可能不会自适应，\latexline{mathrm}则表现起来稳定得多。
+
+例如自然对数的底数$\ue$，在本文中就是这样定义的：
+\begin{latex}
+\newcommand{\ue}{\mathrm{e}}
+\end{latex}
+
+以下简单介绍几种数学字体。数学字体的总表参见\tref{tab:mathfont}。
+
+\subsubsection{数学粗体}
+数学粗体使用\pkg{amsmath}宏包支持的\latexline{boldsymbol}命令。命令\latexline{boldmath}的问题在于它只能加粗一个数学环境，其中很可能包括了标点符号，而这是不严谨的。命令\latexline{mathbf}就差的更远，它只能把字体转为\textbf{正}粗体，而数学字体都是斜体的。
+
+\begin{codeshow}
+$\mu,M$\\ $\boldsymbol{\mu},
+\boldsymbol{M}$
+\end{codeshow}
+
+\subsubsection{空心粗体}
+空心粗体使用\pkg{amsfonts}或\pkg{amssymb}宏包的\latexline{mathbb}命令。这里用\latexline{textrm}而不是\latexline{mathrm}，是为了保留空格。
+
+\begin{codeshow}
+$x^2 \geq 0 \qquad
+\textrm{for all }x\in\mathbb{R}$
+\end{codeshow}
+
+\section{基本命令}
+基本函数默认用正体书写，包括：
+\begin{verbatim}
+\sin \cos \tan \cot \arcsin \arccos \arctan \cot \sec \csc
+\sinh \cosh \tanh \coth \log \lg \ln \ker \exp \dim \arg \deg 
+\lim \limsup \liminf \sup \inf \min \max \det \Pr \gcd
+\end{verbatim}
+
+以上函数，最后一行的10个是可以带上下限参数的，即在行间公式模式下，上标和下标将在函数正上方和正下方书写内容。
+
+\pkg{amsmath}宏包允许\latexline{DeclareMathOperator}命令自定义基本函数，用法类似于\latexline{newcommand}命令。如果命令带星号\latexline{DeclareMathOperator*}，则可以带上下限参数。
+
+此外有一个叫\latexline{mathop}的命令，可以把参数转换为数学对象，使其能够堆叠上下标；\latexline{mathbin}与\latexline{mathrel}则分别能把参数转换为二元运算符、二元关系符，并正确设置两侧的空距。
+
+\subsection{上下标与虚位}
+用低划线和尖角符表示上标和下标，请仔细体会下述例子：
+
+\begin{codeshow}
+$a^3_{ij}$ \\
+${a_{ij}}^3\text{或}a_{ij}{}^3$\\
+$\mathrm{e}^{x^2}\geq 1$
+\end{codeshow}
+
+上面的指数3的位置读者可以多多体会一下。此外，\latexline{phantom}被称为虚位命令，从下例你也能够体会到他的作用：
+
+\begin{codeshow}
+${}^{12}_{6}\mathrm{C}$ \\
+${}^{12}_{\phantom{1}6}
+\mathrm{C}$ \\
+$a^3_{ij}$ \\
+$a^{\phantom{ij}3}_{ij}$
+\end{codeshow}
+
+宏包\pkg{mathtools}提供了\latexline{prescript}来避免手工调整：
+\begin{codeshow}
+$\prescript{12}{6}{\mathrm{C}}$
+\end{codeshow}
+
+\subsection{微分与积分}
+导数直接使用单引号\verb|'|，积分使用\latexline{int}符号：
+
+\begin{codeshow}
+$y'=x \qquad \dot{y}(t)=t$ \\
+$\ddot{y}(t)=t+1$
+$\dddot{y}+\ddddot{y}=0$ \\
+$\iint_{D}f(x)=0$
+$\int_{0}^{1}f(x)=1$
+\end{codeshow}
+
+有时候需要更高级的微分或积分号，其中\latexline{ud}命令在\hyperref[cmd:ud]{上文这里}定义过：
+\begin{codeshow}
+\[\left.\frac{\ud y}{\ud x}\right|_{x=0}\quad
+\frac{\partial f}{\partial x}
+\quad\oint\;\varoiint_S \]
+\end{codeshow}
+
+其中的\latexline{dot}系的导数形式\LaTeX 只原生支持到二阶导数。后面的三阶、四阶需要\pkg{amsmath}宏包。\latexline{int}系的积分命令类似。而环形双重积分命令\latexline{varoiint}需要\pkg{esint}宏包\footnote{该宏包可能与\pkg{amsmath}冲突，即便使用也请其放在\pkg{amsmath}之后加载。}。
+
+\latexline{left.}或\latexline{right.}命令\footnote{参考\hyperref[subsec:delimiter]{定界符}部分的内容。}只用于匹配，本身不输出任何内容。
+
+\subsection{分式、根式与堆叠}
+分式使用\latexline{frac}命令。或者\pkg{amsmath}宏包支持的\latexline{dfrac}、\latexline{tfrac}命令来强制获得行间公式、行内公式大小的分数。如果想自定义分式样式，参考\secref{subsec:binom}一节的\latexline{genfrac}命令。
+\begin{codeshow}
+\[\frac{x}{y}+\dfrac{x}{y}
++\tfrac{a}{b}\]
+\end{codeshow}
+
+该宏包还支持另一个命令\latexline{cfrac}，用于输入连分式。
+\begin{codeshow}
+\[\cfrac{1}{1+\cfrac{2}{1+x}}\]
+\end{codeshow}
+
+空根式用\latexline{surd}输出，更常用的是\latexline{sqrt}：
+\begin{codeshow}
+$\sqrt{2} \qquad \surd$\\
+$\sqrt[\beta]{k}$
+\end{codeshow}
+
+开方次数的位置可以用这两个命令微调，参数是整数：
+\begin{codeshow}
+$\sqrt[\leftroot{-2}\uproot{2} \beta]{k}$
+\end{codeshow}
+
+划线命令使用\latexline{underline}和\latexline{overline}，水平括号使用brace或者bracket代替line，例如\latexline{underbrace}：
+
+\begin{codeshow}
+$\overline{m+n}$ \\
+$\underbrace{a_1+\ldots+a_n}_{n}$
+$\overbrace{a_1+\ldots+a_n}^{n}$
+% 可选参数：线宽；竖直空距
+$\underbracket[0.4pt][1ex]
+  {a_1+\cdots+a_n}_n$
+\end{codeshow}
+
+两个互有重叠的括号需要一个箱子命令\latexline{rlap}，会在后面提到。不过在$j$之前的空距有些异常，可能需要\latexline{,}进行修正。
+\begin{codeshow}
+\[b+\rlap{$\overbrace{\phantom{
+  c+d+e+f+g}}^x$}c+d+\underbrace{
+  e+f+g+h+i}_y+\,j \]
+\end{codeshow}
+
+事实上\latexline{overline}命令也存在问题，请比较：
+
+\begin{codeshow}
+$\overline{A}\overline{B}$ \\
+$\closure{A}\closure{B}$
+$\closure{AB}$
+\end{codeshow}
+
+其中\latexline{closure}是在导言区定义的：
+\begin{latex}
+\newcommand{\closure}[2][3]{{}\mkern#1mu
+    \overline{\mkern-#1mu#2}}
+\end{latex}
+
+还可以输出能堆叠到其他对象上的箭头符，比如向量符号：
+
+\begin{codeshow}
+  $\vec a\quad\overrightarrow{PQ}$
+  $\overleftarrow{EF}$
+\end{codeshow}
+
+你也许还需要能够添加上下堆叠的箭头符：
+
+\begin{codeshow}
+\[ a\xleftarrow{x+y+z} b \]
+\[ c\xrightarrow[x<y]{a*b*c}d \]
+\end{codeshow}
+
+尖帽符号、波浪符号，还有\pkg{yhmath}宏包支持的圆弧符号：
+
+\begin{codeshow}
+$\hat{A}\quad\widehat{AB}$\\
+$\tilde{C}\quad\widetilde{CD}
+\qquad\wideparen{APB}$
+\end{codeshow}
+
+强制堆叠命\latexline{stackrel}，位于上方的符号与上标同等大小。如果有\pkg{amsmath}宏包，可以使用\latexline{overset}或者\latexline{underset} 命令，前者与\latexline{stackrel}命令完全等同：
+
+\begin{codeshow}
+$\int f(x) \stackrel{?}{=} 1$\\
+$A\overset{abc}{=}B$ \quad $C\underset{def}{=}D$
+\end{codeshow}
+
+一个很强大的堆叠放置命令\latexline{sideset}，只用于巨算符：
+
+\begin{codeshow}
+\[\sideset{_a^b}{_c^d}\sum\]
+\[\sideset{}{'}\sum_{n=1}\text{或}
+\,{\sum\limits_{n=1}}'\]
+\end{codeshow}
+
+去心邻域\latexline{mathring}大概也属于堆叠符的一种？这样输出：
+
+\begin{codeshow}
+$\mathring{U}$
+\end{codeshow}
+
+在下一次节：累加与累积中，还介绍了更多的堆叠命令。
+
+\subsection{累加与累积}
+使用\latexline{sum}和\latexline{prod}命令，效果如下：
+
+\begin{codeshow}
+\[\sum_{i=1}^{n}a_i=1 \qquad
+\prod_{j=1}^{n}b_j=1\]
+\end{codeshow}
+
+有时需要复杂的堆叠方式，效果如下：
+
+\begin{codeshow}
+\[\sum_{\substack{0<i<n \\
+  0<j<m}} p_{ij}=
+  \prod_{\begin{subarray}{l}
+  i\in I \\  1<j<m
+  \end{subarray}}q_{ij}\]
+\end{codeshow}
+
+有时候需要强制实现堆叠的效果，可以使用\latexline{limits}命令。如果堆积目标不是数学对象，还需要使用\latexline{mathop}命令：
+
+\begin{codeshow}
+\[\max\limits_{i>1}^{x}\quad
+\mathop{xyz}\limits_{x>0}\quad
+\lim\nolimits_{x\to \infty}\]
+\end{codeshow}
+
+\subsection{矩阵与省略号}
+矩阵的排版可以通过\envi{array}环境和自适应定界符完成：
+
+\begin{codeshow}
+\[\mathbf{A}=
+\left(\begin{array}{ccc}
+x_{11} & x_{12} & \ldots \\
+x_{21} & x_{22} & \ldots \\
+\vdots & \vdots & \ddots
+\end{array}\right)\]
+\end{codeshow}
+
+还有就是\latexline{cdots}命令。\pkg{mathdots}宏包支持省略号缩放，并提供了\latexline{iddots}：$\iddots$. 或许什么时候需要使用呢？
+
+\LaTeX 原生支持自动添加定界符的形式，不过要放在数学环境内：
+\begin{codeshow}
+\centering $\begin{matrix}
+0 & 1 \\ 1 & 0 \end{matrix}\qquad
+\begin{pmatrix} 0 & 2 \\
+2 & 0 \end{pmatrix}$
+\end{codeshow}
+
+方括号和花括号使用\latexline{[Bb]matrix}命令：
+\begin{codeshow}
+\centering $\begin{bmatrix}
+0 & 3 \\ 3 & 0 \end{bmatrix}\qquad
+\begin{Bmatrix} 0 & 4 \\
+4 & 0 \end{Bmatrix}$
+\end{codeshow}
+
+行列式使用\latexline{[Vv]matrix}命令：
+\begin{codeshow}
+\centering $\begin{vmatrix}
+0 & 5 \\ 5 & 0 \end{vmatrix}\qquad
+\begin{Vmatrix} 0 & 6 \\
+6 & 0 \end{Vmatrix}$
+\end{codeshow}
+
+宏包\pkg{mathtools}的带星\texttt{matrix}命令，可更改列对齐：
+\begin{codeshow}
+$\begin{pmatrix*}[r]
+100 & -200 \\ 20 & 10
+\end{pmatrix*}$
+\end{codeshow}
+
+在矩阵中排版\latexline{dfrac}分式时，处理行距如下例的 \texttt{\char92\char92 [8pt]}：
+\begin{codeshow}
+\[\mathbf{H}=\begin{bmatrix}
+\dfrac{\partial^2 f}{\partial x^2} &
+\dfrac{\partial^2 f}
+{\partial x \partial y} \\[8pt]
+\dfrac{\partial^2 f}
+{\partial x \partial y} &
+\dfrac{\partial^2 f}{\partial y^2}
+\end{bmatrix}\]
+\end{codeshow}
+
+宏包\pkg{amsmath}还支持行内小矩阵\latexline{smallmatrix}，需手动加括号。
+\begin{codeshow}
+矩阵 $\left(\begin{smallmatrix}
+x & -y\\ y & x\end{smallmatrix}
+\right)$ 可以显示在行内。
+\end{codeshow}
+
+最后，一种带边注的矩阵\latexline{bordermatrix}，用法有些奇怪：
+\begin{codeshow}
+\[\bordermatrix{& 1 & 2\cr
+1 & A & B \cr
+2 & C & D \cr} \]
+\end{codeshow}
+
+\subsection{分段函数与联立方程}
+用\envi{cases}环境书写分段函数，它自动生成一个比\latexline{left\{}更紧凑的花括号：
+
+\begin{codeshow}
+\[y=\begin{cases}
+\int x, & x>0 \\
+0,   & x=0 \\
+x-1, & x<0
+\end{cases},\,x\in\mathbb{R}\]
+\end{codeshow}
+
+如果想要生成display样式的内容（比如上面的积分号只是text样式的），使用\pkg{mathtools}宏包的\envi{dcases}环境代替\envi{cases}环境。如果\envi{cases}环境的第二列条件不是数学语言而是一般文字，可以考虑使用\envi{dcases*}环境，列中用\&{}隔开。
+
+\begin{codeshow}
+\[y=\begin{dcases}
+  \int x, & x>0 \\
+  x^2, & x\leqslant 0
+  \end{dcases}\]
+\[z=\begin{dcases*}
+  y, & when $y$ is prime\\
+  y^2, & otherwise
+  \end{dcases*}\]
+\end{codeshow}
+
+\subsection{多行公式及其编号}
+\label{subsec:multieqnum}
+多行公式可以使用\pkg{amsmath}下的\envi{align}环境——因为原生的\envi{eqnarray}环境真的很差！而且\envi{align}环境不需要像\envi{array}环境那样给出列的数目和参数，能够根据
+\texttt{\&}符号的数量来自调整。\qd{这个环境会自动对齐等号或者不等号，所以必要时请用\&指定对齐位置}。下面是一个例子：
+
+\begin{codeshow}
+\begin{align}
+  a^2  &= a\cdot a \\
+       &= a*a      \\
+       &= a^2
+\end{align}
+\end{codeshow}
+
+\LaTeX 中长公式不能自动换行\footnote{不过\pkg{breqn}宏包的\envi{dmath}环境可以实现自动换行，读者可以自行尝试效果。}，请如上自行指定断行位置和缩进距离。
+
+至于多行公式换页，可以在导言区加上\latexline{allowdisplaybreaks}实现（可选参数：1为尽量避免换页，2至4为倾向于换页），或在特定位置加上\latexline{displaybreak}（可选参数：0为允许在下个换行符后换页，但不倾向换页；2-3介中；4为强制换页）。两种的默认可选参数都是4。
+
+上例给出三个编号，如果你只需要一个，可以：
+
+\begin{codeshow}
+\begin{align}
+  a^2&= a\cdot a& b&=c\nonumber\\
+  g  &= a*a & d&>e>f  \nonumber\\
+  step&= a^2 & &Z^3
+\end{align}
+\end{codeshow}
+
+如果你想让编号显示在这三行的中间而不是最下面一行，可以尝试把公式写在\envi{aligned}或者\envi{gathered}环境中，然后再嵌套到\envi{equation}环境内。如果你根本不想给多行公式编号，尝试\envi{align*}环境。
+
+另外，\pkg{amsmath}宏包的\envi{multline}环境将自动把编号放在末行。首行左对齐，末行右对齐，中间的行居中。
+\begin{codeshow}
+\begin{multline}
+a>b \\
+b>c \\
+\therefore a>c
+\end{multline}
+\end{codeshow}
+
+如果想在环境中插入小段行间文字，使用\latexline{intertext}命令，或者\pkg{mathtools}宏包的\latexline{shortintertext}命令。区别是后者的垂直间距更小一些。
+
+\begin{codeshow}
+\begin{align*}
+\shortintertext{If}
+ y &= 0 \\
+ x &< 0\\
+\shortintertext{then}
+ z &= x+y
+\end{align*}
+\end{codeshow}
+
+当然，\envi{align}环境用于分列对齐的。如果仅想所有行居中，使用\pkg{amsmath}宏包的\envi{gather}环境即可。这是一个非常实用的环境，你也可以用\envi{gather*}环境排版居中的、非编号的多行公式。
+
+\begin{codeshow}
+\begin{gather}
+  X=1+2+\cdots+n \\
+  Y=1
+\end{gather}
+\end{codeshow}
+
+\subsection{二项式}
+\label{subsec:binom}
+二项式可能需要借助\pkg{amsmath}宏包的\latexline{binom}命令。它也有像分式一样的行间和行内两个命令\latexline{tbinom}与\latexline{dbinom}：
+
+\begin{codeshow}
+$\mathrm{C}_n^k=\binom{n}{k}
+\qquad a_n=\dbinom{n}{k}$
+\end{codeshow}
+
+你也可以通过该宏包支持的\latexline{genfrac}自定义类似二项式命令：
+\begin{latex}
+\genfrac{left-delim}{right-delim}{thickness}{mathstyle}
+{numerator}{denominator}
+% thickness为分式线线宽，留空空表示默认
+% mathstyle从0-3由\displaystyle减至\scriptscriptstyle
+\newcommand{\Bfrac}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}}
+\end{latex}
+
+你可以借此得到新的命令\latexline{Bfrac}：
+\begin{codeshow}
+\[\text{We define }\Bfrac{n}{k}=\binom{k}{n}\]
+\end{codeshow}
+
+\subsection{定理}
+在使用下述定理内容时，请加载\pkg{amsthm}宏包。
+
+首先是定理环境格式的自定义。如同定义命令一样，在导言区加上：
+\begin{latex}
+\newtheorem{envname}[counter]{text}[section]
+\end{latex}
+
+其中\textit{name}表示定理的引用名称，即下文将其作为一个环境名来识别；\textit{text}表示定理的显示名称，即下文中定理将以其作为打印内容。而\textit{counter}参数表示你是否与先前声明的某定理共同编号。\textit{section}参数表示定理的计数层级，如果是section，表示每节分别计数；chapter表示每章分别计数。
+
+来看一个例子。首先在导言区定义如下三个样式：
+\begin{latex}
+\theoremstyle{definition}\newtheorem{laws}{Law}[section]
+\theoremstyle{plain}\newtheorem{ju}[laws]{Jury}
+\theoremstyle{remark}\newtheorem*{marg}{Margaret}
+\end{latex}
+
+以上三个\latexline{theoremstyle}即是它预定义的所有样式类型。definition标题粗体，内容罗马体；plain标题粗体，内容斜体；remark标题斜体，内容罗马体。带星号表示不进行计数。在环境的使用中可以添加可选参数，用于以括号的形式注释定理。然后这是示例：
+
+\begin{codeshow}
+\begin{laws}
+Never believe easily.
+\end{laws}
+\begin{ju}[The 2nd]
+Never suspect too much.
+\end{ju}
+\begin{marg}Nothing else.\end{marg}
+\end{codeshow}
+
+\pkg{amsthm}宏包还提供了\envi{proof}环境，并且用\latexline{qedhere}来指定证毕符号的位置。如果不加指定，将会自动另起一行。
+
+\begin{codeshow}
+\begin{proof}
+For an right triangle, we have:
+  \[a^2+b^2=c^2 \qedhere\]
+\end{proof}
+\end{codeshow}
+
+\section{数学符号与字体}
+\subsection{数学字体}
+原生的数学字体命令：
+\begin{center}
+\begin{minipage}{\linewidth}
+\centering
+\tabcaption{原生数学字体表}
+\label{tab:mathfont}
+\begin{tabular}{>{\ttfamily\char92}l>{$}l<{$}}
+\hline
+mathrm\{ABCDabcde 1234\} & \mathrm{ABCDabcde 1234} \\
+\hline
+mathit\{ABCDabcde 1234\} & \mathit{ABCDabcde 123} \\
+\hline
+mathnormal\{ABCDabcde 1234\} & \mathnormal{ABCDabcde 1234} \\
+\hline
+mathcal\{ABCDabcde 1234\} & \mathcal{ABCDabcde 1234} \\
+\hline
+\end{tabular}
+\end{minipage}
+\end{center}
+
+需要其他宏包支持的数学字体：
+\begin{center}
+\begin{minipage}{\linewidth}
+\centering
+\tabcaption{宏包数学字体表}
+\label{tab:mathfont-pk}
+\begin{tabular}{>{\ttfamily}ll}
+\hline
+\char92mathscr\{ABCDabcde 1234\} & mathrsfs\\
+$\mathscr{ABCDabcde 1234}$ & \\
+\hline
+\char92mathfrak\{ABCDabcde 1234\} & amsfonts或者amssymb\\
+$\mathfrak{ABCDabcde 1234}$ & \\
+\hline
+\char92mathbb\{ABCDabcde 1234\} & amsfonts或者amssymb\\
+$\mathbb{ABCDabcde 1234}$ & \\
+\hline
+\end{tabular}
+\end{minipage}
+\end{center}
+
+\subsection{定界符}
+\label{subsec:delimiter}
+\tref{tab:delimiter}给出了一些数学环境中使用的定界符。
+
+\begin{table}[!htb]
+\centering
+\caption{定界符}
+\label{tab:delimiter}
+\begin{tabular}{@{}*{3}{>{$}p{2em}<{$} @{} >{\ttfamily}p{7em}}}
+( & ( & [ & [ or \char92 lbrack & \uparrow & \char92 uparrow \\
+) & ) & ] & ] or \char92 rbrack & \downarrow & \char92 downarrow \\
+\{ & \{ or \char92 lbrace & \} & \} or \char92 rbrace & \updownarrow & \char92 updownarrow \\
+\langle & \char92 langle & \rangle & \char92 rangle & \backslash & \char92 backslash \\
+\lfloor & \char92 lfloor & \rfloor & \char92 rfloor & \Updownarrow & \char92 Updownarrow \\
+\lceil & \char92 lceil & \rceil & \char92 rceil & \Uparrow & \char92 Uparrow \\
+\Vert & \char92 | or \char92 Vert & | & | or \char92 vert & \Downarrow & \char92 Downarrow \\
+\hline
+\multicolumn{6}{c}{-- 以下需要amssymb宏包 --} \\
+\multicolumn{3}{c}{$\ulcorner$ \quad \texttt{\char92 ulcorner}} & \multicolumn{3}{c}{$\urcorner$ \quad \texttt{\char92 urcorner}} \\
+\multicolumn{3}{c}{$\llcorner$ \quad \texttt{\char92 llcorner}} & \multicolumn{3}{c}{$\lrcorner$ \quad \texttt{\char92 lrcorner}}
+\end{tabular}
+\end{table}
+
+使用\latexline{left}, \latexline{right}还有\latexline{middle}能够使定界符自适应式子的高度：
+\begin{codeshow}
+\[P\left(X \middle\vert Y=0\right)
+=\left.\int_0^1 p(t)\ud t\middle/ N\right.\]
+\end{codeshow}
+
+如果希望手动指定定界符的尺寸，这时使用后：
+\begin{codeshow}
+% 加l, r, m对应上述三种自适应命令
+$(\big(\Big(\bigg(\Bigg<\qquad
+\bigl[\frac{x+y}{x^2}\bigr]$
+\end{codeshow}
+
+有时\latexline{left.}和\latexline{right.}能灵活地用于跨行控制，因为它们并非实际配对：
+\begin{codeshow}
+\begin{align*}
+  x &=\left(\frac{1}{2}x\right.\\
+  &\left.\vphantom{\frac{1}{2}}
+  +y^2+z_1\right)
+\end{align*}
+\end{codeshow}
+
+其中\latexline{vphantom}命令用于输出一个高度虚位，使得第二行的自适应定界符与第一行同等大小。特别地，命令\latexline{mathstrut}表示一个有圆括号总高的虚位：
+\begin{codeshow}
+$\sqrt{b}\sqrt{y}\qquad
+\sqrt{\mathstrut b}\sqrt{\mathstrut y}$
+\end{codeshow}
+
+\subsection{希腊字母}
+希腊字母表如\tref{tab:greekletter}所示。表中包含了小写希腊字母、大写希腊字母，其中部分希腊字母的输入方式与英文字母一致。
+\begin{table}[!htb]
+\centering
+\caption{希腊字母表}
+\label{tab:greekletter}
+\renewcommand\arraystretch{1}
+\begin{tabular}{*{4}{>{$}c<{$}!{}>{\ttfamily\char`\\}p{6em} @{}}}
+\alpha & alpha & \theta & theta & o & \multicolumn{1}{p{6em}}{o} & \upsilon & upsilon \\
+\beta & beta & \vartheta & vartheta & \pi & pi & \phi & phi \\
+\gamma & gamma & \iota & iota & \varpi & varpi & \varphi & varphi \\
+\delta & delta & \kappa & kappa &　\rho & rho & \chi & chi \\
+\epsilon & epsilon & \lambda & lambda & \varrho & varrho & \psi & psi \\
+\varepsilon & varepsilon & \mu & mu & \sigma & sigma & \omega & omega \\
+\zeta & zeta & \nu & nu & \varsigma & varsigma & \eta & eta \\
+\xi & xi & \tau & tau & \multicolumn{4}{c}{} \\
+A & \multicolumn{1}{p{6em}}{A} & B & \multicolumn{1}{p{6em}}{B} & \Gamma & Gamma & \varGamma & varGamma \\
+\Delta & Delta & \varDelta & varDelta & E & \multicolumn{1}{p{6em}}{E} & Z & \multicolumn{1}{p{6em}}{Z} \\
+H & \multicolumn{1}{p{6em}}{H} & \Theta & Theta & \varTheta & varTheta & I & \multicolumn{1}{p{6em}}{I} \\
+\Lambda & Lambda & \varLambda & varLambda & M & \multicolumn{1}{p{6em}}{M} & N & \multicolumn{1}{p{6em}}{N} \\
+\Xi & Xi & \varXi & varXi & O & \multicolumn{1}{p{6em}}{O} & \Pi & Pi \\
+\varPi & varPi & P & \multicolumn{1}{p{6em}}{P} & \Sigma & Sigma & \varSigma & varSigma \\
+T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon & \Phi & Phi \\
+\varPhi & varPhi & X & \multicolumn{1}{p{6em}}{X} & \Psi & Psi & \varPsi & varPsi \\
+\Omega & Omega & \varOmega & varOmega & \multicolumn{4}{c}{}
+\end{tabular}
+\end{table}
+
+\subsection{二元运算符}
+二元运算符包括常见的加减乘除，还有集合的交、并、补等运算。\tref{tab:operator}只列出常用的二元运算符，更多的请参考symbols-a4文档。
+\begin{table}[!htb]
+\centering
+\caption{二元运算符：\latexline{mathbin}}
+\label{tab:operator}
+\renewcommand\arraystretch{1}
+\begin{tabular}{@{}*{2}{>{$}c<{$}!{} >{\ttfamily\char92}p{5em} @{}}*{2}{>{$}p{2em}<{$} @{} >{\ttfamily\char92}p{6em} @{}}}
++ & \multicolumn{1}{p{6em}}{+} & - & \multicolumn{1}{p{6em}}{-} & \times & times & \div & div \\
+\pm & pm & \mp & mp & \circ & circ & \triangleright & triangleright \\
+\cdot & cdot & \star & star & \ast & ast & \triangleleft & triangleleft \\
+\cup & cup & \cap & cap & \setminus & setminus & \bullet & bullet \\
+\oplus & oplus &\ominus & ominus & \otimes & otimes & \oslash & oslash \\
+\odot & odot & \bigcirc & bigcirc & \vee & vee,lor & \wedge & wedge,land \\
+\bigcup & bigcup & \bigcap & bigcap & \bigvee & bigvee & \bigwedge & bigwedge
+\end{tabular}
+\end{table}
+
+\subsection{二元关系符}
+二元关系符常常被用于判断两个数的大小关系，或者集合中的从属关系。\tref{tab:relation-operator}和\tref{tab:amsrelation-operator}只列出常用的二元关系符，更多的请参考symbols-a4文档。
+\begin{table}[!htb]
+\centering
+\caption{二元关系符：\latexline{mathrel}}
+\label{tab:relation-operator}
+\renewcommand\arraystretch{1}
+\begin{tabular}{@{}*{4}{>{$}c<{$}!{} >{\ttfamily\char92}p{6em} @{}}}
+< & \multicolumn{1}{p{6em}}{<} & > & \multicolumn{1}{p{6em}}{>} & \le & le(q) & \ge & ge(q) \\
+\ll & ll & \gg & gg &　\equiv & equiv & \neq & neq \\
+\prec & prec & \succ & succ & \preceq & preceq & \succeq & succeq \\
+\sim & sim & \simeq & simeq & \cong & cong & \approx & approx \\
+\subset & subset & \supset & supset & \subseteq & subseteq & \supseteq & supseteq \\
+\in & in & \ni & ni & \notin & notin & \propto & propto \\
+\parallel & parallel & \perp & perp & \smile & smile & \frown & frown \\
+\asymp & asymp & \bowtie & bowtie & \vdash & vdash & \dashv & dashv
+\end{tabular}
+\end{table}
+
+\tref{tab:amsrelation-operator}中的二元关系符需要\pkg{amssymb}宏包。
+\begin{table}[!htb]
+\centering
+\caption{amssymb二元关系符}
+\label{tab:amsrelation-operator}
+\renewcommand\arraystretch{1}
+\begin{tabular}{@{}*{4}{>{$}c<{$}!{} >{\ttfamily\char92}p{6em} @{}}}
+\leqslant & leqslant & \geqslant & geqslant & \because & because & \therefore & therefore \\
+\nless & nless & \ngtr & ngtr & \lessdot & lessdot & \gtrdot & gtrdot \\
+\lessgtr & lessgtr & \gtrless & gtrless & \lesseqqgtr & lesseqqgtr & \gtreqqless & gtreqqless \\
+\subseteqq & subseteqq & \supseteqq & supseteqq & \subsetneqq & subsetneqq & \supsetneqq & supsetneqq
+\end{tabular}
+\end{table}
+
+\subsection{箭头与长等号}
+在\tref{tab:delimiter}中给出了几个箭头符号，但是不够全，这里给出总表如\tref{tab:arrow}。
+\begin{table}[!htb]
+\centering
+\caption{箭头}
+\label{tab:arrow}
+\renewcommand\arraystretch{1}
+\begin{tabular}{@{}*{2}{>{$}c<{$}!{} >{\ttfamily\char92}p{10em} @{}}}
+\leftarrow & leftarrow & \longleftarrow & longleftarrow \\
+\rightarrow & rightarrow & \longrightarrow & longrightarrow \\
+\leftrightarrow & leftrightarrow & \longleftrightarrow & longleftrightarrow \\
+\Leftarrow & Leftarrow & \Longleftarrow & Longleftarrow \\
+\Rightarrow & Rightarrow & \Longrightarrow & Longrightarrow \\
+\Leftrightarrow & Leftrightarrow & \Longleftrightarrow & Longleftrightarrow \\
+\mapsto & mapsto & \longmapsto & longmapsto \\
+\nearrow & nearrow & \searrow & searrow \\
+\swarrow & swarrow & \nwarrow & nwarrow \\
+\leftharpoonup & leftharpoonup & \rightharpoonup & rightharpoonup \\
+\leftharpoondown & leftharpoondown & \rightharpoondown & rightharpoondown \\
+\rightleftharpoons & rightleftharpoons & \iff & iff (bigger space)
+\end{tabular}
+\end{table}
+
+\LaTeX 定义了逻辑命令\latexline{iff}, \latexline{implies}, \latexline{impliedby}，与箭头符大小相同但是两侧间距更大：
+\begin{codeshow}
+$x=y \implies a=b$\\
+$x=y \impliedby a=b$\\
+$x=y \iff a=b$
+\end{codeshow}
+
+依旧另外给出一个基于\pkg{amssymb}宏包的附\tref{tab:amsarrow}。
+\begin{table}[!htb]
+\centering
+\caption{amssymb箭头}
+\label{tab:amsarrow}
+\renewcommand\arraystretch{1}
+\begin{tabular}{@{}*{2}{>{$}c<{$}!{} >{\ttfamily\char92}p{10em} @{}}}
+\dashleftarrow & dashleftarrow & \dashrightarrow & dashrightarrow \\
+\circlearrowleft & circlearrowleft & \circlearrowright & circlearrowright \\
+\leftrightarrows & leftrightarrows & \rightleftarrows & leftrightarrows \\
+\nleftarrow & nleftarrow & \nLeftarrow & nLeftarrow \\
+\nrightarrow & nrightarrow & \nRightarrow & nRightarrow \\
+\nleftrightarrow & nleftrightarrow & \nLeftrightarrow & nLeftrightarrow
+\end{tabular}
+\end{table}
+
+最后，宏包\pkg{extarrows}给出了一些实用的长箭头与长等符号：
+
+\begin{codeshow}
+$\xlongequal{\Delta}$\quad
+$\xLeftrightarrow{\Delta}$\\
+$\xleftrightarrow{x=\tan t}$\\
+$\xLongleftarrow{x} \xLongrightarrow{y}$
+\end{codeshow}
+
+\subsection{其他符号}
+注意冒号如果从键盘输入，会识别为关系符，例如$:=$。在表示比例时也可以借用，或者外加\latexline{mathbin}命令$a\mathbin{:}b$。数学中可能用到的冒号，请使用\latexline{colon}命令，像$x\colon y\to\infty$这样。
+
+像\latexline{\-}一样在数学环境中使用\latexline{*}命令，提醒\LaTeX 此处可以断词。\LaTeX 如果在此处断词，会自动补一个$\times$符号。你也可以自定义：
+\begin{latex}
+\renewcommand{\*}{discretionaty{\,\mbox{$\cdot$}}{}{}}
+\end{latex}
+
+最后是一些其他的难以归类的符号，也不全是数学领域会用到的，只不过它们可以在数学环境下输出出来，以及被\pkg{amssymb}宏包所支持。如\tref{tab:othersym}和\tref{tab:amsothersym}。
+\begin{table}[!htb]
+\centering
+\caption{其他符号}
+\label{tab:othersym}
+\renewcommand\arraystretch{1}
+\begin{tabular}{@{}*{4}{>{$}c<{$}!{} >{\ttfamily\char92}p{5.5em} @{}}}
+\dots & dots & \cdots &cdots &
+\vdots & vdots & \ddots & ddots \\
+\forall & forall & \exists & exists &
+\Re & Re & \aleph & aleph \\
+\angle & angle & \infty & infty &
+\triangle & triangle & \nabla & nabla \\
+\hbar & hbar & \imath & imath &
+\jmath & jmath & \ell & ell \\
+\spadesuit & spadesuit & \heartsuit & heartsuit &
+\clubsuit & clubsuit & \diamondsuit & diamondsuit \\
+\flat & flat & \natural & natural &
+\sharp & sharp & \multicolumn{2}{l}{} \\
+\hline
+\multicolumn{8}{l}{非数学符号：} \\
+\multicolumn{1}{p{2em}}{\pounds} & pounds & \multicolumn{1}{p{2em}}{\S} & S &
+\multicolumn{1}{p{2em}}{\copyright} & copyright & \multicolumn{1}{p{2em}}{\P} & P \\
+\multicolumn{1}{p{2em}}{\dag} & dag & \multicolumn{1}{p{2em}}{\ddag} & ddag &
+\multicolumn{1}{p{2em}}{\textregistered} & \multicolumn{3}{l}{\ttfamily \char`\\ textregistered}
+\end{tabular}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{amssymb其他符号}
+\label{tab:amsothersym}
+\renewcommand\arraystretch{1}
+\begin{tabular}{@{} >{$}c<{$}!{} >{\ttfamily\char92}p{6em} @{}*{2}{>{$}p{2em}<{$} @{} >{\ttfamily\char92}p{8em} @{}}}
+\square & square & \blacksquare & blacksquare & \hslash & hslash \\
+\bigstar & bigstar & \blacktriangle & blacktriangle & \blacktriangledown & blacktriangledown \\
+\lozenge & lozenge & \blacklozenge & blacklozenge & \measuredangle & measuredangle \\
+\mho & mho & \varnothing & varnothing & \eth & eth
+\end{tabular}
+\end{table}
