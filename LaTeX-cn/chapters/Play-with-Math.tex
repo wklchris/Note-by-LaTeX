@@ -66,7 +66,7 @@ $\sqrt{A_{n_k}} \qquad
 \end{codeshow}
 
 \subsection{字号}
-\LaTeX{}提供四种字号尺寸命令：
+\LaTeX\ 提供四种字号尺寸命令：
 \begin{para}
 \item[\latexline{displaystyle}] 行间公式尺寸。如$\displaystyle \sum_{i=1}^n a$
 \item[\latexline{textstyle}] 行内公式尺寸。如$\textstyle \sum_{i=1}^n a$
@@ -156,7 +156,7 @@ $\int_{0}^{1}f(x)=1$
 \quad\oint\;\varoiint_S \]
 \end{codeshow}
 
-其中的\latexline{dot}系的导数形式\LaTeX 只原生支持到二阶导数。后面的三阶、四阶需要\pkg{amsmath}宏包。\latexline{int}系的积分命令类似。而环形双重积分命令\latexline{varoiint}需要\pkg{esint}宏包\footnote{该宏包可能与\pkg{amsmath}冲突，即便使用也请其放在\pkg{amsmath}之后加载。}。
+其中的\latexline{dot}系的导数形式\LaTeX\ 只原生支持到二阶导数。后面的三阶、四阶需要\pkg{amsmath}宏包。\latexline{int}系的积分命令类似。而环形双重积分命令\latexline{varoiint}需要\pkg{esint}宏包\footnote{该宏包可能与\pkg{amsmath}冲突，即便使用也请其放在\pkg{amsmath}之后加载。}。
 
 \latexline{left.}或\latexline{right.}命令\footnote{参考\hyperref[subsec:delimiter]{定界符}部分的内容。}只用于匹配，本身不输出任何内容。
 
@@ -300,7 +300,7 @@ x_{21} & x_{22} & \ldots \\
 
 还有就是\latexline{cdots}命令。\pkg{mathdots}宏包支持省略号缩放，并提供了\latexline{iddots}：$\iddots$. 或许什么时候需要使用呢？
 
-\LaTeX 原生支持自动添加定界符的形式，不过要放在数学环境内：
+\LaTeX\ 原生支持自动添加定界符的形式，不过要放在数学环境内：
 \begin{codeshow}
 \centering $\begin{matrix}
 0 & 1 \\ 1 & 0 \end{matrix}\qquad
@@ -394,7 +394,7 @@ x-1, & x<0
 \end{align}
 \end{codeshow}
 
-\LaTeX 中长公式不能自动换行\footnote{不过\pkg{breqn}宏包的\envi{dmath}环境可以实现自动换行，读者可以自行尝试效果。}，请如上自行指定断行位置和缩进距离。
+\LaTeX\ 中长公式不能自动换行\footnote{不过\pkg{breqn}宏包的\envi{dmath}环境可以实现自动换行，读者可以自行尝试效果。}，请如上自行指定断行位置和缩进距离。
 
 至于多行公式换页，可以在导言区加上\latexline{allowdisplaybreaks}实现（可选参数：1为尽量避免换页，2至4为倾向于换页），或在特定位置加上\latexline{displaybreak}（可选参数：0为允许在下个换行符后换页，但不倾向换页；2-3介中；4为强制换页）。两种的默认可选参数都是4。
 
@@ -697,7 +697,7 @@ T & \multicolumn{1}{p{6em}}{T} & \Upsilon & Upsilon & \varUpsilon & varUpsilon &
 \end{tabular}
 \end{table}
 
-\LaTeX 定义了逻辑命令\latexline{iff}, \latexline{implies}, \latexline{impliedby}，与箭头符大小相同但是两侧间距更大：
+\LaTeX\ 定义了逻辑命令\latexline{iff}, \latexline{implies}, \latexline{impliedby}，与箭头符大小相同但是两侧间距更大：
 \begin{codeshow}
 $x=y \implies a=b$\\
 $x=y \impliedby a=b$\\
@@ -732,7 +732,7 @@ $\xLongleftarrow{x} \xLongrightarrow{y}$
 \subsection{其他符号}
 注意冒号如果从键盘输入，会识别为关系符，例如$:=$。在表示比例时也可以借用，或者外加\latexline{mathbin}命令$a\mathbin{:}b$。数学中可能用到的冒号，请使用\latexline{colon}命令，像$x\colon y\to\infty$这样。
 
-像\latexline{\-}一样在数学环境中使用\latexline{*}命令，提醒\LaTeX 此处可以断词。\LaTeX 如果在此处断词，会自动补一个$\times$符号。你也可以自定义：
+像\latexline{\-}一样在数学环境中使用\latexline{*}命令，提醒\LaTeX\ 此处可以断词。\LaTeX\ 如果在此处断词，会自动补一个$\times$符号。你也可以自定义：
 \begin{latex}
 \renewcommand{\*}{discretionaty{\,\mbox{$\cdot$}}{}{}}
 \end{latex}

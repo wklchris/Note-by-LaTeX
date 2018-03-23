@@ -1,11 +1,11 @@
 %!TEX program = xelatex
 
 \input{Head}
-\title{简单粗暴\LaTeX }
+\title{简单粗暴\LaTeX\ }
 \author{K.L Wu\\
   {\kaishu 本手册是\href{https://github.com/wklchris/Note-by-LaTeX}{wklchris-GitHub}的\LaTeX{}-cn项目}
 }
-\date{当前版本号：v1.6.2\\
+\date{当前版本号：v1.6.3\\
   最后更新于：\today}
 
 \begin{document}
@@ -24,22 +24,22 @@
 \begin{feae}
   \item 我希望能够吸引初学者快速上手，解决手头的问题。因此去掉了枯燥的讲解和无穷无尽的宏包用法介绍，直接使用实例；
   \item 力求突出实用性。当然，也会提点一些可以深入学习的内容，读者可以自行查阅，或者阅读本手册中的扩展阅读章节（即带星号*的章节）。
-  \item 本手册使用的编辑器为\TeX Studio，而非之前的商业软件WinEdt. 这使得学习\LaTeX 的门槛更低。当然了，你有权使用任何编辑器。
+  \item 本手册使用的编辑器为\TeX\ Studio，而非之前的商业软件WinEdt. 这使得学习\LaTeX\ 的门槛更低。当然了，你有权使用任何编辑器。
 \end{feae}
 
-手册主体分为六大部分\cite{LHY2013latex,lamport1986document,mittelbach2004latex,partl2016,Casteleyn2016tikz}：
+手册主体分为六大部分\cite{LHY2013latex,lamport1994latex,frank2004latex,partl2016,Casteleyn2016tikz}：
 \begin{fead}
-\item[写给读者*] 介绍\LaTeX 背景、优缺点、适用情形。
+\item[写给读者*] 介绍\LaTeX\ 背景、优缺点、适用情形。
 \item[基础] 包括标点、缩进、距离、章节、字体、颜色、注释、引用、封面、目录、列表、图表、页面等详细内容。
 \item[数学排版] 包括数学符号、公式、编号等内容。
 \item[进阶] 主要是自定义命令，帮助你更高效、更简洁地书写你的文档。
-\item[Tikz绘图*] 附加章节，需要读者取消注释后重编译。
+\item[\tikzz\  绘图*] 附加章节，需要读者取消注释后重编译。
 \item[附录] 帮助你快速查找一些你想要的东西。
 \end{fead}
 
 由于工作全部由我一人完成，限于视野，难免存在错漏之处。恳请读者指正。如遇到的手册中无法解决的问题，欢迎向我提出。推荐书目可参考本手册附录。
 
-最后，还要感谢在\LaTeX 学习中为我解答疑惑的同学，特别是来自\LaTeX 度吧的吧友；本手册中许多的解决方案都是由他们提供的。我谨在此记录。
+最后，还要感谢在\LaTeX\ 学习中为我解答疑惑的同学，特别是来自\LaTeX\ 度吧的吧友；本手册中许多的解决方案都是由他们提供的。我谨在此记录。
 
 \vfill
 
@@ -68,8 +68,8 @@ v1.6.3 更新 --- 2018年3月22日。\dpar
 \begin{feai}
 \item 重要更新：
   \begin{feai}
-  \item \sout{\textbf{TikZ 相关的内容停止更新}。原因是现有的其他软件绘图功能强大，导出为 pdf 格式的矢量图后也易于调用；TikZ 相比之下学习成本过高。}\textcolor{red}{\textbf{笔者又决定重启TikZ章节}}。（v1.6.3）
-  \item \textbf{重新添加了 TikZ 章节} —— 不过仍是之前弃笔时的版本，预计将于 v1.7 更新。
+  \item \textbf{\sout{\tikzz\  相关的内容停止更新}。原因是现有的其他软件绘图功能强大，导出为 pdf 格式的矢量图后也易于调用；\tikzz\  相比之下学习成本过高。}\textcolor{red}{\textbf{笔者又决定重启\tikzz\ 章节}}。（v1.6.3）
+  \item \textbf{重新添加了 \tikzz\  章节} —— 不过仍是之前弃笔时的版本，预计将于 v1.7 更新。
   \item \textbf{增加了加快\xelatex 调用字体速度的方式}。参考“中文支持与CJK字体”一节\texttt{fc-cache}相关内容。（v1.6.1）
   \end{feai}
 \item 字体更换：思源宋体。
@@ -108,12 +108,12 @@ v1.6.3 更新 --- 2018年3月22日。\dpar
 \include{chapters/LaTeX-Basics}
 \include{chapters/Play-with-Math}
 \include{chapters/LaTeX-Advanced-Skills}
-%\input{chapters/TikZ}
+%\include{chapters/TikZ}
 
 % Appendices
 
 % 参考文献
-\input{Bib}
+\bibliography{Bib}
 
 % 附录
 \clearpage
@@ -172,12 +172,12 @@ v1.6.3 更新 --- 2018年3月22日。\dpar
 除了参考文献列表中给出的书籍以外，我还推荐你用控制台在\TeX{} Live中能找到的以下书籍：
 
 \medskip\begin{para}
-\item[texdoc usrguide] \TeX Live自带的用户手册。
-\item[texdoc clsguide] \TeX Live自带的文档类和宏包编写手册。
-\item[texdoc fntguide] \TeX Live自带的字体使用手册。
-\item[texdoc symbols-a4] 一份速查表，基本上所有的\LaTeX 字符命令都在这里了。
+\item[texdoc usrguide] \TeX\ Live自带的用户手册。
+\item[texdoc clsguide] \TeX\ Live自带的文档类和宏包编写手册。
+\item[texdoc fntguide] \TeX\ Live自带的字体使用手册。
+\item[texdoc symbols-a4] 一份速查表，基本上所有的\LaTeX\ 字符命令都在这里了。
 \item[texdoc latexcheat] 很有趣的命令表，只有两页。
-\item[texdoc impatient] \emph{\TeX{} for the Impatient}, 一本介绍底层\TeX 的书。这也是我阅读的第一本\TeX 书，Knuth的\emph{The \TeX book}虽然血统正但是难啃啊。本书中译本在：\url{https://bitbucket.org/zohooo/impatient/wiki/Home}
+\item[texdoc impatient] \emph{\TeX{} for the Impatient}, 一本介绍底层\TeX\ 的书。这也是我阅读的第一本\TeX\ 书，Knuth的\emph{The \TeX\ book}虽然血统正但是难啃啊。本书中译本在：\url{https://bitbucket.org/zohooo/impatient/wiki/Home}
 \item[texdoc texbytopic] \emph{\TeX{} by Topic}, 个人觉得不如上面那本，但也许只是叙述方式不一样吧。
 \end{para}
 \bigskip
@@ -187,7 +187,7 @@ v1.6.3 更新 --- 2018年3月22日。\dpar
 \item[\pkg{mhchem}] 该宏包用于输入化学式，提供了\latexline{ce}命令。
 \end{description}
 
-% TikZ索引
+% \tikzz\ 索引
 %\setlength{\columnseprule}{0pt}
 %\printindex
 

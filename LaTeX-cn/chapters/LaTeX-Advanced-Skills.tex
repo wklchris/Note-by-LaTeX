@@ -1,11 +1,11 @@
 %!TEX root = ../LaTeX-cn.tex
-\chapter{\LaTeX{}进阶}
+\chapter{\LaTeX\ 进阶}
 
 本章的内容多数与宏包的使用相关。记得使用texdoc命令查看宏包的使用手册，这是学习宏包最好的手段，没有之一。
 
 \section{自定义命令与环境}
 \label{sec:newcommand}
-自定义命令是\LaTeX 相比于字处理软件MS Word之流最强大的功能之一。它可以大幅度优化你的文档体积，用法是：
+自定义命令是\LaTeX\ 相比于字处理软件MS Word之流最强大的功能之一。它可以大幅度优化你的文档体积，用法是：
 \begin{latex}
 \newcommand{`\textit{cmd}`}[`\textit{args}`][`\textit{default}`]{`\textit{def}`}
 \end{latex}
@@ -57,12 +57,12 @@ And loved the sorrows of your changing face.
 \label{fig:boxpara}
 \end{wrapfigure}
 
-\LaTeX 排版的基础单位就是“箱子(box)”，例如整个页面是一个矩形的箱子，侧边栏、主正文区、页眉页脚也都是箱子。在正常排版中，文字应当位于箱子内部；如果单行文字过长、没能正确断行，造成文字超出箱子，这便是Overfull的坏箱(bad box)；如果内容太少，导致文字不能美观地填满箱子，便是Underfull的坏箱。
+\LaTeX\ 排版的基础单位就是“箱子(box)”，例如整个页面是一个矩形的箱子，侧边栏、主正文区、页眉页脚也都是箱子。在正常排版中，文字应当位于箱子内部；如果单行文字过长、没能正确断行，造成文字超出箱子，这便是Overfull的坏箱(bad box)；如果内容太少，导致文字不能美观地填满箱子，便是Underfull的坏箱。
 
 如\fref{fig:boxpara}所示，箱子的三个参数：高度(height)、宽度(width)和深度(depth)。分隔高度和深度的是基线。
 
 \subsection{无框箱子}
-命令\latexline{mbox}产生一个无框的箱子，宽度自适应。有时用它来强制“结合”一系列命令，使之不在中间断行。比如\TeX 这个命令的定义（其中\latexline{raisebox}命令在后面介绍）：
+命令\latexline{mbox}产生一个无框的箱子，宽度自适应。有时用它来强制“结合”一系列命令，使之不在中间断行。比如\TeX\ 这个命令的定义（其中\latexline{raisebox}命令在后面介绍）：
 \begin{latex}
 \mbox{T\hspace{-0.1667em}\raisebox{-0.5ex}{E}\hspace{-0.125em}X}
 \end{latex}
@@ -208,7 +208,7 @@ example to show} how \parbox[b]
 \addtolength{\mylatexlength}{-5pt}
 \end{latex}
 
-此外，\LaTeX 还定义了三个竖直长度\latexline{smallskip}, \latexline{medskip}, 和\latexline{bigskip}：
+此外，\LaTeX\ 还定义了三个竖直长度\latexline{smallskip}, \latexline{medskip}, 和\latexline{bigskip}：
 
 \begin{codeshow}
 \parbox[t]{3em}{TeX\par TeX}
@@ -236,7 +236,7 @@ L\hrulefill Mid\dotfill R
 \end{codeshow}
 
 \subsection{行距}
-\LaTeX 的行距由基线计算，可以使用命令\latexline{linespread\{num\}}，默认的基线距离\latexline{baselineskip}是1.2倍的文字高。所以默认行距是1.2倍；如果更改linespread为1.3，那么行距变为$1.2\times 1.3=1.56$倍——这也是ctex文档类的做法。
+\LaTeX\ 的行距由基线计算，可以使用命令\latexline{linespread\{num\}}，默认的基线距离\latexline{baselineskip}是1.2倍的文字高。所以默认行距是1.2倍；如果更改linespread为1.3，那么行距变为$1.2\times 1.3=1.56$倍——这也是ctex文档类的做法。
 
 此外还有\latexline{lineskiplimit}和\latexline{lineskip}命令。有时候在两行之间，可能包含较高的内容（比如分式$\dfrac{1}{2}$），使得前一行底部与后一行顶部的距离小于limit值，则此时行距会从由\latexline{linespread}改为由\latexline{lineskip}控制。本手册采用：
 \begin{latex}
@@ -340,7 +340,7 @@ L\hrulefill Mid\dotfill R
   \end{para}
 \item[format:] 用于设置标签和标题文字的字体样式。这里可以包含竖直空距，即标题文字到正文的距离。
 \item[label:] 用于设置标签的样式，比如“第\latexline{chinese\char`\\thechapter}章”大概是ctexbook类的默认样式设置。
-\item[sep:] 标签和标题文字的水平间距，必须是\LaTeX 的长度表达。当shape取display时，表示竖直空距；取frame时表示标题到文本框的距离。
+\item[sep:] 标签和标题文字的水平间距，必须是\LaTeX\ 的长度表达。当shape取display时，表示竖直空距；取frame时表示标题到文本框的距离。
 \item[before:] 标题前的内容。
 \item[after:] 标题后的内容。对于hang, block, display，此内容取竖向；对于runin, leftmargin, 此内容取横向；否则此内容被忽略。
 \end{para}
@@ -642,7 +642,7 @@ Roman & I & II& III \\
 \end{subtable}  
 \end{table}
 
-\subsection{动态图}
+\subsection{GIF 动态图}
 使用 \pkg{animate} 宏包（当然，\pkg{graphicx} 宏包也是需要的），可以将多张图片以动态图的形式插入 PDF。需要注意的是，\textbf{动态图在一些功能较弱的 PDF 浏览器中可能无法正常工作}，推荐使用 Adobe 系列 PDF 浏览器以保证正常浏览。代码如下：
 \begin{latex}
 \begin{figure}[!hbt]
@@ -759,7 +759,7 @@ convert Py3-matplotlib.gif -coalesce Py3-matplotlib.png
 \end{para}
 \end{para}
 
-在列表定义中可能碰到的参数如\fref{fig:enumitemsep}。其中加粗加斜的\LaTeX 不原生支持。
+在列表定义中可能碰到的参数如\fref{fig:enumitemsep}。其中加粗加斜的\LaTeX\ 不原生支持。
 \begin{figure}[!hbt]
 \includegraphics[width=0.9\linewidth]{enumitemsep.pdf}
 \caption{列表长度参数总图}
@@ -943,7 +943,7 @@ Here we go. This is a very long sentence and you will find that it goes to the s
     yysep={,},notesep={, }}
 \end{latex}
 
-除了\LaTeX 原生的\latexline{cite}命令，\pkg{natbib}宏包还提供了\tref{tab:natbib}所示的引用命令。
+除了\LaTeX\ 原生的\latexline{cite}命令，\pkg{natbib}宏包还提供了\tref{tab:natbib}所示的引用命令。
 
 \begin{table}[!hbt]
 \centering
@@ -1010,7 +1010,7 @@ num & \multicolumn{2}{c}{此模式下与\latexline{citep}相同} \\
 \subsection{\bibtex 使用}
 \bibtex 通过单独的.bib扩展名文件管理文献，使多文档方便地共用一份文献列表（可以指引用其中的部分文献）成为可能。使用时请确保：
 \begin{feae}
-\item 确保你的文档定义了\latexline{bibliographystyle}类型。\LaTeX 预定义的类型分为：
+\item 确保你的文档定义了\latexline{bibliographystyle}类型。\LaTeX\ 预定义的类型分为：
   \begin{para}
     \item[plain] 按照第一作者字母顺序排序。“\textit{作者. 文献名. 出版商或刊物, 出版地, 出版时间.} ”
     \item[unsrt] 按引用顺序排序。
@@ -1051,7 +1051,7 @@ num & \multicolumn{2}{c}{此模式下与\latexline{citep}相同} \\
     publisher ="出版社名称"}
 \end{latex}
 
-这里只介绍了article和book两种类型。更多的文献类型以及它们的使用条目选项，参考\tref{tab:bibtype}。
+这里只介绍了article和book两种类型。更多的文献类型以及它们的使用条目选项，参考\tref{tab:bibtype}。另外，可以参考本项目的 bib 文件作为例子。
 
 \begin{table}[!htb]
 \centering
@@ -1106,6 +1106,8 @@ unpublished & 未出版的论文或图书\\
 \hline
 \end{tabular}
 \end{table}
+
+许多文献检索页面（比如 Google 学术）都支持导出\bibtex 文本，将其粘贴到你的 \texttt{.bib} 文件中即可。
 
 最后，你可能需要\RED{编译\xelatex , 再编译\bibtex , 最后连续编译两次\xelatex 来完成你的文档建立}。
 
@@ -1313,7 +1315,7 @@ Enjoy this environment.
 \item[belowskip] 默认\latexline{medskipamount}。代码框下端到下文正文的竖直距离。
 \item[aboveskip] 类似。
 \item[emptylines] 设置最多允许的空行，比如=1，会使多于1行的空行全部删除，并不计入行号。如果写为=*1，那么被删除的行的行号仍然会保留计数。
-\item[esacpeinside] 暂时脱离代码环境而输入一些\LaTeX 支持的命令，比如临时输入斜体。一般设置为一对重音符号（键盘数字1左侧的符号）。
+\item[esacpeinside] 暂时脱离代码环境而输入一些\LaTeX\ 支持的命令，比如临时输入斜体。一般设置为一对重音符号（键盘数字1左侧的符号）。
 \end{para}
 
 代码环境的调用方式是\envi{lstlisting}环境，例如：
@@ -1368,7 +1370,7 @@ for loopnum in lst:
 
 \RED{并请用Adobe Reader等功能健全的PDF阅读打开pdf}！如果是Sumatra仍然可能会选中前面的行号。
 
-最后，给出本手册旧版中使用的\LaTeX 的\latexline{lstset}，颜色另行定义：
+最后，给出本手册旧版中使用的\LaTeX\ 的\latexline{lstset}，颜色另行定义：
 \begin{latex}
 \lstset{language=[LaTeX]TeX,
     basicstyle=\small\ttfamily,
@@ -1400,7 +1402,7 @@ for loopnum in lst:
 \label{subsec:tcolorbox}
 本手册在修订过程中发现了一个可以方便地“一侧写源代码，另一侧展示结果”的宏包，名叫\pkg{tcolorbox}；因此基本用其替换了原有的\pkg{listings}宏包——但是引擎仍然使用的是\pkg{listings}，在使用新宏包时也需要借助旧宏包选项来设置引擎。
 
-该宏包支持下，本手册用\latexline{newtcblisting}定义了\LaTeX 代码环境：
+该宏包支持下，本手册用\latexline{newtcblisting}定义了\LaTeX\ 代码环境：
 \begin{latex}
 \usepackage{tcolorbox}
   \tcbuselibrary{listings,skins,breakable}
@@ -1453,7 +1455,7 @@ for loopnum in lst:
   \item[running]默认选项。整个文档进行计数。
   \item[pagewise]每页行号重新从1计数。
   \item[modulo]每5行显示行号。
-  \item[displaymath]自动将\LaTeX 默认行间公式放在新定义的\envi{linenomath}环境中。
+  \item[displaymath]自动将\LaTeX\ 默认行间公式放在新定义的\envi{linenomath}环境中。
   \item[mathline]如果使用了\envi{linenomath}环境，则对其中的数学公式也编行号。
 \end{para}
 

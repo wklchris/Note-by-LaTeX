@@ -1,15 +1,15 @@
 %!TEX root = ../LaTeX-cn.tex
-\chapter{\tikzz 绘图*（编写中）}
+\chapter{\tikzz\  绘图*（编写中）}
 \textcolor{red}{{\bfseries 请注意：该章节的版本有些陈旧，作者将在下个较大的版本更新中进行重写}}。
 
 \section{所需宏包与命令}
-使用\tikzz ，首先需要加载宏包\pkg{tikz}：\index{Package!tikz}
+使用\tikzz\  ，首先需要加载宏包\pkg{tikz}：\index{Package!tikz}
 \begin{latex}
 \usepackage{tikz}
 % 有时也需要库：\usetikzlibrary{...}
 \end{latex}
 
-接着，需要环境\envi{tikzpicture}用于输出\tikzz 代码。在本手册中，如果没有特殊说明，代码都包括在这个环境中。
+接着，需要环境\envi{tikzpicture}用于输出\tikzz\  代码。在本手册中，如果没有特殊说明，代码都包括在这个环境中。
 \index{Environment!tikzpicture}
 \begin{latex}
 \begin{tikzpicture}
@@ -24,11 +24,11 @@
 \tikz{\draw (-0.5,0) -- (0.5,0)}
 \end{latex}
 
-命令\latexline{draw}\tikzidx{draw}是最基础的\tikzz 命令，用于画线。单位1的长度是1cm。
+命令\latexline{draw}\tikzidx{draw}是最基础的\tikzz\  命令，用于画线。单位1的长度是1cm。
 
 \section{基础命令}
 \subsection{路径：直线与曲线}
-路径(path)是\tikzz 的基础单元，指一系列连接在一起的直线或曲线。绘制直线和曲线都使用\latexline{draw}命令，只是曲线可以用\tikzopt{controls}指定曲线上任意两点间的切线方向。准确地说，这是 B\'{e}zier 曲线。
+路径(path)是\tikzz\  的基础单元，指一系列连接在一起的直线或曲线。绘制直线和曲线都使用\latexline{draw}命令，只是曲线可以用\tikzopt{controls}指定曲线上任意两点间的切线方向。准确地说，这是 B\'{e}zier 曲线。
 \begin{tikzshow}
 \draw (-1.5,0) -- (1.5,0);
 \draw (0,-1.5) -- (0,1.5);
@@ -79,7 +79,7 @@
 \end{tikzshow}
 
 \subsection{网格}
-\tikzz 支持\tikzopt{grid}绘制网格，指定左下角和右上角即可。\tikzopt{help lines}还预定义了一种颜色较浅、宽度较小的线型。
+\tikzz\  支持\tikzopt{grid}绘制网格，指定左下角和右上角即可。\tikzopt{help lines}还预定义了一种颜色较浅、宽度较小的线型。
 \begin{tikzshow}
 \draw[step=0.5] (0,0) grid (1,2);
 \draw[step=0.5,help lines] (1.9,0) grid (3,2);
