@@ -4,7 +4,7 @@
 
 编辑器的配置大概是需要讲解一下的，毕竟对于初学者来说是很头疼的事情。本手册就以\TeX\ Studio为例进行配置。首先你应该安装一个\TeX{} Live，它是完全免费的，网址：\url{http://tug.org/texlive/}.
 
-虽然它体积较大，但是却是最一劳永逸、最不需要花时间取配置的方法，同时它大概也是功能支持最强的\LaTeX\ 发行版。
+虽然它体积较大，但是却是最一劳永逸、最不需要花时间去配置的方法，同时它大概也是功能支持最强的\LaTeX\ 发行版。
 
 打开\TeX\ Studio后，选择选项$\rightarrow$ 设置\TeX\ Studio $\rightarrow$ 构建$\rightarrow$ 默认编译器，选择\xelatex{}. 这主要是基于中文文档编译的考虑，同时\xelatex 也能很好地编译英文文档。我建议始终使用它作为默认编译器。\dpar
 
@@ -72,7 +72,7 @@ $\backslash$ \textbackslash
 \texttt{\char92}
 \end{codeshow}
 
-其中命令\latexline{char[num]}是一个特殊的命令，使用环境需要是tt字体环境，用于输出USCII码对应的字符；92对应的即反斜杠。你也可以用\latexline{char`}后加字符的方式输出你想输出的命令，但需要包裹在\latexline{texttt}或者\latexline{ttfamily}内。如果想输出的字符是保留字符，需要再加一个反斜杠。
+其中命令\latexline{char[num]}是一个特殊的命令，使用环境需要是tt字体环境，用于输出ASCII码对应的字符；92对应的即反斜杠。你也可以用\latexline{char`}后加字符的方式输出你想输出的命令，但需要包裹在\latexline{texttt}或者\latexline{ttfamily}内。如果想输出的字符是保留字符，需要再加一个反斜杠。
 \begin{verbatim}
 \texttt{\char`~} % 输出一个波浪线
 \texttt{\char`\\} % 输出保留字反斜杠
