@@ -6,7 +6,7 @@
 $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 \end{latex}
 
-一般推荐第一种方式。例如：\verb|$\sum_{i=1}^{n}a_i$|，即：$\sum_{i=1}^{n}a_i$.
+一般推荐第一或第二种方式。例：\verb|$\sum_{i=1}^{n}a_i$|，即：$\sum_{i=1}^{n}a_i$.
 
 另外一种公式排版方式是\co{行间公式}，也称行外公式，使用：
 \begin{latex}
@@ -15,7 +15,6 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 \end{latex}
 
 一般也推荐第一种命令\footnote{还有一种\texttt{\$\$...\$\$}的写法，源自底层\TeX，不建议使用。}，例如：\verb|\[\sum_{i=1}^n{a_i}\]|，得到：
-
 \[\sum_{i=1}^{n}a_i\]
 
 从上面的两个例子可以看出，即使输出相同的内容，行内和行间的排版也是有区别的，比如累计符号上标是写在正上方还是写在右上角。
@@ -41,7 +40,7 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
   $两个空\qquad 格,负3/18空\!格$
 \end{codeshow}
 
-事实上，以上命令也可以在数学模式外使用，其中使用最广泛的是\latexline{,}，比如上文提到过的千位分隔符。在数学环境中它也应用广泛：
+事实上，以上命令也可以在数学模式外使用，其中使用最广泛的是\latexline{,}，比如上文提到过的千位分隔符。在数学环境中它也应用广泛（含有隐式的\latexline{,}）：
 
 \begin{codeshow}
 \[ \int_0^1 x \ud{}x
@@ -460,7 +459,7 @@ $\mathrm{C}_n^k=\binom{n}{k}
 
 你可以借此得到新的命令\latexline{Bfrac}：
 \begin{codeshow}
-\[\text{We define }\Bfrac{n}{k}=\binom{k}{n}\]
+\[\text{We define } \Bfrac{n}{k} = \binom{k}{n}\]
 \end{codeshow}
 
 \subsection{定理}

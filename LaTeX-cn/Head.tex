@@ -167,7 +167,82 @@
 \usepackage{tcolorbox}
   \tcbuselibrary{listings,skins,breakable}
 
-% cmd & envi 
+% 对于 tcolorbox 中 listings 库的 ''tcblatex'' style 的重现，
+% 添加了新的关键词
+\lstdefinestyle{latexcn}{
+  language=[LaTeX]TeX,
+  basicstyle=\small\ttfamily,
+  % Word styles
+  commentstyle=\color{green!50!black},
+  columns=fullflexible,  % Avoid too sparse word spaces
+  keepspaces=true,
+  % Numbering
+  numbers=left,
+  numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
+  % Lines and Skips
+  aboveskip=0pt plus 6pt,
+  belowskip=0pt plus 6pt,
+  breaklines=true,
+  breakatwhitespace=true,
+  emptylines=1,  % Avoid >1 consecutive empty lines
+  escapeinside=``,
+  % More Keywords
+  classoffset=0,
+  texcsstyle=*\color{blue},
+  moretexcs={
+    % LaTeX extension
+    chapter,section,subsection,setlength,
+    thechapter,thesection,thesubsection,theequation,
+    chaptermark,chaptername,appendix,
+    bibname,refname,bibpreamble,bibfont,citenumfont,bibnumfmt,bibsep
+  },
+  classoffset=1,
+  texcsstyle=*\color{orange!75!black},
+  moretexcs={
+    % XeCJK & CTeX
+    xeCJKsetup,setCJKmainfont,newCJKfontfamily,CJKfontspec,
+    CTEXthechapter,songti,heiti,fangsong,kaishu,yahei,lishu,youyuan,
+    % AMSmath / AMSsymb / AMSthm
+    middle,text,tag,boldsymbol,mathbb,dddot,ddddot,iint,varoiint,
+    dfrac,tfrac,cfrac,leftroot,uproot,underbracket,xleftarrow,xrightarrow,
+    overset,underset,sideset,mathring,leqslant,geqslant,because,therefore,
+    shortintertext,binom,dbinom,implies,thesubequation,
+    impliedby,genfrac,theoremstyle,qedhere,
+    % Other math packages
+    wideparen,intertext,
+    xlongequal,xLeftrightarrow,xleftrightarrow,xLongleftarrow,xLongrightarrow,
+    % xcolor
+    definecolor,color,textcolor,colorbox,fcolorbox,
+    % hyperref
+    hyperref,autoref,href,url,nolinkurl,
+  　　% Graph & Table
+    includegraphics,graphicspath,scalebox,rotatebox,animategraphics,
+    newcolumntype,arraybackslash,multirow,captionsetup,
+    thead,multirowcell,makecell,Xhline,Xcline,diagbox,
+    toprule,midrule,bottomrule,DeclareFloatingEnvironment,
+    % ulem
+    uline,uuline,dashuline,dotuline,uwave,sout,xout,
+    % fancyhdr
+    lhead,chead,rhead,lfoot,cfoot,rfoot,
+    fancyhf,fancyhead,fancyfoot,fancypagestyle,
+    % fontspec
+    newfontfamily,
+    % titlesec & titletoc
+    titlelabel,titleformat,titlespacing,titleline,titlerule,dottecontents,titlecontents,
+    % enumitem
+    setlist,
+    % Listings & tcolorbox
+    lstdefinelanguage,lstdefinestyle,lstset,lstnewenvironment,
+    tcbuselibrary,newtcblisting,newtcbox,
+    % citation & index: natbib, imakeidx
+    setcitestyle,printindex,
+    % Other packages
+    hologo,lettrine,endfirsthead,endhead,endlastfoot,columncolor,rowcolors,modulolinenumbers,MakeShortVerb,
+  }
+  %classoffset=0  % Reset
+}
+
+% cmd & envi
 \newtcbox{\latexline}[1][green]{on line,before upper=\ttfamily\char`\\,
   arc=0pt,outer arc=0pt,colback=#1!10!white,colframe=#1!50!black,
   boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,
@@ -176,22 +251,17 @@
   arc=0pt,outer arc=0pt,colback=#1!10!white,colframe=#1!50!black,
   boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,
   boxrule=0pt,bottomrule=1pt,toprule=1pt}
-
 % pkg
 \newtcbox{\pkg}[1][orange!70!red]{on line,before upper={\rule[-0.2ex]{0pt}{1ex}\ttfamily},
   arc=0.8ex,colback=#1!30!white,colframe=#1!50!black,
   boxsep=0pt,left=1.5pt,right=1.5pt,top=1pt,bottom=1pt,
   boxrule=1pt}
 
-
+% tcblisting definitions
 \newtcblisting{latex}{breakable,skin=bicolor,colback=gray!30!white,
   colbacklower=white,colframe=cyan!75!black,listing only, 
   left=6mm,top=2pt,bottom=2pt,fontupper=\small,
-  % listing style
-  listing options={style=tcblatex,
-  keywordstyle=\color{blue},commentstyle=\color{green!50!black},
-  numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
-  emptylines=1,escapeinside=``}
+  listing options={style=latexcn}
 }
 
 \newtcblisting{codeshow}{skin=bicolor,colback=gray!30!white,
@@ -199,10 +269,7 @@
   left=6mm,righthand width=0.4\linewidth,fontupper=\small,
   % listing style
   listing side text,
-  listing options={style=tcblatex,
-  keywordstyle=\color{blue},commentstyle=\color{green!50!black},
-  numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
-  emptylines=1,escapeinside=``}
+  listing options={style=latexcn}
 }
 
 \newtcblisting{codeshowabove}{skin=bicolor,colback=gray!30!white,
@@ -210,43 +277,14 @@
   left=6mm,righthand width=0.4\linewidth,fontupper=\small,
   % listing style
   listing and text,
-  listing options={style=tcblatex,
-  keywordstyle=\color{blue},commentstyle=\color{green!50!black},
-  numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
-  emptylines=1,escapeinside=``}
+  listing options={style=latexcn}
 }
-
-% Tikz Code
-\lstdefinelanguage{tikzlang}{
-	classoffset=0, % 蓝色的keyword
-	morekeywords={begin,end,newcommand,
-		draw,node,coordinate,tikzstyle,foreach},
-	keywordstyle=\color{keywordcolor},
-	classoffset=1, % 棕色的其他关键字
-	morekeywords={tikzpicture,grid,at,
-		thick,thin,very,ultra,
-		red,green,yellow,blue,cyan,magenta,black,
-		    gray,darkgray,lightgray,brown,lime,
-		    olive,orange,pink,purple,teal,violet,white},
-	keywordstyle=\color{envicolor},
-	morecomment=[l]{\%},
-	morecomment=[s]{/*}{*/},
-	morestring=[b]',
-	% Escape
-	escapeinside=``
-}
-\lstnewenvironment{tikzcode}[1]{\lstset{language=tikzlang,basicstyle=\small\ttfamily,
-		breaklines=true,%backgroundcolor=\color{white},
-		linewidth=0.7\linewidth,#1}}{}
 
 \newtcblisting{tikzshow}{tikz lower,skin=bicolor,colback=gray!30!white,
   colbacklower=white,colframe=cyan!75!black, 
   left=6mm,righthand width=3.5cm,listing outside text,
   % listing style  
-  listing options={style=tcblatex,language=TeX,basicstyle=\small\ttfamily,
-  keywordstyle=\color{blue},commentstyle=\color{green!50!black},
-  numbers=left,numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
-  emptylines=1,escapeinside=``}
+  listing options={style=latexcn}
 }
 
 % 附录

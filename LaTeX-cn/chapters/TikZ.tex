@@ -68,5 +68,19 @@ Zeichenprogramm'' 的缩写，即英文的 ``TikZ is not a drawing program''（�
 xelatex -shell-escape example.tex
 \end{latex}
 
-\section{基础示例}
-本节介绍 \tikzz\ 的基础示例。
+\section{基础指令}
+本节介绍 \tikzz\ 的基础指令，希望能够帮助读者较系统地进行学习。如果读者希望通过例子入手，请参考\secref{sec:tikz-eg}。
+
+\subsection{点与线段}
+点和线是绘图的基本要素。\tikzz\ 通过坐标的方式指定点的位置，坐标书写在一对圆括号内；通过两个短横线“--”来连接点与点，形成线段。
+
+\RED{为了简洁，下文展示代码时都将省略 tikzpicture 环境的 begin 和 end}。
+\begin{tikzshow}
+\draw (0,0) -- (1,0);
+\end{tikzshow}
+
+默认的单位长度是 1 cm。如果想要修改比例尺，参考后文。
+
+\section{实用范例}
+\label{sec:tikz-eg}
+本节通过例子的方式，向读者展示 \tikzz\ 的常用情形。
