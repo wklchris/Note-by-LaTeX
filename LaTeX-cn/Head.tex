@@ -54,6 +54,7 @@
 	\newcommand{\xelatex}{\Hologo{XeLaTeX}}
 	\newcommand{\bibtex}{\Hologo{BibTeX}}
 	\newcommand{\tikzz}{Ti\textit{k}Z}
+	\newcommand{\bz}{B\'ezier}
 % 其他符号
 \usepackage{wasysym}
 % 带箱小页
@@ -165,7 +166,7 @@
 \usepackage{accsupp}
 	\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
 \usepackage{tcolorbox}
-  \tcbuselibrary{listings,skins,breakable}
+  \tcbuselibrary{listings,skins,breakable,xparse}
 
 % 对于 tcolorbox 中 listings 库的 ''tcblatex'' style 的重现，
 % 添加了新的关键词
@@ -233,7 +234,7 @@
     setlist,
     % Listings & tcolorbox
     lstdefinelanguage,lstdefinestyle,lstset,lstnewenvironment,
-    tcbuselibrary,newtcblisting,newtcbox,
+    tcbuselibrary,newtcblisting,newtcbox,DeclareTCBListing
     % citation & index: natbib, imakeidx
     setcitestyle,printindex,
     % Other packages
@@ -256,6 +257,7 @@
   arc=0.8ex,colback=#1!30!white,colframe=#1!50!black,
   boxsep=0pt,left=1.5pt,right=1.5pt,top=1pt,bottom=1pt,
   boxrule=1pt}
+\newcommand{\tikzkw}[1]{\texttt{#1}}
 
 % tcblisting definitions
 \newtcblisting{latex}{breakable,skin=bicolor,colback=gray!30!white,
@@ -280,10 +282,13 @@
   listing options={style=latexcn}
 }
 
-\newtcblisting{tikzshow}{tikz lower,skin=bicolor,colback=gray!30!white,
+\NewTCBListing{tikzshow}{ O{} }{
+%\DeclareTCBListing{tikzshow}{ O{} }{
+  tikz lower={#1},
+  halign lower=center,valign lower=center,
+  skin=bicolor,colback=gray!30!white,
   colbacklower=white,colframe=cyan!75!black, 
   left=6mm,righthand width=3.5cm,listing outside text,
-  % listing style  
   listing options={style=latexcn}
 }
 

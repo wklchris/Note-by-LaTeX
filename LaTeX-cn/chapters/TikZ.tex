@@ -1,34 +1,34 @@
 %!TEX root = ../LaTeX-cn.tex
 \chapter{\tikzz\  绘图*（编写中，更新于\today）}
 \section{\tikzz\ 简介}
-``\tikzz \& PGF''（大多直接称为\tikzz）是 \LaTeX\ 上与 PSTricks(PostScript Tricks) 齐名的绘图扩展，而这两者基本上是在你的 \LaTeX\ 文档中绘制矢量图的唯二选择。前者由 Till Tantau 开发。
+``\tikzz \& PGF''（大多直接称为\tikzz）是 \LaTeX\ 上与 PSTricks(PostScript Tricks) 齐名的绘图扩展，而这两者基本上是在你的 \LaTeX\ 文档中绘制矢量图的唯二选择．前者由 Till Tantau 开发．
 
 其中，``PGF'' 是 ``Portable Graphic Format''（便携图像格式）的缩写，是整个绘图系统的底层（或者后端）；而 ``\tikzz'' 是 ``TikZ ist \emph{kein} 
-Zeichenprogramm'' 的缩写，即英文的 ``TikZ is not a drawing program''（“\tikzz\ 不是绘图软件”），则是系统的前端。Till 是仿造 GNU 的缩写 ``GNU is Not Unix'' 这种递归式格式命名 \tikzz\ 的，他在文档中也提及了这一点。
+Zeichenprogramm'' 的缩写，即英文的 ``TikZ is not a drawing program''（“\tikzz\ 不是绘图软件”），则是系统的前端．Till 是仿造 GNU 的缩写 ``GNU is Not Unix'' 这种递归式格式命名 \tikzz\ 的，他在文档中也提及了这一点．
 
-从 \tikzz\ 发布稳定版以来，它的功能可以说涵盖了文档绘图的绝大部分\textbf{科学绘图场景}（我强调这一点，是因为我相信用它画艺术设计图的效率会很低）——对于研究工作者或者学生，这再好不过了。举个例子：笔者在大学期间的计算机和统计课程的所有出图都是由 \tikzz\ 绘制的。
+从 \tikzz\ 发布稳定版以来，它的功能可以说涵盖了文档绘图的绝大部分\textbf{科学绘图场景}（我强调这一点，是因为我相信用它画艺术设计图的效率会很低）——对于研究工作者或者学生，这再好不过了．举个例子：笔者在大学期间的计算机和统计课程的所有出图都是由 \tikzz\ 绘制的．
 
-\tikzz\ 的官方文档，使用\texttt{texdoc tikz}命令调出。看的出来，Till 努力将文档写的生动有趣。如果不是篇幅实在有些长，相信你读起来会很愉快。
+\tikzz\ 的官方文档，使用\texttt{texdoc tikz}命令调出．看的出来，Till 努力将文档写的生动有趣．如果不是篇幅实在有些长，相信你读起来会很愉快．
 
 \subsection{选择 \tikzz\ 还是 PSTricks}
-关于这两者应该学哪一个，大家甚至展开圣战；虽然没有计算机行业 Vim 和 Emacs 圣战那么夸张，但是着实给不少想要学习 \LaTeX\ 绘图的人带来困扰\footnote{笔者就颇受困扰，所以都尝试过。当年还有人把 Asymptote 也扯进这场圣战，但笔者认为它的竞争力没有那么强。}。
+关于这两者应该学哪一个，大家甚至展开圣战；虽然没有计算机行业 Vim 和 Emacs 圣战那么夸张，但是着实给不少想要学习 \LaTeX\ 绘图的人带来困扰\footnote{笔者就颇受困扰，所以都尝试过．当年还有人把 Asymptote 也扯进这场圣战，但笔者认为它的竞争力没有那么强．}．
 
-笔者最后选择了 \tikzz\ 。为什么？相比 PSTricks，语法顺畅，可读性更高。易读易写，十分难得。至于谁的绘图能力更强，我认为他们都已经涵盖了你正常需要的范畴。所以，如果你仍然不确定的话，就去搜索一些他们各自的例子片段再决定吧。
+笔者最后选择了 \tikzz\ ．为什么？相比 PSTricks，语法顺畅，可读性更高．易读易写，十分难得．至于谁的绘图能力更强，我认为他们都已经涵盖了你正常需要的范畴．所以，如果你仍然不确定的话，就去搜索一些他们各自的例子片段再决定吧．
 
 \subsection{选择 \tikzz\ 还是外部绘图软件}
 为什么选择 \tikzz\ 而不是用外部绘图软件呢？一些理由：
 \begin{itemize}
-\item \textbf{绘制矢量图}。外部绘图为 pdf 矢量图再用加载图片的方式加载进来当然可以；但是很多情况下，切换软件的时间成本与切换到另一个软件的操作模式的思考成本是很高的。
-\item \textbf{更小的体积}。相比加载外部绘图，体积会小一些；虽然不是特别明显。
-\item \textbf{更易维护}。外部绘制的图片需要你通过安装相应的绘图软件进行维护；但是使用 \tikzz\ 绘图，你只需要一台装有 \LaTeX\ 核心和 \tikzz\ 宏包的设备。
+\item \textbf{绘制矢量图}．外部绘图为 pdf 矢量图再用加载图片的方式加载进来当然可以；但是很多情况下，切换软件的时间成本与切换到另一个软件的操作模式的思考成本是很高的．
+\item \textbf{更小的体积}．相比加载外部绘图，体积会小一些；虽然不是特别明显．
+\item \textbf{更易维护}．外部绘制的图片需要你通过安装相应的绘图软件进行维护；但是使用 \tikzz\ 绘图，你只需要一台装有 \LaTeX\ 核心和 \tikzz\ 宏包的设备．
 
-千万别小看这一点；很多时候你需要在别人的电脑上更改你的插图。比如学术圈子里，电脑上安装有 \TeX\ Live 是一件稀松平常的事情；但是安装有 GNUplot 绘图，矢量图编辑器？那可不一定。
-\item \textbf{完全的文本文件}。如果你使用 git 之类的版本控制工具，你应该会明白这一条是什么意思。不管你是将 \tikzz\ 代码写在主 tex 文档中，还是另存到一份单独的 tex 文档，它们都是文本文件。如果用加载外部 pdf 的方式导入图片，那想对它们进行版本控制简直是一场灾难。
+千万别小看这一点；很多时候你需要在别人的电脑上更改你的插图．比如学术圈子里，电脑上安装有 \TeX\ Live 是一件稀松平常的事情；但是安装有 GNUplot 绘图，矢量图编辑器？那可不一定．
+\item \textbf{完全的文本文件}．如果你使用 git 之类的版本控制工具，你应该会明白这一条是什么意思．不管你是将 \tikzz\ 代码写在主 tex 文档中，还是另存到一份单独的 tex 文档，它们都是文本文件．如果用加载外部 pdf 的方式导入图片，那想对它们进行版本控制简直是一场灾难．
 \end{itemize}
 
 \section{\tikzz\ 的输入输出}
 \subsection{基本绘图方式}
-\tikzz\ 的基本绘图方式有两种：使用 \latexline{tikz} 命令，或者使用 \envi{tikzpicture} 环境。请注意，\RED{语句用分号结尾}。当然，你需要先加载 \pkg{tikz} 宏包，有时你还需要加载一些 \tikzz\ 的库：
+\tikzz\ 的基本绘图方式有两种：使用 \latexline{tikz} 命令，或者使用 \envi{tikzpicture} 环境．请注意，\RED{语句用分号结尾}．当然，你需要先加载 \pkg{tikz} 宏包，有时你还需要加载一些 \tikzz\ 的库：
 \begin{latex}
 \usepackage{tikz}
 % 加载库：\usetikzlibrary{lib1, lib2, ...}
@@ -44,12 +44,10 @@ Zeichenprogramm'' 的缩写，即英文的 ``TikZ is not a drawing program''（�
 \end{tikzpicture}
 \end{codeshow}
 
-如果你使用 \TeX\ 而非 \LaTeX\ ，那么请在 \latexline{tikzpicture} 和 \latexline{endtikzpicture} 之中使用 \tikzz\ 代码。
+如果你使用 \TeX\ 而非 \LaTeX\ ，那么请在 \latexline{tikzpicture} 和 \latexline{endtikzpicture} 之中使用 \tikzz\ 代码．
 
 \subsection{输出图像到独立文件}
-要输出为\texttt{.svg}矢量文件，用于更多的插图场合。需要在电脑安装pdf2svg\footnote{\url{http://www.cityinthesky.co.uk/opensource/pdf2svg/}}。不过在\LaTeX 使用的场合，可以去掉下述的\texttt{convert}参数，以输出\texttt{.pdf}格式的矢量文件。
-
-下例中的\texttt{multi=false}表示只输出为单页文件。
+要输出为\texttt{.svg}矢量文件，用于更多的插图场合．需要在电脑安装pdf2svg\footnote{\url{http://www.cityinthesky.co.uk/opensource/pdf2svg/}}．不过在\LaTeX 使用的场合，可以去掉下述的\texttt{convert}参数，以输出\texttt{.pdf}格式的矢量文件．下例中的\texttt{multi=false}表示只输出为单页文件．
 
 \begin{latex}
 \documentclass[tikz,convert=pdf2svg,multi=false]{standalone}
@@ -68,19 +66,48 @@ Zeichenprogramm'' 的缩写，即英文的 ``TikZ is not a drawing program''（�
 xelatex -shell-escape example.tex
 \end{latex}
 
-\section{基础指令}
-本节介绍 \tikzz\ 的基础指令，希望能够帮助读者较系统地进行学习。如果读者希望通过例子入手，请参考\secref{sec:tikz-eg}。
+\section{基础几何元素}
+本节介绍 \tikzz\ 的基础几何元素，希望能够帮助读者较系统地进行学习．如果读者希望通过例子入手，请参考\secref{sec:tikz-eg}．
 
 \subsection{点与线段}
-点和线是绘图的基本要素。\tikzz\ 通过坐标的方式指定点的位置，坐标书写在一对圆括号内；通过两个短横线“--”来连接点与点，形成线段。
+点和线是绘图的基本要素．\tikzz\ 通过坐标的方式指定点的位置，坐标书写在一对圆括号内；通过两个短横线“--”来连接点与点，形成线段．
 
-\RED{为了简洁，下文展示代码时都将省略 tikzpicture 环境的 begin 和 end}。
+\RED{为了简洁，下文展示代码时都将省略 tikzpicture 环境的 begin 和 end}．
 \begin{tikzshow}
 \draw (0,0) -- (1,0);
 \end{tikzshow}
 
-默认的单位长度是 1 cm。如果想要修改比例尺，参考后文。
+默认的单位长度是 1 cm．如果想要修改比例尺，或者调整线型、颜色等属性参数，请参考\secref{sec:tikz-property}．
+
+\subsection{\bz\ 曲线}
+\tikzz\ 允许你使用 \tikzkw{.. controls <p1> and <p2> ..} 方式来指定\bz\ 曲线的两个控制点．第二控制点可以省略；省略时，设为与第一控制点相同．
+\begin{tikzshow}
+\draw (0,0) .. controls (0.5,1) and (1.5,1) .. (2,0);
+\end{tikzshow}
+
+控制点并不会显式地画在图中．为了帮助不熟悉 \bz\ 曲线的读者理解，在此绘制一些辅助说明的点和线：
+\begin{tikzshow}
+\draw (0,0) .. controls (0.5,1) and (1.5,1) .. (2,0);
+% Auxilary Points & Lines
+\filldraw[black] (0,0) circle [radius=2pt]
+(0.5,1) circle [radius=2pt]
+(1.5,1) circle [radius=2pt]
+(2,0) circle [radius=2pt];
+\draw[dashed] (0,0) -- (0.5,1);
+\draw[dashed] (1.5,1) -- (2,0);
+\end{tikzshow}
+
+\subsection{圆与椭圆}
+指定圆或者椭圆的中心，然后指明它半径的参数：
+\begin{tikzshow}
+\draw [rotate=30] (0,0) ellipse [x radius=12pt, y radius=6pt];
+\draw (2,0) circle [radius=0.5cm];
+\end{tikzshow}
+上例使用了 \tikzkw{rotate} 选项，以原点为中心逆时针 30\(^\circ\) 旋转了椭圆．
+
+\section{图形属性}
+\label{sec:tikz-property}
 
 \section{实用范例}
 \label{sec:tikz-eg}
-本节通过例子的方式，向读者展示 \tikzz\ 的常用情形。
+本节通过例子的方式，向读者展示 \tikzz\ 的常用情形．
