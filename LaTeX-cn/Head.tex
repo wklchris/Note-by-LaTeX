@@ -3,8 +3,7 @@
 \RequirePackage[safe]{tipa}
 
 \documentclass[a4paper, zihao=-4, linespread=1]{ctexrep}
-\usepackage{amsmath}  
-  \renewcommand{\CTEXthechapter}{\thechapter}
+\renewcommand{\CTEXthechapter}{\thechapter}
 % 最小行间间距设定
 \setlength{\lineskiplimit}{3pt}
 \setlength{\lineskip}{3pt}
@@ -28,6 +27,8 @@
   \setlength{\columnseprule}{0.4pt}
 
 % 数学环境
+\usepackage{mathdots} % 数学省略号，会重定义 dddot 和 ddddot
+\usepackage{amsmath}  
   \newcommand{\ue}{\mathrm{e}}
   \newcommand{\ud}{\mathop{}\negthinspace\mathrm{d}} % 微分号
 \usepackage{amssymb}
@@ -35,7 +36,6 @@
 % overline的替代命令
 \newcommand{\closure}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
 \usepackage{yhmath} % \wideparen命令：弧AB
-\usepackage{mathdots} % 数学省略号
 \usepackage{mathtools} % dcases环境，prescript命令
 \usepackage{amsthm} % 定理环境
   \theoremstyle{definition}\newtheorem{laws}{Law}[section]
