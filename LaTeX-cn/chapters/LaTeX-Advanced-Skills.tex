@@ -1435,15 +1435,22 @@ for loopnum in lst:
 \item[listing option] 除了特殊的style字段，这些参数都会被传递给引擎（本手册是listings宏包）．\texttt{style=tcblatex}是\pkg{tcolorbox}宏包预定义的．
 \end{para}
 
-该环境也支持使用可选参数，用法类似原生 \latexline{newcommand} 命令．但是，如果你只有一个参数，而且它是可选的，请使用 \latexline{DeclareTCBListing} 命令（需要用 \latexline{tcbuselibrary} 命令 加载 \texttt{xparse} 库）以避免可能的问题，例如：
+该环境也支持使用可选参数，用法类似原生 \latexline{newcommand} 命令．但是，如果你只有一个参数，而且它是可选的，请使用 \latexline{NewTCBListing} 命令（需要用 \latexline{tcbuselibrary} 命令 加载 \texttt{xparse} 库）以避免可能的问题，例如本手册的 \tikzz\ 章节使用了\footnote{宏包目前存在一个问题，导致 \texttt{tikz lower} 参数传递有误．请参考本手册源码}：
 \begin{latex}
-% 缺省值为空，表示不指定方括号参数则传入空到#1
-% 也可以传入，例如：\begin{enviname}[colback=yellow]
-\DeclareTCBListing{enviname}{ O{} }{listing only,#1}
+% 调用可无参或单参，例：\begin{tikzshow}
+% 或 \begin{tikzshow}[scale=2,very thick]
+\NewTCBListing{tikzshow}{ O{} }{
+  tikz lower={#1},
+  halign lower=center,valign lower=center,
+  skin=bicolor,colback=gray!30!white,
+  colbacklower=white,colframe=cyan!75!black, 
+  left=6mm,righthand width=3.5cm,listing outside text,
+  listing options={language=tikzlang}
+}
 \end{latex}
 其中，\texttt{O} 这种用法请参考 \pkg{xparse} 宏包文档，常用的有必选参数“m”、可选参数“o”、可选参数并指定缺省值“O\{<default>\}”．
 
-通过该宏包的\latexline{newtcbox}命令，本手册实现了对于命令、环境、宏包的高亮．以下给出宏包高亮作为例子，参数含义显然：
+通过该宏包的\latexline{newtcbox}命令，本手册实现了对于命令、环境、宏包的高亮．以下给出本手册中对宏包名称的高亮作为例子，参数含义显然：
 \begin{latex}
 \newtcbox{\pkg}[1][orange!70!red]{on line,
     before upper={\rule[-0.2ex]{0pt}{1ex}\ttfamily},

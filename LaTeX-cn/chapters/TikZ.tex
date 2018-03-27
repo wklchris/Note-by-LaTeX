@@ -70,14 +70,12 @@ xelatex -shell-escape example.tex
 本节介绍 \tikzz\ 的基础几何元素，希望能够帮助读者较系统地进行学习．如果读者希望通过例子入手，请参考\secref{sec:tikz-eg}．
 
 \subsection{点与线段}
-点和线是绘图的基本要素．\tikzz\ 通过坐标的方式指定点的位置，坐标书写在一对圆括号内；通过两个短横线“--”来连接点与点，形成线段．
-
-\RED{为了简洁，下文展示代码时都将省略 tikzpicture 环境的 begin 和 end}．
+点和线是绘图的基本要素．\tikzz\ 通过坐标的方式指定点的位置，坐标书写在一对圆括号内；通过两个短横线“--”来连接点与点，形成线段．下例连续画了两段．\RED{为了简洁，下文展示代码时省略 tikzpicture 环境首尾}．
 \begin{tikzshow}
-\draw (0,0) -- (1,0);
+\draw (0,0) -- (1,0) -- (2,0.5);
 \end{tikzshow}
 
-默认的单位长度是 1 cm．如果想要修改比例尺，或者调整线型、颜色等属性参数，请参考\secref{sec:tikz-property}．
+默认的单位长度是 1 cm．如果想要修改比例尺，或者调整线型、颜色等属性参数，请参考\secref{sec:tikz-property}．极坐标参考\secref{subsec:polar}．
 
 \subsection{\bz\ 曲线}
 \tikzz\ 允许你使用 \tikzkw{.. controls <p1> and <p2> ..} 方式来指定\bz\ 曲线的两个控制点．第二控制点可以省略；省略时，设为与第一控制点相同．
@@ -89,12 +87,15 @@ xelatex -shell-escape example.tex
 \begin{tikzshow}
 \draw (0,0) .. controls (0.5,1) and (1.5,1) .. (2,0);
 % Auxilary Points & Lines
-\filldraw[black] (0,0) circle [radius=2pt]
-(0.5,1) circle [radius=2pt]
-(1.5,1) circle [radius=2pt]
-(2,0) circle [radius=2pt];
+\filldraw[black] (0,0) circle [radius=2pt] (0.5,1) circle [radius=2pt] (1.5,1) circle [radius=2pt] (2,0) circle [radius=2pt];
 \draw[dashed] (0,0) -- (0.5,1);
 \draw[dashed] (1.5,1) -- (2,0);
+\end{tikzshow}
+
+\subsection{矩形}
+指定矩形的西南角点和东北角点，用 \tikzkw{rectangle} 命令连接：
+\begin{tikzshow}
+\draw (0,0) rectangle (2,1);
 \end{tikzshow}
 
 \subsection{圆与椭圆}
@@ -103,10 +104,147 @@ xelatex -shell-escape example.tex
 \draw [rotate=30] (0,0) ellipse [x radius=12pt, y radius=6pt];
 \draw (2,0) circle [radius=0.5cm];
 \end{tikzshow}
-上例使用了 \tikzkw{rotate} 选项，以原点为中心逆时针 30\(^\circ\) 旋转了椭圆．
+上例使用了 \tikzkw{rotate} 选项，绕原点（而非圆心）逆时针 30\(^\circ\) 旋转了椭圆．
 
-\section{图形属性}
+\subsection{圆弧与椭圆弧}
+指定圆弧的起点，在选项中给出起始角度、终止角度和半径，即可画弧：
+\begin{tikzshow}
+\draw (2,0) arc [start angle=0, end angle=45, radius=2];
+\draw (1,0) arc [start angle=0, end angle=270, x radius=1, y radius=.5];
+\end{tikzshow}
+圆弧使用极坐标参数绘制往往更加简便，参考\secref{subsec:polar}．
+
+\subsection{网格}
+网格即为自动绘制的等距线：
+\begin{tikzshow}
+\draw[step=0.5,lightgray,thin] (0,0) grid (2,2);
+\draw (1,1) circle [radius=.5];
+\end{tikzshow}
+默认的 \tikzkw{step} 是 1．可以使用 \tikzkw{xstep} 和 \tikzkw{ystep} 命令分别指定沿两个轴向的网格距离．
+
+\subsection{抛物线*}
+抛物线使用 \tikzkw{parabola} 绘制，并可使用 \tikzkw{bend} 指定拐点位置：
+\begin{tikzshow}
+\draw[help lines, xstep=1, ystep=2] (0,0) grid (3,4);
+\draw (0,2) parabola[bend at end] (1,0);
+\draw[xshift=1cm] (0,1) parabola (1,2);
+\draw[xshift=2cm] (0,0) parabola bend (0.5,2) (1,0);
+\draw[yshift=2cm] (0,0) parabola[bend pos=0.75] bend +(0,1) (1,0);
+\draw[xshift=1cm, yshift=2cm] (0,0) -- (1,2) parabola cycle;
+\draw[xshift=2cm, yshift=2cm] (0,0) parabola[parabola height=2cm] +(1,0);
+\end{tikzshow}
+参数解释如下：
+\begin{para}
+\item[bend at end] 或者 \tikzkw{bend at start}，这样抛物线是正常情况的一半．
+\item[bend] 指定在何处设置拐点．
+\item[bend pos=L] 在起点、终点连线的 L 分点处为基准设置拐点，比如上例为四分之三分点向上偏移 1 单位．
+\item[cycle] 使用 \tikzkw{cycle} 结尾，自动直线连接首尾，形成闭合路径．
+\item[parabola height=H] 在起终点连线的二分之一分点处向上偏移 H 处设置拐点．
+\end{para}
+
+\subsection{正弦线与余弦线*}
+使用 \tikzkw{sin} 和 \tikzkw{cos} 绘制．
+
+\section{图像与坐标}
+\subsection{引言：画笔位置}
+\tikzz\ 中一个很重要的概念是画笔，在一个常规的 \latexline{draw} 命令中，想象使用画笔从头到尾依次连接各个点．每次检测到“--”这条绘制命令，\tikzz\ 都将移动画笔位置并画线．
+
+\tikzz\ 提供了一种方法，可以在移动画笔的同时不划线．这个命令就是 \tikzkw{++}：
+\begin{tikzshow}
+\draw (0,0) -- (1,0) ++(0,1) circle [radius=.25] -- ++(-1,0) -- (0,0);
+\end{tikzshow}
+
+\tikzz\ 还提供了一个命令 \tikzkw{+}，可以\textbf{临时}偏移画笔：
+\begin{tikzshow}
+\draw (0,0) -- (1,0) -- +(0,1) circle [radius=.25] -- +(-1,1) -- +(-1,0);
+\end{tikzshow}
+
+请仔细体会两个命令的不同之处：单加号用于指代相对坐标，而相对坐标的基准点不会改变，直到指定新的绝对坐标 ；双加号用于移动画笔，基准点的位置会随之改变．
+
+\subsection{极坐标}
+格式是 \texttt{(角度:距离)}．
+\label{subsec:polar}
+\begin{tikzshow}
+\draw (0,0) circle [radius=0.5] -- (30:1);
+\end{tikzshow}
+
+\subsection{路径平移}
+
+\subsection{路径与图像缩放}
+
+\subsection{裁剪（clip）}
+在 \latexline{clip} 命令\RED{之后}的所有绘图都会只显示该裁剪视窗中的部分：
+\begin{tikzshow}
+\clip (0,0) rectangle (1.1, 1.1);
+\draw[red, thick] (0,0) circle [radius=1];
+\end{tikzshow}
+
+添加 \tikzkw{draw} 选项可以把 \latexline{clip} 命令的“轮廓”绘制出来\footnote{也可使用 \latexline{draw} 命令并将 \tikzkw{clip} 作为参数，还可将两者作为 \latexline{path} 命令的参数．}：
+\begin{tikzshow}
+\clip[preaction={draw=red,ultra thick}] (1.2,0) arc [start angle=0, end angle=225, radius=1.2];
+\draw (-1,-1) rectangle (1,1);
+\draw (-1,1) -- (1,-1);
+\end{tikzshow}
+上例使用一个非闭合的路径（圆弧）来裁剪，\tikzz\ 会自动将其首尾连接．其中，\tikzkw{preaction} 选项表示在 \latexline{clip} 命令\RED{之前}先沿该路径按传递给其的参数绘制，之后再创建裁剪视窗；这样可以实现视窗样式的自定义（因为裁剪只影响其后的绘制命令）．
+
+\subsection{画布大小}
+命令 \latexline{useasboundingbox} 可以
+
+\section{属性}
 \label{sec:tikz-property}
+\subsection{线宽}
+\tikzz\ 预定义了 7 种线宽，从细到粗是：\tikzkw{ultra thin}, \tikzkw{very thin}, \tikzkw{thin}, \tikzkw{semithick}, \tikzkw{thick}, \tikzkw{very thick}, \tikzkw{ultra thick}．或者利用 \tikzkw{line width} 选项指定．
+\begin{tikzshow}
+\draw[ultra thin] (0,0) -- (1,0);
+\draw[ultra thick] (1,0) -- (2,0);
+\draw[line width=10pt] (0,1) -- (2,1);
+\end{tikzshow}
+
+\subsection{线型}
+\tikzz\ 预定义了 4 种基本线型：\tikzkw{dashed}, \tikzkw{dotted}, \tikzkw{dash dot}, \tikzkw{dash dot dot}．它们还可以配合 \tikzkw{loosely} 或者 \tikzkw{densely} 进行微调．
+\begin{tikzshow}
+\draw[dashed] (0,0) -- (1,0);
+\draw[dotted] (0,-0.5) -- (1,-0.5);
+\draw[dash dot] (0,-1) -- (1,-1);
+\draw[dash dot dot] (0,-1.5) -- (1,-1.5);
+\draw[loosely dashed] (0,-2) -- (1,-2);
+\draw[densely dotted] (0,-2.5) -- (1,-2.5);
+\end{tikzshow}
+
+如果的确需要深度自定义，请使用 \tikzkw{dash pattern} 自定义线型，并可配合 \tikzkw{dash phase} 指定线型的起始位置．
+\begin{tikzshow}
+\draw[dash pattern=on .1cm off .25cm on .25cm off .15cm, dash phase=1cm] (0,0) -- (3,0);
+\end{tikzshow}
+
+\subsection{绘制颜色}
+在绘制网格一节，已经使用过 \texttt{lightgray} 作为网格的绘制颜色；当时省略了 \tikzkw{draw} 选项．以下使用浅红色作为绘制色：
+\begin{tikzshow}
+\draw[draw=red!50!white, ultra thick] (0,0) rectangle (1,1);
+\end{tikzshow}
+其中，双感叹号加数字是表示插值比例为 0.5；\pkg{xcolor} 宏包支持该语法．
+
+\subsection{单色填充}
+填充命令 \latexline{fill} 只能使用于闭合区域，\textbf{且不绘制区域边界}．你可以在一般绘制命令的末尾添加 \tikzkw{cycle} 来创建一个闭合对象：
+\begin{tikzshow}
+\fill[green] (0,0) -- (1,0) -- (1,1) -- cycle;
+\end{tikzshow}
+
+在填充的同时绘制\footnote{准确地说，\latexline{filldraw} 命令是先绘制再填充．}，使用 \latexline{filldraw} 命令，并分别指定绘制和填充颜色：
+\begin{tikzshow}
+\filldraw[draw=black, fill=cyan] (0,0) -- (2,0) arc (0:30:2);
+\end{tikzshow}
+
+利用区域的奇偶性填充，使用 \tikzkw{even odd rule}：
+\begin{tikzshow}
+\fill[even odd rule, blue] (0,0) -- (2,0.5) -- (1,1) circle (0.25);
+\end{tikzshow}
+
+\subsection{渐变填充*}
+使用 \latexline{shade} 命令控制渐变填充，
+
+\section{样式与高级控制}
+\subsection{样式（style）}
+如果某种属性需要用来反复作图，可以把它自定义为样式：
 
 \section{实用范例}
 \label{sec:tikz-eg}

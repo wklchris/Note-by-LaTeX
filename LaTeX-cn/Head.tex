@@ -168,12 +168,11 @@
 \usepackage{tcolorbox}
   \tcbuselibrary{listings,skins,breakable,xparse}
 
-% 对于 tcolorbox 中 listings 库的 ''tcblatex'' style 的重现，
-% 添加了新的关键词
-\lstdefinestyle{latexcn}{
-  language=[LaTeX]TeX,
+% global style
+\lstset{
   basicstyle=\small\ttfamily,
   % Word styles
+  keywordstyle=\color{blue},
   commentstyle=\color{green!50!black},
   columns=fullflexible,  % Avoid too sparse word spaces
   keepspaces=true,
@@ -186,7 +185,22 @@
   breaklines=true,
   breakatwhitespace=true,
   emptylines=1,  % Avoid >1 consecutive empty lines
-  escapeinside=``,
+  escapeinside=``
+}
+
+% TikZ Language Hint
+\lstdefinelanguage{tikzlang}{
+  sensitive=true,
+  morecomment=[s]{[}{]},
+  morekeywords={
+    draw,clip,filldraw,path
+  }
+}
+
+% 对于 tcolorbox 中 listings 库的 ''tcblatex'' style 的重现，
+% 添加了新的关键词
+\lstdefinestyle{latexcn}{
+  language=[LaTeX]TeX,
   % More Keywords
   classoffset=0,
   texcsstyle=*\color{blue},
@@ -238,9 +252,8 @@
     % citation & index: natbib, imakeidx
     setcitestyle,printindex,
     % Other packages
-    hologo,lettrine,endfirsthead,endhead,endlastfoot,columncolor,rowcolors,modulolinenumbers,MakeShortVerb,
+    hologo,lettrine,endfirsthead,endhead,endlastfoot,columncolor,rowcolors,modulolinenumbers,MakeShortVerb,tikz
   }
-  %classoffset=0  % Reset
 }
 
 % cmd & envi
@@ -282,14 +295,22 @@
   listing options={style=latexcn}
 }
 
+% Fix solution from the tcolorbox package author
+\makeatletter
+\tcbset{
+  tikz upper/.style={before upper=\centering\tcb@shield@externalize\begin{tikzpicture}[{#1}],after upper=\end{tikzpicture}},%
+  tikz lower/.style={before lower=\centering\tcb@shield@externalize\begin{tikzpicture}[{#1}],after lower=\end{tikzpicture}},%
+}
+\makeatother
+
+% xparse library required
 \NewTCBListing{tikzshow}{ O{} }{
-%\DeclareTCBListing{tikzshow}{ O{} }{
   tikz lower={#1},
   halign lower=center,valign lower=center,
   skin=bicolor,colback=gray!30!white,
   colbacklower=white,colframe=cyan!75!black, 
   left=6mm,righthand width=3.5cm,listing outside text,
-  listing options={style=latexcn}
+  listing options={language=tikzlang}
 }
 
 % 附录
