@@ -61,7 +61,7 @@
 \usepackage{boxedminipage}
 % 绘图
 \usepackage{tikz}
-  \usetikzlibrary{calc}
+  \usetikzlibrary{calc,intersections}
   \newcommand{\tikzline}[1]{{#1\tikz{\draw[#1,line width=9](0,0)--(0.5,0);}}, }
 % 最后一页
 \usepackage{lastpage}
@@ -279,20 +279,13 @@
   listing options={style=latexcn}
 }
 
-\newtcblisting{codeshow}{skin=bicolor,colback=gray!30!white,
-  colbacklower=pink!50!yellow,colframe=cyan!75!black, 
-  left=6mm,righthand width=0.4\linewidth,fontupper=\small,
+\NewTCBListing{codeshow}{ O{listing side text} O{0.4\linewidth} }{
+  skin=bicolor,colback=gray!30!white,
+  colbacklower=pink!50!yellow,colframe=cyan!75!black,
+  halign lower=center,valign lower=center,
+  left=6mm,righthand width=#2,fontupper=\small,
   % listing style
-  listing side text,
-  listing options={style=latexcn}
-}
-
-\newtcblisting{codeshowabove}{skin=bicolor,colback=gray!30!white,
-  colbacklower=pink!50!yellow,colframe=cyan!75!black, 
-  left=6mm,righthand width=0.4\linewidth,fontupper=\small,
-  % listing style
-  listing and text,
-  listing options={style=latexcn}
+  listing options={style=latexcn},#1,
 }
 
 % Fix solution from the tcolorbox package author
@@ -312,6 +305,8 @@
   left=6mm,righthand width=3.5cm,listing outside text,
   listing options={language=tikzlang}
 }
+% inline tikz draw
+%\newcommand{\tikzline}{def}
 
 % 附录
 % \usepackage{appendix}

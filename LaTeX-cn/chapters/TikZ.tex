@@ -77,6 +77,9 @@ xelatex -shell-escape example.tex
 
 默认的单位长度是 1 cm．如果想要修改比例尺，或者调整线型、颜色等属性参数，请参考\secref{sec:tikz-property}．极坐标参考\secref{subsec:polar}．
 
+\subsection{路径}
+命令 \latexline{path} 可以创建路径（但并不绘制）；实质上，\latexline{draw} 命令就是 \latexline{path[draw]} 的简写形式．
+
 \subsection{\bz\ 曲线}
 \tikzz\ 允许你使用 \tikzkw{.. controls <p1> and <p2> ..} 方式来指定\bz\ 曲线的两个控制点．第二控制点可以省略；省略时，设为与第一控制点相同．
 \begin{tikzshow}
@@ -133,7 +136,7 @@ xelatex -shell-escape example.tex
 \draw[xshift=1cm, yshift=2cm] (0,0) -- (1,2) parabola cycle;
 \draw[xshift=2cm, yshift=2cm] (0,0) parabola[parabola height=2cm] +(1,0);
 \end{tikzshow}
-参数解释如下：
+其中 \tikzkw{xshift/yshift} 参考 \secref{subsubsec:shift}．抛物线的参数解释如下：
 \begin{para}
 \item[bend at end] 或者 \tikzkw{bend at start}，这样抛物线是正常情况的一半．
 \item[bend] 指定在何处设置拐点．
@@ -145,7 +148,7 @@ xelatex -shell-escape example.tex
 \subsection{正弦线与余弦线*}
 使用 \tikzkw{sin} 和 \tikzkw{cos} 绘制．
 
-\section{图像与坐标}
+\section{坐标与图像}
 \subsection{引言：画笔位置}
 \tikzz\ 中一个很重要的概念是画笔，在一个常规的 \latexline{draw} 命令中，想象使用画笔从头到尾依次连接各个点．每次检测到“--”这条绘制命令，\tikzz\ 都将移动画笔位置并画线．
 
@@ -159,7 +162,7 @@ xelatex -shell-escape example.tex
 \draw (0,0) -- (1,0) -- +(0,1) circle [radius=.25] -- +(-1,1) -- +(-1,0);
 \end{tikzshow}
 
-请仔细体会两个命令的不同之处：单加号用于指代相对坐标，而相对坐标的基准点不会改变，直到指定新的绝对坐标 ；双加号用于移动画笔，基准点的位置会随之改变．
+请仔细体会两个命令的不同之处：单加号用于\uline{指代相对坐标}，而相对坐标的基准点不会改变，直到指定新的绝对坐标 ；双加号用于\uline{移动画笔}，基准点的位置会随之改变．
 
 \subsection{极坐标}
 格式是 \texttt{(角度:距离)}．
@@ -168,9 +171,97 @@ xelatex -shell-escape example.tex
 \draw (0,0) circle [radius=0.5] -- (30:1);
 \end{tikzshow}
 
-\subsection{路径平移}
+\subsection{交点}
+\tikzz\ 提供一种简洁的坐标交点控制，例如 \texttt{(<p1> -| <p2>)} 中，用短横表示过 \texttt{p1} 的水平线、用竖线表示过 \texttt{p2} 的竖直线，这两条线的交点就是该命令表示的点．类似还有命令 \tikzkw{|-} ．
+\begin{tikzshow}
+\draw (0,0) circle [radius=1cm] -- (30:1 |- 0,0) -- (30:1) -- cycle;
+\end{tikzshow}
 
-\subsection{路径与图像缩放}
+利用 \tikzz\ 的 \pkg{intersections} 库，还可以寻找两条路径的交点：
+\begin{tikzshow}
+% \usetikzlibrary{intersections}
+\path[name path=line1] (0,0) -- (1,1);
+\path[name path=line2] (0,1) -- (1,0);
+\draw[name intersections={of=line1 and line2, by=A}] (0,0) -- (A) -- (1,0);
+\end{tikzshow}
+
+有时路径会有多个交点，这时你可以依次用 \texttt{intersection-1, 2, \ldots} 来指定它们．或者，你可以使用 \tikzkw{name} 选项代替上例的 \tikzkw{by}，然后使用你的自定义名称：
+\begin{tikzshow}[scale=2]
+\path[name path=line1] (-2,.25) -- (2,.25);
+\draw[name path=circle] (0,0) circle [radius=.5];
+\draw[name intersections={of=circle and line1, name=A}] (1,0) -- (A-1);
+\draw (0,0) -- (A-2);
+\end{tikzshow} 
+
+\subsection{图像变换}
+\tikzz\ 的图像变换主要包括 4 种：平移、旋转、缩放与倾斜．
+
+除了这 4 种变换以外，\tikzz\ 也允许你使用 \tikzkw{cm} 选项，通过输入变换矩阵来完成变换．传入 4 值 1 坐标 \texttt{cm=\{a,b,c,d,(p,q)\}}，则点 \((x,y)\) 会被变换为 \((x',y')\)：
+\[
+\begin{pmatrix} x' \\ y' \end{pmatrix} =
+\begin{pmatrix} a & c\\ b & d \end{pmatrix}
+\begin{pmatrix} x \\ y \end{pmatrix} + \begin{pmatrix} p \\ q \end{pmatrix}
+\]
+由于使用率极低，这里不再给出 \tikzkw{cm} 的例子；下面介绍 4 种主要变换．
+
+\subsubsection{平移（shift）}
+\label{subsubsec:shift}
+在使用绘制命令时使用 \tikzkw{xshift}、\tikzkw{yshift} 或 \tikzkw{shift} 选项，可以平移路径．使用 \tikzkw{shift} 时，相对或绝对坐标都需写在花括号内．
+\begin{tikzshow}
+\draw (0,0) circle [radius=.5] -- (1,0);
+\draw[xshift=1cm] (0,0) circle [radius=.5];
+\end{tikzshow}
+
+特别指出，\RED{平移是可以在路径的中间操作的，它只影响其后的绘制命令}：
+\begin{tikzshow}
+\draw (0,0) circle [radius=.5] [xshift=1cm, ultra thick] -- (0,0) circle [radius=.5];
+\draw (.5,0) [shift={+(.5,.5)},->] -- (0,0);
+\end{tikzshow}
+上例使用了相对坐标，只把点 \((0,0)\) 变换成了点 \((1,.5)\)．
+
+另外，上例中的 \tikzkw{ultra thick} 影响了整个路径而不只是其后的部分，这也是 \tikzz\ 参数的一般情况；也就是说，平移参数不同于一般参数．
+
+\subsubsection{旋转（rotate）}
+默认的 \tikzkw{rotate} 参数会绕原点进行旋转．使用 \tikzkw{rotate around} 来指定旋转中心：
+\begin{tikzshow}[scale=1.5]
+\draw[lightgray] (0,0) rectangle (2,1)
+    [rotate=15] (0,0) rectangle (2,1);
+\begin{scope}[ultra thick]
+\draw[blue] (.5,.5) rectangle (1.5,1); 
+\draw[red] (.5,.5) [rotate around={45:(1,.5)}] rectangle (1.5,1); 
+\draw[brown] (.5,.5) [rotate around={-60:+(.5,0)}] rectangle (1.5,1); 
+\end{scope}
+\end{tikzshow}
+注意上例中相对坐标的使用，两次指定的旋转中心是同一个点．
+
+旋转命令还可以用于三维坐标系中，例如使用 \tikzkw{rotate around x=<angle>} 来使绘图对象绕着 \(x\) 轴旋转．
+
+\subsubsection{缩放（scale）}
+使用 \tikzkw{xscale}、\tikzkw{yscale} 或 \tikzkw{scale} 选项，可以作为 \envi{tikzpicture} 环境的可选参数使用，也可以直接用在命令中：
+\begin{codeshow}[listing outside text][3.5cm]
+\begin{tikzpicture}[scale=.5]
+\draw[very thick] (1,0) circle [radius=1];
+\draw[scale=2] (0,0) circle [radius=1]; 
+\end{tikzpicture}
+\end{codeshow}
+注意，组内的 \texttt{scale} 是正常图像的 \(0.5\times 2=1\) 倍．
+
+使用负值来实现“翻转”效果，以及使用 \tikzkw{scale around} 来指定缩放中心：
+\begin{tikzshow}[very thick]
+\draw[thin] (0,0) circle [radius=1];
+\draw[xscale=-1] (0,0) rectangle (1,1);
+\draw[red, xscale=-1] (0,0) rectangle (1,1);
+\draw[blue, scale around={1.5:(1,1)}] (0,0) rectangle (1,1);
+\end{tikzshow}
+
+\subsubsection{倾斜（slant）*}
+实际上，倾斜不是一个常用的图像变换．\tikzz\ 中的倾斜指令是 \tikzkw{xslant} 与 \tikzkw{yslant}．简单地解释，\tikzkw{xslant} 会把图像中任意点（假设坐标为\((x,y)\)） 变换为 \((x+k\times y, y)\)．
+\begin{tikzshow}[very thick,scale=.6]
+\draw[help lines] (0,0) grid (4,2);
+\draw (0,0) -- (1,1) -- (1,2) -- cycle;
+\draw[red, xslant=1.5] (0,0) -- (1,1) -- (1,2) -- cycle;
+\draw[blue, xslant=-1] (0,0) -- (1,1) -- (1,2) -- cycle;
+\end{tikzshow}
 
 \subsection{裁剪（clip）}
 在 \latexline{clip} 命令\RED{之后}的所有绘图都会只显示该裁剪视窗中的部分：
@@ -186,6 +277,19 @@ xelatex -shell-escape example.tex
 \draw (-1,1) -- (1,-1);
 \end{tikzshow}
 上例使用一个非闭合的路径（圆弧）来裁剪，\tikzz\ 会自动将其首尾连接．其中，\tikzkw{preaction} 选项表示在 \latexline{clip} 命令\RED{之前}先沿该路径按传递给其的参数绘制，之后再创建裁剪视窗；这样可以实现视窗样式的自定义（因为裁剪只影响其后的绘制命令）．
+
+\subsection{分组（scope）}
+\label{subsec:scope}
+分组操作允许你对当前组使用参数——这些参数会叠加到全局参数上，并且不影响到组外的对象：
+\begin{codeshow}[listing outside text][3.5cm]
+\begin{tikzpicture}[red, very thick, scale=.5]
+\draw (1,0) circle [radius=1];
+\begin{scope}[blue, scale=2]
+\draw (0,0) circle [radius=1];
+\end{scope}
+\end{tikzpicture}
+\end{codeshow}
+
 
 \subsection{画布大小}
 命令 \latexline{useasboundingbox} 可以
@@ -215,6 +319,18 @@ xelatex -shell-escape example.tex
 \begin{tikzshow}
 \draw[dash pattern=on .1cm off .25cm on .25cm off .15cm, dash phase=1cm] (0,0) -- (3,0);
 \end{tikzshow}
+
+\subsection{箭头}
+\tikzz\ 中的箭头多到可以单独开一个章节，但我并不想全部详尽地介绍．用大于或小于号表示箭头的指向，用竖线表示是否加上截断符号．一些基本的样例：
+\begin{tikzshow}
+\draw[->|] (1,3) -- (2,3);
+\draw[stealth-] (1,2) -- (2,2);
+\draw[->,>=stealth, line width=3pt] (1,1) arc [start angle=90, end angle=30, radius=1];
+\draw[<->] (.5,4) -- (.5,0) -- (2.5,0);
+\end{tikzshow}
+其中，用 \texttt{>=stealth} 或 \texttt{-stealth} 的方式指定了箭头末端的类型为 \texttt{stealth}．你也可以将前者作为整个 \envi{tikzpicture} 环境的可选参数进行传递．
+
+\tikzz\ 的 \pkg{arrows.meta} 库包含很多箭头，读者可以自行查阅．
 
 \subsection{绘制颜色}
 在绘制网格一节，已经使用过 \texttt{lightgray} 作为网格的绘制颜色；当时省略了 \tikzkw{draw} 选项．以下使用浅红色作为绘制色：
