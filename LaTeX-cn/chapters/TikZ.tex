@@ -186,7 +186,7 @@ xelatex -shell-escape example.tex
 \end{tikzshow}
 
 有时路径会有多个交点，这时你可以依次用 \texttt{intersection-1, 2, \ldots} 来指定它们．或者，你可以使用 \tikzkw{name} 选项代替上例的 \tikzkw{by}，然后使用你的自定义名称：
-\begin{tikzshow}[scale=2]
+\begin{tikzshow}[scale=1.5]
 \path[name path=line1] (-2,.25) -- (2,.25);
 \draw[name path=circle] (0,0) circle [radius=.5];
 \draw[name intersections={of=circle and line1, name=A}] (1,0) -- (A-1);
@@ -255,7 +255,7 @@ xelatex -shell-escape example.tex
 \end{tikzshow}
 
 \subsubsection{倾斜（slant）*}
-实际上，倾斜不是一个常用的图像变换．\tikzz\ 中的倾斜指令是 \tikzkw{xslant} 与 \tikzkw{yslant}．简单地解释，\tikzkw{xslant} 会把图像中任意点（假设坐标为\((x,y)\)） 变换为 \((x+k\times y, y)\)．
+倾斜不是一个常用的图像变换．\tikzz\ 中的倾斜指令是 \tikzkw{xslant} 与 \tikzkw{yslant}．简单地解释，\tikzkw{xslant} 会把图像中坐标为 \((x,y)\) 的点变换为 \((x+k\times y, y)\)．
 \begin{tikzshow}[very thick,scale=.6]
 \draw[help lines] (0,0) grid (4,2);
 \draw (0,0) -- (1,1) -- (1,2) -- cycle;
@@ -294,8 +294,26 @@ xelatex -shell-escape example.tex
 \subsection{画布大小}
 命令 \latexline{useasboundingbox} 可以
 
+\section{点及其文本}
+\subsection{点的绘制}
+如果需要将点显式地绘制出来，使用 \latexline{node} 命令，或者 \latexline{draw} 命令的 \tikzkw{node} 选项．
+\begin{tikzshow}
+\node at (0,0) [circle, draw] {};
+\node at (1,0) [circle, draw, fill=red] {};
+\end{tikzshow}
+花括号内可以添加文字内容，并使用 \tikzkw{anchor} 选项定义对齐方式；可传入的值是东西南北（east, west, south, north）以及 4 个复合方位（south west）．或者你可以依次用 left, right, above, below 来替代：
+\begin{tikzshow}
+\draw[help lines] (0,0) grid (2,2);
+\draw (0,0) node [anchor=south west] {$\beta$};
+\node at (0,1) [above right] {Here};
+\node at (1,0) [above=2pt] {Hi};
+\draw (1,2) node [below right=1pt and 8pt] {$1,0$};
+\end{tikzshow}
+其中，如果要像最后一行一样给出两个距离参数，需加载 \tikzz\ 的 \pkg{positioning} 库．
+
 \section{属性}
 \label{sec:tikz-property}
+
 \subsection{线宽}
 \tikzz\ 预定义了 7 种线宽，从细到粗是：\tikzkw{ultra thin}, \tikzkw{very thin}, \tikzkw{thin}, \tikzkw{semithick}, \tikzkw{thick}, \tikzkw{very thick}, \tikzkw{ultra thick}．或者利用 \tikzkw{line width} 选项指定．
 \begin{tikzshow}
@@ -361,6 +379,36 @@ xelatex -shell-escape example.tex
 \section{样式与高级控制}
 \subsection{样式（style）}
 如果某种属性需要用来反复作图，可以把它自定义为样式：
+
+上文中出现过的 \texttt{help lines}，就是 \tikzz\ 预定义的一种样式．
+
+\subsection{循环语句}
+\tikzz\ 支持循环语句，这一点对于科技绘图来说十分重要．
+\begin{tikzshow}[place/.style={circle, draw, fill=black, minimum size=5pt, inner sep=0pt}]
+\foreach \x in {1,2,3} {
+    \node at (\x, 0) [place] {};
+    \draw (\x, 0) circle [radius=1/\x];
+}
+\end{tikzshow}
+
+有时候我们需要循环一个等差数列，这时候使用 \ldots 即可．\tikzz\ 会将 \(a,b,\ldots,c\) 识别为从 \(a\) 到 \(c\) 以 \(b-a\) 为公差的等差数列；如果你不指定 \(b\)，那么默认以 \(1\) 为公差．
+\begin{tikzshow}[place/.style={circle, draw, fill=black, minimum size=5pt, inner sep=0pt}]
+\foreach \x in {1,1.5,...,3,4} {
+    \node at (\x, 0) [place] {};
+    \draw (\x, 0) circle [radius=\x/8];
+}
+\end{tikzshow}
+上例中的 \(4\) 不在数列内，这样写是允许的．你也可以在数列后接着写另一个数列．
+
+大部分需要知道“循环到列表第几个”的场合，都可以配合移动画笔或相对坐标命令实现：
+\begin{tikzshow}[scale=.5]
+\draw[red] (0,0) grid (3,3);
+\foreach \x/\y in {0,1/2,2}
+  \draw (\x, \y) +(.5,.5) circle [radius=.4];
+\end{tikzshow}
+上例同时循环了多个变量，中间用斜线分隔；它们分别按照列表中斜线分隔后的对应值进行循环．如果某一位置的列表值数量小于变量值，那么靠后的变量将都取最后一个值．
+
+此外，如果 \latexline{foreach} 内部只有一条语句，像上例一样不添加花括号也是可以的．
 
 \section{实用范例}
 \label{sec:tikz-eg}
