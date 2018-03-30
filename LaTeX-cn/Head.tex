@@ -61,7 +61,7 @@
 \usepackage{boxedminipage}
 % 绘图
 \usepackage{tikz}
-  \usetikzlibrary{calc,intersections,positioning}
+  \usetikzlibrary{calc,intersections,positioning,angles,quotes}
   \newcommand{\tikzline}[1]{{#1\tikz{\draw[#1,line width=9](0,0)--(0.5,0);}}, }
 % 最后一页
 \usepackage{lastpage}
@@ -193,7 +193,7 @@
   sensitive=true,
   morecomment=[s]{[}{]},
   morekeywords={
-    draw,clip,filldraw,path,node,foreach
+    draw,clip,filldraw,path,node,coordinate,foreach,pic
   }
 }
 

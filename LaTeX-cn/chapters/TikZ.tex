@@ -78,7 +78,7 @@ xelatex -shell-escape example.tex
 默认的单位长度是 1 cm．如果想要修改比例尺，或者调整线型、颜色等属性参数，请参考\secref{sec:tikz-property}．极坐标参考\secref{subsec:polar}．
 
 \subsection{路径}
-命令 \latexline{path} 可以创建路径（但并不绘制）；实质上，\latexline{draw} 命令就是 \latexline{path[draw]} 的简写形式．
+命令 \latexline{path} 可以只创建路径但不绘制；实质上，\latexline{draw} 命令就是 \latexline{path[draw]} 的简写形式．\latexline{fill} 命令也类似．
 
 \subsection{\bz\ 曲线}
 \tikzz\ 允许你使用 \tikzkw{.. controls <p1> and <p2> ..} 方式来指定\bz\ 曲线的两个控制点．第二控制点可以省略；省略时，设为与第一控制点相同．
@@ -102,9 +102,9 @@ xelatex -shell-escape example.tex
 \end{tikzshow}
 
 \subsection{圆与椭圆}
-指定圆或者椭圆的中心，然后指明它半径的参数：
+指定圆或者椭圆的中心，然后指明它半径的参数\footnote{用 \texttt{circle (1cm)} 代替 \texttt{circle [radius=1cm]} 的写法较陈旧，不建议再使用．椭圆绘制也请使用 \tikzkw{circle}，而不是陈旧的 \tikzkw{ellipse}．}：
 \begin{tikzshow}
-\draw [rotate=30] (0,0) ellipse [x radius=12pt, y radius=6pt];
+\draw (0,0) circle [x radius=12pt, y radius=6pt];
 \draw (2,0) circle [radius=0.5cm];
 \end{tikzshow}
 上例使用了 \tikzkw{rotate} 选项，绕原点（而非圆心）逆时针 30\(^\circ\) 旋转了椭圆．
@@ -123,7 +123,7 @@ xelatex -shell-escape example.tex
 \draw[step=0.5,lightgray,thin] (0,0) grid (2,2);
 \draw (1,1) circle [radius=.5];
 \end{tikzshow}
-默认的 \tikzkw{step} 是 1．可以使用 \tikzkw{xstep} 和 \tikzkw{ystep} 命令分别指定沿两个轴向的网格距离．
+默认的 \tikzkw{step} 是 1． \tikzkw{xstep} 和 \tikzkw{ystep} 命令可分别指定沿两个轴向的间距．
 
 \subsection{抛物线*}
 抛物线使用 \tikzkw{parabola} 绘制，并可使用 \tikzkw{bend} 指定拐点位置：
@@ -165,7 +165,7 @@ xelatex -shell-escape example.tex
 请仔细体会两个命令的不同之处：单加号用于\uline{指代相对坐标}，而相对坐标的基准点不会改变，直到指定新的绝对坐标 ；双加号用于\uline{移动画笔}，基准点的位置会随之改变．
 
 \subsection{极坐标}
-格式是 \texttt{(角度:距离)}．
+格式是 \texttt{(角度:\mbox{}距离)}．
 \label{subsec:polar}
 \begin{tikzshow}
 \draw (0,0) circle [radius=0.5] -- (30:1);
@@ -186,7 +186,7 @@ xelatex -shell-escape example.tex
 \end{tikzshow}
 
 有时路径会有多个交点，这时你可以依次用 \texttt{intersection-1, 2, \ldots} 来指定它们．或者，你可以使用 \tikzkw{name} 选项代替上例的 \tikzkw{by}，然后使用你的自定义名称：
-\begin{tikzshow}[scale=1.5]
+\begin{tikzshow}
 \path[name path=line1] (-2,.25) -- (2,.25);
 \draw[name path=circle] (0,0) circle [radius=.5];
 \draw[name intersections={of=circle and line1, name=A}] (1,0) -- (A-1);
@@ -222,7 +222,7 @@ xelatex -shell-escape example.tex
 另外，上例中的 \tikzkw{ultra thick} 影响了整个路径而不只是其后的部分，这也是 \tikzz\ 参数的一般情况；也就是说，平移参数不同于一般参数．
 
 \subsubsection{旋转（rotate）}
-默认的 \tikzkw{rotate} 参数会绕原点进行旋转．使用 \tikzkw{rotate around} 来指定旋转中心：
+ \tikzkw{rotate} 参数默认绕原点旋转．使用 \tikzkw{rotate around} 来指定旋转中心：
 \begin{tikzshow}[scale=1.5]
 \draw[lightgray] (0,0) rectangle (2,1)
     [rotate=15] (0,0) rectangle (2,1);
@@ -290,13 +290,21 @@ xelatex -shell-escape example.tex
 \end{tikzpicture}
 \end{codeshow}
 
-
 \subsection{画布大小}
 命令 \latexline{useasboundingbox} 可以
 
-\section{点及其文本}
-\subsection{点的绘制}
-如果需要将点显式地绘制出来，使用 \latexline{node} 命令，或者 \latexline{draw} 命令的 \tikzkw{node} 选项．
+\section{点（node）与文本}
+
+\subsection{点的坐标指定}
+使用 \latexline{coordinate} 命令给点命名，便于之后引用．
+\begin{tikzshow}
+\coordinate (A) at (1,0);
+\coordinate (B) at (1,1);
+\draw (0,0) -- (A) circle[radius=.5] -- (B) -- cycle;
+\end{tikzshow}
+
+\subsection{点及其文本的绘制}
+如需显式地绘制点，使用 \latexline{node} 命令，或者 \latexline{draw} 命令的 \tikzkw{node} 选项．
 \begin{tikzshow}
 \node at (0,0) [circle, draw] {};
 \node at (1,0) [circle, draw, fill=red] {};
@@ -309,7 +317,86 @@ xelatex -shell-escape example.tex
 \node at (1,0) [above=2pt] {Hi};
 \draw (1,2) node [below right=1pt and 8pt] {$1,0$};
 \end{tikzshow}
-其中，如果要像最后一行一样给出两个距离参数，需加载 \tikzz\ 的 \pkg{positioning} 库．
+其中，如果像最后一行给出双距离参数，需加载 \pkg{positioning} 库．
+
+\subsection{线的文本}
+对于线的文本标记，\tikzz\ 预定义了 7 种位置，分别是 \tikzkw{at start/end}, \tikzkw{(very) near start/end}，以及缺省时的 \tikzkw{midway}．
+\begin{tikzshow}
+\draw (0,0) .. controls (.5,2) ..
+  node[at start] {at start}
+  node[sloped, above] {midway}
+  node[pos=1, right, text width=3ex] {at end} (1.5,2);
+\end{tikzshow}
+上例中的一些参数：
+\begin{para}
+\item[sloped] 设置文字基线与图中此处的切线平行．
+\item[pos] 定量化的位置参数，比如预定义的 \tikzkw{very near start} 即为 \(0.125\)，\tikzkw{near start} 即为 \(0.25\)．
+\item[text width] 指定文本的最大宽度．
+\end{para}
+
+\subsection{作为图像的点（pic）*}
+一段绘图代码可能需要复用；如果它比较复杂，可以使用 \latexline{pic} 来重复调用．
+\begin{tikzshow}[scale=0.8]
+\tikzset{dcircle/.pic={\draw (0,0) circle [x radius=.5, y radius=.8] circle [radius=1];}}
+% 两种调用方式
+\draw[help lines] (0,-1) grid (2,2);
+\pic at (0,0) {dcircle}; 
+\path (2,0) pic {dcircle};
+\end{tikzshow}
+语法非常类似 \tikzkw{node}．其中 \tikzkw{at} 也可以写成 \texttt{[at=\{(0,0)\}]} 这种形式．
+
+\tikzkw{pic actions} 选项用于传入 \texttt{draw, fill, shade, 或 clip} 参数：
+\begin{tikzshow}[scale=0.6]
+\tikzset{circlerect/.pic = {
+    \path[pic actions] (.5,.5) circle [radius=.3];
+    \draw (0,0) rectangle (1,1);
+}}
+\draw[red] (0,0) grid (4,2);
+\pic [blue, thick] at (.5,.5) {circlerect};
+\pic [draw=blue, fill=white] at (2.5,.5) {circlerect};
+\end{tikzshow} 
+当不传入 \tikzkw{draw} 选项时，圆的 \latexline{path} 命令是不会绘制的；同时注意，因为绘制矩形的是 \latexline{draw} 命令，因此不受\tikzkw{fill} 选项影响．
+
+插入的 \tikzkw{pic} 中的点可以在外部调用，一个例子：
+\begin{tikzshow}
+\tikzset{mypic/.pic={
+  \draw[blue] (0,0) coordinate (-A)
+  -- (1,1) coordinate (-B);
+}}
+
+\draw[help lines] (0,0) grid (1,2);
+\pic (P) {mypic};
+\pic (Q) at (0,1) {mypic};
+\draw[red] (P-A) -- (Q-B);
+\end{tikzshow}
+\tikzkw{pic} 定义时用短横命名是为了可读性．调用时语法类似 \tikzkw{node}．
+
+\pkg{quotes} 库支持以加引号字串的方式传入参数，作为 \tikzkw{pic text} 选项的值．比如 \texttt{angles} 这个预定义的 \tikzkw{pic}（由 \pkg{angle} 库支持）：
+\begin{tikzshow}
+\draw (0,-1) coordinate (P1)
+  -- (0,0) coordinate (O)
+  -- (1,1) coordinate(P2)
+  pic [draw, "$\alpha$"] {angle=P1--O--P2};
+\end{tikzshow}
+
+一些其他注意：
+\begin{feai}
+\item 如果有 \texttt{foreach} 语句，\textbf{请放在定义首行} ．
+\item \tikzkw{pic} 虽说从用法上近似 \tikzkw{node}，实质上它是以类似 \tikzz\ \envi{scope} 环境的方式工作的．因此，如果想要其外部的图像变换对其生效，须添加 \tikzkw{transform shape} 选项．
+\item \tikzkw{pic} 对象也能像 \tikzkw{node} 一样，沿路径放置，设置 \tikzkw{at start} 等选项．
+\item 将 \tikzkw{pic} 作为选项使用时，添加 \tikzkw{behind path} 或者 \tikzkw{in front of path} 来指定将 \tikzkw{pic} 插入到所在路径的下方或是上方图层．
+\item 如果你只是临时使用而不想额外定义，这里有一个 \tikzz\ 原文档中使用 \tikzkw{code} 选项的例子：
+\begin{tikzshow}
+\draw (0,0) .. controls(1,0) and (2,1) .. (3,1)
+foreach \t in {0, 0.1, ..., 1} {
+  pic [pos=\t] {
+    code={\draw circle [radius=2pt];}
+  }
+};
+\end{tikzshow}
+注意，本例只有一句语句．句中 \tikzkw{pic} 是 \latexline{draw} 命令的选项．
+\end{feai}
+
 
 \section{属性}
 \label{sec:tikz-property}
@@ -355,7 +442,10 @@ xelatex -shell-escape example.tex
 \begin{tikzshow}
 \draw[draw=red!50!white, ultra thick] (0,0) rectangle (1,1);
 \end{tikzshow}
-其中，双感叹号加数字是表示插值比例为 0.5；\pkg{xcolor} 宏包支持该语法．
+其中，双感叹号加数字是表示插值比例为 0.5；\pkg{xcolor} 宏包支持该语法．在 \tikzz\ 环境内部，还可以使用 \latexline{colorlet} 命令自定义，例如：
+\begin{latex}
+\colorlet{linecolor}{red!60!black}
+\end{latex}
 
 \subsection{单色填充}
 填充命令 \latexline{fill} 只能使用于闭合区域，\textbf{且不绘制区域边界}．你可以在一般绘制命令的末尾添加 \tikzkw{cycle} 来创建一个闭合对象：
@@ -380,7 +470,14 @@ xelatex -shell-escape example.tex
 \subsection{样式（style）}
 如果某种属性需要用来反复作图，可以把它自定义为样式：
 
-上文中出现过的 \texttt{help lines}，就是 \tikzz\ 预定义的一种样式．
+上文中出现过的 \texttt{help lines}，就是 \tikzz\ 预定义的一种样式．其相当于于：
+\begin{latex}
+\begin{tikzpicture}[help lines/.style={line width=0.2pt,gray}]
+...
+\end{tikzpicture}
+\end{latex}
+
+你也可以在进入 \tikzz\ 环境后，使用 \latexline{tikzset} 命令来定义．
 
 \subsection{循环语句}
 \tikzz\ 支持循环语句，这一点对于科技绘图来说十分重要．
@@ -398,7 +495,7 @@ xelatex -shell-escape example.tex
     \draw (\x, 0) circle [radius=\x/8];
 }
 \end{tikzshow}
-上例中的 \(4\) 不在数列内，这样写是允许的．你也可以在数列后接着写另一个数列．
+上例中的 \(4\) 不在数列内，这样写是允许的．数列后也可以接另一个数列．
 
 大部分需要知道“循环到列表第几个”的场合，都可以配合移动画笔或相对坐标命令实现：
 \begin{tikzshow}[scale=.5]
