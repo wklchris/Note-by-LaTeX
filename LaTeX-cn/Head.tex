@@ -209,7 +209,7 @@
     chapter,section,subsection,setlength,
     thechapter,thesection,thesubsection,theequation,
     chaptermark,chaptername,appendix,
-    bibname,refname,bibpreamble,bibfont,citenumfont,bibnumfmt,bibsep
+    bibname,refname,bibpreamble,bibfont,citenumfont,bibnumfmt,bibsep,
   },
   classoffset=1,
   texcsstyle=*\color{orange!75!black},
@@ -279,11 +279,11 @@
   listing options={style=latexcn}
 }
 
-\NewTCBListing{codeshow}{ O{listing side text} O{0.4\linewidth} }{
+\NewTCBListing{codeshow}{ O{listing side text} }{
   skin=bicolor,colback=gray!30!white,
   colbacklower=pink!50!yellow,colframe=cyan!75!black,
   halign lower=center,valign lower=center,
-  left=6mm,righthand width=#2,fontupper=\small,
+  left=6mm,righthand width=0.4\linewidth,fontupper=\small,
   % listing style
   listing options={style=latexcn},#1,
 }
@@ -304,6 +304,14 @@
   colbacklower=white,colframe=cyan!75!black, 
   left=6mm,righthand width=3.5cm,listing outside text,
   listing options={language=tikzlang}
+}
+
+\NewTCBListing{tikzshowenvi}{ O{} }{
+  halign lower=center,valign lower=center,
+  skin=bicolor,colback=gray!30!white,
+  colbacklower=white,colframe=cyan!75!black, 
+  left=6mm,righthand width=3.5cm,listing outside text,
+  listing options={language=tikzlang},#1
 }
 % inline tikz draw
 %\newcommand{\tikzline}{def}
