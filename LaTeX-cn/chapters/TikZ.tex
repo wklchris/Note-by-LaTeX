@@ -103,7 +103,7 @@ xelatex -shell-escape example.tex
 \end{tikzshow}
 
 \subsection{圆与椭圆}
-指定圆或者椭圆的中心，然后指明它半径的参数\footnote{用 \texttt{circle (1cm)} 代替 \texttt{circle [radius=1cm]} 的写法较陈旧，不建议再使用．椭圆绘制也请使用 \tikzkw{circle}，而不是陈旧的 \tikzkw{ellipse}．}：
+指定圆或者椭圆的中心，然后指明它半径的参数\footnote{\texttt{circle (1cm)} 的写法较陈旧，不建议再使用．椭圆绘制也请使用 \tikzkw{circle}，而不是陈旧的 \tikzkw{ellipse}．}：
 \begin{tikzshow}
 \draw (0,0) circle [x radius=12pt, y radius=6pt];
 \draw (2,0) circle [radius=0.5cm];
@@ -245,7 +245,7 @@ xelatex -shell-escape example.tex
 \draw[scale=2] (0,0) circle [radius=1]; 
 \end{tikzpicture}
 \end{tikzshowenvi}
-注意，组内的 \texttt{scale} 是正常图像的 \(0.5\times 2=1\) 倍．
+第二行的缩放 \texttt{scale} 是正常图像的 \(0.5\times 2=1\) 倍．
 
 使用负值来实现“翻转”效果，以及使用 \tikzkw{scale around} 来指定缩放中心：
 \begin{tikzshow}[very thick]
@@ -256,7 +256,7 @@ xelatex -shell-escape example.tex
 \end{tikzshow}
 
 \subsubsection{倾斜（slant）*}
-倾斜不是一个常用的图像变换．\tikzz\ 中的倾斜指令是 \tikzkw{xslant} 与 \tikzkw{yslant}．简单地解释，\tikzkw{xslant} 会把图像中坐标为 \((x,y)\) 的点变换为 \((x+k\times y, y)\)．
+倾斜不是一个常用的图像变换．\tikzz\ 中的倾斜指令是 \tikzkw{xslant} 与 \tikzkw{yslant}．简单地解释，\texttt{xslant=k} 会把图像中坐标为 \((x,y)\) 的点变换为 \((x+k\times y, y)\)．
 \begin{tikzshow}[very thick,scale=.6]
 \draw[help lines] (0,0) grid (4,2);
 \draw (0,0) -- (1,1) -- (1,2) -- cycle;
@@ -277,7 +277,7 @@ xelatex -shell-escape example.tex
 \draw (-1,-1) rectangle (1,1);
 \draw (-1,1) -- (1,-1);
 \end{tikzshow}
-上例使用一个非闭合的路径（圆弧）来裁剪，\tikzz\ 会自动将其首尾连接．其中，\tikzkw{preaction} 选项表示在 \latexline{clip} 命令\RED{之前}先沿该路径按传递给其的参数绘制，之后再创建裁剪视窗；这样可以实现视窗样式的自定义（因为裁剪只影响其后的绘制命令）．
+上例使用一个非闭合的路径（圆弧）来裁剪，\tikzz\ 会自动将其首尾连接．其中，\tikzkw{preaction} 选项表示在 \latexline{clip} 命令\RED{之前}先沿该路径按传递给其的参数绘制，之后再创建裁剪视窗；这样可以实现视窗轮廓的自定义绘制（因为裁剪只影响其后的绘制命令）．
 
 \subsection{分组（scope）}
 \label{subsec:scope}
@@ -306,12 +306,12 @@ xelatex -shell-escape example.tex
 \tikzkw{coordinate} 也可以在绘制命令中作为选项使用．
 
 \subsection{点的基本命令}
-如需显式地绘制点，使用 \latexline{node} 命令，或者 \latexline{draw} 命令的 \tikzkw{node} 选项．选项 \tikzkw{shape} 用于指定点的绘制方式．
+如需显式地绘制点（即带有几何属性的点），使用 \latexline{node} 命令，或者 \latexline{path} 命令的 \tikzkw{node} 选项．选项 \tikzkw{shape} 用于指定点的绘制方式．
 \begin{tikzshow}
 \node at (0,0) [shape=circle, draw] {a};
 \node at (1,0) [rectangle, draw, fill=red] {};
 \end{tikzshow}
-选项 \tikzkw{shape} 还可赋值为 \texttt{coordinate}，这样在点之间连线时会从点中心开始绘制，而不是从点的边框上．
+选项 \tikzkw{shape} 还可赋值为 \texttt{coordinate}，这样在点之间连线时会从点中心开始绘制，而不是从点的边框上，就像 \tikzkw{coordinate} 命令那样，是一个没有面积的“点”．
 
 使用 \tikzkw{anchor} 选项定义对齐方式，可传入的值是东西南北（east, west, south, north）以及 4 个复合方位（south west）．或者你可以依次用 left, right, above, below 来替代：
 \begin{tikzshow}
@@ -368,13 +368,28 @@ xelatex -shell-escape example.tex
 上例中的 \tikzkw{above} 选项不是必须的，但往往添加以避免点间的覆盖．
 
 \subsection{点的旁置文本（label/pin）}
-旁置文本可用上一节的语法画另一个点来实现，但 \tikzkw{label} 选项更简洁；对同一个点应用多个 \tikzkw{label} 标签也是允许的．语法是 \texttt{角度\mbox{:}文本}．
+旁置文本（或标签）可用上一节的语法画另一个点来实现，但 \tikzkw{label} 或 \tikzkw{pin} 选项更简洁，会直接在主点旁画一个旁置点．对同一个主点画多个 \tikzkw{label} 或 \tikzkw{pin} 都是允许的；它们的区别在于后者会在主点和旁置点之间连一条线．
+
+标签位置的语法是 \texttt{角度\mbox{:}文本}——它还有一个特殊的角度参数 \texttt{center}，会将标签放在主点的中心处．你也可以通过 \tikzkw{label distance} 或 \tikzkw{pin distance} 选项来指定距离．
 \begin{tikzshow}[every node/.style={draw, circle}]
-\draw node (a) at (0,0) {a} 
-node[label={[red]right:$b'$}] (b) at (0,1) {b} 
+\draw node[pin={[pin distance=.2cm, pin edge={<-, thick}]above right:$a_{p}$}] (a) at (0,0) {a} 
+node[label={[red]30:$b'$}] (b) at (0,1) {b} 
 node[label=120:$c'$, label=below:$c''$] (c) at (1.5,1) {c};
 \end{tikzshow}
-上例中甚至给 \tikzkw{label} 传入了颜色参数．
+上例中甚至给 \tikzkw{label} 传入了颜色参数．还可以使用 \texttt{every pin, every pin edge} 或 \texttt{every label} 样式设定默认值．
+
+当点被旋转时，参数 \tikzkw{absolute} 可以帮助你定位．如果它的值是 \texttt{true} 或缺省，那么方向不会跟随点而旋转，而是始终以纸面做参照：
+\begin{tikzshow}
+\tikzset{
+    every node/.style={draw, rectangle},
+    every label/.style={draw=red, font=\footnotesize}
+}
+\node[rotate=-80,label=right:label] (a) at (0,0) {normal};
+\draw[blue, thick] (0,0) -- (-80:1);
+\node[rotate=-80,label={[absolute]right:label}] (b) at (1,0) {absolute};
+\draw[blue, thick] (1,0) -- +(0:1);
+\end{tikzshow}
+左侧标签的锚点（位于红色矩形的左侧边上）在点“normal”右侧边框的中点，而右侧标签的锚点则位于穿过点“absolute”中心的水平向右的线上．\RED{上例中出现了方括号嵌套时，不要忘记添加花括号}．
 
 \subsection{点的沿路径文本}
 \subsubsection{显示指定}
@@ -419,6 +434,52 @@ node[label=120:$c'$, label=below:$c''$] (c) at (1.5,1) {c};
 \draw (0,1) -- (3,1) node[midway] {D} ;
 \end{tikzpicture}
 \end{tikzshowenvi}
+将上述代码中的 \tikzkw{--} 换成 \tikzkw{to} 也可以；通常后者是个更强的命令，在下一节中也会介绍．
+
+\subsection{点之间的连线}
+\subsubsection{基础连线}
+点之间连线会自动检测点的绘制边界，主要要三种操作方式：
+\begin{enumerate}
+\item 在点名称后增加小数点和方位词来指定，比如点 a 的左侧就用 \texttt{(a.west)}；
+\item 使用 \texttt{to} 代替 \texttt{--}，并附加 \tikzkw{out} 与 \tikzkw{in} 选项．（如果不附加则会画直线）
+\item 使用 \texttt{to} 附加 \tikzkw{bend left/right} 选项．下例中最后一行以 a 到 b 直线方向为角度 0，\texttt{bend left=45} 表示逆时针旋转 $45$ 度作为 \tikzkw{out} 值，旋转 $180-45=135$ 度作为 \tikzkw{in} 值．
+\end{enumerate}
+\begin{tikzshow}
+\tikzset{every node/.style={draw,circle}}
+\node (a) {a};
+\node (b) [below=of a] {b};
+\node (c) [left=of b] {c};
+\draw[blue, ->] (c.north) .. controls +(up:1) and +(left:1) .. (a.west); 
+\draw[red, ->] (c) [out=315, in=225] to (b);
+\draw[->] (a) to [bend left=45] (b);
+\end{tikzshow}
+
+\subsubsection{边命令（edge）}
+边命令用于绘制包含同一个点的所有边．当你想要给每个点的边进行定制时，这会十分有用：
+\begin{tikzshow}
+\tikzset{every node/.style={draw,circle}}
+\node (a) {a};
+\node (b) [below=of a] {b};
+\node (c) [left=of b] {c};
+\draw[thick] (c) edge[red, -latex] (b)
+    edge[bend left=45] (a)
+    edge[blue, <-] (a);
+\end{tikzshow}
+提醒一下那些熟悉图论的读者：别忘了尽管最后一行中边的箭头方向是从 a 到 c 的，但仍可以像上面一样用 c 点的 \tikzkw{edge} 命令来绘制．
+
+你还可以连写边命令，并沿边加上文字：
+\begin{tikzshow}
+\node foreach \name/\angle in {a/0,b/90,c/180,d/270}
+    (\name) at (\angle:1.5) {$\name$};
+\path[->] (b) edge node[above right] {$5$} (a)
+  edge (c)
+(c) edge [-,dashed, blue] node[auto] {auto}
+  node[auto, swap] {swap} (a)
+  edge (d)
+(d) edge [red] node[above,sloped] {very}
+  node[below,sloped] {red} (a);
+\end{tikzshow}
+这里用到了之前提及的 \tikzkw{auto} 命令．
 
 \subsection{作为图像的点（pic）*}
 一段绘图代码可能需要复用；如果它比较复杂，可以使用 \latexline{pic} 来重复调用．
@@ -467,7 +528,7 @@ node[label=120:$c'$, label=below:$c''$] (c) at (1.5,1) {c};
 
 一些其他注意：
 \begin{feai}
-\item 如果有 \texttt{foreach} 语句，\textbf{请放在定义首行} ．
+\item 如果有 \texttt{foreach} 语句，\textbf{请放在 \texttt{pic} 定义的首行} ．
 \item \tikzkw{pic} 虽说从用法上近似 \tikzkw{node}，实质上它是以类似 \tikzz\ \envi{scope} 环境的方式工作的．因此，如果想要其外部的图像变换对其生效，须添加 \tikzkw{transform shape} 选项于 \envi{tikzpicture} 环境．
 \item \tikzkw{pic} 对象也能像 \tikzkw{node} 一样，沿路径放置，设置 \tikzkw{at start} 等选项．
 \item 将 \tikzkw{pic} 作为选项使用时，添加 \tikzkw{behind path} 或者 \tikzkw{in front of path} 来指定将 \tikzkw{pic} 插入到所在路径的下方或是上方图层．
@@ -510,6 +571,8 @@ foreach \t in {0, 0.1, ..., 1} {
 \begin{tikzshow}
 \draw[dash pattern=on .1cm off .25cm on .25cm off .15cm, dash phase=1cm] (0,0) -- (3,0);
 \end{tikzshow}
+
+有时你可能会看到一些复杂的装饰线（需要 \pkg{decorations} 库），比如：\tikz{\draw [->,decorate,decoration=snake] (0,0) -- (2,0)}．请参考\secref{subsec:deco}．
 
 \subsection{箭头}
 \tikzz\ 中的箭头多到可以单独开一个章节，但我并不想全部详尽地介绍．用大于或小于号表示箭头的指向，用竖线表示是否加上截断符号．一些基本的样例：
@@ -592,6 +655,35 @@ foreach \t in {0, 0.1, ..., 1} {
 上例同时循环了多个变量，中间用斜线分隔；它们分别按照列表中斜线分隔后的对应值进行循环．如果某一位置的列表值数量小于变量值，那么靠后的变量将都取最后一个值．
 
 此外，如果 \latexline{foreach} 内部只有一条语句，像上例一样不添加花括号也是可以的．
+
+\subsection{图层*}
+一般情况不会用到此指令．但有时你需要先画完上层的内容才能确定下层元素的尺寸，这时候可能需要图层\cite{tikzmanual}（需要 \pkg{backgrounds} 库）：
+\begin{tikzshow}
+\tikzset{every node/.style={draw,circle,inner sep=.1cm, minimum size=.8cm}}
+\foreach \x/\pos in {{a/(0,0)},{b/(1.5,0)},{c/(1,-1)}}
+    \node (\x) at \pos {\x};
+\draw (b.east) .. controls +(0:1) and +(0:1) .. (c.east);
+\begin{scope}[on background layer]
+    \node[draw=none,fill=lightgray, rectangle, fit=(b) (c)] {};
+\end{scope}
+\end{tikzshow}
+上例中还使用了 \pkg{fit} 库，用来创建一个“遮盖”点 b 和点 c 的背景点——它被 \tikzkw{fit} 命令处理成图中的大小．
+
+\subsection{装饰*（decorations）}
+\label{subsec:deco}
+最简单的一种装饰是画蛇形线\cite{tikzmanual}（snake 选项需要 \pkg{decorations.pathmorphing} 库）：
+\begin{tikzshow}
+\draw[->,decorate,decoration=snake] (0,0) -- (2,0);
+\end{tikzshow}
+
+通常，我们希望在线段结束就终止装饰（否则会蛇形绘制到线段末尾，这可能引起困惑）．下面是一个复杂的例子：
+\begin{tikzshow}
+\draw[->, decorate, decoration={snake,amplitude=.4mm,segment length=4mm,post length=2mm}] (0,0) -- (3,0)
+    node[above, align=center, midway, text width=2.5cm, font=\footnotesize] {
+        multiline text controlled by \texttt{text width} option of \textcolor{blue}{node}
+    };
+\end{tikzshow}
+大部分的参数都比较好理解．\tikzkw{amplitude} 控制波动的强弱，\tikzkw{segment length} 控制一个周期的长度，\tikzkw{post length} 控制提前（相比于终点）多远结束装饰．
 
 \section{实用范例}
 \label{sec:tikz-eg}

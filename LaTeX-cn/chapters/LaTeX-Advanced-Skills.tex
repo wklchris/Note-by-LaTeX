@@ -361,6 +361,17 @@ L\hrulefill Mid\dotfill R
 \item[*m/*n:] 在\latexline{titlespacing}命令中的\textit{m, n}分别表示before与after sep的变动范围倍数，基数是默认值．
 \end{para}
 
+宏包中还有一个 \latexline{titleclass} 命令，用来定义新的章节命令（例如 \verb|\subchapter|）或者重申明已有的章节命令：
+\begin{latex}
+% 使 \part 命令不单独占据一页
+\titleclass{\part}{top}
+% 新定义一个 \subchapter 命令
+\titleclass{\subchapter}{straight}[\chapter]
+\newcounter{subchapter}
+\renewcommand{\thesubchapter}{\Alph{subchapter}}
+\end{latex}
+其中，第二参数表示章节类型，可以是 \texttt{page}（独占一页），\texttt{top}（另开新页），或者 \texttt{straight}（普通）．
+
 最后，宏包还给出了\latexline{titleline}命令，用来绘制填充整行、同时又嵌有其他对象的行．对象可以嵌入到左中右lcr三个位置．如果你只是想填充一行而不嵌入对象，使用\latexline{titlerule}及其带星号的命令形式．
 \begin{latex}
 % 嵌入对象的线
