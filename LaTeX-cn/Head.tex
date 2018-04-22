@@ -61,7 +61,7 @@
 \usepackage{boxedminipage}
 % 绘图
 \usepackage{tikz}
-  \usetikzlibrary{calc,intersections,positioning,angles,quotes,decorations.pathmorphing,fit,backgrounds}
+  \usetikzlibrary{calc,intersections,positioning,angles,quotes,decorations.pathmorphing,fit,backgrounds,through}
   \newcommand{\tikzline}[1]{{#1\tikz{\draw[#1,line width=9](0,0)--(0.5,0);}}, }
 % 最后一页
 \usepackage{lastpage}
@@ -191,9 +191,10 @@
 % TikZ Language Hint
 \lstdefinelanguage{tikzlang}{
   sensitive=true,
-  morecomment=[s]{[}{]},
+  morecomment=[n]{[}{]}, % nested comment
   morekeywords={
-    draw,clip,filldraw,path,node,coordinate,foreach,pic
+    draw,clip,filldraw,path,node,coordinate,foreach,pic,
+    tikzset
   }
 }
 

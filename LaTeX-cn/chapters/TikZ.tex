@@ -173,6 +173,7 @@ xelatex -shell-escape example.tex
 \end{tikzshow}
 
 \subsection{交点}
+\label{subsec:intersection}
 \tikzz\ 提供一种简洁的坐标交点控制，例如 \texttt{(<p1> -| <p2>)} 中，用短横表示过 \texttt{p1} 的水平线、用竖线表示过 \texttt{p2} 的竖直线，这两条线的交点就是该命令表示的点．类似还有命令 \tikzkw{|-} ．
 \begin{tikzshow}
 \draw (0,0) circle [radius=1cm] -- (30:1 |- 0,0) -- (30:1) -- cycle;
@@ -306,7 +307,7 @@ xelatex -shell-escape example.tex
 \tikzkw{coordinate} 也可以在绘制命令中作为选项使用．
 
 \subsection{点的基本命令}
-如需显式地绘制点（即带有几何属性的点），使用 \latexline{node} 命令，或者 \latexline{path} 命令的 \tikzkw{node} 选项．选项 \tikzkw{shape} 用于指定点的绘制方式．
+如需显式地绘制点（即占有面积的点），使用 \latexline{node} 命令，或者 \latexline{path} 命令的 \tikzkw{node} 选项．选项 \tikzkw{shape} 用于指定点的绘制方式．
 \begin{tikzshow}
 \node at (0,0) [shape=circle, draw] {a};
 \node at (1,0) [rectangle, draw, fill=red] {};
@@ -544,6 +545,74 @@ foreach \t in {0, 0.1, ..., 1} {
 注意，本例只有一句语句．句中 \tikzkw{pic} 是 \latexline{draw} 命令的选项．
 \end{feai}
 
+\section{几何绘制}
+严格的几何学绘图需要一些特别的命令，比如计算两点间的距离．而且，通常会使用 \tikzkw{coordinate} 而不是 \tikzkw{node} 命令；因为前者并不占用面积，这样画线时才能保证抵达点所在的中心坐标．
+
+\subsection{坐标计算}
+库 \pkg{calc} 允许用户使用 \texttt{(\$ ... \$)} 的形式来计算坐标：
+\begin{tikzshow}
+\coordinate[label=below:A] (A);
+\coordinate[above right=.5 and 1.5 of A, label=right:B] (B);
+\draw (A) -- (B);
+\draw ($ (A) + (.3,.4) $) circle (.5);
+\end{tikzshow}
+
+\subsection{两点距离计算}
+上一节中的半径值是人工计算的．下例让 \tikzz\ 计算距离，并用 \tikzkw{let} 选项将其储存起来，在 \tikzkw{in} 选项的后方进行调用：
+\begin{tikzshow}[scale=0.6, transform shape]
+\coordinate[label=left:A] (A);
+\coordinate[above right=.5 and 1.5 of A, label=right:B] (B);
+\draw (A) -- (B);
+\draw let \p1 = ($ (B) - (A) $),
+         \n{rad} = {veclen(\x1,\y1)}
+    in (B) circle[radius=\n{rad}]
+       (A) circle[radius=\n{rad}];
+\end{tikzshow}
+命令 \verb|\p<数字>| 用于存储向量计算结果，比如 \verb|\p1|．对应的，使用 \verb|\x1| 或者 \verb|\y1| 可以调用向量的两个坐标值．而 \verb|\n<数字>| 则用于存储数值．此外，命令 \tikzkw{veclen} 用于计算向量的欧式长度 \(\sqrt{x^2+y^2}\)．  
+
+如果不想使用数字命名，可以像上例的存储数值一样使用字符串；不过这样命名需要加上花括号．事实上，已知圆心 $A$ 和圆周上一点 $B$，有更简单的画圆方法，参考\secref{subsec:circlethrough}部分的内容．
+
+\subsection{等分点}
+等分点是几何中常用的概念，\pkg{calc} 库支持像 \pkg{xcolor} 混合颜色类似的命令：\verb|<点A>!<分点值>!<点B>|．而且它还可以用最后一行中链式的方法进行连写：
+\begin{tikzshow}
+\coordinate[label=left:A] (A);
+\coordinate[above right=.5 and 1.5 of A, label=right:B] (B);
+\coordinate (X) at ($ (A)!0.5!(B) $);
+\coordinate[label=above:C] (C) at ($ (X)!{sqrt(3)}!90:(B) $);
+\path[draw=black, fill=blue!20] (A) -- (B) -- (C) -- cycle;
+\node[draw=black, fill=red!20, circle through=(X)] at ($ (A)!0.5!(B)!{tan(30)}!90:(B) $) {};
+\end{tikzshow}
+注意分点值如果需要计算（比如上例的根号），需要放在花括号内．
+
+\subsection{过某点的圆*}
+\label{subsec:circlethrough}
+使用 \pkg{through} 库可以方便地画出给定圆心和过某点的圆，而不需要做两点距离计算：
+\begin{tikzshow}[scale=0.75]
+\coordinate[label=left:A] (A);
+\coordinate[above right=.5 and 1.5 of A, label=right:B] (B);
+\draw (A) -- (B);
+\foreach \c/\r in {A/B, B/A}
+  \node[draw,circle through=(\r)] at (\c) {};
+\end{tikzshow}
+注意，\tikzkw{circle through} 仅仅适用于 \tikzkw{node} 命令．
+
+\subsection{交点}
+在\secref{subsec:intersection}中已经介绍过交点的基本使用，包括 \tikzkw{-|} 指令与 \pkg{intersections} 库的一些用法．这里的例子更复杂一些，也复习了之前等分点的用法：
+\begin{tikzshow}
+\tikzset{small/.style={draw, circle, fill=black, inner sep=1pt}}
+\coordinate[label=left:A] (A);
+\coordinate[above right=.5 and 1.5 of A, label=right:B] (B);
+\coordinate[label=below:C] (C) at ($ (A)!0.5!(B) $);
+\coordinate (D) at ($ (C)!2!90:(B) $);
+\coordinate (E) at ($ (C)!2!-90:(B) $);
+\draw (A) -- (B);
+\draw[red, name path=Lv] (E) -- (D);
+\node[draw, circle through=(B), name path=Ca] at (A) {};
+\path[name intersections={of=Lv and Ca, by={[label=above right:D]D, [label=right:E]E}}];
+\foreach \x in {A,C,D,E}
+  \node[small] at (\x) {};
+\end{tikzshow}
+注意上例中的 \latexline{path} 命令虽声明了交点，但没有画任何内容．
 
 \section{属性}
 \label{sec:tikz-property}
@@ -626,7 +695,7 @@ foreach \t in {0, 0.1, ..., 1} {
 \end{tikzpicture}
 \end{latex}
 
-你也可以在进入 \tikzz\ 环境后，使用 \latexline{tikzset} 命令来定义．
+你也可以在进入 \tikzz\ 环境后（或在文档导言区），使用 \latexline{tikzset} 命令来定义．
 
 \subsection{循环语句}
 \tikzz\ 支持循环语句，这一点对于科技绘图来说十分重要．
@@ -637,7 +706,7 @@ foreach \t in {0, 0.1, ..., 1} {
 }
 \end{tikzshow}
 
-有时候我们需要循环一个等差数列，这时候使用 \ldots 即可．\tikzz\ 会将 \(a,b,\ldots,c\) 识别为从 \(a\) 到 \(c\) 以 \(b-a\) 为公差的等差数列；如果你不指定 \(b\)，那么默认以 \(1\) 为公差．
+有时候我们需要循环一个等差数列，这时候使用 \ldots\ 即可．\tikzz\ 会将 \(a,b,\ldots,c\) 识别为从 \(a\) 到 \(c\) 以 \(b-a\) 为公差的等差数列；如果你不指定 \(b\)，那么默认以 \(1\) 为公差．
 \begin{tikzshow}[place/.style={circle, draw, fill=black, minimum size=5pt, inner sep=0pt}]
 \foreach \x in {1,1.5,...,3,4} {
     \node at (\x, 0) [place] {};
@@ -652,9 +721,9 @@ foreach \t in {0, 0.1, ..., 1} {
 \foreach \x/\y in {0,1/2,2}
   \draw (\x, \y) +(.5,.5) circle [radius=.4];
 \end{tikzshow}
-上例同时循环了多个变量，中间用斜线分隔；它们分别按照列表中斜线分隔后的对应值进行循环．如果某一位置的列表值数量小于变量值，那么靠后的变量将都取最后一个值．
+上例同时循环了多个变量，中间用斜线分隔；它们分别按照列表中斜线分隔后的对应值进行循环．如果某一位置的列表提供值的个数小于变量的个数，那么“多出”的变量将都取最后一个值．
 
-此外，如果 \latexline{foreach} 内部只有一条语句，像上例一样不添加花括号也是可以的．
+此外，如果 \latexline{foreach} 内部只有一条语句，像上例一样不加花括号也可以．
 
 \subsection{图层*}
 一般情况不会用到此指令．但有时你需要先画完上层的内容才能确定下层元素的尺寸，这时候可能需要图层\cite{tikzmanual}（需要 \pkg{backgrounds} 库）：
@@ -667,11 +736,11 @@ foreach \t in {0, 0.1, ..., 1} {
     \node[draw=none,fill=lightgray, rectangle, fit=(b) (c)] {};
 \end{scope}
 \end{tikzshow}
-上例中还使用了 \pkg{fit} 库，用来创建一个“遮盖”点 b 和点 c 的背景点——它被 \tikzkw{fit} 命令处理成图中的大小．
+上例中还使用了 \pkg{fit} 库，用来创建一个“遮盖”点 b 和点 c 的背景点——这个点的矩形边框被 \tikzkw{fit} 命令处理成图中的大小．
 
 \subsection{装饰*（decorations）}
 \label{subsec:deco}
-最简单的一种装饰是画蛇形线\cite{tikzmanual}（snake 选项需要 \pkg{decorations.pathmorphing} 库）：
+最简单的装饰是蛇形线\cite{tikzmanual}，需要 \pkg{decorations.pathmorphing} 库：
 \begin{tikzshow}
 \draw[->,decorate,decoration=snake] (0,0) -- (2,0);
 \end{tikzshow}
@@ -683,7 +752,20 @@ foreach \t in {0, 0.1, ..., 1} {
         multiline text controlled by \texttt{text width} option of \textcolor{blue}{node}
     };
 \end{tikzshow}
-大部分的参数都比较好理解．\tikzkw{amplitude} 控制波动的强弱，\tikzkw{segment length} 控制一个周期的长度，\tikzkw{post length} 控制提前（相比于终点）多远结束装饰．
+大部分的参数都比较好理解．\tikzkw{amplitude} 控制波动的强弱，\tikzkw{segment length} 控制一个周期的长度，\tikzkw{post length} 控制在终点之前何处结束装饰．
+
+\subsection{随机数*}
+\tikzz\ 使用 \tikzkw{rand} 来生成从 $-1$ 到 $1$ 的随机数（服从均匀分布）；如果使用 \pkg{calc}，你还可以在指定坐标时使用 \texttt{(\$...\$)} 并在其中做坐标计算： 
+\begin{tikzshow}
+\makeatletter\def\pgfcurrentseed{
+  \pgfmathparse{\pgfmath@rnd@z}\pgfmathresult
+}\makeatother
+\coordinate [label=left:$A$] (A) at (.5*rand,.5*rand);
+\draw (0,0) node[below=1] {\pgfcurrentseed} circle [radius=1];
+\coordinate [label=left:$B$] (B) at ($ (0,0) + (rand,rand)$);
+\path (0,0) node[above=1] {\pgfcurrentseed};
+\end{tikzshow}
+上例中在 \TeX\ 底层中使用 pgf 命令从 \latexline{pgfmath@rnd@z} 中读取当前随机数种子的值，并赋给自定义命令．每次使用 \tikzkw{rand} 命令都会改变随机数种子的值．
 
 \section{实用范例}
 \label{sec:tikz-eg}
