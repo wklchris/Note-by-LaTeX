@@ -76,7 +76,7 @@ xelatex -shell-escape example.tex
 \draw (0,0) -- (1,0) -- (2,0.5);
 \end{tikzshow}
 
-默认的单位长度是 1 cm．如果想要修改比例尺，或者调整线型、颜色等属性参数，请参考\secref{sec:tikz-property}．极坐标参考\secref{subsec:polar}．
+默认的单位长度是 1 cm．如果想要修改比例尺，或者调整线型、颜色等属性参数，请参考\secref{sec:tikz-property}．极坐标参考\secref{subsec:coord}．
 
 \subsection{路径}
 命令 \latexline{path} 可以只创建路径但不绘制；实质上，\latexline{draw} 命令就是 \latexline{path[draw]} 的简写形式．\latexline{fill} 命令也类似．
@@ -108,7 +108,6 @@ xelatex -shell-escape example.tex
 \draw (0,0) circle [x radius=12pt, y radius=6pt];
 \draw (2,0) circle [radius=0.5cm];
 \end{tikzshow}
-上例使用了 \tikzkw{rotate} 选项，绕原点（而非圆心）逆时针 30\(^\circ\) 旋转了椭圆．
 
 \subsection{圆弧与椭圆弧}
 指定圆弧的起点，在选项中给出起始角度、终止角度和半径，即可画弧：
@@ -116,7 +115,7 @@ xelatex -shell-escape example.tex
 \draw (2,0) arc [start angle=0, end angle=45, radius=2];
 \draw (1,0) arc [start angle=0, end angle=270, x radius=1, y radius=.5];
 \end{tikzshow}
-圆弧使用极坐标参数绘制往往更加简便，参考\secref{subsec:polar}．
+圆弧使用极坐标参数绘制往往更加简便，参考\secref{subsec:coord}．
 
 \subsection{网格}
 网格即为自动绘制的等距线：
@@ -165,11 +164,62 @@ xelatex -shell-escape example.tex
 
 请仔细体会两个命令的不同之处：单加号用于\uline{指代相对坐标}，而相对坐标的基准点不会改变，直到指定新的绝对坐标 ；双加号用于\uline{移动画笔}，基准点的位置会随之改变．
 
-\subsection{极坐标}
-格式是 \texttt{(角度:\mbox{}距离)}．
-\label{subsec:polar}
+\subsection{指定坐标}
+\label{subsec:coord}
+本节介绍了如何指定坐标，包括直角坐标、极坐标，以及如何指定一个相对于已知点的坐标．其他坐标系也会在此介绍．
+
+\subsubsection{直角坐标与极坐标}
+通常会使用直角坐标系（coordinate system）来标定坐标位置，正如上一节所示．直角坐标的格式是 \texttt{(x,y)}，其中 $x$ 轴正向指向纸面右方，$y$ 轴正向指向纸面上方；而极坐标的格式是 \texttt{(角度:\mbox{}距离)}．
+
+实质上，上述坐标的是隐式指定的；如果要显式指定，格式如下例的第二行：
 \begin{tikzshow}
-\draw (0,0) circle [radius=0.5] -- (30:1);
+\draw[red] (0,0) circle [radius=0.5] -- (30:1cm);
+\draw (canvas cs: x=0, y=0) -- (canvas polar cs: radius=1cm, angle=60);
+\end{tikzshow}
+
+\subsubsection{相对已知点的坐标}
+大致有这么几种方法：
+\begin{feai}
+\item 使用上一节中的单加号或双加号指令来指定相对位置；
+\item 使用平移参数 \tikzkw{shift} （参考\secref{subsubsec:shift}内容）；
+\item 使用 \pkg{calc} 库支持的 \verb|($ ... $)| 指令．
+\end{feai}
+
+一个综合上述方法的例子：
+\begin{tikzshow}
+\draw (0,0) circle[radius=1];
+\draw (0,0) -- +(1,-1) -- +(0,-0.5); 
+\draw[red] (0,0)
+     -- ([shift=(90:.5cm)] 210:1cm)
+     -- (210:1cm) -- cycle;
+\draw[blue] (0,0) -- (1,0)
+     -- ($ (1,0) + (120:1cm) $) -- cycle;
+\end{tikzshow}
+
+\subsubsection{三维坐标系*}
+通常 \tikzz\ 绘图只需要用到平面坐标，但它也支持三维坐标系．
+
+\tikzz\ 使用了名为 \texttt{xyz} 的坐标系统来支持三维坐标，因此调用是：
+\begin{tikzshow}[thick]
+\draw (0,0) -- (xyz cs: x=1);
+\draw[red] (0,0) -- (0,1,0);
+\draw[blue] (0,0) -- (0,0,1);
+\end{tikzshow}
+
+\subsubsection{重心坐标系*}
+重心坐标系（barycentric coordinate system）指定一系列向量 $\overrightarrow{v_1}, \overrightarrow{v_2},\ldots,\overrightarrow{v_n}$，然后坐标为 $(p_1,p_2,\ldots,p_n)$ 的点的位置是它们的线性组合向量对应的位置：
+\[ \frac{p_1\overrightarrow{v_1}+p_2\overrightarrow{v_2}+\cdots+p_n\overrightarrow{v_n}}{p_1+p_2+\cdots+p_n} \]
+
+一个例子（涉及的命令会在另外的章节介绍）：
+\begin{tikzshow}
+\tikzset{small/.style={draw=none, circle, fill=#1!70, inner sep=1pt}}
+\coordinate[label=above:A] (A) at (90:1cm);
+\coordinate[label=below left:B] (B) at (210:1cm);
+\coordinate[label=below right:C] (C) at (-30:1cm);
+\draw (A) -- (B) -- (C) -- cycle;
+\node[small=red] at (barycentric cs:A=0,B=0.3,C=0.7) {};
+\node[small=blue] at (barycentric cs:A=0.5,B=0.5,C=0.5) {};
+\node[small=green] at (barycentric cs:A=0.5,B=0.5,C=0.1) {};
 \end{tikzshow}
 
 \subsection{交点}
@@ -194,6 +244,21 @@ xelatex -shell-escape example.tex
 \draw[name intersections={of=circle and line1, name=A}] (1,0) -- (A-1);
 \draw (0,0) -- (A-2);
 \end{tikzshow} 
+
+用 \tikzkw{total} 可以存储交点个数到一个宏命令，而 \tikzkw{sort by} 可以指定以相交路径中的某一条来给交点排序\cite{tikzmanual}：
+\begin{tikzshow}[scale=0.7]
+\tikzset{small/.style={draw, circle, fill=#1!70, inner sep=2pt}}
+\foreach \pathname/\offset/\color in {la/0cm/black,lb/3cm/red} {
+    \tikzset{yshift=\offset}
+    \draw[->,name path=la] (2,4) -- (0,0);
+    \draw[->,name path=lb] (1,.5) .. controls (0,1) and +(-2,-1) .. (1.5,2)
+         .. controls +(2,1) .. (1,3);
+    \path[name intersections={of=la and lb, sort by=\pathname, name=inter, total=\s}] \foreach \i in {1,2,...,\s} {
+        (inter-\i) node[small=\color,
+        label=below right:\i] {}
+    };
+}
+\end{tikzshow}
 
 \subsection{图像变换}
 \tikzz\ 的图像变换主要包括 4 种：平移、旋转、缩放与倾斜．
@@ -256,6 +321,8 @@ xelatex -shell-escape example.tex
 \draw[blue, scale around={1.5:(1,1)}] (0,0) rectangle (1,1);
 \end{tikzshow}
 
+注意，缩放命令 \tikzkw{scale} 并不更改对象的属性，比如点的字体大小、线宽等等．如果想要改变这些，参考\secref{subsec:nodescaling}部分．
+
 \subsubsection{倾斜（slant）*}
 倾斜不是一个常用的图像变换．\tikzz\ 中的倾斜指令是 \tikzkw{xslant} 与 \tikzkw{yslant}．简单地解释，\texttt{xslant=k} 会把图像中坐标为 \((x,y)\) 的点变换为 \((x+k\times y, y)\)．
 \begin{tikzshow}[very thick,scale=.6]
@@ -307,14 +374,18 @@ xelatex -shell-escape example.tex
 \tikzkw{coordinate} 也可以在绘制命令中作为选项使用．
 
 \subsection{点的基本命令}
-如需显式地绘制点（即占有面积的点），使用 \latexline{node} 命令，或者 \latexline{path} 命令的 \tikzkw{node} 选项．选项 \tikzkw{shape} 用于指定点的绘制方式．
+如需显式地绘制点（即占有面积的点），使用 \latexline{node} 命令，或者 \latexline{path} 命令的 \tikzkw{node} 选项，并配合 \tikzkw{draw} 选项．选项 \tikzkw{shape} 用于指定点的绘制方式．
 \begin{tikzshow}
-\node at (0,0) [shape=circle, draw] {a};
+\node at (0,0) [shape=circle, draw] (C) {$p_C$};
 \node at (1,0) [rectangle, draw, fill=red] {};
+\path[yshift=1cm] (0,.5) node[draw] (A) {$p_A$}
+     (1,.5) node[draw] (B) {$p_B$};
+\draw (A) -- (B) -- (C);
 \end{tikzshow}
-选项 \tikzkw{shape} 还可赋值为 \texttt{coordinate}，这样在点之间连线时会从点中心开始绘制，而不是从点的边框上，就像 \tikzkw{coordinate} 命令那样，是一个没有面积的“点”．
+选项 \tikzkw{shape} 还可赋值为 \texttt{coordinate}，这样在点之间连线时会从点中心开始绘制；但我建议此时直接使用 \tikzkw{coordinate} 命令．
 
-使用 \tikzkw{anchor} 选项定义对齐方式，可传入的值是东西南北（east, west, south, north）以及 4 个复合方位（south west）．或者你可以依次用 left, right, above, below 来替代：
+\subsubsection{点的锚点（anchor）}
+使用 \tikzkw{anchor} 选项定义锚点位置，可传入的值是 4 个基本方位（east, west, south, north）、4 个复合方位（south west 等），以及 center．或者你可以依次用 left, right, above, below 来替代四个基本方位：
 \begin{tikzshow}
 \draw[help lines] (0,0) grid (2,2);
 \draw (0,0) node [anchor=south west] {$\beta$};
@@ -324,7 +395,7 @@ xelatex -shell-escape example.tex
 \end{tikzshow}
 其中，如果像最后一行给出双距离参数，需加载 \pkg{positioning} 库．
 
-也可以直接用数字指定 \tikzkw{anchor} 的角度：
+也可以直接用数字指定 \tikzkw{anchor} 的角度，\tikzz\ 会自动定位到点边界上对应角度的位置：
 \begin{tikzshow}
 \draw (0,0) circle [radius=1];
 \foreach \x in {1,...,12} {
@@ -339,6 +410,7 @@ xelatex -shell-escape example.tex
 \draw (a) -- (b);
 \end{tikzshow}
 
+\subsubsection{点的尺寸}
 点的大小用 \tikzkw{inner sep} 指定文字到点边框的距离，用 \tikzkw{minimum size} 指定边框的最小尺寸．也可以配合 \tikzkw{text width} 选项指定文本的每行宽度．
 \begin{tikzshow}
 \tikzset{every node/.style={draw, circle}}
@@ -426,7 +498,7 @@ node[label=120:$c'$, label=below:$c''$] (c) at (1.5,1) {c};
 \end{tikzshow}
 
 \subsubsection{隐式指定}
-路径中点的位置可以隐式（implicitly）指定，放在 \texttt{--} 命令与要连接的点之间（即可．只有隐式指定的点才会继承全局参数．例子\cite{tikzmanual}：
+路径中点的位置可以隐式（implicitly）指定，放在 \texttt{--} 命令与要连接的点之间即可．只有隐式指定的点才会继承全局参数．例子\cite{tikzmanual}：
 \begin{tikzshowenvi}
 \begin{tikzpicture}[near end]
 \draw (0,2.5) -- (3,2.5) node{A};
@@ -481,6 +553,10 @@ node[label=120:$c'$, label=below:$c''$] (c) at (1.5,1) {c};
   node[below,sloped] {red} (a);
 \end{tikzshow}
 这里用到了之前提及的 \tikzkw{auto} 命令．
+
+\subsection{点与画布的缩放}
+\label{subsec:nodescaling}
+
 
 \subsection{作为图像的点（pic）*}
 一段绘图代码可能需要复用；如果它比较复杂，可以使用 \latexline{pic} 来重复调用．
@@ -549,7 +625,7 @@ foreach \t in {0, 0.1, ..., 1} {
 严格的几何学绘图需要一些特别的命令，比如计算两点间的距离．而且，通常会使用 \tikzkw{coordinate} 而不是 \tikzkw{node} 命令；因为前者并不占用面积，这样画线时才能保证抵达点所在的中心坐标．
 
 \subsection{坐标计算}
-库 \pkg{calc} 允许用户使用 \texttt{(\$ ... \$)} 的形式来计算坐标：
+库 \pkg{calc} 允许用户使用 \texttt{\$ ... \$} 的形式来计算，并放在一对圆括号中作为坐标：
 \begin{tikzshow}
 \coordinate[label=below:A] (A);
 \coordinate[above right=.5 and 1.5 of A, label=right:B] (B);
@@ -587,17 +663,17 @@ foreach \t in {0, 0.1, ..., 1} {
 \subsection{过某点的圆*}
 \label{subsec:circlethrough}
 使用 \pkg{through} 库可以方便地画出给定圆心和过某点的圆，而不需要做两点距离计算：
-\begin{tikzshow}[scale=0.75]
-\coordinate[label=left:A] (A);
-\coordinate[above right=.5 and 1.5 of A, label=right:B] (B);
+\begin{tikzshow}[scale=0.6]
+\coordinate[label=below left:A] (A);
+\coordinate[above=1 of A, label=above right:B] (B);
 \draw (A) -- (B);
-\foreach \c/\r in {A/B, B/A}
-  \node[draw,circle through=(\r)] at (\c) {};
+\node[draw, circle through=(B), label=left:C] at (A) {};
+\node[draw, circle through=(A), label=right:D] at (B) {};
 \end{tikzshow}
 注意，\tikzkw{circle through} 仅仅适用于 \tikzkw{node} 命令．
 
 \subsection{交点}
-在\secref{subsec:intersection}中已经介绍过交点的基本使用，包括 \tikzkw{-|} 指令与 \pkg{intersections} 库的一些用法．这里的例子更复杂一些，也复习了之前等分点的用法：
+在\secref{subsec:intersection}中已经介绍过交点的使用，包括 \tikzkw{-|} 指令与 \pkg{intersections} 库的一些用法．这里的例子更复杂一些，也复习了之前等分点的用法：
 \begin{tikzshow}
 \tikzset{small/.style={draw, circle, fill=black, inner sep=1pt}}
 \coordinate[label=left:A] (A);
