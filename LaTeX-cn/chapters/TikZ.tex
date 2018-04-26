@@ -115,7 +115,7 @@ xelatex -shell-escape example.tex
 \draw (2,0) arc [start angle=0, end angle=45, radius=2];
 \draw (1,0) arc [start angle=0, end angle=270, x radius=1, y radius=.5];
 \end{tikzshow}
-圆弧使用极坐标参数绘制往往更加简便，参考\secref{subsec:coord}．
+你也可以不指定 \tikzkw{end angle} 而使用圆弧对应的圆心角 \tikzkw{delta angle}． 在绘制弧时使用极坐标，请参考\secref{subsec:coord}．
 
 \subsection{网格}
 网格即为自动绘制的等距线：
@@ -182,19 +182,23 @@ xelatex -shell-escape example.tex
 \begin{feai}
 \item 使用上一节中的单加号或双加号指令来指定相对位置；
 \item 使用平移参数 \tikzkw{shift} （参考\secref{subsubsec:shift}内容）；
-\item 使用 \pkg{calc} 库支持的 \verb|($ ... $)| 指令．
+\item 使用扭转参数 \tikzkw{turn}，它基于进入当前点的切线方向，这在绘制折线时很有用；
+\item 使用 \pkg{calc} 库支持的 \verb|($ ... $)| 指令进行计算．
 \end{feai}
 
 一个综合上述方法的例子：
 \begin{tikzshow}
 \draw (0,0) circle[radius=1];
-\draw (0,0) -- +(1,-1) -- +(0,-0.5); 
+\draw (0,0) { [current point is local]-- ++(1,-1)} -- ++(0,-0.5); 
 \draw[red] (0,0)
      -- ([shift=(90:.5cm)] 210:1cm)
      -- (210:1cm) -- cycle;
 \draw[blue] (0,0) -- (1,0)
      -- ($ (1,0) + (120:1cm) $) -- cycle;
+\draw[green] (0,0) -- (150:.5cm) -- ([turn]-45:.5cm)
+     arc[start angle=105, delta angle=-135, radius=.5];
 \end{tikzshow}
+其中，选项 \tikzkw{current point is local} 表示当前花括号内的画笔移动不会影响到外部的画笔位置．
 
 \subsubsection{三维坐标系*}
 通常 \tikzz\ 绘图只需要用到平面坐标，但它也支持三维坐标系．
@@ -470,10 +474,10 @@ node[label=120:$c'$, label=below:$c''$] (c) at (1.5,1) {c};
 
 对于沿路径的文本标记，\tikzz\ 预定义了 7 种位置，分别是 \tikzkw{at start/end}, \tikzkw{(very) near start/end}，以及缺省时的 \tikzkw{midway}．
 \begin{tikzshow}
-\draw (0,0) .. controls (.5,2) ..
+\draw (0,0) .. controls (.5,2) .. (1.5,2)
   node[at start] {at start}
-  node[sloped, above] {midway}
-  node[pos=1, right, text width=3ex] {at end} (1.5,2);
+  node[midway, sloped, above] {midway}
+  node[pos=1, right, text width=3ex] {at end};
 \end{tikzshow}
 上例中的一些参数：
 \begin{para}
@@ -498,7 +502,7 @@ node[label=120:$c'$, label=below:$c''$] (c) at (1.5,1) {c};
 \end{tikzshow}
 
 \subsubsection{隐式指定}
-路径中点的位置可以隐式（implicitly）指定，放在 \texttt{--} 命令与要连接的点之间即可．只有隐式指定的点才会继承全局参数．例子\cite{tikzmanual}：
+路径里点的位置可以隐式（implicitly）指定，放在 \texttt{--} 命令与要连接的点之间即可．只有隐式指定的点才会继承全局参数（因此隐式指定往往可以省略一些参数，比如 \tikzkw{midway}）．例子\cite{tikzmanual}：
 \begin{tikzshowenvi}
 \begin{tikzpicture}[near end]
 \draw (0,2.5) -- (3,2.5) node{A};
@@ -510,6 +514,7 @@ node[label=120:$c'$, label=below:$c''$] (c) at (1.5,1) {c};
 将上述代码中的 \tikzkw{--} 换成 \tikzkw{to} 也可以；通常后者是个更强的命令，在下一节中也会介绍．
 
 \subsection{点之间的连线}
+\label{subsec:connectingnodes}
 \subsubsection{基础连线}
 点之间连线会自动检测点的绘制边界，主要要三种操作方式：
 \begin{enumerate}
@@ -527,8 +532,41 @@ node[label=120:$c'$, label=below:$c''$] (c) at (1.5,1) {c};
 \draw[->] (a) to [bend left=45] (b);
 \end{tikzshow}
 
+\subsubsection{绘制到命令（to）}
+除了上面提到的 \tikzkw{to} 命令的用法，它还有以下灵活的使用方式:
+
+使用 \tikzkw{edge node} 来给点之间的连接线添加文本．但更好用的是 \tikzkw{edge label} 命令，表示以 \tikzkw{auto} 选项来自动放置文本；如果换成 \tikzkw{edge label'}，则表示以 \tikzkw{auto, swap} 选项放置．
+\begin{tikzshow}
+\coordinate (a);
+\coordinate (b) at ($ (a)+(2,1) $);
+\draw (a) to[edge node={node [sloped,above] {ab}}] (b);
+\draw (a) to[color=red, bend right=45, edge label=auto, edge label'=swap] (b);
+\end{tikzshow}
+
+最后，该命令允许用户以 \tikzkw{to path} 选项来指定绘制方式，并用 \latexline{tikztostart} 表示当前 \tikzkw{to} 命令的起始点，\latexline{tikztotarget} 表示终止点，\latexline{tikztonodes} 表示绘制路径时伴随的点（可省略）．实质上是添加了一个路径分组（花括号内的选项不会应用到外部）：
+\begin{latex}
+{[every to, <options>] <path>}
+\end{latex}
+
+例子：
+\begin{tikzshow}
+\tikzset{selfloop/.style={to path={.. controls +(75:1) and +(105:1) .. (\tikztotarget) \tikztonodes}}}
+\node (a) {$a$};
+\node[right=of a] (b) {$b$};
+\node[below=of b] (c) {$c$};
+\draw[->] (a) edge (b) (b) edge[selfloop] node[above] {Hi} (b)  edge (c);
+\end{tikzshow}
+你可能注意到，上例中虽然定义了 \tikzkw{to path}，但使用了 \tikzkw{edge} 而不是 \tikzkw{to}；实质上两者的语法有相近之处，但使用 \tikzkw{to} 会导致只有最后一条子路径有箭头．
+
+库 \pkg{topaths} 定义了一些实用的样式，比如在上例中就可以直接使用它预定义 \tikzkw{loop above}．
+
 \subsubsection{边命令（edge）}
-边命令用于绘制包含同一个点的所有边．当你想要给每个点的边进行定制时，这会十分有用：
+边命令的底层形式是，其中 \verb|<path>| 与 \tikzkw{to} 格式相同：
+\begin{latex}
+\path[every edge, <options>] (\tikztostart) <path>
+\end{latex}
+
+因此它将绘制包含同一个点（即 \texttt{\char`\\tikztostart}）的所有边．当你想要给每个点的边进行定制时，这会十分有用：
 \begin{tikzshow}
 \tikzset{every node/.style={draw,circle}}
 \node (a) {a};
@@ -552,7 +590,7 @@ node[label=120:$c'$, label=below:$c''$] (c) at (1.5,1) {c};
 (d) edge [red] node[above,sloped] {very}
   node[below,sloped] {red} (a);
 \end{tikzshow}
-这里用到了之前提及的 \tikzkw{auto} 命令．
+这里用到了之前提及的 \tikzkw{auto} 命令．注意，只要 \tikzkw{path} 命令指定了箭头选项，\tikzkw{edge} 命令绘制的每条边都有箭头．
 
 \subsection{点与画布的缩放}
 \label{subsec:nodescaling}
@@ -621,7 +659,59 @@ foreach \t in {0, 0.1, ..., 1} {
 注意，本例只有一句语句．句中 \tikzkw{pic} 是 \latexline{draw} 命令的选项．
 \end{feai}
 
-\section{几何绘制}
+\section{路径（path）}
+虽然我们不常直接使用 \latexline{path} 命令，而是使用它的变体 \latexline{draw} 等，但是我们仍然需要介绍一些它的特性．
+
+最常用的情景就是只声明点，但却不显示地绘制它们：
+\begin{tikzshow}
+\path coordinate (a)
+     coordinate[right=of a] (b)
+     coordinate[above=of b] (c);
+\draw (a) -- (b) -- (c) -- cycle;
+\end{tikzshow}
+
+特别指明，点命令（\tikzkw{node} 或者 \tikzkw{coordinate}）总是在路径绘制结束后再绘制的；它们不是路径的一部分．
+
+以下路径命令已在上文（或将在其他小节）进行介绍：
+\begin{description}
+\item[移动（move-to）指令] 隐式．如 \verb|draw (a) -- (b) (c) -- (d)|，在 b 与 c 间即为移动指令．
+\item[直线（line-to）指令] 包括直线指令 \tikzkw{--} 与水平竖直线指令 \tikzkw{|-} 和 \tikzkw{-|}．
+\item[曲线（curve-to）指令] 即绘制 \bz\ 曲线的 \tikzkw{.. controls ..} 指令．
+\item[绘制到（to）指令] 上文介绍过 \tikzkw{to} 配合 \tikzkw{out, in, bent left} 等命令的用法，参考前文\secref{subsec:connectingnodes}．它实际将指令解释为以上三种指令之一．
+\item[几何形状指令] 包括圆或椭圆 \tikzkw{circle}、矩形 \tikzkw{rectangle} 与弧 \tikzkw{arc} 指令．
+\item[函数指令*] 包括抛物线 \tikzkw{parabola}、正弦 \tikzkw{sin} 与余弦 \tikzkw{cos} 指令．更复杂的函数会在
+\item[网格指令] 即 \tikzkw{grid} 指令．
+\item[圆角指令*] 即 \tikzkw{rounded corners} 与 \tikzkw{sharp corners} 指令．
+\item[循环指令] 即 \tikzkw{foreach} 指令，具体可参考\secref{subsec:foreach}部分．
+\item[暂存指令] 即 \tikzkw{let} 指令，将数据暂存以供语句之后调用．参考\secref{subsec:nodesdistance}部分．
+\item[图指令*] 即 \tikzkw{graph} 指令，绘制图、树、网络的命令．参考\secref{sec:network}部分．
+\item[图像指令*] 即 \tikzkw{pic} 命令，
+\end{description}
+
+本节会介绍除上述指令外的其他路径指令．
+
+\subsection{路径分组}
+类似与 \envi{scope} 环境，\tikzz\ 允许在路径中创建一个“分组”，分组中的选项不会影响到分组外部的内容．只需要将想要建立分组的部分用花括号包围即可：
+\begin{tikzshow}
+\path coordinate (a)
+     coordinate[right=of a] (b)
+     coordinate[above=of b] (c)
+     coordinate[left=of c] (d);
+\draw (a) -- (b) {[rounded corners] -- (c) -- (d) {[sharp corners] -- cycle}};
+\end{tikzshow}
+注意，并不是所有参数都支持分组．例如，每条路径只能有一个颜色，因此在分组中指定另一种颜色是无效的．
+
+\subsection{SVG 指令*}
+加载 \pkg{svg.path} 库后，路径中的 \tikzkw{SVG} 选项允许你使用类似网页 \texttt{HTML} 中 \texttt{SVG} 的语法进行绘制．这里不再详细对 SVG 语法做说明，仅给出一个例子：
+\begin{tikzshow}
+\draw[fill=red!50] svg {M 0 0 L 10 10 h 20 v -10} -- cycle;
+\end{tikzshow}
+该库只支持真正的 \texttt{SVG} 指令集的主要部分，并不是完全涵盖．
+
+\subsection{绘图指令（plot）}
+该指令用于绘制点较多的图，也可以从外部文件读取．
+
+\section{数学绘制：几何与函数图像}
 严格的几何学绘图需要一些特别的命令，比如计算两点间的距离．而且，通常会使用 \tikzkw{coordinate} 而不是 \tikzkw{node} 命令；因为前者并不占用面积，这样画线时才能保证抵达点所在的中心坐标．
 
 \subsection{坐标计算}
@@ -634,6 +724,7 @@ foreach \t in {0, 0.1, ..., 1} {
 \end{tikzshow}
 
 \subsection{两点距离计算}
+\label{subsec:nodesdistance}
 上一节中的半径值是人工计算的．下例让 \tikzz\ 计算距离，并用 \tikzkw{let} 选项将其储存起来，在 \tikzkw{in} 选项的后方进行调用：
 \begin{tikzshow}[scale=0.6, transform shape]
 \coordinate[label=left:A] (A);
@@ -641,15 +732,16 @@ foreach \t in {0, 0.1, ..., 1} {
 \draw (A) -- (B);
 \draw let \p1 = ($ (B) - (A) $),
          \n{rad} = {veclen(\x1,\y1)}
-    in (B) circle[radius=\n{rad}]
-       (A) circle[radius=\n{rad}];
+      in (B) circle[radius=\n{rad}]
+         (A) circle[radius=\n{rad}];
 \end{tikzshow}
 命令 \verb|\p<数字>| 用于存储向量计算结果，比如 \verb|\p1|．对应的，使用 \verb|\x1| 或者 \verb|\y1| 可以调用向量的两个坐标值．而 \verb|\n<数字>| 则用于存储数值．此外，命令 \tikzkw{veclen} 用于计算向量的欧式长度 \(\sqrt{x^2+y^2}\)．  
 
 如果不想使用数字命名，可以像上例的存储数值一样使用字符串；不过这样命名需要加上花括号．事实上，已知圆心 $A$ 和圆周上一点 $B$，有更简单的画圆方法，参考\secref{subsec:circlethrough}部分的内容．
 
-\subsection{等分点}
-等分点是几何中常用的概念，\pkg{calc} 库支持像 \pkg{xcolor} 混合颜色类似的命令：\verb|<点A>!<分点值>!<点B>|．而且它还可以用最后一行中链式的方法进行连写：
+\subsection{$\lambda$分点与垂线}
+\subsubsection{比例分点}
+分点是几何中常用的概念，\pkg{calc} 库支持像 \pkg{xcolor} 混合颜色类似的命令：\verb|<点A>!<分点比例>![角度]<点B>|，不同的是“角度”会将分点位置绕 A 旋转一个角度．将它还可以用最后一行中链式的方法进行连写：
 \begin{tikzshow}
 \coordinate[label=left:A] (A);
 \coordinate[above right=.5 and 1.5 of A, label=right:B] (B);
@@ -658,7 +750,26 @@ foreach \t in {0, 0.1, ..., 1} {
 \path[draw=black, fill=blue!20] (A) -- (B) -- (C) -- cycle;
 \node[draw=black, fill=red!20, circle through=(X)] at ($ (A)!0.5!(B)!{tan(30)}!90:(B) $) {};
 \end{tikzshow}
-注意分点值如果需要计算（比如上例的根号），需要放在花括号内．
+
+\subsubsection{距离分点}
+你也可以用（直线段）分点距离代替分点比例，加上单位即可：
+\begin{tikzshow}
+\coordinate[label=left:A] (A);
+\coordinate[above right=.5 and 1.5 of A, label=right:B] (B);
+\coordinate (C) at ($ (A)!0.5!(B) $);
+\draw ($ (C)!1cm!90:(B) $) edge (B) edge (A)
+     edge[dashed] node[above, sloped, font=\footnotesize] {1cm} (C);
+\end{tikzshow}
+
+\subsubsection{投影分点（垂线）}
+用投影点代替分点比例，则得到该点向连线段的投影：
+\begin{tikzshow}
+\coordinate[label=left:A] (A);
+\coordinate[above right=.5 and 2 of A, label=right:B] (B);
+\coordinate[above right=1 and .5 of A, label=above:C] (C);
+\draw (A) -- (B) -- (C) -- cycle;
+\draw[red] (C) -- ($ (A)!(C)!(B) $);
+\end{tikzshow}
 
 \subsection{过某点的圆*}
 \label{subsec:circlethrough}
@@ -689,6 +800,9 @@ foreach \t in {0, 0.1, ..., 1} {
   \node[small] at (\x) {};
 \end{tikzshow}
 注意上例中的 \latexline{path} 命令虽声明了交点，但没有画任何内容．
+
+\section{图与网络绘制*}
+\label{sec:network}
 
 \section{属性}
 \label{sec:tikz-property}
@@ -773,7 +887,8 @@ foreach \t in {0, 0.1, ..., 1} {
 
 你也可以在进入 \tikzz\ 环境后（或在文档导言区），使用 \latexline{tikzset} 命令来定义．
 
-\subsection{循环语句}
+\subsection{循环语句（foreach）}
+\label{subsec:foreach}
 \tikzz\ 支持循环语句，这一点对于科技绘图来说十分重要．
 \begin{tikzshow}[place/.style={circle, draw, fill=black, minimum size=5pt, inner sep=0pt}]
 \foreach \x in {1,2,3} {
@@ -842,6 +957,8 @@ foreach \t in {0, 0.1, ..., 1} {
 \path (0,0) node[above=1] {\pgfcurrentseed};
 \end{tikzshow}
 上例中在 \TeX\ 底层中使用 pgf 命令从 \latexline{pgfmath@rnd@z} 中读取当前随机数种子的值，并赋给自定义命令．每次使用 \tikzkw{rand} 命令都会改变随机数种子的值．
+
+\subsection{外部数据文件*}
 
 \section{实用范例}
 \label{sec:tikz-eg}

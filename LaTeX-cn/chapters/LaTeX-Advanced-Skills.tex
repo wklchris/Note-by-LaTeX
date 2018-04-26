@@ -1172,17 +1172,17 @@ Meow|seealso\{wow\} & Meow, \textit{see also} wow \\
 
 定制索引样式可使用\pkg{imakeidx}宏包；另一个宏包\pkg{idxlayout}也能实现这些功能，不过需要放置在前者之后加载．
 
-想要将索引章节正常编号或编入目录项，使用 \pkg{tocbibind} 宏包，参考\pageref{pkg:tocbibind}．
+使用 \pkg{tocbibind} 宏包将索引章节正常编号或编入目录项，参考\secref{pkg:tocbibind}部分．
 
 关于索引，部分用户有制作词汇表的需求，请参考\pkg{glossary}宏包．
 
 \section{公式与图表编号样式}
 \subsection{取消公式编号}
-取消单行公式的编号，用\latexline{[\char`\\]}或者\envi{equation*}环境，代替\envi{equation}即可．
+取消单行公式的编号，用\latexline{[\char`\\]}或者\envi{equation*}环境，代替\envi{equation}环境．
 
 取消多行公式中某行的编号，使用\pkg{amsmath}宏包的\latexline{notag}或\latexline{nonumber}命令．命令放在对应行的末尾即可．该方法同样适用于\envi{equation}环境．
 
-取消多行公式中所有行的编号，请使用\envi{align*}环境而不是\envi{align}环境．你可以参考\hyperref[subsec:multieqnum]{多行公式及其编号}这一小节的内容．
+取消多行公式中所有行的编号，请使用\envi{align*}环境而不是\envi{align}环境．你可以参考\secref{subsec:multieqnum}内容．
 
 \subsection{增加公式编号}
 \pkg{amsmath}宏包提供了增加编号的\latexline{tag}命令：

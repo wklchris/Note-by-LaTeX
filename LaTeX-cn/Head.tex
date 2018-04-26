@@ -61,7 +61,7 @@
 \usepackage{boxedminipage}
 % 绘图
 \usepackage{tikz}
-  \usetikzlibrary{calc,intersections,positioning,angles,quotes,decorations.pathmorphing,fit,backgrounds,through}
+  \usetikzlibrary{calc,intersections,positioning,angles,quotes,decorations.pathmorphing,fit,backgrounds,through,svg.path,topaths}
   \newcommand{\tikzline}[1]{{#1\tikz{\draw[#1,line width=9](0,0)--(0.5,0);}}, }
 % 最后一页
 \usepackage{lastpage}
@@ -73,7 +73,7 @@
 \newcommand{\RED}[1]{{\color{cyan}{#1}}}
 \newcommand{\cmmd}[1]{\fbox{\texttt{\char92{}#1}}}
 \newcommand{\charef}[1]{第\ref{#1}章}
-\newcommand{\secref}[1]{第\ref{#1}节}
+\newcommand{\secref}[1]{第\ \ref{#1}\ 节}
 \newcommand{\pref}[1]{第\pageref{#1}页}
 \newcommand{\fref}[1]{图\ref{#1}}
 \newcommand{\tref}[1]{表\ref{#1}}
@@ -90,7 +90,7 @@
 \usepackage[inline]{enumitem}
 	\setlist[enumerate]{font=\bfseries,itemsep=0pt}
 	\setlist[itemize]{font=\bfseries,leftmargin=\parindent}
-	\setlist[description]{font=\bfseries\uline}
+	\setlist[description]{font=\bfseries\uline,labelindent=\parindent,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
 
 \newenvironment{fead}{	
     \begin{description}[font=\bfseries\uline,labelindent=\parindent,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}

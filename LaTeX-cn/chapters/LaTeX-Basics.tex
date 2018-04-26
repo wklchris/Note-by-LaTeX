@@ -900,6 +900,7 @@ book文档类还提供了以下的命令：
 
 对于\texttt{Thispic}这个参数的写法，\xelatex 支持pdf, eps, png, jpg图片扩展名．你可以书写带扩展名的图片名称ThisPic.png，也可以不带扩展名．如果不给出扩展名，将按上述四个扩展名的顺序依次搜索文件．\dpar
 
+\subsubsection{图片子文件夹}
 如果你不想把图片放在\LaTeX\ 文档主文件夹下，可以使用下面的命令加入新的图片搜索文件夹：
 \begin{latex}
 \graphicspath{{c:/pics/}{./pic/}}
@@ -907,6 +908,18 @@ book文档类还提供了以下的命令：
 
 用正斜杠代替Windows正常路径中的反斜杠．你可以加入多组路径，每组用花括号括起，并确保路径以正斜杠结束．用\verb|./|指代主文件夹路径，也可省略．\dpar
 
+\subsubsection{含特殊字符的文件名*}
+文件名中含有特殊字符，一般插图命令中是不需要加入反斜杠进行处理的（也就是按原文件直接输入）．但是，图片标题的 \latexline{caption} 命令需要转义．如果可以直接输入，那么需要配合反斜杠进行转义；在不能显式输入的场合， \latexline{detokenize} 命令可以应对．一个例子：
+\begin{latex}
+%在导言区定义：
+%\newcommand{\includegraphicswithcaption}[2][]{
+%  \includegraphics[#1]{#2}
+%  \caption{\detokenize{#2}}
+%}
+\includegraphicswithcaption[width=0.6\linewidth]{hello_world.png}
+\end{latex}
+
+\subsubsection{图文混排}
 图文混排可参考\pkg{wrapfig}宏包，后文的\hyperref[sec:box]{箱子}一节即是例子．
 \begin{latex}
 % \usepackage{wrapfig}
@@ -1145,7 +1158,7 @@ body部分分为两个概念：一个是总文本区(total body)，另一个是�
 
 总文本区在默认状态下占纸张总尺寸的0.7，由scale=0.7控制，你也可以分别用\texttt{hscale}和\texttt{vscale}指定宽和高的占比．用具体的长度定义也是可以的，使用\texttt{(total)width}和\texttt{(total)height}定义总文本区尺寸，或者用\texttt{textwidth}和\texttt{textheight}定义主文本区的尺寸\footnote{当totalwidth和textwidth都定义时，优先采用后者的值．}．或者直接用\texttt{total=\{width,height\}, body=\{width,height\}}定义．甚至你可以用\texttt{lines=<num>}行数指定textheight．
 
-页边的控制最为常用，分别用\texttt{left/inner, right/outer, top, bottom}来定义四向的页边．其中\texttt{inner, outer}参数只在文档的twoside参数启用时才有意义．你可以用\texttt{hmarginratio}来给定left(inner)与right(outer)页边宽的比例，默认是单页1:1、双页2:3．top和bottom之间的比由\texttt{vmarginratio}给定．你也可以用\texttt{vcentering, hcentering, centering}来指定页边比例为1:1. 在文档的左侧（内侧），可以指定装订线宽度\texttt{bindingoffset}，使页边不会侵入．
+页边的控制最为常用，分别用\texttt{left/inner, right/outer, top, bottom}来定义四向的页边．其中\texttt{inner, outer}参数只在文档的twoside参数启用时才有意义．你可以用\texttt{hmarginratio}来给定left(inner)与right(outer)页边宽的比例，默认是单页1:1、双页2:3．top和bottom之间的比由\texttt{vmarginratio}给定．你也可以用\texttt{vcentering, hcentering, centering}来指定页边比例为1:1. 在文档的左侧（内侧），可以指定装订线宽度\texttt{bindingoffset}，使页边不会被侵入．
 
 页眉和页脚是位于top和bottom页边之内的文档元素．对于页眉和页脚的高度，分别使用\texttt{headheight/head, footskip/foot}参数指定．\texttt{hmargin, vmargin}来指定侧两和顶底的边距．它们到主文本区的参数分别是\texttt{headsep, footnotesep, marginparsep}. 你可以用\texttt{nohead, nofoot, nomarginpar}参数来清除总文本区中的页眉，页脚和侧页边．
 
