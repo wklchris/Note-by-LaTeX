@@ -711,6 +711,15 @@ foreach \t in {0, 0.1, ..., 1} {
 \subsection{绘图指令（plot）}
 该指令用于绘制点较多的图，也可以从外部文件读取．
 
+\subsection{计算指令（pgfextra）}
+该指令只能用于路径命令内部，运行到此处时路径绘制会挂起，直到运行完该命令内部的部分再继续绘制．一个例子：
+\begin{tikzshow}
+\newdimen\myloc
+\myloc=0cm
+\draw (0,\myloc) \pgfextra{\myloc=.5cm}
+    circle [radius=\myloc] -- (0,1);
+\end{tikzshow}
+
 \section{数学绘制：几何与函数图像}
 严格的几何学绘图需要一些特别的命令，比如计算两点间的距离．而且，通常会使用 \tikzkw{coordinate} 而不是 \tikzkw{node} 命令；因为前者并不占用面积，这样画线时才能保证抵达点所在的中心坐标．
 
@@ -814,6 +823,7 @@ foreach \t in {0, 0.1, ..., 1} {
 \draw[ultra thick] (1,0) -- (2,0);
 \draw[line width=10pt] (0,1) -- (2,1);
 \end{tikzshow}
+初始线宽是 0.4pt；两个 \tikzkw{ultra} 线宽分别是 0.1pt 与 1.6pt．
 
 \subsection{线型}
 \tikzz\ 预定义了 4 种基本线型：\tikzkw{dashed}, \tikzkw{dotted}, \tikzkw{dash dot}, \tikzkw{dash dot dot}．它们还可以配合 \tikzkw{loosely} 或者 \tikzkw{densely} 进行微调．
@@ -833,26 +843,61 @@ foreach \t in {0, 0.1, ..., 1} {
 
 有时你可能会看到一些复杂的装饰线（需要 \pkg{decorations} 库），比如：\tikz{\draw [->,decorate,decoration=snake] (0,0) -- (2,0)}．请参考\secref{subsec:deco}．
 
+\subsection{线尾（line cap）*}
+如果线宽度较大，不同的线尾 \tikzkw{line cap} 明显对应不同的效果：
+\begin{tikzshow}[every label/.style={font=\footnotesize}]
+\foreach \offset/\s in {0/rect, .5cm/butt, 1cm/round} {
+    \draw[yshift=\offset,line width=5pt, line cap=\s] (0,0) -- (1,0)  node[label=right:\s] {};
+    \draw[yshift=\offset, white] (0,0) -- (1,0);
+}
+\end{tikzshow}
+
+\subsection{线交（line joint）*}
+连续画线时（非连续画线处此选项无效），可以设置 \tikzkw{line joint}：
+\begin{tikzshow}[every label/.style={font=\footnotesize}]
+\foreach \offset/\s in {0/round, 1.25cm/bevel, 2.5cm/miter} {
+    \draw[xshift=\offset,line width=5pt, line join=\s] (0,0) -- (.5,1) node[label=above:\s] {} -- (1,0)  ;
+}
+\end{tikzshow}
+其中 \tikzkw{miter} 线交在锐角时会产生一个非常“尖”的效果，可以设置 \tikzkw{miter limit} 参数来设置一个角度值，使小于该角度的 \tikzkw{miter} 线交自动转变为 \tikzkw{bevel} 形式．
+
 \subsection{箭头}
-\tikzz\ 中的箭头多到可以单独开一个章节，但我并不想全部详尽地介绍．用大于或小于号表示箭头的指向，用竖线表示是否加上截断符号．一些基本的样例：
+\tikzz\ 中的箭头使用的细节多到可以单独开一个章节，但我并不想全部详尽地介绍．用大于或小于号表示箭头的指向，用竖线表示是否加上截断符号．一些基本的样例：
 \begin{tikzshow}
 \draw[->|] (1,3) -- (2,3);
 \draw[stealth-] (1,2) -- (2,2);
 \draw[->,>=stealth, line width=3pt] (1,1) arc [start angle=90, end angle=30, radius=1];
 \draw[<->] (.5,4) -- (.5,0) -- (2.5,0);
 \end{tikzshow}
-其中，用 \texttt{>=stealth} 或 \texttt{-stealth} 的方式指定了箭头末端的类型为 \texttt{stealth}．你也可以将前者作为整个 \envi{tikzpicture} 环境的可选参数进行传递．
+其中，用 \texttt{>=stealth} 或 \texttt{-stealth} 的方式指定了箭头末端的类型为 \texttt{stealth}．你也可以将它们作为整个 \envi{tikzpicture} 环境的参数进行传递．
 
 \tikzz\ 的 \pkg{arrows.meta} 库包含很多箭头，读者可以自行查阅．
 
 \subsection{绘制颜色}
-在绘制网格一节，已经使用过 \texttt{lightgray} 作为网格的绘制颜色；当时省略了 \tikzkw{draw} 选项．以下使用浅红色作为绘制色：
+在绘制网格一节，已经使用过 \texttt{lightgray} 作为网格的绘制颜色；当时省略了 \tikzkw{color} 选项．该选项设定\RED{除了 shading 外的所有}颜色，包括绘制、填充等：
+\begin{tikzshow}
+\path[draw,fill,red!50] (0,0) -- (1,0) circle[radius=.5];
+\end{tikzshow}
+注意：单独使用 \latexline{draw} 或者 \latexline{fill} 只会执行绘制或填充其一，除非详细指定局部的参数．
+
+可以使用 \tikzkw{draw} 来单独指定绘制的颜色：
 \begin{tikzshow}
 \draw[draw=red!50!white, ultra thick] (0,0) rectangle (1,1);
 \end{tikzshow}
-其中，双感叹号加数字是表示插值比例为 0.5；\pkg{xcolor} 宏包支持该语法．在 \tikzz\ 环境内部，还可以使用 \latexline{colorlet} 命令自定义，例如：
+其中，双感叹号加数字是表示插值比例为 0.5；\pkg{xcolor} 宏包支持该语法．常用的颜色包括：
+\begin{tikzshow}
+\tikzset{every pin/.style={pin distance=.5cm, font=\footnotesize, inner sep=0pt}}
+\draw (0,0) circle[radius=1];
+\foreach \c[count=\i] in {red,green,blue,cyan,magenta,yellow,black,
+lightgray,gray,darkgray,white,brown,
+lime,olive,orange,pink,purple,teal,violet}
+\node[circle,draw=black, fill=\c, pin={[pin edge={draw=\c, thick}] 90-360/19*\i:\c}] at (90-360/19*\i:1cm) {};
+\end{tikzshow}
+
+在 \tikzz\ 环境内部，还可以使用 \latexline{colorlet} 或者 \latexline{definecolor} 自定义颜色（它们实际上是 \TeX\ 指令），例如：
 \begin{latex}
 \colorlet{linecolor}{red!60!black}
+\definecolor{fillcolor}{rgb}{1,0.5,1}
 \end{latex}
 
 \subsection{单色填充}
@@ -865,14 +910,52 @@ foreach \t in {0, 0.1, ..., 1} {
 \begin{tikzshow}
 \filldraw[draw=black, fill=cyan] (0,0) -- (2,0) arc (0:30:2);
 \end{tikzshow}
+\tikzkw{filldraw} 填充的区域会比用 \tikzkw{fill} 稍大一些，因为前者考虑了线宽．
 
-利用区域的奇偶性填充，使用 \tikzkw{even odd rule}：
+要了解填充的细节，需要介绍两个区域特性：
+\subsubsection{非零区域}
+该特性是默认的区域特性．\tikzz\ 使用计数器的方式来区分路径的内部与外部．对于某点的判断，它会从该点发射一条到无穷远的射线；如果沿途的路径是从左到右（顺时针）地与这条射线相交，那么计数器加一；反之减一．最后计数器如果是零，那么该点在路径外部；否则，它在区域内部．
+
+下例逆时针地绘制了小矩形、顺时针地绘制了完全围住小矩形的大矩形．这样小矩形的内部被识别为“外部”，因此未被填充．
+\begin{tikzshow}
+\filldraw[fill=blue!50] (0,0) -- (0,.5) -- (1,.5) -- (1,0) -- cycle
+  (-.5,-.5) -- (1.5,-.5) -- (1.5,1) -- (-.5,1) -- cycle;
+\end{tikzshow}
+
+\subsubsection{奇偶区域}
+奇偶区域也会发射一条射线，但只要遇到路径就会计数器加一．利用区域的奇偶性填充，使用 \tikzkw{even odd rule}：
 \begin{tikzshow}
 \fill[even odd rule, blue] (0,0) -- (2,0.5) -- (1,1) circle (0.25);
 \end{tikzshow}
 
+\subsection{图案与图像填充*}
+在指定了 \tikzkw{pattern} 选项时，它会自动进行填充操作（即使你使用的是 \latexline{draw} 命令）．要使用图案填充，请加载 \pkg{patterns} 库．
+\begin{tikzshow}
+\draw[pattern=dots, pattern color=red] (0,0) rectangle (1,1);
+\end{tikzshow}
+
+图像填充允许你使用外部图像，或者一般的 \tikzz\ 命令．注意配合 \tikzkw{path picture bounding box} 使用．
+\begin{tikzshow}
+
+\end{tikzshow}
+
 \subsection{渐变填充*}
 使用 \latexline{shade} 命令控制渐变填充，
+
+\subsection{透明度*}
+p169
+
+\subsection{双线*}
+双线选项在某些场合也是实用的．可以用 \tikzkw{double distance} 指定双线内间距（默认 0.6pt），或者用 \tikzkw{double distance between line centers} 指定双线的中心间距．
+\begin{tikzshow}
+\draw[double] (0,0) -- (1,1);
+\draw[draw=white, double=cyan] (1,0) -- (0,1);
+\draw[double distance=1pt] (1.2,0) -- (1.2,.5);
+\draw[double distance=1pt,thick] (1.2,.5) -- (1.2,1);
+\end{tikzshow}
+上例的 \tikzkw{draw} 指定为白色，实质创造一种“从上方穿过”的效果．
+
+还有一个特殊的双线选项 \tikzkw{double equal sign distance}，可以将双线间距设置成与当前字体的等号（$=$）间距一致．
 
 \section{样式与高级控制}
 \subsection{样式（style）}

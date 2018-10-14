@@ -1327,7 +1327,7 @@ Enjoy this environment.
 \item[belowskip] 默认\latexline{medskipamount}．代码框下端到下文正文的竖直距离．
 \item[aboveskip] 类似．
 \item[columns] 设置行内单词间距的处理方式．fixed 选项会强行按列对齐，可能产生字母覆盖问题；space-flexible 选项会调整现有空距尝试对齐列；flexible 选项可能在原本无空距的地方插入空距来尝试对齐；而 fullflexible 选项（本文使用）则完全不管列对齐．
-\item[emptylines] 设置最多允许的空行，比如=1，会使多于1行的空行全部删除，并不计入行号．如果写为=*1，那么被删除的行的行号仍然会保留计数．
+\item[emptylines] 设置最多允许的空行，比如=1，会使多于1行的空行全部删除，并不计入行号．如果写为=*1，被删除的行的行号仍然会保留计数．
 \item[esacpeinside] 暂时脱离代码环境而输入一些\LaTeX\ 支持的命令，比如临时输入斜体．一般设置为一对重音符号（键盘数字1左侧的符号）．
 \end{para}
 
@@ -1352,6 +1352,9 @@ for loopnum in lst:
 \begin{latex}
 \newcommand{\inlatexline}[1]{{\lstinline
     [language=TeX,basicstyle=\small\ttfamily]{#1}}}
+% 要防止“#include”双写“#”，请调用 xparse 宏包：
+\NewDocumentCommand{\cppline}{v}{{\lstinline
+    [language=C++]{#1}}}
 \end{latex}
 
 有时候，一些关键词并没有被宏包成功高亮，或者你需要更多种类的高亮方式，这时候你可以自己设置：
