@@ -2,11 +2,9 @@
 
 **== 所有PDF内容如果定稿，下载会发布在release（[https://github.com/wklchris/Note-by-LaTeX/releases](https://github.com/wklchris/Note-by-LaTeX/releases)）中。PDF files can be accessed in the release page of this repo.  ==**
 
-**== 所有内容请勿用于商业用途。DO NOT use those docs for commercial purpose. ==**
-
 ## Table of Contents
 
-   * [**Incoming Update 即将更新 (03.2018)**](#incoming-update)
+   * [**Incoming Update 即将更新**](#incoming-update)
    * [Sub-repos 仓库内容](#sub-repos)
       * [LaTeX-cn 中文项目](#latex-cn-chinese)
       * [LaTeX-beamer 英文项目（挂起）](#latex-beamer-en-suspended)
@@ -15,9 +13,10 @@
 
 ## Incoming Update
 
-*本公告于2018年3月22日随v1.6.3版发送。This incoming announcement was leaked with v1.6.3 on Mar 22, 2018.*
+*本公告于2018年10月14日发送，当前版本 v1.6.3。This incoming announcement was leaked on Oct 14, 2018. Current version: v1.6.3.*
 
-- TikZ 章节回归。预计4月份伴随v1.7.0会有更新。*TikZ chapter comes back. Next update will probably be done with v1.7.0 in Apr, 2018.*
+- **本手册所有内容基本确定，对于普通 LaTeX 使用者而言已足够使用。TikZ 部分缓慢更新，不排除断更可能。作者目前忙于其他事务，因此请不要继续等待本手册的后续版本**。*__All contents of this handbook has been determined, which is enough for normal LaTeX users. Please don't wait following version of it because the author is busy in many other things. As for TikZ chapter, it is SLOWLY updating and might be suspended in the future__.*
+- 本手册可能出版；即使出版，本人也保证本仓库仍然维护与开源．*This handbook will probably be published. I guarantee readers that I will still maintain this repo and keep it open-source even if the book is published.* 
 
 ***
 
