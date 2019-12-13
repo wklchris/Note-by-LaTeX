@@ -164,7 +164,7 @@
 \usepackage{listings}
 % 复制代码时不复制行号
 \usepackage{accsupp}
-	\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
+  \newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
 \usepackage{tcolorbox}
   \tcbuselibrary{listings,skins,breakable,xparse}
 
@@ -280,10 +280,10 @@
   listing options={style=latexcn}
 }
 
-\NewTCBListing{codeshow}{ O{listing side text} }{
+\NewTCBListing{codeshow}{ !O{listing side text} }{
   skin=bicolor,colback=gray!30!white,
   colbacklower=pink!50!yellow,colframe=cyan!75!black,
-  halign lower=center,valign lower=center,
+  valign lower=center,
   left=6mm,righthand width=0.4\linewidth,fontupper=\small,
   % listing style
   listing options={style=latexcn},#1,
