@@ -454,10 +454,9 @@ Let's change font to \myfont{ppl}{Palatino}!
 \begin{latex}
 \usepackage[slantfont,boldfont]{xeCJK}
   \xeCJKsetup{CJKMath=true}
-  \setCJKmainfont[BoldFont=SimHei]{SimSun}
+  \setCJKmainfont[BoldFont=Source Han Serif SC Bold]{SimHei}
 % 这里把SimHei直接写成中文“黑体”也可以
-% 也可以直接通过字体文件名调用
-% \setCJKmainfont{SourceHanSerifCN-Regular.otf}
+% 也可以直接通过 otf 等字体名调用
 \end{latex}
 
 其中，加载xeCJK宏包时使用了slantfont和boldfont两个选项，表示允许设置中文的斜体和粗体字形．在setCJKmainfont命令中，把SimSun（宋体）设置为了主要字体，SimHei（黑体）设置为主要字体的粗体字形，即textbf或者bfseries命令的变换结果．你也可以使用SlantFont来设置它的斜体字形．
@@ -491,7 +490,12 @@ Let's change font to \myfont{ppl}{Palatino}!
 fc-list -f "%{family}\n" :lang=zh-cn >d:\list.txt
 \end{verbatim}
 
-然后到\verb|d:\list.txt|文件中查看中文字体列表．
+然后到\verb|d:\list.txt|文件中查看中文字体列表．如果没有找到想要使用的字体，请：
+
+\begin{feae}
+  \item 使用 \texttt{fc-cache} 命令刷新字体缓存后再尝试。如果你安装了较多字体，刷新可能较慢。
+  \item 如果刷新缓存无效，考虑重新安装对应的字体。注意在安装字体时，通过右键点击（而不是双击打开）字体文件，然后选择“为所有用户安装”。如果双击字体文件后安装，可能会导致 \LaTeX\ 无法找到字体。
+\end{feae}
 
 \subsection{颜色}
 使用\pkg{xcolor}宏包来方便地调用颜色．比如本文中代码的蓝色：
