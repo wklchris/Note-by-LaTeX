@@ -519,10 +519,9 @@ fc-list -f "%{family}\n" :lang=zh-cn >d:\list.txt
 还可以通过“调色”做出新的效果：
 
 \begin{codeshow}
-{\color{red!70} 百分之70红色}\\
-{\color{blue!50!black!20!white}
-  50蓝20黑30白}\\
-{\color{-yellow}黄色的互补色}
+\textcolor{red!70}{百分之70红色}\\
+\textcolor{blue!50!black!20!white}
+  {50蓝20黑30白}
 \end{codeshow}
 
 还有一些方便的颜色命令，比如带背景色的箱子，参考\secref{subsec:colorbox}．
@@ -607,6 +606,7 @@ page & \multicolumn{3}{l|}{page. 但常使用\latexline{autopageref}命令代替
 另一个宏包\pkg{nameref}不满足于只引用编号，提供了引用对象的标题内容的功能．使用\latexline{nameref}命令可以利用位于标题下方的标签来引用标题内容．
 
 关于页码引用，如果想要生成“第$\times$页，共$\times$页”的效果，可能需要借助\pkg{lastpage}宏包．它提供的标签LastPage可以保证在输出页面的最后（如果你自行添加标签，可能还会有后续浮动体），因此可以：
+
 \begin{codeshow}
 This is page \thepage\ of \pageref{LastPage}
 \end{codeshow}
@@ -644,504 +644,504 @@ This is an exmaple\footnotemark.
 
 更多的参考\pkg{footmisc}宏包，比如其选项\texttt{perpage}让脚注编号每页清零．
 
-\subsubsection{边注}
-\LaTeX\ 的边注命令\latexline{marginpar}不会进行编号．必选参数表示在页右显示边注；可选参数表示如果边注在偶数页，则在页左显示．例如右边这个音符：\marginpar{\twonotes}
-\begin{latex}
-这一行有边注\marginpar[左侧]{右侧}
-\end{latex}
-
-如果想要改变边注的位置，使用\latexline{reversemarginpar}命令．此外，有关边注的长度命令\latexline{marginparwidth/sep/push}分别控制边注的宽、边注到正文的距离、边注之间的最小距离．可以使用\pkg{geometry}宏包来设置前两者，参考\secref{sec:geometry}．
-
-\subsubsection{尾注}
-尾注用于注释较长、无法使用脚注的场合，需要\pkg{endnotes}宏包．
-
-\subsection{援引环境}
-援引环境有quote和quotation两个．前者首行不缩进；后者首行缩进，且支持多段文字．
-
-\begin{codeshow}
-鲁智深其师有偈言曰：
-\begin{quote}
-逢夏而擒，遇腊而执．
-听潮而圆，见信而寂．
-\end{quote}
-圆寂之后，其留颂曰：
-\begin{quotation}
-平生不修善果，只爱杀人放火．
-忽地顿开金绳，这里扯断玉锁．
-
-咦！钱塘江上潮信来，今日方知我是我．
-\end{quotation}
-\end{codeshow}
-
-另外一个诗歌援引环境叫verse，\label{envi:verse}是悬挂缩进的．一般很少用到．
-
-\begin{codeshow}
-Rabindranath Tagore wrote this in 
-his \emph{The Gardener}: 
-\begin{verse}
-Constant thrusts from your eyes
-keep my pain fresh for ever.
-\end{verse}
-\end{codeshow}
-
-\subsection{摘要}
-article和report文档类支持摘要，在\latexline{maketitle}命令之后可以使用\envi{abstract}环境．在单栏模式下，其相当于一个带标题的\envi{quotation}环境，而这个标题可以通过重定义\latexline{abstractname}更改；双栏下则相当于\latexline{section*}命令定义的一节．
-
-\subsection{参考文献}
-\label{subsec:cite}
-参考文献主要使用的命令是\latexline{cite}，与\latexline{label}相似．通过\pkg{natbib}宏包的使用可以定制参考文献标号在文中的显示方式等格式，下面\pkg{natbib}宏包的选项含义为：数字编号、排序且压缩、上标、外侧方括号，总体像这样：\textsuperscript{\ttfamily [1,3-5]}．\footnote{这里的LaTeX代码实际为：\latexline{textsuperscript\{\char`ttfamily [1,3-5]\}}}
-\begin{latex}
-\documentclass{ctexart}
-% 如果是book类文档，把\refname改成\bibname
-\renewcommand{\refname}{参考文献}
-\usepackage[numbers,sort&compress,super,square]{natbib}
-\begin{document}
-This is a sample text.\cite{author1.year1,author2.year2}
-This is the text following the reference.
-% “99”表示以最多两位数来编号参考文献，用于对齐
-\begin{thebibliography}{99}
-    \addtolength{\itemsep}{-2ex} % 用于更改行距
-    \bibitem{author1.year1}Au1. ArtName1[J]. JN1. Y1:1--2
-    \bibitem{author2.year2}Au2. ArtName2[J]. JN2. Y2:1--2
-\end{thebibliography}
-\end{document}
-\end{latex}
-
-当然以上只是权宜之计的书写方法．更详尽的参考文献使用（\bibtex\ 方法）在\hyperref[sec:bibtex]{\bibtex{}这一节}进行介绍．
-
-如果想要将参考文献章节正常编号，并加入到目录中，可以使用 \pkg{tocbibind} 宏包\label{pkg:tocbibind}．注意，此时需要重命名\latexline{tocbibname}（而不是 \latexline{refname} 或 \latexline{bibname}）来指定参考文献章节的标题．例如：
-\begin{latex}
-\usepackage[nottoc,numbib]{tocbibind}
-\renewcommand{\tocbibname}{References}
-\end{latex}
-
-该宏包对于将索引、目录本身、图表目录编入目录页同样有效．选项\texttt{nottoc}表示目录本身不编入，\texttt{notlof/lot}表示图/表目录不编入，\texttt{notindex}表示索引不编入，\texttt{notbib}表示参考文献不编入．而选项\texttt{numindex/bib}表示给索引/参考文献章节正常编号．选项\texttt{none}表示禁用所有．
-
-\section{正式排版：封面、大纲与目录}
-
-\subsection{封面}
-封面的内容在导言区进行定义，一般写在所有宏包、自定义命令之后．主要用到的如：
-\begin{latex}
-\title{Learning LaTeX}
-\author{wklchris}
-\date{text}
-\end{latex}
-
-然后在\envi{document}环境内第一行，写上：\latexline{maketitle}，就能产生一个简易的封面．其中\latexline{title}和\latexline{author}是必须定义的，\latexline{date}如果省略会自动以编译当天的日期为准，格式形如：January 1, 1970． 如果你不想显示日期，可以写\latexline{date\{\}}．
-
-标题页的脚注用\latexline{thanks}命令完成．
-
-\subsection{大纲与章节}
-\LaTeX\ 中，将文档分为若干大纲级别．分别是：
-\begin{para}
-\item[\latexline{part}] 部分．这个大纲不会打断chapter的编号．
-\item[\latexline{chapter}] 章．基于article的文档类不含该大纲级别．
-\item[\latexline{section}] 节．
-\item[\latexline{subsection}] 次节．默认report/book文档类本级别及以下的大纲不进行编号，也不纳入目录．
-\item[\latexline{subsubsection}] 小节．默认article文档类本级别及以下的大纲不进行编号，也不纳入目录．
-\item[\latexline{paragraph}] 段．极少使用．
-\item[\latexline{subparagraph}] 次段．极少使用．
-\end{para}
-
-对应的命令例如：\latexline{section\{第一节\}}．
-
-以上各级别在\LaTeX\ 内部以“深度”参数作为标识．第一级别part的深度是$-1$，以下级别深度分别是$0,1,\ldots$，类推．注意到由于article文档类缺少chapter大纲，其part深度又是从$0$开始的，故section及以下的深度数值与book/report文档类是一致的．\dpar
-
-另外的一些使用技巧：
-\begin{latex}
-% 大纲编号到深度2，并纳入目录
-\setcounter{tocdepth}{2}
-% 星号命令：插入不编号大纲，也不纳入目录
-\chapter*{序}
-% 将一个带星号的大纲插入目录
-\addcontentsline{toc}{chapter}{序}
-% 可选参数用于在目录中显示短标题
-\section[Short]{Loooooooong}
-% 自定义章节标题名
-\renewcommand{\chaptername}{CHAPTER}
-\end{latex}
-
-book文档类还提供了以下的命令：
-\begin{para}
-\item[\latexline{frontmatter}] 前言．页码为小写罗马字母，其后的章节不编号，但生成页眉页脚和目录项．
-\item[\latexline{mainmatter}] 正文．页码为阿拉伯数字；其后的章节编号，页眉页脚和目录项正常运作．
-\item[\latexline{backmatter}] 后记．页码格式不变，继续计数．章节不编号，但生成页眉页脚和目录项．
-\end{para}
-
-关于附录\latexline{appendix}部分的大纲级别问题不在此讨论，请参考\hyperref[sec:appendix]{这一节}．在book文档类中，附录一般放在正文与后记之间；当然你也可以在非book文档类中使用附录．关于章节样式自定义的问题，则请看\hyperref[sec:titlesec]{这里}．
-
-\subsection{目录}
-目录在大纲的基础上生成，使用命令\latexline{tableofcontents}即可插入目录．目录在加载了\pkg{hyperref}宏包后，可以实现点击跳转的功能．你可以通过重定义命令更改\latexline{contentsname}，即“目录”的标题名．
-\begin{latex}
-\renewcommand{\contensname}{目录}
-\end{latex}
-
-你也可以插入图表目录，分别是\latexline{listoffigures}, \latexline{listoftables}．通过重定义\latexline{listfigurename}和\latexline{listtablename}可以更改图表目录的标题．如果要更改目录的显示的大纲级别深度，设置计数器:
-\begin{latex}
-\setcounter{tocdepth}{2} % 这是到subsection
-\end{latex}
-
-想要将目录本身编入目录项，使用 \pkg{tocbibind} 宏包，参考\pageref{pkg:tocbibind}．
-
-目录的高级自定义需要借助\pkg{titletoc}宏包，参考\secref{sec:titletoc}．
-
-\section{计数器与列表}
-
-\subsection{计数器}
-\LaTeX\ 中的自动编号都借助于内部的计数器来完成．包括：
-\begin{fead}
-\item[章节] part, chapter, section, subsection, subsubsection, paragraph, subparagraph
-\item[编号列表] enumi, enumii, enumiii, enumiv
-\item[公式和图表] equation, figure, table
-\item[其他] page, footnote, mpfootnote\footnote{\latexline{mpfootnote}命令用于实现minipage环境的脚注．}
-\end{fead}
-
-\RED{用\texttt{\char92 the}接上计数器名称的方式来调用计数器}，比如\latexline{thechapter}．如果只是想输出计数器的数值，可以指定数值的形式，如阿拉伯数字、大小写英文字母，或大小写罗马数字．常用的命令包括：
-\begin{latex}
-\arabic{counter-name}
-\Alph \alph \Roman \roman
-% ctex文档类还支持\chinese
-\end{latex}
-
-比如本文的附录，对章和节的编号进行了重定义．注意：\textbf{章的计数器包含了节在内}．以下的命令写在\envi{appendices}环境中（或者\latexline{appendix}命令后），因此对于此外的编号不产生影响；同理你也可以这样对列表编号进行局部重定义．
-\begin{latex}
-\renewcommand{\thechapter}{\Alph{chapter}}
-\renewcommand{\thesection}
-    {\thechapter-\arabic{section}}
-\renewcommand{\thefootnote}{[\arabic{footnote}]}
-\end{latex}
-
-计数器的命令：
-\begin{latex}
-% 父级计数器变化，则子级计数器重新开始计数
-\newcounter{`\textit{counter-name}`}[`\textit{parent counter-name}`]
-\setcounter{`\textit{counter-name}`}{`\textit{number}`}
-\addtocounter{`\textit{counter-name}`}{`\textit{number}`}
-% 计数器步进1，并归零所有子级计数器
-\stepcounter{`\textit{counter-name}`}
-\end{latex}
-
-\subsection{列表}
-\LaTeX\ 支持的预定义列表有三种，分别是无序列表\envi{itemize}, 自动编号列表\envi{enumerate}, 还有描述列表\envi{description}.
-
-\subsubsection{\textit{itemize}环境}
-例子：
-
-\begin{codeshow}
-\begin{itemize}
-  \item This is the 1st.
-  \item[-] And this is the 2nd.
-\end{itemize}
-\end{codeshow}
-
-每个\latexline{item}命令都生成一个新的列表项．通过方括号的可选参数，可以定义项目符号．默认的项目符号是圆点(\latexline{textbullet})．更多的方法参考\hyperref[sec:list]{这一节}．
-
-\subsubsection{\textit{enumerate}环境}
-例子：
-
-\begin{codeshow}
-\begin{enumerate}
-  \item First
-  \item[Foo] Second
-  \item Third
-\end{enumerate}
-\end{codeshow}
-
-方括号的使用会打断编号，之后的编号顺次推移．更多的方法参考\hyperref[sec:list]{这一节}．
-
-\subsubsection{\textit{description}环境}
-例子：
-
-\begin{codeshow}
-\begin{description}
-  \item[LaTeX] Typesetting System.
-  \item[wkl] A Man.
-\end{description}
-\end{codeshow}
-
-默认的方括号内容会以加粗显示．更多的方法参考\hyperref[sec:list]{这一节}．
-
-\section{浮动体与图表}
-\label{sec:float}
-
-\subsection{浮动体}
-浮动体将图或表与其标题定义为整体，然后动态排版，以解决图、表卡在换页处造成的过长的垂直空白的问题．但有时它也会打乱你的排版意图，因此使用与否需要根据情况决定．
-
-图片的浮动体是\envi{figure}环境，而表格的浮动体是\envi{table}环境．一个典型的浮动体例子：
-\begin{latex}
-\begin{table}[!htb]
-    \centering
-    \caption{table-cap}
-    \label{table-name}
-    \begin{tabular}{...}
-        ...
-    \end{tabular}
-\end{table}
-\end{latex}
-
-其中，浮动体环境的参数\verb|!htb|含义是：!表示忽略内部参数（比如内部参数对一页中浮动体数量的限制）；h、t、b分别表示插入此处、插入页面顶部、插入页面底部，故htb表示优先插入此处，再尝试插入到某页顶，最后尝试插入到页底．此外还有参数p，表示允许为浮动体单独开一页．\LaTeX\ 的默认参数是tbp. 请不要单独使用htbp中的某个参数，以免造成不稳定．
-
-\latexline{caption}命令给表格一个标题，写在了表格内容（即\envi{tabular}环境）之前，表示标题会位于表格上方．对于图片，一般将把此命令写在图片插入命令的下方．注意：\RED{label命令请放在caption下方，否则可能出现问题}．\dpar
-
-浮动体的自调整属性可能导致它“一直找不到合适的插入位置”，然后多个浮动体形成排队（因为靠前的浮动体插入后，靠后的才能插入）．如果在生成的文档中发现浮动体丢失的情况，请尝试更改浮动参数、去掉部分浮动体，或者使用\latexline{clearpage}命令来清空浮动队列，以正常开始随后的内容．
-
-如果希望浮动体不要跨过section，使用：
-\begin{latex}
-\usepackage[section]{placeins}
-\end{latex}
-
-其实质是重定义了\latexline{section}命令，在之前加上了\latexline{FloatBarrier}．你也可以自行在每个想要阻止浮动体跨过的位置添加．
-
-\subsection{图片}
-图片的插入使用\pkg{graphicx}宏包和\latexline{includegraphics}命令，例子：
-\begin{latex}
-\begin{center}
-    \includegraphics[width=0.8\linewidth]{ThisPic}
-\end{center}
-\end{latex}
-
-可选参数指定了图片宽度为0.8倍该行文字宽．类似地可以指定height(图片高)，scale(图片缩放倍数)，angle(图片逆时针旋转角度)，origin(图片旋转中心lrctbB\footnote{这六个字母分别代表左、右、中、顶、底，以及基线．})这样的命令．前三个命令不建议同时使用．旋转的图片基线会变化，故一般用totalheight代替height. 
-
-对于\texttt{Thispic}这个参数的写法，\xelatex 支持pdf, eps, png, jpg图片扩展名．你可以书写带扩展名的图片名称ThisPic.png，也可以不带扩展名．如果不给出扩展名，将按上述四个扩展名的顺序依次搜索文件．\dpar
-
-\subsubsection{图片子文件夹}
-如果你不想把图片放在\LaTeX\ 文档主文件夹下，可以使用下面的命令加入新的图片搜索文件夹：
-\begin{latex}
-\graphicspath{{c:/pics/}{./pic/}}
-\end{latex}
-
-用正斜杠代替Windows正常路径中的反斜杠．你可以加入多组路径，每组用花括号括起，并确保路径以正斜杠结束．用\verb|./|指代主文件夹路径，也可省略．\dpar
-
-\subsubsection{含特殊字符的文件名*}
-文件名中含有特殊字符，一般插图命令中是不需要加入反斜杠进行处理的（也就是按原文件直接输入）．但是，图片标题的 \latexline{caption} 命令需要转义．如果可以直接输入，那么需要配合反斜杠进行转义；在不能显式输入的场合， \latexline{detokenize} 命令可以应对．一个例子：
-\begin{latex}
-%在导言区定义：
-%\newcommand{\includegraphicswithcaption}[2][]{
-%  \includegraphics[#1]{#2}
-%  \caption{\detokenize{#2}}
-%}
-\includegraphicswithcaption[width=0.6\linewidth]{hello_world.png}
-\end{latex}
-
-\subsubsection{图文混排}
-图文混排可参考\pkg{wrapfig}宏包，后文的\hyperref[sec:box]{箱子}一节即是例子．
-\begin{latex}
-% \usepackage{wrapfig}
-\begin{wrapfigure}[linenum]{place}[overhang]{picwidth}
-    \includegraphics ...
-    \caption ...
-\end{wrapfigure}
-\end{latex}
-
-各参数的含义
-\begin{inlinee}
-\item {\bfseries\itshape linenum:} （可选）图片所占行数，一般不指定
-\item {\bfseries\itshape place:} 图片在文字段中的位置——R, L, I, O分别代表右侧、左侧、近书脊、远书脊
-\item {\bfseries\itshape overhang:} （可选）允许图片超出页面文本区的宽度，默认是0pt．在该项可以使用\latexline{width}代替图片的宽度，填入\latexline{width}将允许把图片全部放入页边区域
-\item {\bfseries\itshape picwidth:} 指定图片的宽度，默认情形下图片的高度会自动调整．
-\end{inlinee}
-
-\subsection{表格}
-\LaTeX\ 原生的表格功能非常有限，甚至不支持单元格跨行和表格跨页．但是这些可以通过宏包\pkg{longtable}, \pkg{supertabular}, \pkg{tabu}等宏包解决．跨行的问题只需要\pkg{multirow}宏包．下面是一个例子（没有写在浮动体中）：
-
-\begin{codeshow}
-\begin{center}
-  \begin{tabular}[c]{|l|c||p{3em}
-    r@{-}} \hline\hline
-    A & B & C & d\\D & E & F & g\\
-    \cline{1-2}
-    \multicolumn{2}{|c|}{G}&H&i\\
-    \hline
-  \end{tabular}
-\end{center}
-\end{codeshow}
-
-各参数的说明如下：
-\begin{feai}
-\item 可选参数\textbf{对齐方式}：[t] 表示表格上端与所在行的网格线对齐．如果与它同一行的有文字的话，文字是与表格上端同高的．如果使用参数 [b]，就是下端同高．[c] 是中央同高．t=top, b=buttom, c=center.
-\item 必选参数\textbf{列格式}：用竖线符号“|”来表示竖直表线，连续两个“|”表示双竖直表线．最右边留空了，表示没有竖直表线．或者你可以使用“@\{\}”表示没有竖直表线．你也可以用“@\{-\}”这样的形式把竖直表线替换成“-”，具体效果不再展示．而此处的l、c、r分别表示从左往右一共三列，分别\textbf{左对齐、居中对齐、右对齐}文字．在使用l、c、r时，表格宽度会自动调整．你可以用"p{2em}"这样的命\textbf{指定某一列的宽度}，这时文字自动左对齐．注意：单元格中的文字默认向上水平表线对齐，即竖直居上．
-\item 在tabular环境内部，命令\latexline{hline}来绘制水平表线．命令\latexline{cline\{i-j\}}用于绘制横跨从i到j行的水平表线．两个连续的\latexline{hline}命令可以画双线，但是双线之间相交时可能存在问题．
-\item 在tabular环境内部，命令"\texttt{\&}"用于把光标跳入该行下一列的单元格．每行的最后请使用两个反斜杠命令跳入下一行．命令\latexline{hline}或\latexline{cline}不能算作一行，因此它们后面没有附加换行命令．
-\item 在tabular环境内部，跨列命令\latexline{multicolumn\{number\}\{format\}\{text\}}用于以format格式合并该行的number个单元格，并在合并后的单元格中写入文本text．如果一行有了跨列命令，请注意相应地减少"\texttt{\&}"的数量．
-\end{feai}
-
-文章中出现了表格，几乎就一定会加载\pkg{array}宏包．在\pkg{array}宏包支持下，\texttt{cols}参数除了l, c, r, p\{\}, @\{\}以外，还可以使用：
-\begin{feai}
-\item \texttt{m\{\}, b\{\}}: 指定宽度的竖直居中，居下的列．
-\item \verb|>{decl}, <{decl}|: 前者用在lcrpmb参数之前，表示该列的每个单元格都以此decl命令开头；后者用于结尾．比如\footnote{例中的\latexline{centering}命令后可加入\latexline{arraybackslash}以应对可能的表格换行命令异常．}：
-\begin{latex}
-\begin{tabular}{|>{\centering\ttfamily}p{5em}
-    |>{$}c<{$}|}
-...
-\end{tabular}
-\end{latex}
-\item \verb|!{symbol}|:  使用新的竖直表线，类似于原生命令\texttt{@\{\}}，不同在于\verb|!{}|命令可以在列间保持合理的空距，而\verb|@{}|会使两列紧贴．
-\end{feai}
-
-你甚至可以自定义lcrpmb之外的列参数，但需要保证是单字母．比如定义某一列为数学环境：
-\begin{latex}
-\newcolumntype{T}{>{$}c<{$}}
-\end{latex}
-
-\subsubsection{\texttt{array, multirow}宏包}
-来一个\pkg{array}宏包下的例子：
-\begin{codeshow}
-% 记得\usepackage{array}
-\begin{tabular}{|>{\setlength
-  \parindent{5mm}}m{1cm}|
-  >{\large\bfseries}m{1.5cm}|
-  >{$}c<{$}|}
-  \hline A & 2 2 2 2 2 2 & C\\
-  \hline 1 1 1 1 1 1  & 10 & \sin x \\ \hline
-\end{tabular}
-\end{codeshow}
-
-然后一个跨行跨列的例子．\RED{如果同时跨行跨列，必须把multirow命令放在multicolumn内部}．用\latexline{multirow}和\latexline{multicolumn}作用于单独的1行或1列，能临时改变某单元格的对齐方式．如果用星号代替列样式，表示自适应宽度．
-
-\begin{codeshow}
-% \usepackage{multirow}
-\begin{center}
-\begin{tabular}{|c|c|c|}
-  \hline
-  \multirow{2}{2cm}{A Text!}
-    & ABC & DEF \\
-  \cline{2-3} & abc & def \\
-  \hline
-  \multicolumn{2}{|c|}
-    {\multirow{2}*{Nothing}} & XYZ \\
-  \multicolumn{2}{|c|}{} & xyz \\
-  \hline
-\end{tabular}
-\end{center}
-\end{codeshow}
-
-表格的第一个单词是默认不断行的，这在单元格很窄而第一个词较长时会出现问题．可以通过下述方法解决：
-
-\begin{codeshow}
-% \usepackage{array}
-\newcolumntype{P}[1]{>{#1
-  \hspace{0pt}\arraybackslash}
-  p{14mm}}
-% \arraybackslash用于修复换行符
-\begin{center}
-\begin{tabular}{|P{\raggedleft}|}
-  \hline Superconsciousness \\ \hline
-\end{tabular}
-\end{center}
-\end{codeshow}
-
-此外，\qd{表格还可以嵌套}，以方便地“拆分单元格”．注意下例中如何确保嵌套单元格表线显示正常：
-
-\begin{codeshow}
-\begin{tabular}{|c|l|c|}
-\hline
-a & bbb & c \\ \hline
-a & \multicolumn{1}{@{}l@{}|}
-{\begin{tabular}{c|c}
-a & b \\ \hline
-aa & bb \\
-\end{tabular}}
-& c \\ \hline
-a & b & c \\ \hline
-\end{tabular}
-\end{codeshow}
-
-用\latexline{firsthline}和\latexline{lasthline}能够解决行内表格竖直方向对齐问题．
-
-\subsubsection{\texttt{makecell}宏包}
-宏包\pkg{makecell}提供了一种方便在单元格内换行的方式，并可以配合参数tblrc；带星表示有更大的竖直空距．此外，命令\latexline{multirowcell}由\pkg{multirow}宏包与该宏包共同支持．命令\latexline{thead}则有更小的字号，通常用于表头．
-\begin{codeshow}
-\begin{tabular}{|c|c|}
-\hline
-\thead{双行\\表头} & \thead{双行\\表头}\\
-\hline
-\multirowcell{2}{简单\\粗暴} & \makecell[l]{ABCD\\EF} \\
-\cline{2-2} & \makecell*{更大的竖直空距} \\
-\hline
-\end{tabular}
-\end{codeshow}
-
-该宏包还提供了\latexline{Xhline}和\latexline{Xcline}命令，可以指定横线的线宽．例如模仿三线表\footnote{更正规的三线表绘制，参考后文的\pkg{booktabs}宏包．}：
-\begin{codeshow}
-\begin{tabular}{ccc}
-\Xhline{2pt}
-\multirow{2}*{X} & 
-\multicolumn{2}{c}{Hey}\\
-\Xcline{2-3}{0.4pt}
-& Left & Right \\
-\Xhline{1pt} 
-a & A & B \\
-b & C & D \\
-\Xhline{2pt}
-\end{tabular}
-\end{codeshow}
-
-\subsubsection{\texttt{diagbox}宏包}
-该宏包提供了分割表头的命令\latexline{diagbox}．虽然斜线表头并不是规范的科技排版内容，但是在许多场合也可能用到．命令支持两或三参数．
-\begin{codeshow}
-\begin{tabular}{c|cc}
-\diagbox{左边}{中间}{右边} & A & B \\
-\hline
-1 & A1 & B1 \\
-2 & A2 & B2 
-\end{tabular}
-\end{codeshow}
-
-\subsubsection{其他}
-关于表格的间距：
-\begin{feai}
-\item \latexline{tabcolsep}或者\latexline{arraycolsep}控制列与列之间的间距，取决于你使用\envi{tabular}还是\envi{array}环境．默认\texttt{6pt}．
-\item 列格式@能够去除列间的空距，比如“@\{\}”．而命令\latexline{extracolsep\{1pt\}}于@的参数中，那么会将其右侧的列间隔都增加\texttt{1pt}．
-\item 表格内行距用\latexline{arraystretch}控制，默认为1．
-\end{feai}
-
-一些其他的使用技巧：
-\begin{feae}
-\item 输入同格式的列：参数\verb+|*{7}{c|}r|+，相当于7个居中和1个居右．
-\item 表格重音：原本的重音命令\verb|\`|, \verb|\'|与\verb|\=|，改为\verb|\a`|, \verb|\a'|与\verb|\a=|．
-\item 控制整表宽度：\pkg{tabularx}宏包提供\latexline{begin\{tabular*\}\{width\}[pos]\{cols\}}，比如你可以把width取值为\latexline{0.8\char`\\linewidth}之类．
-\item 如想实现单元格内换行，使用\pkg{makecell}宏包支持的\latexline{makecell}命令．
-\item 宏包\pkg{dcolumn}提供了新的列对齐方式D，并调用\pkg{array}宏包．故你可以利用后者支持的命令，这样定义：
-\begin{latex}
-% 表示输入小数点、显示为小数点、支持小数点后2位
-\newcolumntype{d}{D{.}{.}{2}}
-% 使用 d{2} 这样的参数进行控制 
-\newcolumntype{d}[1]{D{.}{.}{#1}}
-\end{latex}
-注意：\begin{itemize}
-\item 表头请用\latexline{multicolumn{1}{c}}类似的语句进行处理．
-\item 第三参数不能帮你截取、舍入，只用于预设列宽；小心超宽．
-\item 第三参数可以是“-1”，表示小数点居中；可以形如“2.1”，表示在小数点左侧预留2位宽、右侧预留1位宽．
-\end{itemize}
-\end{feae}
-
-\subsection{非浮动体图表和并排图表}
-如果不使用浮动体，又想给图、表添加标题，请在导言区加上：
-\begin{latex}
-\makeatletter
-\newcommand\figcaption{\def\@captype{figure}\caption}
-\newcommand\tabcaption{\def\@captype{table}\caption}
-\makeatother
-\end{latex}
-
-这部分是底层的\TeX\ 代码，在此就不多介绍了．在如上定义后，你可以在浮动体外使用\latexline{figcaption}和\latexline{tabcaption}命令．注意：为了防止标题和图表不在一页，可以用\envi{minipage}环境把它们包起来．
-
-同样的，如果排版并排图片，请用\envi{minipage}把每个图包起来，指定宽度，然后放在浮动体内．注意灵活运用\verb|\\[10ex]|这样的命令来排版$2\times 2$的图片．
-
-如果需要给每个图片定义小标题，参考\pkg{subfig}宏包的相关内容．这里给一个简单的例子：
-\begin{latex}
-\begin{figure}
-\centering
-\subfloat[...]{\label{sub-fig-1}
-    \begin{minipage}
-    \centering
-    \includegraphics[width=...]{...}
-    \end{minipage}}
-\quad\subfloat[...]
-\end{latex}
-
-\section{页面设置}
-\label{sec:geometry}
+% \subsubsection{边注}
+% \LaTeX\ 的边注命令\latexline{marginpar}不会进行编号．必选参数表示在页右显示边注；可选参数表示如果边注在偶数页，则在页左显示．例如右边这个音符：\marginpar{\twonotes}
+% \begin{latex}
+% 这一行有边注\marginpar[左侧]{右侧}
+% \end{latex}
+
+% 如果想要改变边注的位置，使用\latexline{reversemarginpar}命令．此外，有关边注的长度命令\latexline{marginparwidth/sep/push}分别控制边注的宽、边注到正文的距离、边注之间的最小距离．可以使用\pkg{geometry}宏包来设置前两者，参考\secref{sec:geometry}．
+
+% \subsubsection{尾注}
+% 尾注用于注释较长、无法使用脚注的场合，需要\pkg{endnotes}宏包．
+
+% \subsection{援引环境}
+% 援引环境有quote和quotation两个．前者首行不缩进；后者首行缩进，且支持多段文字．
+
+% \begin{codeshow}
+% 鲁智深其师有偈言曰：
+% \begin{quote}
+% 逢夏而擒，遇腊而执．
+% 听潮而圆，见信而寂．
+% \end{quote}
+% 圆寂之后，其留颂曰：
+% \begin{quotation}
+% 平生不修善果，只爱杀人放火．
+% 忽地顿开金绳，这里扯断玉锁．
+
+% 咦！钱塘江上潮信来，今日方知我是我．
+% \end{quotation}
+% \end{codeshow}
+
+% 另外一个诗歌援引环境叫verse，\label{envi:verse}是悬挂缩进的．一般很少用到．
+
+% \begin{codeshow}
+% Rabindranath Tagore wrote this in 
+% his \emph{The Gardener}: 
+% \begin{verse}
+% Constant thrusts from your eyes
+% keep my pain fresh for ever.
+% \end{verse}
+% \end{codeshow}
+
+% \subsection{摘要}
+% article和report文档类支持摘要，在\latexline{maketitle}命令之后可以使用\envi{abstract}环境．在单栏模式下，其相当于一个带标题的\envi{quotation}环境，而这个标题可以通过重定义\latexline{abstractname}更改；双栏下则相当于\latexline{section*}命令定义的一节．
+
+% \subsection{参考文献}
+% \label{subsec:cite}
+% 参考文献主要使用的命令是\latexline{cite}，与\latexline{label}相似．通过\pkg{natbib}宏包的使用可以定制参考文献标号在文中的显示方式等格式，下面\pkg{natbib}宏包的选项含义为：数字编号、排序且压缩、上标、外侧方括号，总体像这样：\textsuperscript{\ttfamily [1,3-5]}．\footnote{这里的LaTeX代码实际为：\latexline{textsuperscript\{\char`ttfamily [1,3-5]\}}}
+% \begin{latex}
+% \documentclass{ctexart}
+% % 如果是book类文档，把\refname改成\bibname
+% \renewcommand{\refname}{参考文献}
+% \usepackage[numbers,sort&compress,super,square]{natbib}
+% \begin{document}
+% This is a sample text.\cite{author1.year1,author2.year2}
+% This is the text following the reference.
+% % “99”表示以最多两位数来编号参考文献，用于对齐
+% \begin{thebibliography}{99}
+%     \addtolength{\itemsep}{-2ex} % 用于更改行距
+%     \bibitem{author1.year1}Au1. ArtName1[J]. JN1. Y1:1--2
+%     \bibitem{author2.year2}Au2. ArtName2[J]. JN2. Y2:1--2
+% \end{thebibliography}
+% \end{document}
+% \end{latex}
+
+% 当然以上只是权宜之计的书写方法．更详尽的参考文献使用（\bibtex\ 方法）在\hyperref[sec:bibtex]{\bibtex{}这一节}进行介绍．
+
+% 如果想要将参考文献章节正常编号，并加入到目录中，可以使用 \pkg{tocbibind} 宏包\label{pkg:tocbibind}．注意，此时需要重命名\latexline{tocbibname}（而不是 \latexline{refname} 或 \latexline{bibname}）来指定参考文献章节的标题．例如：
+% \begin{latex}
+% \usepackage[nottoc,numbib]{tocbibind}
+% \renewcommand{\tocbibname}{References}
+% \end{latex}
+
+% 该宏包对于将索引、目录本身、图表目录编入目录页同样有效．选项\texttt{nottoc}表示目录本身不编入，\texttt{notlof/lot}表示图/表目录不编入，\texttt{notindex}表示索引不编入，\texttt{notbib}表示参考文献不编入．而选项\texttt{numindex/bib}表示给索引/参考文献章节正常编号．选项\texttt{none}表示禁用所有．
+
+% \section{正式排版：封面、大纲与目录}
+
+% \subsection{封面}
+% 封面的内容在导言区进行定义，一般写在所有宏包、自定义命令之后．主要用到的如：
+% \begin{latex}
+% \title{Learning LaTeX}
+% \author{wklchris}
+% \date{text}
+% \end{latex}
+
+% 然后在\envi{document}环境内第一行，写上：\latexline{maketitle}，就能产生一个简易的封面．其中\latexline{title}和\latexline{author}是必须定义的，\latexline{date}如果省略会自动以编译当天的日期为准，格式形如：January 1, 1970． 如果你不想显示日期，可以写\latexline{date\{\}}．
+
+% 标题页的脚注用\latexline{thanks}命令完成．
+
+% \subsection{大纲与章节}
+% \LaTeX\ 中，将文档分为若干大纲级别．分别是：
+% \begin{para}
+% \item[\latexline{part}] 部分．这个大纲不会打断chapter的编号．
+% \item[\latexline{chapter}] 章．基于article的文档类不含该大纲级别．
+% \item[\latexline{section}] 节．
+% \item[\latexline{subsection}] 次节．默认report/book文档类本级别及以下的大纲不进行编号，也不纳入目录．
+% \item[\latexline{subsubsection}] 小节．默认article文档类本级别及以下的大纲不进行编号，也不纳入目录．
+% \item[\latexline{paragraph}] 段．极少使用．
+% \item[\latexline{subparagraph}] 次段．极少使用．
+% \end{para}
+
+% 对应的命令例如：\latexline{section\{第一节\}}．
+
+% 以上各级别在\LaTeX\ 内部以“深度”参数作为标识．第一级别part的深度是$-1$，以下级别深度分别是$0,1,\ldots$，类推．注意到由于article文档类缺少chapter大纲，其part深度又是从$0$开始的，故section及以下的深度数值与book/report文档类是一致的．\dpar
+
+% 另外的一些使用技巧：
+% \begin{latex}
+% % 大纲编号到深度2，并纳入目录
+% \setcounter{tocdepth}{2}
+% % 星号命令：插入不编号大纲，也不纳入目录
+% \chapter*{序}
+% % 将一个带星号的大纲插入目录
+% \addcontentsline{toc}{chapter}{序}
+% % 可选参数用于在目录中显示短标题
+% \section[Short]{Loooooooong}
+% % 自定义章节标题名
+% \renewcommand{\chaptername}{CHAPTER}
+% \end{latex}
+
+% book文档类还提供了以下的命令：
+% \begin{para}
+% \item[\latexline{frontmatter}] 前言．页码为小写罗马字母，其后的章节不编号，但生成页眉页脚和目录项．
+% \item[\latexline{mainmatter}] 正文．页码为阿拉伯数字；其后的章节编号，页眉页脚和目录项正常运作．
+% \item[\latexline{backmatter}] 后记．页码格式不变，继续计数．章节不编号，但生成页眉页脚和目录项．
+% \end{para}
+
+% 关于附录\latexline{appendix}部分的大纲级别问题不在此讨论，请参考\hyperref[sec:appendix]{这一节}．在book文档类中，附录一般放在正文与后记之间；当然你也可以在非book文档类中使用附录．关于章节样式自定义的问题，则请看\hyperref[sec:titlesec]{这里}．
+
+% \subsection{目录}
+% 目录在大纲的基础上生成，使用命令\latexline{tableofcontents}即可插入目录．目录在加载了\pkg{hyperref}宏包后，可以实现点击跳转的功能．你可以通过重定义命令更改\latexline{contentsname}，即“目录”的标题名．
+% \begin{latex}
+% \renewcommand{\contensname}{目录}
+% \end{latex}
+
+% 你也可以插入图表目录，分别是\latexline{listoffigures}, \latexline{listoftables}．通过重定义\latexline{listfigurename}和\latexline{listtablename}可以更改图表目录的标题．如果要更改目录的显示的大纲级别深度，设置计数器:
+% \begin{latex}
+% \setcounter{tocdepth}{2} % 这是到subsection
+% \end{latex}
+
+% 想要将目录本身编入目录项，使用 \pkg{tocbibind} 宏包，参考\pageref{pkg:tocbibind}．
+
+% 目录的高级自定义需要借助\pkg{titletoc}宏包，参考\secref{sec:titletoc}．
+
+% \section{计数器与列表}
+
+% \subsection{计数器}
+% \LaTeX\ 中的自动编号都借助于内部的计数器来完成．包括：
+% \begin{fead}
+% \item[章节] part, chapter, section, subsection, subsubsection, paragraph, subparagraph
+% \item[编号列表] enumi, enumii, enumiii, enumiv
+% \item[公式和图表] equation, figure, table
+% \item[其他] page, footnote, mpfootnote\footnote{\latexline{mpfootnote}命令用于实现minipage环境的脚注．}
+% \end{fead}
+
+% \RED{用\texttt{\char92 the}接上计数器名称的方式来调用计数器}，比如\latexline{thechapter}．如果只是想输出计数器的数值，可以指定数值的形式，如阿拉伯数字、大小写英文字母，或大小写罗马数字．常用的命令包括：
+% \begin{latex}
+% \arabic{counter-name}
+% \Alph \alph \Roman \roman
+% % ctex文档类还支持\chinese
+% \end{latex}
+
+% 比如本文的附录，对章和节的编号进行了重定义．注意：\textbf{章的计数器包含了节在内}．以下的命令写在\envi{appendices}环境中（或者\latexline{appendix}命令后），因此对于此外的编号不产生影响；同理你也可以这样对列表编号进行局部重定义．
+% \begin{latex}
+% \renewcommand{\thechapter}{\Alph{chapter}}
+% \renewcommand{\thesection}
+%     {\thechapter-\arabic{section}}
+% \renewcommand{\thefootnote}{[\arabic{footnote}]}
+% \end{latex}
+
+% 计数器的命令：
+% \begin{latex}
+% % 父级计数器变化，则子级计数器重新开始计数
+% \newcounter{`\textit{counter-name}`}[`\textit{parent counter-name}`]
+% \setcounter{`\textit{counter-name}`}{`\textit{number}`}
+% \addtocounter{`\textit{counter-name}`}{`\textit{number}`}
+% % 计数器步进1，并归零所有子级计数器
+% \stepcounter{`\textit{counter-name}`}
+% \end{latex}
+
+% \subsection{列表}
+% \LaTeX\ 支持的预定义列表有三种，分别是无序列表\envi{itemize}, 自动编号列表\envi{enumerate}, 还有描述列表\envi{description}.
+
+% \subsubsection{\textit{itemize}环境}
+% 例子：
+
+% \begin{codeshow}
+% \begin{itemize}
+%   \item This is the 1st.
+%   \item[-] And this is the 2nd.
+% \end{itemize}
+% \end{codeshow}
+
+% 每个\latexline{item}命令都生成一个新的列表项．通过方括号的可选参数，可以定义项目符号．默认的项目符号是圆点(\latexline{textbullet})．更多的方法参考\hyperref[sec:list]{这一节}．
+
+% \subsubsection{\textit{enumerate}环境}
+% 例子：
+
+% \begin{codeshow}
+% \begin{enumerate}
+%   \item First
+%   \item[Foo] Second
+%   \item Third
+% \end{enumerate}
+% \end{codeshow}
+
+% 方括号的使用会打断编号，之后的编号顺次推移．更多的方法参考\hyperref[sec:list]{这一节}．
+
+% \subsubsection{\textit{description}环境}
+% 例子：
+
+% \begin{codeshow}
+% \begin{description}
+%   \item[LaTeX] Typesetting System.
+%   \item[wkl] A Man.
+% \end{description}
+% \end{codeshow}
+
+% 默认的方括号内容会以加粗显示．更多的方法参考\hyperref[sec:list]{这一节}．
+
+% \section{浮动体与图表}
+% \label{sec:float}
+
+% \subsection{浮动体}
+% 浮动体将图或表与其标题定义为整体，然后动态排版，以解决图、表卡在换页处造成的过长的垂直空白的问题．但有时它也会打乱你的排版意图，因此使用与否需要根据情况决定．
+
+% 图片的浮动体是\envi{figure}环境，而表格的浮动体是\envi{table}环境．一个典型的浮动体例子：
+% \begin{latex}
+% \begin{table}[!htb]
+%     \centering
+%     \caption{table-cap}
+%     \label{table-name}
+%     \begin{tabular}{...}
+%         ...
+%     \end{tabular}
+% \end{table}
+% \end{latex}
+
+% 其中，浮动体环境的参数\verb|!htb|含义是：!表示忽略内部参数（比如内部参数对一页中浮动体数量的限制）；h、t、b分别表示插入此处、插入页面顶部、插入页面底部，故htb表示优先插入此处，再尝试插入到某页顶，最后尝试插入到页底．此外还有参数p，表示允许为浮动体单独开一页．\LaTeX\ 的默认参数是tbp. 请不要单独使用htbp中的某个参数，以免造成不稳定．
+
+% \latexline{caption}命令给表格一个标题，写在了表格内容（即\envi{tabular}环境）之前，表示标题会位于表格上方．对于图片，一般将把此命令写在图片插入命令的下方．注意：\RED{label命令请放在caption下方，否则可能出现问题}．\dpar
+
+% 浮动体的自调整属性可能导致它“一直找不到合适的插入位置”，然后多个浮动体形成排队（因为靠前的浮动体插入后，靠后的才能插入）．如果在生成的文档中发现浮动体丢失的情况，请尝试更改浮动参数、去掉部分浮动体，或者使用\latexline{clearpage}命令来清空浮动队列，以正常开始随后的内容．
+
+% 如果希望浮动体不要跨过section，使用：
+% \begin{latex}
+% \usepackage[section]{placeins}
+% \end{latex}
+
+% 其实质是重定义了\latexline{section}命令，在之前加上了\latexline{FloatBarrier}．你也可以自行在每个想要阻止浮动体跨过的位置添加．
+
+% \subsection{图片}
+% 图片的插入使用\pkg{graphicx}宏包和\latexline{includegraphics}命令，例子：
+% \begin{latex}
+% \begin{center}
+%     \includegraphics[width=0.8\linewidth]{ThisPic}
+% \end{center}
+% \end{latex}
+
+% 可选参数指定了图片宽度为0.8倍该行文字宽．类似地可以指定height(图片高)，scale(图片缩放倍数)，angle(图片逆时针旋转角度)，origin(图片旋转中心lrctbB\footnote{这六个字母分别代表左、右、中、顶、底，以及基线．})这样的命令．前三个命令不建议同时使用．旋转的图片基线会变化，故一般用totalheight代替height. 
+
+% 对于\texttt{Thispic}这个参数的写法，\xelatex 支持pdf, eps, png, jpg图片扩展名．你可以书写带扩展名的图片名称ThisPic.png，也可以不带扩展名．如果不给出扩展名，将按上述四个扩展名的顺序依次搜索文件．\dpar
+
+% \subsubsection{图片子文件夹}
+% 如果你不想把图片放在\LaTeX\ 文档主文件夹下，可以使用下面的命令加入新的图片搜索文件夹：
+% \begin{latex}
+% \graphicspath{{c:/pics/}{./pic/}}
+% \end{latex}
+
+% 用正斜杠代替Windows正常路径中的反斜杠．你可以加入多组路径，每组用花括号括起，并确保路径以正斜杠结束．用\verb|./|指代主文件夹路径，也可省略．\dpar
+
+% \subsubsection{含特殊字符的文件名*}
+% 文件名中含有特殊字符，一般插图命令中是不需要加入反斜杠进行处理的（也就是按原文件直接输入）．但是，图片标题的 \latexline{caption} 命令需要转义．如果可以直接输入，那么需要配合反斜杠进行转义；在不能显式输入的场合， \latexline{detokenize} 命令可以应对．一个例子：
+% \begin{latex}
+% %在导言区定义：
+% %\newcommand{\includegraphicswithcaption}[2][]{
+% %  \includegraphics[#1]{#2}
+% %  \caption{\detokenize{#2}}
+% %}
+% \includegraphicswithcaption[width=0.6\linewidth]{hello_world.png}
+% \end{latex}
+
+% \subsubsection{图文混排}
+% 图文混排可参考\pkg{wrapfig}宏包，后文的\hyperref[sec:box]{箱子}一节即是例子．
+% \begin{latex}
+% % \usepackage{wrapfig}
+% \begin{wrapfigure}[linenum]{place}[overhang]{picwidth}
+%     \includegraphics ...
+%     \caption ...
+% \end{wrapfigure}
+% \end{latex}
+
+% 各参数的含义
+% \begin{inlinee}
+% \item {\bfseries\itshape linenum:} （可选）图片所占行数，一般不指定
+% \item {\bfseries\itshape place:} 图片在文字段中的位置——R, L, I, O分别代表右侧、左侧、近书脊、远书脊
+% \item {\bfseries\itshape overhang:} （可选）允许图片超出页面文本区的宽度，默认是0pt．在该项可以使用\latexline{width}代替图片的宽度，填入\latexline{width}将允许把图片全部放入页边区域
+% \item {\bfseries\itshape picwidth:} 指定图片的宽度，默认情形下图片的高度会自动调整．
+% \end{inlinee}
+
+% \subsection{表格}
+% \LaTeX\ 原生的表格功能非常有限，甚至不支持单元格跨行和表格跨页．但是这些可以通过宏包\pkg{longtable}, \pkg{supertabular}, \pkg{tabu}等宏包解决．跨行的问题只需要\pkg{multirow}宏包．下面是一个例子（没有写在浮动体中）：
+
+% \begin{codeshow}
+% \begin{center}
+%   \begin{tabular}[c]{|l|c||p{3em}
+%     r@{-}} \hline\hline
+%     A & B & C & d\\D & E & F & g\\
+%     \cline{1-2}
+%     \multicolumn{2}{|c|}{G}&H&i\\
+%     \hline
+%   \end{tabular}
+% \end{center}
+% \end{codeshow}
+
+% 各参数的说明如下：
+% \begin{feai}
+% \item 可选参数\textbf{对齐方式}：[t] 表示表格上端与所在行的网格线对齐．如果与它同一行的有文字的话，文字是与表格上端同高的．如果使用参数 [b]，就是下端同高．[c] 是中央同高．t=top, b=buttom, c=center.
+% \item 必选参数\textbf{列格式}：用竖线符号“|”来表示竖直表线，连续两个“|”表示双竖直表线．最右边留空了，表示没有竖直表线．或者你可以使用“@\{\}”表示没有竖直表线．你也可以用“@\{-\}”这样的形式把竖直表线替换成“-”，具体效果不再展示．而此处的l、c、r分别表示从左往右一共三列，分别\textbf{左对齐、居中对齐、右对齐}文字．在使用l、c、r时，表格宽度会自动调整．你可以用"p{2em}"这样的命\textbf{指定某一列的宽度}，这时文字自动左对齐．注意：单元格中的文字默认向上水平表线对齐，即竖直居上．
+% \item 在tabular环境内部，命令\latexline{hline}来绘制水平表线．命令\latexline{cline\{i-j\}}用于绘制横跨从i到j行的水平表线．两个连续的\latexline{hline}命令可以画双线，但是双线之间相交时可能存在问题．
+% \item 在tabular环境内部，命令"\texttt{\&}"用于把光标跳入该行下一列的单元格．每行的最后请使用两个反斜杠命令跳入下一行．命令\latexline{hline}或\latexline{cline}不能算作一行，因此它们后面没有附加换行命令．
+% \item 在tabular环境内部，跨列命令\latexline{multicolumn\{number\}\{format\}\{text\}}用于以format格式合并该行的number个单元格，并在合并后的单元格中写入文本text．如果一行有了跨列命令，请注意相应地减少"\texttt{\&}"的数量．
+% \end{feai}
+
+% 文章中出现了表格，几乎就一定会加载\pkg{array}宏包．在\pkg{array}宏包支持下，\texttt{cols}参数除了l, c, r, p\{\}, @\{\}以外，还可以使用：
+% \begin{feai}
+% \item \texttt{m\{\}, b\{\}}: 指定宽度的竖直居中，居下的列．
+% \item \verb|>{decl}, <{decl}|: 前者用在lcrpmb参数之前，表示该列的每个单元格都以此decl命令开头；后者用于结尾．比如\footnote{例中的\latexline{centering}命令后可加入\latexline{arraybackslash}以应对可能的表格换行命令异常．}：
+% \begin{latex}
+% \begin{tabular}{|>{\centering\ttfamily}p{5em}
+%     |>{$}c<{$}|}
+% ...
+% \end{tabular}
+% \end{latex}
+% \item \verb|!{symbol}|:  使用新的竖直表线，类似于原生命令\texttt{@\{\}}，不同在于\verb|!{}|命令可以在列间保持合理的空距，而\verb|@{}|会使两列紧贴．
+% \end{feai}
+
+% 你甚至可以自定义lcrpmb之外的列参数，但需要保证是单字母．比如定义某一列为数学环境：
+% \begin{latex}
+% \newcolumntype{T}{>{$}c<{$}}
+% \end{latex}
+
+% \subsubsection{\texttt{array, multirow}宏包}
+% 来一个\pkg{array}宏包下的例子：
+% \begin{codeshow}
+% % 记得\usepackage{array}
+% \begin{tabular}{|>{\setlength
+%   \parindent{5mm}}m{1cm}|
+%   >{\large\bfseries}m{1.5cm}|
+%   >{$}c<{$}|}
+%   \hline A & 2 2 2 2 2 2 & C\\
+%   \hline 1 1 1 1 1 1  & 10 & \sin x \\ \hline
+% \end{tabular}
+% \end{codeshow}
+
+% 然后一个跨行跨列的例子．\RED{如果同时跨行跨列，必须把multirow命令放在multicolumn内部}．用\latexline{multirow}和\latexline{multicolumn}作用于单独的1行或1列，能临时改变某单元格的对齐方式．如果用星号代替列样式，表示自适应宽度．
+
+% \begin{codeshow}
+% % \usepackage{multirow}
+% \begin{center}
+% \begin{tabular}{|c|c|c|}
+%   \hline
+%   \multirow{2}{2cm}{A Text!}
+%     & ABC & DEF \\
+%   \cline{2-3} & abc & def \\
+%   \hline
+%   \multicolumn{2}{|c|}
+%     {\multirow{2}*{Nothing}} & XYZ \\
+%   \multicolumn{2}{|c|}{} & xyz \\
+%   \hline
+% \end{tabular}
+% \end{center}
+% \end{codeshow}
+
+% 表格的第一个单词是默认不断行的，这在单元格很窄而第一个词较长时会出现问题．可以通过下述方法解决：
+
+% \begin{codeshow}
+% % \usepackage{array}
+% \newcolumntype{P}[1]{>{#1
+%   \hspace{0pt}\arraybackslash}
+%   p{14mm}}
+% % \arraybackslash用于修复换行符
+% \begin{center}
+% \begin{tabular}{|P{\raggedleft}|}
+%   \hline Superconsciousness \\ \hline
+% \end{tabular}
+% \end{center}
+% \end{codeshow}
+
+% 此外，\qd{表格还可以嵌套}，以方便地“拆分单元格”．注意下例中如何确保嵌套单元格表线显示正常：
+
+% \begin{codeshow}
+% \begin{tabular}{|c|l|c|}
+% \hline
+% a & bbb & c \\ \hline
+% a & \multicolumn{1}{@{}l@{}|}
+% {\begin{tabular}{c|c}
+% a & b \\ \hline
+% aa & bb \\
+% \end{tabular}}
+% & c \\ \hline
+% a & b & c \\ \hline
+% \end{tabular}
+% \end{codeshow}
+
+% 用\latexline{firsthline}和\latexline{lasthline}能够解决行内表格竖直方向对齐问题．
+
+% \subsubsection{\texttt{makecell}宏包}
+% 宏包\pkg{makecell}提供了一种方便在单元格内换行的方式，并可以配合参数tblrc；带星表示有更大的竖直空距．此外，命令\latexline{multirowcell}由\pkg{multirow}宏包与该宏包共同支持．命令\latexline{thead}则有更小的字号，通常用于表头．
+% \begin{codeshow}
+% \begin{tabular}{|c|c|}
+% \hline
+% \thead{双行\\表头} & \thead{双行\\表头}\\
+% \hline
+% \multirowcell{2}{简单\\粗暴} & \makecell[l]{ABCD\\EF} \\
+% \cline{2-2} & \makecell*{更大的竖直空距} \\
+% \hline
+% \end{tabular}
+% \end{codeshow}
+
+% 该宏包还提供了\latexline{Xhline}和\latexline{Xcline}命令，可以指定横线的线宽．例如模仿三线表\footnote{更正规的三线表绘制，参考后文的\pkg{booktabs}宏包．}：
+% \begin{codeshow}
+% \begin{tabular}{ccc}
+% \Xhline{2pt}
+% \multirow{2}*{X} & 
+% \multicolumn{2}{c}{Hey}\\
+% \Xcline{2-3}{0.4pt}
+% & Left & Right \\
+% \Xhline{1pt} 
+% a & A & B \\
+% b & C & D \\
+% \Xhline{2pt}
+% \end{tabular}
+% \end{codeshow}
+
+% \subsubsection{\texttt{diagbox}宏包}
+% 该宏包提供了分割表头的命令\latexline{diagbox}．虽然斜线表头并不是规范的科技排版内容，但是在许多场合也可能用到．命令支持两或三参数．
+% \begin{codeshow}
+% \begin{tabular}{c|cc}
+% \diagbox{左边}{中间}{右边} & A & B \\
+% \hline
+% 1 & A1 & B1 \\
+% 2 & A2 & B2 
+% \end{tabular}
+% \end{codeshow}
+
+% \subsubsection{其他}
+% 关于表格的间距：
+% \begin{feai}
+% \item \latexline{tabcolsep}或者\latexline{arraycolsep}控制列与列之间的间距，取决于你使用\envi{tabular}还是\envi{array}环境．默认\texttt{6pt}．
+% \item 列格式@能够去除列间的空距，比如“@\{\}”．而命令\latexline{extracolsep\{1pt\}}于@的参数中，那么会将其右侧的列间隔都增加\texttt{1pt}．
+% \item 表格内行距用\latexline{arraystretch}控制，默认为1．
+% \end{feai}
+
+% 一些其他的使用技巧：
+% \begin{feae}
+% \item 输入同格式的列：参数\verb+|*{7}{c|}r|+，相当于7个居中和1个居右．
+% \item 表格重音：原本的重音命令\verb|\`|, \verb|\'|与\verb|\=|，改为\verb|\a`|, \verb|\a'|与\verb|\a=|．
+% \item 控制整表宽度：\pkg{tabularx}宏包提供\latexline{begin\{tabular*\}\{width\}[pos]\{cols\}}，比如你可以把width取值为\latexline{0.8\char`\\linewidth}之类．
+% \item 如想实现单元格内换行，使用\pkg{makecell}宏包支持的\latexline{makecell}命令．
+% \item 宏包\pkg{dcolumn}提供了新的列对齐方式D，并调用\pkg{array}宏包．故你可以利用后者支持的命令，这样定义：
+% \begin{latex}
+% % 表示输入小数点、显示为小数点、支持小数点后2位
+% \newcolumntype{d}{D{.}{.}{2}}
+% % 使用 d{2} 这样的参数进行控制 
+% \newcolumntype{d}[1]{D{.}{.}{#1}}
+% \end{latex}
+% 注意：\begin{itemize}
+% \item 表头请用\latexline{multicolumn{1}{c}}类似的语句进行处理．
+% \item 第三参数不能帮你截取、舍入，只用于预设列宽；小心超宽．
+% \item 第三参数可以是“-1”，表示小数点居中；可以形如“2.1”，表示在小数点左侧预留2位宽、右侧预留1位宽．
+% \end{itemize}
+% \end{feae}
+
+% \subsection{非浮动体图表和并排图表}
+% 如果不使用浮动体，又想给图、表添加标题，请在导言区加上：
+% \begin{latex}
+% \makeatletter
+% \newcommand\figcaption{\def\@captype{figure}\caption}
+% \newcommand\tabcaption{\def\@captype{table}\caption}
+% \makeatother
+% \end{latex}
+
+% 这部分是底层的\TeX\ 代码，在此就不多介绍了．在如上定义后，你可以在浮动体外使用\latexline{figcaption}和\latexline{tabcaption}命令．注意：为了防止标题和图表不在一页，可以用\envi{minipage}环境把它们包起来．
+
+% 同样的，如果排版并排图片，请用\envi{minipage}把每个图包起来，指定宽度，然后放在浮动体内．注意灵活运用\verb|\\[10ex]|这样的命令来排版$2\times 2$的图片．
+
+% 如果需要给每个图片定义小标题，参考\pkg{subfig}宏包的相关内容．这里给一个简单的例子：
+% \begin{latex}
+% \begin{figure}
+% \centering
+% \subfloat[...]{\label{sub-fig-1}
+%     \begin{minipage}
+%     \centering
+%     \includegraphics[width=...]{...}
+%     \end{minipage}}
+% \quad\subfloat[...]
+% \end{latex}
+
+% \section{页面设置}
+% \label{sec:geometry}
 \subsection{纸张、方向和边距}
 主要借助\pkg{geometry}宏包．先看一张页面构成，如\fref{fig:geo-paper}：
 \begin{figure}
