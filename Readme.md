@@ -1,6 +1,6 @@
 # 欢迎来到 LaTeX-cn 项目！Welcome!
 
-**== 所有PDF内容如果定稿，下载会发布在release（[https://github.com/wklchris/Note-by-LaTeX/releases](https://github.com/wklchris/Note-by-LaTeX/releases)）中。PDF files can be accessed in the release page of this repo.  ==**
+**== 所有PDF内容的下载会发布在release（[https://github.com/wklchris/Note-by-LaTeX/releases](https://github.com/wklchris/Note-by-LaTeX/releases)）中。只建议下载稳定的 release 版本。PDF files can be accessed in the release page of this repo. Only stable released version is recommended. ==**
 
 ## Table of Contents
 
@@ -21,7 +21,6 @@
 
 LaTeX是一种排版系统，比通常使用的Microsoft Word字处理软件在排版方面更有优势。该一站式手册讲述了如何高效使用LaTeX。*LaTeX is a typesetting system, which outperforms Microsoft Word on typesetting. I write this all-in-one manual to tell how to use LaTeX efficiently.*
 
-- 最新版本v1.6.4-pre，于2018年3月发布。*Latest version is v1.6.3 releaesd in Mar, 2018.*
-- 正考虑将 Tikz 作为附加章节，届时可能发布带 Tikz与不带 Tikz 两版手册。*Considering adding Tikz as an additional chapter. And I might upload two versions of the manual (with/without Tikz respectively) at the next release.*
-
+- 最新版本v1.6.4-pre，于2019年12月发布。*Latest version is v1.6.4-pre releaesd in Dec, 2019.*
+- Tikz 章节已经移除。*Tikz chapter has been removed.*
 ***
