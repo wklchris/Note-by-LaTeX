@@ -1446,17 +1446,17 @@ for loopnum in lst:
 \item[listing option] 除了特殊的style字段，这些参数都会被传递给引擎（本手册是listings宏包）．\texttt{style=tcblatex}是\pkg{tcolorbox}宏包预定义的．
 \end{para}
 
-该环境也支持使用可选参数，用法类似原生 \latexline{newcommand} 命令．但是，如果你只有一个参数，而且它是可选的，请使用 \latexline{NewTCBListing} 命令（需要用 \latexline{tcbuselibrary} 命令 加载 \texttt{xparse} 库）以避免可能的问题，例如本手册的 \tikzz\ 章节使用了\footnote{宏包目前存在一个问题，导致 \texttt{tikz lower} 参数传递有误．请参考本手册源码}：
+该环境也支持使用可选参数，用法类似原生 \latexline{newcommand} 命令．但是，如果你只有一个参数，而且它是可选的，请使用 \latexline{NewTCBListing} 命令（需要用 \latexline{tcbuselibrary} 命令 加载 \texttt{xparse} 库）以避免可能的问题。例如，利用如下命令\footnote{\TeX\ Live 2019版的宏包目前存在一个问题，在定义单个参数且其为可选参数时，需要在字母O前添加感叹号。}可以定义一个左侧源码、右侧排版结果的展示环境：
 \begin{latex}
-% 调用可无参或单参，例：\begin{tikzshow}
-% 或 \begin{tikzshow}[scale=2,very thick]
-\NewTCBListing{tikzshow}{ O{} }{
-  tikz lower={#1},
-  halign lower=center,valign lower=center,
+% 调用可无参或单参，例：\begin{codeshow}
+% 或 \begin{codeshow}[listing and text]
+\NewTCBListing{codeshow}{ !O{listing side text} }{
   skin=bicolor,colback=gray!30!white,
-  colbacklower=white,colframe=cyan!75!black, 
-  left=6mm,righthand width=3.5cm,listing outside text,
-  listing options={language=tikzlang}
+  colbacklower=pink!50!yellow,colframe=cyan!75!black,
+  valign lower=center,
+  left=6mm,righthand width=0.4\linewidth,fontupper=\small,
+  % listing style
+  listing options={style=latexcn},#1
 }
 \end{latex}
 其中，\texttt{O} 这种用法请参考 \pkg{xparse} 宏包文档，常用的有必选参数“m”、可选参数“o”、可选参数并指定缺省值“O\{<default>\}”．
