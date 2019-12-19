@@ -887,7 +887,7 @@ Here we go. This is a very long sentence and you will find that it goes to the s
     {\end{enumerate*}．}
 \end{latex}
 
-\section{\bibtex 参考文献}
+\section{\bibtex\ / \biber\ 参考文献}
 \label{sec:bibtex}
 
 首先说一下基础的使用．通过重定义\latexline{refname}或\latexline{bibname}，前者是article类，后者是book类．这点在\secref{subsec:cite}这一节已经介绍过．
@@ -1033,7 +1033,7 @@ num & \multicolumn{2}{c}{此模式下与\latexline{citep}相同} \\
 \item 在参考文献列表位置插入了\latexline{bibliography}命令\footnote{如果你在正文中使用\latexline{nocite\{ref-name\}}命令，可以把bib文件中未cite的文献也加入到列表．想全部加入，在正文中使用\latexline{nocite\{*\}}命令．}．
 \end{feae}
 
-一个简单的例子：
+一个通用的\bibtex\ 使用方式：
 \begin{latex}
 \bibliographystyle{plain}
 \begin{document}
@@ -1051,10 +1051,8 @@ num & \multicolumn{2}{c}{此模式下与\latexline{citep}相同} \\
     author = {作者, 多个作者用and 连接},
     title = {标题},
     journal = {期刊名},
-    volume = {卷20},
     number = {页码},
-    year = {年份},
-    abstract = {摘要, 引用的时候自己参考, 非必须}}
+    year = {年份}}
 % 如果引用书籍
 @book{Smith1993TRB,
     author ="作者",
@@ -1063,11 +1061,16 @@ num & \multicolumn{2}{c}{此模式下与\latexline{citep}相同} \\
     publisher ="出版社名称"}
 \end{latex}
 
-这里只介绍了article和book两种类型．更多的文献类型以及它们的使用条目选项，参考\tref{tab:bibtype}．另外，可以参考本项目的 bib 文件作为例子．
+一些其他的注意事项：
+\begin{feai}
+  \item \textbf{通常你无须手动书写 bib 内容}。许多文献检索页面（比如 Google 学术）都支持导出\bibtex 文本，将其粘贴到你的 \texttt{.bib} 文件中即可．
+  \item 除了上例介绍的文献类型．更多的文献类型以及它们的使用条目选项，参考\tref{tab:bibtype}．一个可能用到的场景是引用网页，但它并没有专门的类型。作为参考，我一般用\texttt{misc}类型，并在其\texttt{note}键中标出访问时间。
+  \item 等号后的花括号表示直接输出，不通过 \bibtex 自动转换大小写。这常用于强制字母大小写的场合，比如\texttt{title=\{UpperCaseVar\}}。
+\end{feai}
 
 \begin{table}[!htb]
 \centering
-\caption{\bibtex 文献类型总表}
+\caption{\bibtex 文献类型常用表}
 \label{tab:bibtype}
 \begin{tabular}{>{\ttfamily}ll}
 \hline
@@ -1084,10 +1087,6 @@ booklet & 无出版商或作者的图书．必要：title\\
 \hline
 conference/ & 无出版商或作者的图书．必要：title \\
 inproceedings & 选填：author, howpublished, address, month, year, note \\
-\hline
-inbook & 书籍章节 \\
-& 必要：author/editor, title, chapter and/or pages, publisher, year\\
-& 选填：volume/number, series, type, address, edition, month, note\\
 \hline
 incollection & 书籍含独立标题的章节，比如论文集的一篇 \\
 & 必要：author, title, booktitle, publisher, year \\
@@ -1118,8 +1117,6 @@ unpublished & 未出版的论文或图书\\
 \hline
 \end{tabular}
 \end{table}
-
-许多文献检索页面（比如 Google 学术）都支持导出\bibtex 文本，将其粘贴到你的 \texttt{.bib} 文件中即可．
 
 最后，你可能需要\RED{编译\xelatex , 再编译\bibtex , 最后连续编译两次\xelatex 来完成你的文档建立}．
 
