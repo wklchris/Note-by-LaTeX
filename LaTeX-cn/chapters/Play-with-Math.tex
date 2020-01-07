@@ -731,9 +731,9 @@ $\xLongleftarrow{x} \xLongrightarrow{y}$
 \subsection{其他符号}
 注意冒号如果从键盘输入，会识别为关系符，例如$:=$．在表示比例时也可以借用，或者外加\latexline{mathbin}命令$a\mathbin{:}b$．数学中可能用到的冒号，请使用\latexline{colon}命令，像$x\colon y\to\infty$这样．
 
-像\latexline{\-}一样在数学环境中使用\latexline{*}命令，提醒\LaTeX\ 此处可以断词．\LaTeX\ 如果在此处断词，会自动补一个$\times$符号．你也可以自定义：
+类似西文断词的\latexline{-}命令，在数学环境中使用\latexline{*}命令可以提醒\LaTeX\ 断词．\LaTeX\ 如果在此处断词，会自动补一个$\times$叉乘号．你也可以自定义来让\LaTeX\ 补点乘号：
 \begin{latex}
-\renewcommand{\*}{discretionaty{\,\mbox{$\cdot$}}{}{}}
+\renewcommand{\*}{\discretionary{\,\mbox{$\cdot$}}{}{}}
 \end{latex}
 
 最后是一些其他的难以归类的符号，也不全是数学领域会用到的，只不过它们可以在数学环境下输出出来，以及被\pkg{amssymb}宏包所支持．如\tref{tab:othersym}和\tref{tab:amsothersym}．
