@@ -17,7 +17,7 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 一般也推荐第一种命令\footnote{还有一种\texttt{\$\$...\$\$}的写法，源自底层\TeX，不建议使用。}，例如：\verb|\[\sum_{i=1}^n{a_i}\]|，得到：
 \[\sum_{i=1}^{n}a_i\]
 
-从上面的两个例子可以看出，即使输出相同的内容，行内和行间的排版也是有区别的，比如累计符号上标是写在正上方还是写在右上角。
+从上面的两个例子可以看出，即使输出相同的内容，行内和行间的排版也是有区别的，比如累加符号上标是写在正上方还是写在右上角。
 
 如果行间公式需要编号，使用\envi{equation}环境\footnote{需要注意有一个\RED{已被放弃}的多行公式编号环境叫\texttt{eqnarray}，请不要再使用。}，还可以插入标签：
 
@@ -58,7 +58,7 @@ $...$ 或者 \(...\) 或者 \begin{math}...\end{math}
 \[\underline{\smash{\int f(x)\ud x}}=1\]
 \end{codeshow}
 
-也能够通过参数，单独忽略参数的高度(t)或深度(b)：
+也能够通过参数，选择只忽略高度(t)或只忽略深度(b)：
 \begin{codeshow}
 $\sqrt{A_{n_k}} \qquad
 \sqrt{\smash[b]{A_{n_k}}}$
@@ -217,7 +217,7 @@ $\closure{AB}$
 还可以输出能堆叠到其他对象上的箭头符，比如向量符号：
 
 \begin{codeshow}
-  $\vec a\quad\overrightarrow{PQ}$
+  $\vec a\quad \overrightarrow{PQ}$
   $\overleftarrow{EF}$
 \end{codeshow}
 
@@ -286,7 +286,7 @@ $\mathring{U}$
 \end{codeshow}
 
 \subsection{矩阵与省略号}
-矩阵的排版可以通过\envi{array}环境和自适应定界符完成：
+最朴素的矩阵排版可以通过\envi{array}环境和自适应定界符完成：
 
 \begin{codeshow}
 \[\mathbf{A}=
@@ -299,7 +299,7 @@ x_{21} & x_{22} & \ldots \\
 
 还有就是\latexline{cdots}命令。\pkg{mathdots}宏包支持省略号缩放，并提供了\latexline{iddots}：$\iddots$. 或许什么时候需要使用呢？
 
-\LaTeX\ 原生支持自动添加定界符的形式，不过要放在数学环境内：
+矩阵排版更多地使用\envi{matrix}环境，以圆括号矩阵\envi{pmatrix}最为常见：
 \begin{codeshow}
 \centering $\begin{matrix}
 0 & 1 \\ 1 & 0 \end{matrix}\qquad
@@ -307,7 +307,7 @@ x_{21} & x_{22} & \ldots \\
 2 & 0 \end{pmatrix}$
 \end{codeshow}
 
-方括号和花括号使用\latexline{[Bb]matrix}命令：
+方括号和花括号使用\envi{[Bb]matrix}环境：
 \begin{codeshow}
 \centering $\begin{bmatrix}
 0 & 3 \\ 3 & 0 \end{bmatrix}\qquad
@@ -315,7 +315,7 @@ x_{21} & x_{22} & \ldots \\
 4 & 0 \end{Bmatrix}$
 \end{codeshow}
 
-行列式使用\latexline{[Vv]matrix}命令：
+行列式使用\envi{[Vv]matrix}环境：
 \begin{codeshow}
 \centering $\begin{vmatrix}
 0 & 5 \\ 5 & 0 \end{vmatrix}\qquad
@@ -488,7 +488,9 @@ Never believe easily.
 \begin{ju}[The 2nd]
 Never suspect too much.
 \end{ju}
-\begin{marg}Nothing else.\end{marg}
+\begin{marg}
+Nothing else.
+\end{marg}
 \end{codeshow}
 
 \pkg{amsthm}宏包还提供了\envi{proof}环境，并且用\latexline{qedhere}来指定证毕符号的位置。如果不加指定，将会自动另起一行。
