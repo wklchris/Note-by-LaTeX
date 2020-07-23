@@ -18,6 +18,9 @@
 *.lof
 *.lot
 *.listing
+*.fdb_latexmk
+*.fls
+*.xdv
 
 # Ignored Project
 githubPush-cn
