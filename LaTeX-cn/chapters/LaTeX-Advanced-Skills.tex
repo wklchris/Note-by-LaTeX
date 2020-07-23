@@ -236,7 +236,7 @@ L\hrulefill Mid\dotfill R
 \end{codeshow}
 
 \subsection{行距}
-\LaTeX\ 的行距由基线计算，可以使用命令\latexline{linespread\{num\}}，默认的基线距离\latexline{baselineskip}是1.2倍的文字高。所以默认行距是1.2倍；如果更改linespread为1.3，那么行距变为$1.2\times 1.3=1.56$倍——这也是ctex文档类的做法。
+\LaTeX\ 的行距由基线计算，可以使用命令\latexline{linespread\{num\}}，默认的基线距离\latexline{baselineskip}是1.2倍的文字高。所以默认行距是1.2倍；如果更改linespread为1.3，那么行距变为$1.2\times 1.3=1.56$倍——这也是ctex文档类的默认做法。
 
 此外还有\latexline{lineskiplimit}和\latexline{lineskip}命令。有时候在两行之间，可能包含较高的内容（比如分式$\dfrac{1}{2}$），使得前一行底部与后一行顶部的距离小于limit值，则此时行距会从由\latexline{linespread}改为由\latexline{lineskip}控制。本手册采用：
 \begin{latex}

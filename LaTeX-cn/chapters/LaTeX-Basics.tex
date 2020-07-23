@@ -430,11 +430,11 @@ Let's change font to \myfont{ppl}{Palatino}!
 \subsection{中文支持与CJK字体}
 中文方面，\pkg{ctex}宏包直接定义了新的中文文档类ctexart, ctexrep与ctexbook，以及ctexbeamer幻灯文档类。例如本手册\texttt{Head.tex}中：
 \begin{latex}
-\documentclass[a4paper, zihao=-4, linespread=1]{ctexrep}
+\documentclass[a4paper, zihao=-4]{ctexrep}
   \renewcommand{\CTEXthechapter}{\thechapter}
 \end{latex}
 
-以上设置字号为小四，行距因子为1（故行距为$1\times 1.2=1.2$倍，其中1.2是\LaTeX\ 默认的基线间距）。而a4paper选项继承与原生文档类report，可见ctex文档类还是很好地保留了原生文档类的特征。\RED{值得注意的是，ctex文档类会用\texttt{\char92 CTEX}开头的计数器命令代替原有的}，除非你使用\texttt{scheme=plain}来让ctex文档类\uline{仅支持中文而不做任何文档细节更改}。具体的使用参考ctex宏包文档。
+以上设置纸张大小为A4，字号为小四。a4paper选项继承于原生文档类report，可见ctex文档类还是很好地保留了原生文档类的特征。\RED{值得注意的是，ctex文档类会用\texttt{\char92 CTEX}开头的计数器命令代替原有的}，除非你使用\texttt{scheme=plain}来让ctex文档类\uline{仅支持中文而不做任何文档细节更改}。具体的使用参考ctex宏包文档。
 
 \pkg{ctex}宏包支持以下字体命令：
 \begin{center}
