@@ -1278,6 +1278,12 @@ Verbatim between this pair of verts: |#\?*^|
 \label{sec:include}
 文档拆分只需要在主文件中使用\latexline{input\{filename.tex\}}或\latexline{include\{filename\}}命令，后者不写扩展名默认为.tex。两者区别在于\latexline{include}命令将会插入\latexline{clearpage}再读取文件。
 
+其中 filename 可以为相对路径，如 \verb|./chapter1|，\verb|../tikz|，也可以为绝对路径，如 \verb|D:/latex/chapter1|，但是注意，在使用 \latexline{include\{filename\}} 的时候，尽量不要选择在该文档父目录中的文件，比如要在 \verb|dir/subdir/main.tex| 中使用\latexline{include\{dir/filename\}}会因为安全问题导致无法在文件夹 \verb|dir/| 中生成辅助文件\verb|filename.aux|导致编译失败，在这时应该尝试调整文章层级结构，如果有十分必要的理由这么做的话，在编译的时候可以使用
+\begin{verbatim}
+  openout_any=a xelatex(pdflatex) mainfilename
+\end{verbatim}
+临时修改\verb|openout_any|的值，该选项可以在 \verb|texmf.cnf| 中查看它的说明，但是不推荐在\verb|texmf.cnf|中修改，这可能会导致系统安全问题, 而\latexline{input\{filename.tex\}}不受这一点的影响。更多说明可以看\href{https://tex.stackexchange.com/questions/2209/how-can-i-include-the-file-somedir-file-tex-in-the-file-somedir-subdir-another}{\TeX SX 上的回答}以及\href{http://www.texfaq.org/FAQ-includeother}{\TeX faq上的说明}。
+
 拆分的优势在于可以根据chapter（或其他）分为多个文件，省去了长文档浏览时的一些不便。你也可以把整个导言区做成一个文件，然后在不同的\LaTeX\ 文档中反复使用，即充当模板的功能。你还可以把较长的tikz绘图代码写到一个tex中，在需要时\latexline{input}即可。
 
 在导言区定义\latexline{includeonly}加上filename，可以确保只引入列表中的文件。在被引入文件的最后加入\latexline{endinput}命令，其后的内容会被忽略。
