@@ -186,8 +186,8 @@ $\sqrt[\leftroot{-2}\uproot{2} \beta]{k}$
 
 \begin{codeshow}
 $\overline{m+n}$ \\
-$\underbrace{a_1+\ldots+a_n}_{n}$
-$\overbrace{a_1+\ldots+a_n}^{n}$
+$\underbrace{a_1+\cdots+a_n}_{n}$
+$\overbrace{a_1+\cdots+a_n}^{n}$
 % 可选参数：线宽；竖直空距
 $\underbracket[0.4pt][1ex]
   {a_1+\cdots+a_n}_n$
@@ -349,12 +349,14 @@ x & -y\\ y & x\end{smallmatrix}
 \right)$ 可以显示在行内。
 \end{codeshow}
 
-最后，一种带边注的矩阵\latexline{bordermatrix}，用法有些奇怪：
+一种带边注的矩阵\latexline{bordermatrix}，用法有些奇怪：
 \begin{codeshow}
 \[\bordermatrix{& 1 & 2\cr
 1 & A & B \cr
 2 & C & D \cr} \]
 \end{codeshow}
+
+最后，如果想排出更好看优雅的矩阵，可以参考宏包\pkg{nicematrix}。或者想用简单的方法输入一些特殊矩阵， 可以参考宏包\pkg{physics}，这里不过多介绍。
 
 \subsection{分段函数与联立方程}
 用\envi{cases}环境书写分段函数，它自动生成一个比\latexline{left\{}更紧凑的花括号：
@@ -407,7 +409,19 @@ x-1, & x<0
 \end{align}
 \end{codeshow}
 
-如果你想让编号显示在这三行的中间而不是最下面一行，可以尝试把公式写在\envi{aligned}或者\envi{gathered}环境中，然后再嵌套到\envi{equation}环境内。如果你根本不想给多行公式编号，尝试\envi{align*}环境。
+如果你想让编号显示在这三行的中间而不是最下面一行，可以尝试把公式写在\envi{aligned}或者\envi{gathered}环境中，然后再嵌套到\envi{equation}环境内:
+
+\begin{codeshow}
+\begin{equation}
+  \begin{aligned}
+    a^2  &= a\cdot a \\
+         &= a*a      \\
+         &= a^2
+  \end{aligned}
+\end{equation}
+\end{codeshow}
+
+如果你根本不想给多行公式编号，尝试\envi{align*}环境。
 
 另外，\pkg{amsmath}宏包的\envi{multline}环境将自动把编号放在末行。首行左对齐，末行右对齐，中间的行居中。
 \begin{codeshow}
