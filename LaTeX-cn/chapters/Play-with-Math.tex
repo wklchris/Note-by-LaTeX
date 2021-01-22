@@ -395,19 +395,6 @@ x-1, & x<0
 \end{align}
 \end{codeshow}
 
-但是在\envi{align}及其衍生环境中，要将\&放在二元关系符的前面，如果放在后面会导致关系符与后面字母的间距出现问题：
-
-\begin{codeshow}
-\begin{align*}
-  a^2   &= a\cdot a \\
-        &= a*a      
-\end{align*}
-\begin{align*}
-  a^2   =& a\cdot a \\
-        =& a*a      
-\end{align*}
-\end{codeshow}
-
 \LaTeX\ 中长公式不能自动换行\footnote{不过\pkg{breqn}宏包的\envi{dmath}环境可以实现自动换行，读者可以自行尝试效果。}，请如上自行指定断行位置和缩进距离。
 
 至于多行公式换页，可以在导言区加上\latexline{allowdisplaybreaks}实现（可选参数：1为尽量避免换页，2至4为倾向于换页），或在特定位置加上\latexline{displaybreak}（可选参数：0为允许在下个换行符后换页，但不倾向换页；2-3介中；4为强制换页）。两种的默认可选参数都是4。
@@ -422,19 +409,7 @@ x-1, & x<0
 \end{align}
 \end{codeshow}
 
-如果你想让编号显示在这三行的中间而不是最下面一行，可以尝试把公式写在\envi{aligned}或者\envi{gathered}环境中，然后再嵌套到\envi{equation}环境内:
-
-\begin{codeshow}
-\begin{equation}
-  \begin{aligned}
-    a^2  &= a\cdot a \\
-         &= a*a      \\
-         &= a^2
-  \end{aligned}
-\end{equation}
-\end{codeshow}
-
-如果你根本不想给多行公式编号，尝试\envi{align*}环境。
+如果你想让编号显示在这三行的中间而不是最下面一行，可以尝试把公式写在\envi{aligned}或者\envi{gathered}环境中，然后再嵌套到\envi{equation}环境内。如果你根本不想给多行公式编号，尝试\envi{align*}环境。
 
 另外，\pkg{amsmath}宏包的\envi{multline}环境将自动把编号放在末行。首行左对齐，末行右对齐，中间的行居中。
 \begin{codeshow}
