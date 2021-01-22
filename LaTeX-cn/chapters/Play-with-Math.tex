@@ -186,8 +186,8 @@ $\sqrt[\leftroot{-2}\uproot{2} \beta]{k}$
 
 \begin{codeshow}
 $\overline{m+n}$ \\
-$\underbrace{a_1+\ldots+a_n}_{n}$
-$\overbrace{a_1+\ldots+a_n}^{n}$
+$\underbrace{a_1+\cdots+a_n}_{n}$
+$\overbrace{a_1+\cdots+a_n}^{n}$
 % 可选参数：线宽；竖直空距
 $\underbracket[0.4pt][1ex]
   {a_1+\cdots+a_n}_n$
@@ -349,12 +349,14 @@ x & -y\\ y & x\end{smallmatrix}
 \right)$ 可以显示在行内。
 \end{codeshow}
 
-最后，一种带边注的矩阵\latexline{bordermatrix}，用法有些奇怪：
+一种带边注的矩阵\latexline{bordermatrix}，用法有些奇怪：
 \begin{codeshow}
 \[\bordermatrix{& 1 & 2\cr
 1 & A & B \cr
 2 & C & D \cr} \]
 \end{codeshow}
+
+最后，如果想排出更好看优雅的矩阵，可以参考宏包\pkg{nicematrix}。或者想用简单的方法输入一些特殊矩阵， 可以参考宏包\pkg{physics}，这里不过多介绍。
 
 \subsection{分段函数与联立方程}
 用\envi{cases}环境书写分段函数，它自动生成一个比\latexline{left\{}更紧凑的花括号：
