@@ -1126,6 +1126,15 @@ b & C & D \\
 
 这部分是底层的\TeX\ 代码，在此就不多介绍了。在如上定义后，你可以在浮动体外使用\latexline{figcaption}和\latexline{tabcaption}命令。注意：为了防止标题和图表不在一页，可以用\envi{minipage}环境把它们包起来。
 
+另外一种方法是使用\pkg{caption}宏包的\latexline{captionof\{figure\}\{captionname\}}与 \latexline{captionof\{table\}\{captionname\}}命令, 它们可以继续使用记数器 \verb|figure| 与 \verb|table| 的数值:
+
+\begin{codeshow}[listing and text]
+\begin{center}
+  \includegraphics[width=.3\textwidth]{example-image}
+  \captionof{figure}{example-image}
+\end{center}
+\end{codeshow}
+
 同样的，如果排版并排图片，请用\envi{minipage}把每个图包起来，指定宽度，然后放在浮动体内。注意灵活运用\verb|\\[10ex]|这样的命令来排版$2\times 2$的图片。
 
 如果需要给每个图片定义小标题，参考\pkg{subfig}宏包的相关内容。这里给一个简单的例子：
